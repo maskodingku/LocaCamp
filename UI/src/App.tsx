@@ -26,10 +26,25 @@ import type {
 } from './types/camera'
 
 export default function App() {
-  // Hooks
-  const camera = useCamera()
+  // UI Flow States (Modal, Drawer, Review, History)
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+  const [historyCount, setHistoryCount] = useState(0)
+  const [isCapturing, setIsCapturing] = useState(false)
+  const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
+
+  // Kamera & sensor optik hanya aktif saat berada di halaman foto (mati saat buka riwayat, review foto, atau settings)
+  const isCameraActive = !isHistoryOpen && !currentPhoto && !isSettingsOpen
+
+  // Hardware & Sensor Hooks
+  const camera = useCamera({ enabled: isCameraActive })
   const location = useGeolocation()
   const orientation = useOrientation()
+
+  // Integrasi tombol Back fisik/gesture ponsel agar menutup modal secara bertingkat
+  useModalHistory('drawer-settings', isSettingsOpen, () => setIsSettingsOpen(false))
+  useModalHistory('modal-capture', Boolean(currentPhoto), () => setCurrentPhoto(null))
+  useModalHistory('modal-history', isHistoryOpen, () => setIsHistoryOpen(false))
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
@@ -45,18 +60,6 @@ export default function App() {
   useEffect(() => {
     saveStoredGeotag(geotagConfig)
   }, [geotagConfig])
-
-  // UI Flow States
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-  const [isHistoryOpen, setIsHistoryOpen] = useState(false)
-  const [historyCount, setHistoryCount] = useState(0)
-  const [isCapturing, setIsCapturing] = useState(false)
-  const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
-
-  // Integrasi tombol Back fisik/gesture ponsel agar menutup modal secara bertingkat
-  useModalHistory('drawer-settings', isSettingsOpen, () => setIsSettingsOpen(false))
-  useModalHistory('modal-capture', Boolean(currentPhoto), () => setCurrentPhoto(null))
-  useModalHistory('modal-history', isHistoryOpen, () => setIsHistoryOpen(false))
 
   // Muat jumlah riwayat foto di IndexedDB
   const refreshHistoryCount = useCallback(async () => {

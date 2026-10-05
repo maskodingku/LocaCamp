@@ -10,13 +10,37 @@ export interface CameraState {
   supportsTorch: boolean
 }
 
-export function useCamera() {
+export interface UseCameraOptions {
+  enabled?: boolean
+}
+
+export function useCamera(options: UseCameraOptions = {}) {
+  const { enabled = true } = options
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
+  const sessionCounterRef = useRef(0)
+
+  // Deteksi status tab / layar aktif peramban (Page Visibility API)
+  const [isTabVisible, setIsTabVisible] = useState(() =>
+    typeof document !== 'undefined' ? document.visibilityState === 'visible' : true
+  )
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsTabVisible(document.visibilityState === 'visible')
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
+
+  // Kamera hanya boleh aktif jika enabled bernilai true dan tab sedang dilihat
+  const shouldStream = enabled && isTabVisible
 
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment')
   const [isStreaming, setIsStreaming] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [hasMultipleCameras, setHasMultipleCameras] = useState(false)
   const [supportsTorch, setSupportsTorch] = useState(false)
@@ -52,6 +76,7 @@ export function useCamera() {
 
   // Start camera stream
   const startCamera = useCallback(async () => {
+    const sessionId = ++sessionCounterRef.current
     setIsLoading(true)
     setError(null)
     stopStream()
@@ -73,6 +98,13 @@ export function useCamera() {
       }
 
       const stream = await navigator.mediaDevices.getUserMedia(constraints)
+
+      // Batalkan jika sesi telah kedaluwarsa atau pengguna meninggalkan halaman kamera saat stream didapat
+      if (sessionId !== sessionCounterRef.current) {
+        stream.getTracks().forEach(track => track.stop())
+        return
+      }
+
       streamRef.current = stream
 
       if (videoRef.current) {
@@ -92,6 +124,8 @@ export function useCamera() {
       setIsLoading(false)
       await checkDevices()
     } catch (err: unknown) {
+      if (sessionId !== sessionCounterRef.current) return
+
       setIsLoading(false)
       setIsStreaming(false)
       const errorObj = err as Error
@@ -130,13 +164,22 @@ export function useCamera() {
     }
   }, [isTorchOn, supportsTorch])
 
-  // Effect to re-init on facingMode change
+  // Effect untuk menyalakan/mematikan kamera secara otomatis sesuai visibilitas dan status halaman
   useEffect(() => {
-    startCamera()
+    if (shouldStream) {
+      startCamera()
+    } else {
+      // Inkrementasi sesi agar request getUserMedia yang sedang berjalan dibatalkan dan dimatikan
+      sessionCounterRef.current++
+      stopStream()
+      setIsLoading(false)
+    }
+
     return () => {
+      sessionCounterRef.current++
       stopStream()
     }
-  }, [startCamera, stopStream])
+  }, [shouldStream, startCamera, stopStream])
 
   return {
     videoRef,
