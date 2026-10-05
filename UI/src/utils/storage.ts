@@ -23,6 +23,7 @@ export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {
 export const DEFAULT_CAMERA_QUALITY_CONFIG: CameraQualityConfig = {
   preset: 'auto',
   jpegTier: 'high',
+  denoiseMode: 'smooth',
 }
 
 const STORAGE_KEY_WATERMARK = 'locacamp_settings_watermark'
@@ -134,6 +135,7 @@ export function loadStoredCameraQuality(): CameraQualityConfig {
       return {
         ...DEFAULT_CAMERA_QUALITY_CONFIG,
         ...parsed,
+        denoiseMode: parsed.denoiseMode || DEFAULT_CAMERA_QUALITY_CONFIG.denoiseMode,
       }
     }
   } catch {

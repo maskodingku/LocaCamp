@@ -48,10 +48,12 @@ export interface CapturedPhoto {
 
 export type CameraQualityPreset = 'auto' | '12mp' | '8mp' | '2mp' | '1mp'
 export type JpegQualityTier = 'ultra' | 'high' | 'medium'
+export type DenoiseMode = 'smooth' | 'extra' | 'natural'
 
 export interface CameraQualityConfig {
   preset: CameraQualityPreset
   jpegTier: JpegQualityTier
+  denoiseMode: DenoiseMode
 }
 
 export interface SensorCapabilitiesInfo {

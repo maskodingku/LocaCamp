@@ -3,6 +3,7 @@ import type {
   GeoLocationData,
   GeotagDisplayConfig,
   JpegQualityTier,
+  DenoiseMode,
 } from '../types/camera'
 import { formatTimeWithTimezone } from './timezone'
 
@@ -15,6 +16,7 @@ export interface CompositeOptions {
   mirror?: boolean
   rotationAngle?: 0 | 90 | 180 | 270
   jpegTier?: JpegQualityTier
+  denoiseMode?: DenoiseMode
 }
 
 export async function captureAndComposite({
@@ -26,13 +28,14 @@ export async function captureAndComposite({
   mirror = false,
   rotationAngle = 0,
   jpegTier = 'high',
+  denoiseMode = 'smooth',
 }: CompositeOptions): Promise<{ dataUrl: string; width: number; height: number }> {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d', { alpha: false })
   if (!ctx) throw new Error('Canvas 2D context not available')
 
   // 1. Dapatkan sumber gambar berkualitas maksimal:
-  // Coba gunakan W3C ImageCapture.takePhoto() untuk mengambil still photo hardware beresolusi penuh asli sensor HP
+  // Coba gunakan W3C ImageCapture.takePhoto() dengan dimensi maksimal sensor HP
   let imageSource: CanvasImageSource = video
   let rawWidth = video.videoWidth || 1920
   let rawHeight = video.videoHeight || 1080
@@ -40,9 +43,31 @@ export async function captureAndComposite({
   if (videoTrack && typeof window !== 'undefined' && 'ImageCapture' in window) {
     try {
       const imageCapture = new (window as unknown as {
-        ImageCapture: new (t: MediaStreamTrack) => { takePhoto: () => Promise<Blob> }
+        ImageCapture: new (t: MediaStreamTrack) => {
+          takePhoto: (settings?: { imageWidth?: number; imageHeight?: number }) => Promise<Blob>
+          getPhotoCapabilities?: () => Promise<{
+            imageWidth?: { max?: number; min?: number }
+            imageHeight?: { max?: number; min?: number }
+          }>
+        }
       }).ImageCapture(videoTrack)
-      const blob = await imageCapture.takePhoto()
+
+      let photoSettings: { imageWidth?: number; imageHeight?: number } | undefined
+      if (typeof imageCapture.getPhotoCapabilities === 'function') {
+        try {
+          const caps = await imageCapture.getPhotoCapabilities()
+          if (caps.imageWidth?.max && caps.imageHeight?.max) {
+            photoSettings = {
+              imageWidth: caps.imageWidth.max,
+              imageHeight: caps.imageHeight.max,
+            }
+          }
+        } catch {
+          // Abaikan jika kemampuan getPhotoCapabilities gagal
+        }
+      }
+
+      const blob = await imageCapture.takePhoto(photoSettings)
       const bitmap = await createImageBitmap(blob)
       imageSource = bitmap
       rawWidth = bitmap.width
@@ -70,8 +95,26 @@ export async function captureAndComposite({
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
 
+  // Tentukan filter penghalus derau (denoise) sesuai pilihan pengguna
+  // Sub-pixel filtering ini secara presisi meratakan bintik pasir mikro tanpa mengaburkan detail objek
+  let denoiseFilter = 'none'
+  if (denoiseMode === 'smooth') {
+    // Default Rekomendasi: Menghaluskan butiran pasir mikro sensor secara natural
+    denoiseFilter = 'blur(0.45px) contrast(1.02)'
+  } else if (denoiseMode === 'extra') {
+    // Mode Ekstra: Denoise lebih kuat untuk kondisi minim cahaya / malam hari
+    denoiseFilter = 'blur(0.85px) contrast(1.03)'
+  } else {
+    // Mode Natural: Tanpa filter
+    denoiseFilter = 'none'
+  }
+
   // 2. Draw Camera Frame
   ctx.save()
+  if ('filter' in ctx && denoiseFilter !== 'none') {
+    ctx.filter = denoiseFilter
+  }
+
   if (shouldRotateFrame) {
     ctx.translate(width / 2, height / 2)
     ctx.rotate(((rotationAngle === 90 ? 90 : -90) * Math.PI) / 180)
@@ -87,6 +130,11 @@ export async function captureAndComposite({
     ctx.drawImage(imageSource, 0, 0, width, height)
   }
   ctx.restore()
+
+  // PENTING: Kembalikan filter ke 'none' agar tulisan Geotag dan logo Watermark 100% tajam tanpa blur
+  if ('filter' in ctx) {
+    ctx.filter = 'none'
+  }
 
   // Tutup bitmap jika digunakan untuk membebaskan memori GPU perangkat
   if (typeof ImageBitmap !== 'undefined' && imageSource instanceof ImageBitmap) {

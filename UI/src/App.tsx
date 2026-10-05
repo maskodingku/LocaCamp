@@ -108,6 +108,7 @@ export default function App() {
         mirror: camera.facingMode === 'user',
         rotationAngle: orientation.rotationAngle,
         jpegTier: cameraQualityConfig.jpegTier,
+        denoiseMode: cameraQualityConfig.denoiseMode,
       })
 
       const newPhoto: CapturedPhoto = {
@@ -129,7 +130,7 @@ export default function App() {
     } finally {
       setIsCapturing(false)
     }
-  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, isCapturing, orientation.rotationAngle, refreshHistoryCount])
+  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, isCapturing, orientation.rotationAngle, refreshHistoryCount])
 
   return (
     <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">

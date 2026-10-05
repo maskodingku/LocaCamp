@@ -639,6 +639,70 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                 </div>
               </div>
 
+              {/* Mode Penghalus Derau (Denoise / Anti Pasir Halus) */}
+              <div className="pt-2 border-t border-zinc-800/80">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    Penghalus Pasir Derau (Denoise)
+                  </label>
+                  <span className="text-[10px] text-emerald-400 font-medium">
+                    Anti Pasir Halus
+                  </span>
+                </div>
+                <p className="text-[11px] text-zinc-400 mb-2.5">
+                  Menghilangkan butiran pasir semut TV (sensor grain) agar foto terlihat mulus dan bersih saat di-zoom.
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    {
+                      id: 'smooth' as const,
+                      label: 'Halus',
+                      sub: 'Rekomendasi',
+                      desc: 'Mulus alami',
+                    },
+                    {
+                      id: 'extra' as const,
+                      label: 'Maksimal',
+                      sub: 'Minim Cahaya',
+                      desc: 'Extra de-noise',
+                    },
+                    {
+                      id: 'natural' as const,
+                      label: 'Alami (Off)',
+                      sub: 'Raw Sensor',
+                      desc: 'Tanpa filter',
+                    },
+                  ].map((mode) => {
+                    const isSelected = (cameraQualityConfig.denoiseMode || 'smooth') === mode.id
+                    return (
+                      <button
+                        key={mode.id}
+                        type="button"
+                        onClick={() =>
+                          onChangeCameraQualityConfig({
+                            ...cameraQualityConfig,
+                            denoiseMode: mode.id,
+                          })
+                        }
+                        className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
+                          isSelected
+                            ? 'border-emerald-500 bg-emerald-950/20 text-white font-semibold ring-1 ring-emerald-500/40'
+                            : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white hover:border-zinc-700'
+                        }`}
+                      >
+                        <span className="text-xs">{mode.label}</span>
+                        <span className="text-[10px] text-emerald-400/90 font-medium mt-0.5">
+                          {mode.sub}
+                        </span>
+                        <span className="text-[9px] text-zinc-500 mt-0.5">
+                          {mode.desc}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
               {/* Penjelasan Ketajaman */}
               <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 space-y-1">
                 <div className="font-semibold text-zinc-300 flex items-center gap-1.5">

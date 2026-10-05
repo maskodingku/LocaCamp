@@ -875,6 +875,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
                 src={selectedPhoto.dataUrl}
                 alt="Preview Penuh"
                 draggable={false}
+                style={{ imageRendering: 'auto' }}
                 className={`object-contain pointer-events-none transition-all duration-300 ${
                   isPureFullscreen
                     ? 'w-full h-full max-w-none max-h-none rounded-none'
