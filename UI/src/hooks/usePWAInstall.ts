@@ -9,40 +9,52 @@ interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>
 }
 
+// Cek apakah aplikasi sedang berjalan dalam mode aplikasi terpasang (standalone PWA)
+function checkIsStandalone(): boolean {
+  if (typeof window === 'undefined') return false
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (window.navigator as unknown as { standalone?: boolean }).standalone === true
+  )
+}
+
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+
+  // Status terpasang murni ditentukan oleh apakah jendela yang aktif adalah mode standalone
   const [isInstalled, setIsInstalled] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false
-    // Cek apakah dibuka dalam mode standalone (aplikasi terpasang)
-    const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true
-    const stored = localStorage.getItem('locacamp_app_installed') === 'true'
-    return isStandalone || stored
+    // Bersihkan flag legacy dari localStorage jika ada
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('locacamp_app_installed')
+      } catch {
+        // Abaikan jika localStorage tidak dapat diakses
+      }
+    }
+    return checkIsStandalone()
   })
 
   useEffect(() => {
-    // 1. Cek perubahan display-mode jika pengguna berpindah ke mode standalone
+    // 1. Cek perubahan display-mode jika pengguna membuka atau berpindah ke mode standalone
     const mediaQuery = window.matchMedia('(display-mode: standalone)')
     const handleMediaChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        setIsInstalled(true)
-        localStorage.setItem('locacamp_app_installed', 'true')
-      }
+      setIsInstalled(e.matches)
     }
     mediaQuery.addEventListener('change', handleMediaChange)
 
     // 2. Tangkap event beforeinstallprompt (Chrome, Edge, Android)
+    // Jika event ini ditembakkan oleh browser, artinya aplikasi BELUM terpasang di perangkat
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e as BeforeInstallPromptEvent)
+      // Pastikan status install adalah false jika browser siap menginstal
+      setIsInstalled(false)
     }
 
-    // 3. Tangkap event appinstalled ketika aplikasi sukses diinstall
+    // 3. Tangkap event appinstalled ketika aplikasi sukses diinstall oleh pengguna
     const handleAppInstalled = () => {
       setIsInstalled(true)
       setDeferredPrompt(null)
-      localStorage.setItem('locacamp_app_installed', 'true')
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
@@ -62,7 +74,6 @@ export function usePWAInstall() {
         const choice = await deferredPrompt.userChoice
         if (choice.outcome === 'accepted') {
           setIsInstalled(true)
-          localStorage.setItem('locacamp_app_installed', 'true')
         }
       } catch (err) {
         console.error('Error saat instalasi PWA:', err)
@@ -78,7 +89,7 @@ export function usePWAInstall() {
         )
       } else {
         alert(
-          'Untuk memasang aplikasi:\nBuka menu browser (ikon titik tiga di kanan atas) lalu pilih "Instal LocaCamp" atau "Tambahkan ke Layar Utama".'
+          'Untuk memasang aplikasi:\nBuka menu browser (ikon titik tiga di kanan atas) lalu pilih "Instal aplikasi" atau "Tambahkan ke Layar Utama".'
         )
       }
     }
