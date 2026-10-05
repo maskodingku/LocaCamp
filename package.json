@@ -1,0 +1,19 @@
+{
+  "name": "locacamp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "build": "npm run build --prefix UI",
+    "dev": "npm run dev --prefix UI"
+  },
+  "keywords": [
+    "geotag",
+    "camera",
+    "watermark",
+    "locacamp"
+  ],
+  "author": "maskodingku",
+  "license": "ISC"
+}

@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+UI/node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment & Local files
+.env
+.env.local
+.env.*.local
+
+# Editor & OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Build output & deployment
+siap-deploy/
+dist/
+UI/dist/
+
+# Internal task list & agent configs (Local PC only)
+.agents/
+list-tugas/
+

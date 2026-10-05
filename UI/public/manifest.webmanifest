@@ -1,0 +1,25 @@
+{
+  "name": "LocaCamp - Geotag & Watermark Camera",
+  "short_name": "LocaCamp",
+  "description": "Aplikasi web kamera dengan geotagging live dan watermark logo custom",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#09090b",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
