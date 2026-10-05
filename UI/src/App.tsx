@@ -93,13 +93,20 @@ export default function App() {
         rotationAngle: orientation.rotationAngle,
       })
 
+      const rawW = camera.videoRef.current.videoWidth || 1920
+      const rawH = camera.videoRef.current.videoHeight || 1080
+      const isLandscapeOrientation = orientation.rotationAngle === 90 || orientation.rotationAngle === 270
+      const isRotated = isLandscapeOrientation && rawW < rawH
+      const photoWidth = isRotated ? rawH : rawW
+      const photoHeight = isRotated ? rawW : rawH
+
       const newPhoto: CapturedPhoto = {
         id: `photo_${Date.now()}`,
         dataUrl,
         timestamp: new Date(),
         location,
-        width: camera.videoRef.current.videoWidth || 1920,
-        height: camera.videoRef.current.videoHeight || 1080,
+        width: photoWidth,
+        height: photoHeight,
       }
 
       // Simpan permanen ke IndexedDB lokal perangkat pengguna

@@ -18,7 +18,6 @@ export function useOrientation(): OrientationState {
       false
     )
   })
-  const [isAutoRotateLocked, setIsAutoRotateLocked] = useState<boolean>(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -28,18 +27,23 @@ export function useOrientation(): OrientationState {
       const screenIsLand = window.innerWidth > window.innerHeight
       setIsLandscape(screenIsLand)
 
-      // 2. Sudut Rotasi Layar Bawaan Sistem (jika auto-rotate sistem aktif)
-      const angle = (window.screen?.orientation?.angle ?? (window as unknown as { orientation?: number }).orientation ?? 0) as OrientationAngle
-
-      if (angle === 90 || angle === 270 || angle === 180 || angle === 0) {
-        setRotationAngle(angle)
-        if (angle !== 0) {
-          setIsAutoRotateLocked(false)
+      // 2. Sudut Rotasi Kanvas Foto:
+      // - Jika layar tegak (Portrait: tinggi >= lebar), sudut rotasi SELALU 0 derajat.
+      //   Tidak menggunakan accelerometer mentah agar foto 100% konsisten tegak tanpa glitch / gimbal lock.
+      // - Jika layar mendatar (Landscape: lebar > tinggi), gunakan sudut sistem 90 atau 270 derajat.
+      if (!screenIsLand) {
+        setRotationAngle(0)
+      } else {
+        const systemAngle = (window.screen?.orientation?.angle ?? (window as unknown as { orientation?: number }).orientation ?? 90) as OrientationAngle
+        if (systemAngle === 90 || systemAngle === 270) {
+          setRotationAngle(systemAngle)
+        } else {
+          setRotationAngle(90)
         }
       }
     }
 
-    // 1. Screen Orientation & Resize Listeners
+    // 1. Pasang listener resize & orientasi layar
     window.addEventListener('resize', updateScreenOrientation)
     if (window.screen?.orientation) {
       window.screen.orientation.addEventListener('change', updateScreenOrientation)
@@ -47,47 +51,8 @@ export function useOrientation(): OrientationState {
       window.addEventListener('orientationchange', updateScreenOrientation)
     }
 
-    // Inisialisasi awal
+    // Inisialisasi awal saat pertama kali dimuat
     updateScreenOrientation()
-
-    // 2. Accelerometer (DeviceOrientationEvent)
-    // HANYA untuk memutar ikon dan mengatur orientasi kanvas hasil foto saat Auto-Rotate HP dikunci.
-    // DILARANG mengubah isLandscape di sini agar tata letak tombol tidak meloncat ke samping saat layar fisik tegak!
-    const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
-      // Jika sistem layar sudah mendeteksi landscape (angle != 0), gunakan orientasi sistem
-      const screenAngle = window.screen?.orientation?.angle ?? 0
-      if (screenAngle !== 0) {
-        setRotationAngle(screenAngle as OrientationAngle)
-        setIsAutoRotateLocked(false)
-        return
-      }
-
-      const gamma = e.gamma ?? 0 // Kemiringan kiri-kanan [-90, 90]
-      const beta = e.beta ?? 0   // Kemiringan depan-belakang [-180, 180]
-
-      // Filter: Hanya deteksi jika ponsel dipegang tegak menghadap objek foto
-      // Mencegah Gimbal Lock saat ponsel diarahkan ke meja atau menunduk (|beta| < 35 atau |beta| > 145)
-      if (Math.abs(beta) > 35 && Math.abs(beta) < 145) {
-        if (gamma < -45) {
-          // Miring ke kiri (Landscape 90°)
-          setRotationAngle(90)
-          setIsAutoRotateLocked(true)
-        } else if (gamma > 45) {
-          // Miring ke kanan (Landscape 270°)
-          setRotationAngle(270)
-          setIsAutoRotateLocked(true)
-        } else if (Math.abs(gamma) < 25) {
-          // Posisi Tegak (Portrait 0°)
-          setRotationAngle(0)
-          setIsAutoRotateLocked(false)
-        }
-      }
-    }
-
-    // Pasang listener DeviceOrientation jika didukung browser
-    if (typeof window.DeviceOrientationEvent !== 'undefined') {
-      window.addEventListener('deviceorientation', handleDeviceOrientation, true)
-    }
 
     return () => {
       window.removeEventListener('resize', updateScreenOrientation)
@@ -96,15 +61,12 @@ export function useOrientation(): OrientationState {
       } else {
         window.removeEventListener('orientationchange', updateScreenOrientation)
       }
-      if (typeof window.DeviceOrientationEvent !== 'undefined') {
-        window.removeEventListener('deviceorientation', handleDeviceOrientation, true)
-      }
     }
   }, [])
 
   return {
     rotationAngle,
     isLandscape,
-    isAutoRotateLocked,
+    isAutoRotateLocked: false,
   }
 }
