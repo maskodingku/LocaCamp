@@ -48,6 +48,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
 
   // State untuk pratinjau foto terpilih (fullscreen inspect)
   const [selectedPhoto, setSelectedPhoto] = useState<StoredPhoto | null>(null)
+  const [isPureFullscreen, setIsPureFullscreen] = useState(false)
 
   // State konfirmasi hapus
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
@@ -68,7 +69,15 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
   useModalHistory(
     'history-photo-detail',
     isOpen && Boolean(selectedPhoto),
-    () => setSelectedPhoto(null)
+    () => {
+      setSelectedPhoto(null)
+      setIsPureFullscreen(false)
+    }
+  )
+  useModalHistory(
+    'history-pure-fullscreen',
+    isOpen && Boolean(selectedPhoto) && isPureFullscreen,
+    () => setIsPureFullscreen(false)
   )
 
   // Muat foto dari IndexedDB saat modal dibuka
@@ -84,6 +93,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
       loadPhotos()
       setCurrentPage(1)
       setSelectedPhoto(null)
+      setIsPureFullscreen(false)
     }
   }, [isOpen])
 
@@ -211,7 +221,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     }
   }, [currentIndex, currentPage])
 
-  // Navigasi Keyboard Panah Kiri / Kanan
+  // Navigasi Keyboard Panah Kiri / Kanan & Esc
   useEffect(() => {
     if (!selectedPhoto) return
 
@@ -224,23 +234,29 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
         handleNextPhoto()
       } else if (e.key === 'Escape') {
         e.preventDefault()
-        setSelectedPhoto(null)
+        if (isPureFullscreen) {
+          setIsPureFullscreen(false)
+        } else {
+          setSelectedPhoto(null)
+        }
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedPhoto, handlePrevPhoto, handleNextPhoto])
+  }, [selectedPhoto, handlePrevPhoto, handleNextPhoto, isPureFullscreen])
 
   // Gesture Touch Swipe (Geser ke kiri / kanan di layar ponsel)
   const touchStartX = useRef<number | null>(null)
   const touchStartY = useRef<number | null>(null)
+  const isDraggingRef = useRef<boolean>(false)
   const [swipeOffset, setSwipeOffset] = useState<number>(0)
   const [isSwiping, setIsSwiping] = useState<boolean>(false)
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
     touchStartY.current = e.touches[0].clientY
+    isDraggingRef.current = false
     setIsSwiping(true)
   }
 
@@ -250,6 +266,10 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     const currentY = e.touches[0].clientY
     const diffX = currentX - touchStartX.current
     const diffY = currentY - touchStartY.current
+
+    if (Math.abs(diffX) > 8 || Math.abs(diffY) > 8) {
+      isDraggingRef.current = true
+    }
 
     // Pastikan gestur horizontal lebih dominan daripada gestur vertikal
     if (Math.abs(diffX) > Math.abs(diffY)) {
@@ -281,6 +301,15 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     touchStartY.current = null
     setSwipeOffset(0)
     setIsSwiping(false)
+    setTimeout(() => {
+      isDraggingRef.current = false
+    }, 120)
+  }
+
+  const handleTogglePureFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (isDraggingRef.current) return
+    setIsPureFullscreen(prev => !prev)
   }
 
   if (!isOpen) return null
@@ -588,60 +617,79 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
       {/* ================= FULLSCREEN DETAIL PREVIEW MODAL ================= */}
       {selectedPhoto && (
         <div
-          className="fixed inset-0 z-60 bg-black/95 flex flex-col items-center justify-between p-3 sm:p-6 animate-in fade-in"
-          onClick={() => setSelectedPhoto(null)}
+          className={`fixed inset-0 z-60 bg-black flex flex-col items-center justify-between transition-all duration-300 animate-in fade-in select-none ${
+            isPureFullscreen ? 'p-0 cursor-zoom-out' : 'p-3 sm:p-6 bg-black/95'
+          }`}
+          onClick={() => {
+            if (isPureFullscreen) {
+              setIsPureFullscreen(false)
+            } else {
+              setSelectedPhoto(null)
+            }
+          }}
         >
-          {/* Header */}
-          <div
-            className="w-full max-w-4xl flex items-center justify-between gap-2 z-10"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-center gap-2 min-w-0">
+          {/* Header (Disembunyikan total saat mode layar penuh bersih) */}
+          {!isPureFullscreen && (
+            <div
+              className="w-full max-w-4xl flex items-center justify-between gap-2 z-10 animate-in fade-in duration-200"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <button
+                  type="button"
+                  onClick={() => setSelectedPhoto(null)}
+                  className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors flex items-center gap-1 shrink-0 border border-zinc-700/60"
+                  title="Kembali ke Galeri Riwayat"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span className="text-xs font-medium hidden sm:inline">Kembali</span>
+                </button>
+
+                {/* Counter Badge */}
+                {currentIndex !== -1 && (
+                  <span className="px-2 py-0.5 rounded-md bg-zinc-800 border border-zinc-700 text-[11px] font-mono font-medium text-emerald-400 shrink-0">
+                    {currentIndex + 1} / {filteredPhotos.length}
+                  </span>
+                )}
+
+                <div className="text-xs text-zinc-300 flex items-center gap-1.5 min-w-0">
+                  <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                  <span className="font-medium truncate">
+                    {selectedPhoto.address || 'Dokumentasi Lokasi'}
+                  </span>
+                </div>
+              </div>
+
               <button
                 type="button"
                 onClick={() => setSelectedPhoto(null)}
-                className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors flex items-center gap-1 shrink-0 border border-zinc-700/60"
-                title="Kembali ke Galeri Riwayat"
+                className="p-2 rounded-full glass-panel hover:bg-white/20 text-white transition-colors shrink-0"
+                title="Tutup Pratinjau Foto"
               >
-                <ChevronLeft className="w-4 h-4" />
-                <span className="text-xs font-medium hidden sm:inline">Kembali</span>
+                <X className="w-5 h-5" />
               </button>
-
-              {/* Counter Badge */}
-              {currentIndex !== -1 && (
-                <span className="px-2 py-0.5 rounded-md bg-zinc-800 border border-zinc-700 text-[11px] font-mono font-medium text-emerald-400 shrink-0">
-                  {currentIndex + 1} / {filteredPhotos.length}
-                </span>
-              )}
-
-              <div className="text-xs text-zinc-300 flex items-center gap-1.5 min-w-0">
-                <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
-                <span className="font-medium truncate">
-                  {selectedPhoto.address || 'Dokumentasi Lokasi'}
-                </span>
-              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setSelectedPhoto(null)}
-              className="p-2 rounded-full glass-panel hover:bg-white/20 text-white transition-colors shrink-0"
-              title="Tutup Pratinjau Foto"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          )}
 
           {/* Large Image View with Left/Right Buttons & Swipe Gestures */}
           <div
-            className="relative flex-1 w-full max-w-4xl flex items-center justify-center p-2 overflow-hidden touch-pan-y"
-            onClick={e => e.stopPropagation()}
+            className={`relative flex items-center justify-center overflow-hidden touch-pan-y transition-all duration-300 ${
+              isPureFullscreen
+                ? 'w-full h-full p-0 cursor-zoom-out'
+                : 'flex-1 w-full max-w-4xl p-2 cursor-zoom-in'
+            }`}
+            onClick={handleTogglePureFullscreen}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            title={
+              isPureFullscreen
+                ? 'Klik layar untuk kembali ke tampilan normal'
+                : 'Klik foto untuk melihat layar penuh bersih tanpa elemen lain'
+            }
           >
-            {/* Tombol Panah Kiri (Sebelumnya) */}
-            {hasPrev && (
+            {/* Tombol Panah Kiri (Sebelumnya) - Disembunyikan saat mode layar penuh bersih */}
+            {!isPureFullscreen && hasPrev && (
               <button
                 type="button"
                 onClick={e => {
@@ -668,12 +716,16 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
                 src={selectedPhoto.dataUrl}
                 alt="Preview Penuh"
                 draggable={false}
-                className="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl shadow-2xl pointer-events-none"
+                className={`object-contain pointer-events-none transition-all duration-300 ${
+                  isPureFullscreen
+                    ? 'w-full h-full max-w-none max-h-none rounded-none'
+                    : 'max-w-full max-h-full w-auto h-auto rounded-2xl shadow-2xl'
+                }`}
               />
             </div>
 
-            {/* Tombol Panah Kanan (Selanjutnya) */}
-            {hasNext && (
+            {/* Tombol Panah Kanan (Selanjutnya) - Disembunyikan saat mode layar penuh bersih */}
+            {!isPureFullscreen && hasNext && (
               <button
                 type="button"
                 onClick={e => {
@@ -688,40 +740,42 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
             )}
           </div>
 
-          {/* Footer Action */}
-          <div
-            className="w-full max-w-4xl flex items-center justify-between gap-3 pt-3 border-t border-zinc-800/80 z-10"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex flex-col gap-0.5">
-              <div className="text-xs text-zinc-400 font-mono">
-                {new Date(selectedPhoto.timestamp).toLocaleString('id-ID')}
+          {/* Footer Action (Disembunyikan total saat mode layar penuh bersih) */}
+          {!isPureFullscreen && (
+            <div
+              className="w-full max-w-4xl flex items-center justify-between gap-3 pt-3 border-t border-zinc-800/80 z-10 animate-in fade-in duration-200"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="flex flex-col gap-0.5">
+                <div className="text-xs text-zinc-400 font-mono">
+                  {new Date(selectedPhoto.timestamp).toLocaleString('id-ID')}
+                </div>
+                <div className="text-[10px] text-zinc-500 hidden sm:block">
+                  Tips: Klik foto untuk layar penuh murni • Geser layar / panah keyboard untuk ganti foto
+                </div>
               </div>
-              <div className="text-[10px] text-zinc-500 hidden sm:block">
-                Tips: Geser layar sentuh atau tekan tombol panah keyboard (← / →) untuk ganti foto
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setDeleteConfirmId(selectedPhoto.id)}
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-all active:scale-95"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Hapus</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDownload(selectedPhoto)}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-bold text-xs sm:text-sm hover:bg-zinc-200 transition-all shadow-xl active:scale-95"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Unduh Foto (HD)</span>
+                </button>
               </div>
             </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setDeleteConfirmId(selectedPhoto.id)}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-all active:scale-95"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Hapus</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleDownload(selectedPhoto)}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-bold text-xs sm:text-sm hover:bg-zinc-200 transition-all shadow-xl active:scale-95"
-              >
-                <Download className="w-4 h-4" />
-                <span>Unduh Foto (HD)</span>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       )}
 
