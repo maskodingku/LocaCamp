@@ -100,13 +100,13 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       )}
 
       {/* 4. Top Minimal Bar (Controls & Status) */}
-      <div className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-gradient-to-b from-black/70 via-black/30 to-transparent pointer-events-auto">
+      <div className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent pointer-events-auto">
         {/* Install App Button (Hanya tampil jika belum terpasang dan siap diinstal) */}
         {canInstall ? (
           <button
             type="button"
             onClick={installApp}
-            className="flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full glass-pill border border-emerald-500/40 hover:border-emerald-400/70 bg-emerald-950/50 hover:bg-emerald-900/60 shadow-lg backdrop-blur-md transition-all active:scale-95 group cursor-pointer"
+            className="flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full glass-pill border border-emerald-500/40 hover:border-emerald-400/70 bg-emerald-950/70 hover:bg-emerald-900/80 shadow-lg backdrop-blur-md transition-all active:scale-95 group cursor-pointer"
             title="Install LocaCamp ke Perangkat"
           >
             <img
@@ -130,7 +130,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
             <button
               type="button"
               onClick={onToggleTorch}
-              className={`p-2.5 rounded-full transition-all active:scale-90 ${
+              className={`p-2.5 rounded-full transition-all active:scale-90 shadow-md backdrop-blur-md ${
                 isTorchOn
                   ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
                   : 'glass-pill text-white hover:bg-white/10'
@@ -146,7 +146,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
             <button
               type="button"
               onClick={onSwitchCamera}
-              className="p-2.5 rounded-full glass-pill text-white hover:bg-white/10 transition-all active:scale-90"
+              className="p-2.5 rounded-full glass-pill text-white hover:bg-white/10 shadow-md backdrop-blur-md transition-all active:scale-90"
               title="Ganti Kamera Depan/Belakang"
             >
               <RotateCcw className="w-4 h-4" />
@@ -157,7 +157,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
           <button
             type="button"
             onClick={onOpenSettings}
-            className="p-2.5 rounded-full glass-pill text-white hover:bg-white/10 transition-all active:scale-90"
+            className="p-2.5 rounded-full glass-pill text-white hover:bg-white/10 shadow-md backdrop-blur-md transition-all active:scale-90"
             title="Buka Pengaturan Watermark & Geotag"
           >
             <Settings className="w-4 h-4" />

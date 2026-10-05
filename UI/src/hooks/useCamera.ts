@@ -178,6 +178,26 @@ export function useCamera(options: UseCameraOptions = {}) {
             supportsImageCapture: typeof window !== 'undefined' && 'ImageCapture' in window,
           })
         }
+
+        // Terapkan continuous auto-exposure & white-balance agar preview tidak redup/terkunci di eksposur rendah
+        try {
+          const caps = (videoTrack.getCapabilities?.() || {}) as Record<string, unknown>
+          const adv: Record<string, unknown> = {}
+          if (Array.isArray(caps.exposureMode) && caps.exposureMode.includes('continuous')) {
+            adv.exposureMode = 'continuous'
+          }
+          if (Array.isArray(caps.whiteBalanceMode) && caps.whiteBalanceMode.includes('continuous')) {
+            adv.whiteBalanceMode = 'continuous'
+          }
+          if (Array.isArray(caps.focusMode) && caps.focusMode.includes('continuous')) {
+            adv.focusMode = 'continuous'
+          }
+          if (Object.keys(adv).length > 0) {
+            await videoTrack.applyConstraints({ advanced: [adv] })
+          }
+        } catch {
+          // Abaikan jika browser tidak mengizinkan advanced constraints
+        }
       }
 
       setIsStreaming(true)
