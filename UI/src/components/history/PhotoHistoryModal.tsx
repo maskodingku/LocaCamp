@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react'
 import {
   X,
   Search,
@@ -179,6 +179,109 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
   useEffect(() => {
     setCurrentPage(1)
   }, [searchQuery, timeFilter, sortOrder])
+
+  // Navigasi Foto di Pratinjau Fullscreen
+  const currentIndex = useMemo(() => {
+    if (!selectedPhoto) return -1
+    return filteredPhotos.findIndex(p => p.id === selectedPhoto.id)
+  }, [selectedPhoto, filteredPhotos])
+
+  const hasPrev = currentIndex > 0
+  const hasNext = currentIndex !== -1 && currentIndex < filteredPhotos.length - 1
+
+  const handlePrevPhoto = useCallback(() => {
+    if (currentIndex > 0) {
+      setSelectedPhoto(filteredPhotos[currentIndex - 1])
+    }
+  }, [currentIndex, filteredPhotos])
+
+  const handleNextPhoto = useCallback(() => {
+    if (currentIndex !== -1 && currentIndex < filteredPhotos.length - 1) {
+      setSelectedPhoto(filteredPhotos[currentIndex + 1])
+    }
+  }, [currentIndex, filteredPhotos])
+
+  // Sinkronisasi halaman galeri saat pengguna berpindah foto di fullscreen
+  useEffect(() => {
+    if (currentIndex !== -1) {
+      const targetPage = Math.floor(currentIndex / ITEMS_PER_PAGE) + 1
+      if (targetPage !== currentPage) {
+        setCurrentPage(targetPage)
+      }
+    }
+  }, [currentIndex, currentPage])
+
+  // Navigasi Keyboard Panah Kiri / Kanan
+  useEffect(() => {
+    if (!selectedPhoto) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        handlePrevPhoto()
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        handleNextPhoto()
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        setSelectedPhoto(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedPhoto, handlePrevPhoto, handleNextPhoto])
+
+  // Gesture Touch Swipe (Geser ke kiri / kanan di layar ponsel)
+  const touchStartX = useRef<number | null>(null)
+  const touchStartY = useRef<number | null>(null)
+  const [swipeOffset, setSwipeOffset] = useState<number>(0)
+  const [isSwiping, setIsSwiping] = useState<boolean>(false)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+    setIsSwiping(true)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return
+    const currentX = e.touches[0].clientX
+    const currentY = e.touches[0].clientY
+    const diffX = currentX - touchStartX.current
+    const diffY = currentY - touchStartY.current
+
+    // Pastikan gestur horizontal lebih dominan daripada gestur vertikal
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+      // Tahan geseran jika di ujung (tidak ada prev/next)
+      if ((diffX > 0 && !hasPrev) || (diffX < 0 && !hasNext)) {
+        setSwipeOffset(diffX * 0.25) // elastisitas rendah di ujung batas
+      } else {
+        setSwipeOffset(diffX * 0.75) // elastisitas responsif saat ada foto
+      }
+    }
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current !== null && touchStartY.current !== null) {
+      const diffX = e.changedTouches[0].clientX - touchStartX.current
+      const diffY = e.changedTouches[0].clientY - touchStartY.current
+      const minSwipeDistance = 45
+
+      if (Math.abs(diffX) > minSwipeDistance && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 0 && hasPrev) {
+          handlePrevPhoto()
+        } else if (diffX < 0 && hasNext) {
+          handleNextPhoto()
+        }
+      }
+    }
+
+    touchStartX.current = null
+    touchStartY.current = null
+    setSwipeOffset(0)
+    setIsSwiping(false)
+  }
 
   if (!isOpen) return null
 
@@ -503,6 +606,14 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
                 <ChevronLeft className="w-4 h-4" />
                 <span className="text-xs font-medium hidden sm:inline">Kembali</span>
               </button>
+
+              {/* Counter Badge */}
+              {currentIndex !== -1 && (
+                <span className="px-2 py-0.5 rounded-md bg-zinc-800 border border-zinc-700 text-[11px] font-mono font-medium text-emerald-400 shrink-0">
+                  {currentIndex + 1} / {filteredPhotos.length}
+                </span>
+              )}
+
               <div className="text-xs text-zinc-300 flex items-center gap-1.5 min-w-0">
                 <MapPin className="w-3.5 h-3.5 text-rose-400 shrink-0" />
                 <span className="font-medium truncate">
@@ -510,6 +621,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
                 </span>
               </div>
             </div>
+
             <button
               type="button"
               onClick={() => setSelectedPhoto(null)}
@@ -520,16 +632,60 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
             </button>
           </div>
 
-          {/* Large Image View */}
+          {/* Large Image View with Left/Right Buttons & Swipe Gestures */}
           <div
-            className="relative flex-1 w-full max-w-4xl flex items-center justify-center p-2 overflow-hidden"
+            className="relative flex-1 w-full max-w-4xl flex items-center justify-center p-2 overflow-hidden touch-pan-y"
             onClick={e => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
-            <img
-              src={selectedPhoto.dataUrl}
-              alt="Preview Penuh"
-              className="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl shadow-2xl"
-            />
+            {/* Tombol Panah Kiri (Sebelumnya) */}
+            {hasPrev && (
+              <button
+                type="button"
+                onClick={e => {
+                  e.stopPropagation()
+                  handlePrevPhoto()
+                }}
+                className="absolute left-2 sm:left-4 z-20 p-2.5 sm:p-3 rounded-full bg-zinc-950/75 hover:bg-zinc-900 border border-white/15 text-white backdrop-blur-md shadow-2xl transition-all hover:scale-110 active:scale-95 group cursor-pointer"
+                title="Foto Sebelumnya (Panah Kiri / Geser Kanan)"
+              >
+                <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-300 group-hover:text-white group-hover:-translate-x-0.5 transition-transform" />
+              </button>
+            )}
+
+            {/* Container Gambar dengan Efek Transisi / Swipe Translation */}
+            <div
+              key={selectedPhoto.id}
+              className="w-full h-full flex items-center justify-center animate-in fade-in zoom-in-95 duration-200 select-none"
+              style={{
+                transform: `translateX(${swipeOffset}px)`,
+                transition: isSwiping ? 'none' : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
+              }}
+            >
+              <img
+                src={selectedPhoto.dataUrl}
+                alt="Preview Penuh"
+                draggable={false}
+                className="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl shadow-2xl pointer-events-none"
+              />
+            </div>
+
+            {/* Tombol Panah Kanan (Selanjutnya) */}
+            {hasNext && (
+              <button
+                type="button"
+                onClick={e => {
+                  e.stopPropagation()
+                  handleNextPhoto()
+                }}
+                className="absolute right-2 sm:right-4 z-20 p-2.5 sm:p-3 rounded-full bg-zinc-950/75 hover:bg-zinc-900 border border-white/15 text-white backdrop-blur-md shadow-2xl transition-all hover:scale-110 active:scale-95 group cursor-pointer"
+                title="Foto Selanjutnya (Panah Kanan / Geser Kiri)"
+              >
+                <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-300 group-hover:text-white group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            )}
           </div>
 
           {/* Footer Action */}
@@ -537,8 +693,13 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
             className="w-full max-w-4xl flex items-center justify-between gap-3 pt-3 border-t border-zinc-800/80 z-10"
             onClick={e => e.stopPropagation()}
           >
-            <div className="text-xs text-zinc-400 font-mono">
-              {new Date(selectedPhoto.timestamp).toLocaleString('id-ID')}
+            <div className="flex flex-col gap-0.5">
+              <div className="text-xs text-zinc-400 font-mono">
+                {new Date(selectedPhoto.timestamp).toLocaleString('id-ID')}
+              </div>
+              <div className="text-[10px] text-zinc-500 hidden sm:block">
+                Tips: Geser layar sentuh atau tekan tombol panah keyboard (← / →) untuk ganti foto
+              </div>
             </div>
 
             <div className="flex items-center gap-2">
