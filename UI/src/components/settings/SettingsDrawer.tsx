@@ -5,6 +5,7 @@ import {
   Sparkles,
   Sliders,
   MapPin,
+  Camera,
   Trash2,
   RotateCcw,
   Info,
@@ -14,6 +15,9 @@ import {
   CheckCircle2,
   Terminal,
   ExternalLink,
+  Cpu,
+  Zap,
+  Maximize2,
 } from 'lucide-react'
 import appLogo from '../../assets/locacamp-logo.jpg'
 import developerPhoto from '../../assets/foto-profil-abdi-syahputra-harahap.jpg'
@@ -21,6 +25,8 @@ import type {
   WatermarkConfig,
   WatermarkPosition,
   GeotagDisplayConfig,
+  CameraQualityConfig,
+  SensorCapabilitiesInfo,
 } from '../../types/camera'
 import { optimizeWatermarkImage } from '../../utils/storage'
 
@@ -47,6 +53,9 @@ interface SettingsDrawerProps {
   onChangeWatermark: (cfg: WatermarkConfig) => void
   geotagConfig: GeotagDisplayConfig
   onChangeGeotagConfig: (cfg: GeotagDisplayConfig) => void
+  cameraQualityConfig: CameraQualityConfig
+  onChangeCameraQualityConfig: (cfg: CameraQualityConfig) => void
+  sensorInfo?: SensorCapabilitiesInfo | null
   onResetSettings?: () => void
 }
 
@@ -57,9 +66,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   onChangeWatermark,
   geotagConfig,
   onChangeGeotagConfig,
+  cameraQualityConfig,
+  onChangeCameraQualityConfig,
+  sensorInfo,
   onResetSettings,
 }) => {
-  const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'about'>('watermark')
+  const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'about'>('watermark')
 
   if (!isOpen) return null
 
@@ -113,23 +125,23 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         </div>
 
         {/* Tab Buttons */}
-        <div className="grid grid-cols-3 border-b border-zinc-800 px-2 md:px-6 bg-zinc-900/50">
+        <div className="grid grid-cols-4 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50">
           <button
             type="button"
             onClick={() => setActiveTab('watermark')}
-            className={`py-3 px-1 md:px-2 text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 border-b-2 transition-all ${
+            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
               activeTab === 'watermark'
                 ? 'border-white text-white'
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Watermark</span>
+            <span className="truncate">Logo</span>
           </button>
           <button
             type="button"
             onClick={() => setActiveTab('geotag')}
-            className={`py-3 px-1 md:px-2 text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 border-b-2 transition-all ${
+            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
               activeTab === 'geotag'
                 ? 'border-white text-white'
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
@@ -140,8 +152,20 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           </button>
           <button
             type="button"
+            onClick={() => setActiveTab('camera')}
+            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
+              activeTab === 'camera'
+                ? 'border-white text-white'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            <Camera className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Kamera</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveTab('about')}
-            className={`py-3 px-1 md:px-2 text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1.5 border-b-2 transition-all ${
+            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
               activeTab === 'about'
                 ? 'border-white text-white'
                 : 'border-transparent text-zinc-400 hover:text-zinc-200'
@@ -410,6 +434,220 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                     )
                   })}
                 </div>
+              </div>
+            </div>
+          ) : activeTab === 'camera' ? (
+            /* Camera Quality Tab */
+            <div className="space-y-6 animate-in fade-in duration-200">
+              {/* Sensor Hardware Detection Card */}
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-zinc-900 to-zinc-950 border border-emerald-500/30 relative overflow-hidden">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400">
+                    <Cpu className="w-5 h-5" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+                        Sensor Kamera Aktif
+                      </span>
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        Live
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-white mt-0.5 truncate">
+                      {sensorInfo?.label || 'Kamera Perangkat HP'}
+                    </div>
+                    <div className="flex items-center gap-3 mt-2 text-xs text-zinc-300">
+                      <div>
+                        Maksimal:{' '}
+                        <span className="font-semibold text-emerald-300">
+                          {sensorInfo?.maxMegapixels
+                            ? `${sensorInfo.maxMegapixels} MP`
+                            : 'Otomatis'}
+                        </span>
+                        {sensorInfo?.maxWidth && sensorInfo?.maxHeight ? (
+                          <span className="text-[11px] text-zinc-400 ml-1">
+                            ({sensorInfo.maxWidth} × {sensorInfo.maxHeight})
+                          </span>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className="mt-2 flex items-center gap-1.5 text-[11px] text-zinc-400">
+                      <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <span>
+                        {sensorInfo?.supportsImageCapture
+                          ? 'Mendukung ImageCapture (shutter sensor native jernih)'
+                          : 'Fallback frame video resolusi tinggi'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Target Resolusi Sensor */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    Target Resolusi Sensor
+                  </label>
+                  <span className="text-[10px] text-emerald-400 font-medium">
+                    Default: Auto
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    {
+                      id: 'auto' as const,
+                      title: 'Auto (Kualitas Tertinggi HP)',
+                      badge: 'Default & Rekomendasi',
+                      desc: 'Otomatis mendeteksi dan mengambil resolusi maksimal sensor tanpa kompromi.',
+                      tag: sensorInfo?.maxMegapixels ? `Hingga ${sensorInfo.maxMegapixels} MP` : 'Maksimal',
+                      supported: true,
+                    },
+                    {
+                      id: '12mp' as const,
+                      title: '12 MP / 4K Ultra HD',
+                      badge: 'Kualitas Ultra',
+                      desc: '~4000 × 3000 px • Sangat tajam untuk cetak dan zoom detail.',
+                      tag: '12 MP',
+                      supported: sensorInfo ? sensorInfo.supports12MP : true,
+                    },
+                    {
+                      id: '8mp' as const,
+                      title: '8 MP / Quad HD',
+                      badge: 'Kualitas Tinggi',
+                      desc: '~3264 × 2448 px • Seimbang antara ketajaman prima dan kecepatan.',
+                      tag: '8 MP',
+                      supported: true,
+                    },
+                    {
+                      id: '2mp' as const,
+                      title: '2 MP / Full HD 1080p',
+                      badge: 'Standar Cepat',
+                      desc: '1920 × 1080 px • Cepat diproses dan hemat kuota pengiriman.',
+                      tag: '2 MP',
+                      supported: true,
+                    },
+                    {
+                      id: '1mp' as const,
+                      title: '1 MP / HD 720p',
+                      badge: 'Hemat Memori',
+                      desc: '1280 × 720 px • Sangat ringan dan hemat penyimpanan memori HP.',
+                      tag: '1 MP',
+                      supported: true,
+                    },
+                  ].map((presetItem) => {
+                    const isSelected = cameraQualityConfig.preset === presetItem.id
+                    return (
+                      <button
+                        key={presetItem.id}
+                        type="button"
+                        onClick={() =>
+                          onChangeCameraQualityConfig({
+                            ...cameraQualityConfig,
+                            preset: presetItem.id,
+                          })
+                        }
+                        className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${
+                          isSelected
+                            ? 'border-emerald-500 bg-emerald-950/20 shadow-md ring-1 ring-emerald-500/50'
+                            : 'border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-zinc-700'
+                        } ${!presetItem.supported ? 'opacity-50' : ''}`}
+                      >
+                        <div
+                          className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
+                            isSelected
+                              ? 'border-emerald-400 bg-emerald-500 text-black'
+                              : 'border-zinc-600 bg-zinc-800'
+                          }`}
+                        >
+                          {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-xs font-semibold text-white">
+                              {presetItem.title}
+                            </span>
+                            <span
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-medium shrink-0 ${
+                                isSelected
+                                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                                  : 'bg-zinc-800 text-zinc-400'
+                              }`}
+                            >
+                              {presetItem.tag}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-zinc-400 mt-0.5">
+                            {presetItem.desc}
+                          </p>
+                          {presetItem.id === 'auto' && (
+                            <span className="inline-block mt-1 text-[10px] font-semibold text-emerald-400">
+                              ★ {presetItem.badge}
+                            </span>
+                          )}
+                          {!presetItem.supported && (
+                            <span className="inline-block mt-1 text-[10px] text-amber-400">
+                              ⚠️ Resolusi ini mungkin melebihi kemampuan sensor saat ini
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Kompresi JPEG */}
+              <div className="pt-2 border-t border-zinc-800/80">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                    Kualitas Kompresi JPEG
+                  </label>
+                  <span className="text-[10px] text-zinc-500">
+                    Canvas Export
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {[
+                    { id: 'ultra' as const, label: 'Ultra (98%)', sub: 'Kualitas Terbaik' },
+                    { id: 'high' as const, label: 'Tinggi (95%)', sub: 'Standar Optimal' },
+                    { id: 'medium' as const, label: 'Sedang (85%)', sub: 'Hemat Ukuran' },
+                  ].map((tier) => {
+                    const isSelected = cameraQualityConfig.jpegTier === tier.id
+                    return (
+                      <button
+                        key={tier.id}
+                        type="button"
+                        onClick={() =>
+                          onChangeCameraQualityConfig({
+                            ...cameraQualityConfig,
+                            jpegTier: tier.id,
+                          })
+                        }
+                        className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
+                          isSelected
+                            ? 'border-emerald-500 bg-emerald-950/20 text-white font-semibold ring-1 ring-emerald-500/40'
+                            : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white hover:border-zinc-700'
+                        }`}
+                      >
+                        <span className="text-xs">{tier.label}</span>
+                        <span className="text-[10px] text-zinc-500 mt-0.5">{tier.sub}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Penjelasan Ketajaman */}
+              <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 space-y-1">
+                <div className="font-semibold text-zinc-300 flex items-center gap-1.5">
+                  <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Mengapa foto di aplikasi ini kini sejernih kamera bawaan?
+                </div>
+                <p>
+                  Aplikasi kini memanfaatkan <strong>ImageCapture hardware shutter</strong> untuk mengambil frame langsung dari sensor kamera dalam resolusi penuh, tanpa kompresi visual interpolasi video.
+                </p>
               </div>
             </div>
           ) : (

@@ -45,3 +45,23 @@ export interface CapturedPhoto {
   width: number
   height: number
 }
+
+export type CameraQualityPreset = 'auto' | '12mp' | '8mp' | '2mp' | '1mp'
+export type JpegQualityTier = 'ultra' | 'high' | 'medium'
+
+export interface CameraQualityConfig {
+  preset: CameraQualityPreset
+  jpegTier: JpegQualityTier
+}
+
+export interface SensorCapabilitiesInfo {
+  maxMegapixels: number
+  maxWidth: number
+  maxHeight: number
+  supports4K: boolean
+  supports12MP: boolean
+  supports8MP: boolean
+  label?: string
+  supportsImageCapture?: boolean
+}
+

@@ -1,5 +1,5 @@
 import defaultWatermarkUrl from '../assets/default-watermark.jpg'
-import type { WatermarkConfig, GeotagDisplayConfig } from '../types/camera'
+import type { WatermarkConfig, GeotagDisplayConfig, CameraQualityConfig } from '../types/camera'
 
 export const DEFAULT_WATERMARK_URL = defaultWatermarkUrl
 
@@ -20,8 +20,14 @@ export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {
   fontSize: 'small',
 }
 
+export const DEFAULT_CAMERA_QUALITY_CONFIG: CameraQualityConfig = {
+  preset: 'auto',
+  jpegTier: 'high',
+}
+
 const STORAGE_KEY_WATERMARK = 'locacamp_settings_watermark'
 const STORAGE_KEY_GEOTAG = 'locacamp_settings_geotag'
+const STORAGE_KEY_CAMERA_QUALITY = 'locacamp_settings_camera_quality'
 const STORAGE_KEY_MIGRATED = 'locacamp_settings_migrated_v3'
 
 const OLD_DEFAULT_WATERMARK_KEYWORD = 'LOCACAMP'
@@ -118,12 +124,43 @@ export function saveStoredGeotag(config: GeotagDisplayConfig): void {
 }
 
 /**
+ * Membaca konfigurasi kualitas kamera dari localStorage
+ */
+export function loadStoredCameraQuality(): CameraQualityConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_CAMERA_QUALITY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<CameraQualityConfig>
+      return {
+        ...DEFAULT_CAMERA_QUALITY_CONFIG,
+        ...parsed,
+      }
+    }
+  } catch {
+    // Abaikan
+  }
+  return DEFAULT_CAMERA_QUALITY_CONFIG
+}
+
+/**
+ * Menyimpan konfigurasi kualitas kamera ke localStorage
+ */
+export function saveStoredCameraQuality(config: CameraQualityConfig): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_CAMERA_QUALITY, JSON.stringify(config))
+  } catch {
+    // Abaikan
+  }
+}
+
+/**
  * Menghapus setting tersimpan dan mengembalikan ke setelan awal
  */
 export function clearStoredSettings(): void {
   try {
     localStorage.removeItem(STORAGE_KEY_WATERMARK)
     localStorage.removeItem(STORAGE_KEY_GEOTAG)
+    localStorage.removeItem(STORAGE_KEY_CAMERA_QUALITY)
   } catch {
     // Abaikan
   }

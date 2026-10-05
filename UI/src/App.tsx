@@ -15,13 +15,17 @@ import {
   saveStoredWatermark,
   loadStoredGeotag,
   saveStoredGeotag,
+  loadStoredCameraQuality,
+  saveStoredCameraQuality,
   clearStoredSettings,
   DEFAULT_WATERMARK_CONFIG,
   DEFAULT_GEOTAG_CONFIG,
+  DEFAULT_CAMERA_QUALITY_CONFIG,
 } from './utils/storage'
 import type {
   WatermarkConfig,
   GeotagDisplayConfig,
+  CameraQualityConfig,
   CapturedPhoto,
 } from './types/camera'
 
@@ -36,21 +40,14 @@ export default function App() {
   // Kamera & sensor optik hanya aktif saat berada di halaman foto (mati saat buka riwayat, review foto, atau settings)
   const isCameraActive = !isHistoryOpen && !currentPhoto && !isSettingsOpen
 
-  // Hardware & Sensor Hooks
-  const camera = useCamera({ enabled: isCameraActive })
-  const location = useGeolocation()
-  const orientation = useOrientation()
-
-  // Integrasi tombol Back fisik/gesture ponsel agar menutup modal secara bertingkat
-  useModalHistory('drawer-settings', isSettingsOpen, () => setIsSettingsOpen(false))
-  useModalHistory('modal-capture', Boolean(currentPhoto), () => setCurrentPhoto(null))
-  useModalHistory('modal-history', isHistoryOpen, () => setIsHistoryOpen(false))
-
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
 
   // Geotag Overlay Configuration State (dimuat dari localStorage saat start)
   const [geotagConfig, setGeotagConfig] = useState<GeotagDisplayConfig>(() => loadStoredGeotag())
+
+  // Camera Quality Configuration State (dimuat dari localStorage saat start, default 'auto')
+  const [cameraQualityConfig, setCameraQualityConfig] = useState<CameraQualityConfig>(() => loadStoredCameraQuality())
 
   // Simpan otomatis ke localStorage setiap kali ada perubahan konfigurasi
   useEffect(() => {
@@ -60,6 +57,23 @@ export default function App() {
   useEffect(() => {
     saveStoredGeotag(geotagConfig)
   }, [geotagConfig])
+
+  useEffect(() => {
+    saveStoredCameraQuality(cameraQualityConfig)
+  }, [cameraQualityConfig])
+
+  // Hardware & Sensor Hooks (menerima konfigurasi resolusi/kualitas target)
+  const camera = useCamera({
+    enabled: isCameraActive,
+    qualityConfig: cameraQualityConfig,
+  })
+  const location = useGeolocation()
+  const orientation = useOrientation()
+
+  // Integrasi tombol Back fisik/gesture ponsel agar menutup modal secara bertingkat
+  useModalHistory('drawer-settings', isSettingsOpen, () => setIsSettingsOpen(false))
+  useModalHistory('modal-capture', Boolean(currentPhoto), () => setCurrentPhoto(null))
+  useModalHistory('modal-history', isHistoryOpen, () => setIsHistoryOpen(false))
 
   // Muat jumlah riwayat foto di IndexedDB
   const refreshHistoryCount = useCallback(async () => {
@@ -76,6 +90,7 @@ export default function App() {
     clearStoredSettings()
     setWatermark(DEFAULT_WATERMARK_CONFIG)
     setGeotagConfig(DEFAULT_GEOTAG_CONFIG)
+    setCameraQualityConfig(DEFAULT_CAMERA_QUALITY_CONFIG)
   }, [])
 
   // Capture Trigger: Jepret foto, komposit canvas, dan simpan otomatis ke IndexedDB visitor
@@ -84,21 +99,16 @@ export default function App() {
 
     setIsCapturing(true)
     try {
-      const dataUrl = await captureAndComposite({
+      const { dataUrl, width: photoWidth, height: photoHeight } = await captureAndComposite({
         video: camera.videoRef.current,
+        videoTrack: camera.videoTrack,
         watermark,
         location,
         displayConfig: geotagConfig,
         mirror: camera.facingMode === 'user',
         rotationAngle: orientation.rotationAngle,
+        jpegTier: cameraQualityConfig.jpegTier,
       })
-
-      const rawW = camera.videoRef.current.videoWidth || 1920
-      const rawH = camera.videoRef.current.videoHeight || 1080
-      const isLandscapeOrientation = orientation.rotationAngle === 90 || orientation.rotationAngle === 270
-      const isRotated = isLandscapeOrientation && rawW < rawH
-      const photoWidth = isRotated ? rawH : rawW
-      const photoHeight = isRotated ? rawW : rawH
 
       const newPhoto: CapturedPhoto = {
         id: `photo_${Date.now()}`,
@@ -119,7 +129,7 @@ export default function App() {
     } finally {
       setIsCapturing(false)
     }
-  }, [camera, watermark, location, geotagConfig, isCapturing, orientation.rotationAngle, refreshHistoryCount])
+  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, isCapturing, orientation.rotationAngle, refreshHistoryCount])
 
   return (
     <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">
@@ -177,6 +187,9 @@ export default function App() {
         onChangeWatermark={setWatermark}
         geotagConfig={geotagConfig}
         onChangeGeotagConfig={setGeotagConfig}
+        cameraQualityConfig={cameraQualityConfig}
+        onChangeCameraQualityConfig={setCameraQualityConfig}
+        sensorInfo={camera.sensorInfo}
         onResetSettings={handleResetSettings}
       />
 

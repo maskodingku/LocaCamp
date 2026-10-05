@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import type { CameraQualityConfig, CameraQualityPreset, SensorCapabilitiesInfo } from '../types/camera'
 
 export interface CameraState {
   isStreaming: boolean
@@ -8,14 +9,52 @@ export interface CameraState {
   hasMultipleCameras: boolean
   isTorchOn: boolean
   supportsTorch: boolean
+  sensorInfo: SensorCapabilitiesInfo | null
 }
 
 export interface UseCameraOptions {
   enabled?: boolean
+  qualityConfig?: CameraQualityConfig
+}
+
+function getResolutionConstraints(preset: CameraQualityPreset = 'auto'): {
+  width: ConstrainULong
+  height: ConstrainULong
+} {
+  switch (preset) {
+    case '12mp':
+      return {
+        width: { ideal: 4000, max: 4096 },
+        height: { ideal: 3000, max: 3072 },
+      }
+    case '8mp':
+      return {
+        width: { ideal: 3264, max: 3840 },
+        height: { ideal: 2448, max: 2560 },
+      }
+    case '2mp':
+      return {
+        width: { ideal: 1920, max: 1920 },
+        height: { ideal: 1080, max: 1080 },
+      }
+    case '1mp':
+      return {
+        width: { ideal: 1280, max: 1280 },
+        height: { ideal: 720, max: 720 },
+      }
+    case 'auto':
+    default:
+      return {
+        width: { ideal: 3840, max: 4096 },
+        height: { ideal: 2160, max: 3072 },
+      }
+  }
 }
 
 export function useCamera(options: UseCameraOptions = {}) {
-  const { enabled = true } = options
+  const { enabled = true, qualityConfig } = options
+  const currentPreset = qualityConfig?.preset || 'auto'
+
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const sessionCounterRef = useRef(0)
@@ -45,6 +84,7 @@ export function useCamera(options: UseCameraOptions = {}) {
   const [hasMultipleCameras, setHasMultipleCameras] = useState(false)
   const [supportsTorch, setSupportsTorch] = useState(false)
   const [isTorchOn, setIsTorchOn] = useState(false)
+  const [sensorInfo, setSensorInfo] = useState<SensorCapabilitiesInfo | null>(null)
 
   // Check available video devices
   const checkDevices = useCallback(async () => {
@@ -88,11 +128,12 @@ export function useCamera(options: UseCameraOptions = {}) {
     }
 
     try {
+      const resolution = getResolutionConstraints(currentPreset)
       const constraints: MediaStreamConstraints = {
         video: {
           facingMode: { ideal: facingMode },
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
+          width: resolution.width,
+          height: resolution.height,
         },
         audio: false,
       }
@@ -113,11 +154,30 @@ export function useCamera(options: UseCameraOptions = {}) {
         await videoRef.current.play()
       }
 
-      // Check torch capability
+      // Check track capability & sensor info
       const videoTrack = stream.getVideoTracks()[0]
       if (videoTrack) {
         const capabilities = videoTrack.getCapabilities?.() as (MediaTrackCapabilities & { torch?: boolean }) | undefined
         setSupportsTorch(Boolean(capabilities?.torch))
+
+        if (capabilities?.width && capabilities?.height) {
+          const rawW = typeof capabilities.width === 'object' && capabilities.width.max ? capabilities.width.max : 1920
+          const rawH = typeof capabilities.height === 'object' && capabilities.height.max ? capabilities.height.max : 1080
+          const maxDim = Math.max(rawW, rawH)
+          const minDim = Math.min(rawW, rawH)
+          const totalMP = Number(((maxDim * minDim) / 1000000).toFixed(1))
+
+          setSensorInfo({
+            label: videoTrack.label || 'Kamera HP',
+            maxWidth: maxDim,
+            maxHeight: minDim,
+            maxMegapixels: Math.max(2, totalMP),
+            supports4K: maxDim >= 3840 || minDim >= 2160,
+            supports12MP: totalMP >= 10 || maxDim >= 4000,
+            supports8MP: totalMP >= 7 || maxDim >= 3000,
+            supportsImageCapture: typeof window !== 'undefined' && 'ImageCapture' in window,
+          })
+        }
       }
 
       setIsStreaming(true)
@@ -140,7 +200,7 @@ export function useCamera(options: UseCameraOptions = {}) {
         setError(`Gagal mengakses kamera: ${errorObj.message || 'Kesalahan tidak diketahui'}`)
       }
     }
-  }, [facingMode, stopStream, checkDevices])
+  }, [facingMode, currentPreset, stopStream, checkDevices])
 
   // Switch between front and back camera
   const switchCamera = useCallback(() => {
@@ -183,6 +243,7 @@ export function useCamera(options: UseCameraOptions = {}) {
 
   return {
     videoRef,
+    videoTrack: streamRef.current?.getVideoTracks()[0] ?? null,
     isStreaming,
     isLoading,
     error,
@@ -190,6 +251,7 @@ export function useCamera(options: UseCameraOptions = {}) {
     hasMultipleCameras,
     supportsTorch,
     isTorchOn,
+    sensorInfo,
     switchCamera,
     toggleTorch,
     restartCamera: startCamera,

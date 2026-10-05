@@ -2,32 +2,58 @@ import type {
   WatermarkConfig,
   GeoLocationData,
   GeotagDisplayConfig,
+  JpegQualityTier,
 } from '../types/camera'
 import { formatTimeWithTimezone } from './timezone'
 
 export interface CompositeOptions {
   video: HTMLVideoElement
+  videoTrack?: MediaStreamTrack | null
   watermark: WatermarkConfig
   location: GeoLocationData
   displayConfig: GeotagDisplayConfig
   mirror?: boolean
   rotationAngle?: 0 | 90 | 180 | 270
+  jpegTier?: JpegQualityTier
 }
 
 export async function captureAndComposite({
   video,
+  videoTrack,
   watermark,
   location,
   displayConfig,
   mirror = false,
   rotationAngle = 0,
-}: CompositeOptions): Promise<string> {
+  jpegTier = 'high',
+}: CompositeOptions): Promise<{ dataUrl: string; width: number; height: number }> {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d', { alpha: false })
   if (!ctx) throw new Error('Canvas 2D context not available')
 
-  const rawWidth = video.videoWidth || 1920
-  const rawHeight = video.videoHeight || 1080
+  // 1. Dapatkan sumber gambar berkualitas maksimal:
+  // Coba gunakan W3C ImageCapture.takePhoto() untuk mengambil still photo hardware beresolusi penuh asli sensor HP
+  let imageSource: CanvasImageSource = video
+  let rawWidth = video.videoWidth || 1920
+  let rawHeight = video.videoHeight || 1080
+
+  if (videoTrack && typeof window !== 'undefined' && 'ImageCapture' in window) {
+    try {
+      const imageCapture = new (window as unknown as {
+        ImageCapture: new (t: MediaStreamTrack) => { takePhoto: () => Promise<Blob> }
+      }).ImageCapture(videoTrack)
+      const blob = await imageCapture.takePhoto()
+      const bitmap = await createImageBitmap(blob)
+      imageSource = bitmap
+      rawWidth = bitmap.width
+      rawHeight = bitmap.height
+    } catch (err) {
+      console.debug('ImageCapture takePhoto fallback ke video frame:', err)
+      imageSource = video
+      rawWidth = video.videoWidth || 1920
+      rawHeight = video.videoHeight || 1080
+    }
+  }
 
   // Deteksi jika pengambilan foto dalam posisi landscape (90° atau 270°) saat sensor portrait
   const isLandscapeOrientation = rotationAngle === 90 || rotationAngle === 270
@@ -40,7 +66,11 @@ export async function captureAndComposite({
   canvas.width = width
   canvas.height = height
 
-  // 1. Draw Camera Frame
+  // Kualitas rendering canvas tingkat tinggi (bicubic interpolation)
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
+
+  // 2. Draw Camera Frame
   ctx.save()
   if (shouldRotateFrame) {
     ctx.translate(width / 2, height / 2)
@@ -48,25 +78,42 @@ export async function captureAndComposite({
     if (mirror) {
       ctx.scale(-1, 1)
     }
-    ctx.drawImage(video, -rawWidth / 2, -rawHeight / 2, rawWidth, rawHeight)
+    ctx.drawImage(imageSource, -rawWidth / 2, -rawHeight / 2, rawWidth, rawHeight)
   } else {
     if (mirror) {
       ctx.translate(width, 0)
       ctx.scale(-1, 1)
     }
-    ctx.drawImage(video, 0, 0, width, height)
+    ctx.drawImage(imageSource, 0, 0, width, height)
   }
   ctx.restore()
 
-  // 2. Draw Geotag Overlay (dicetak pada dimensi foto yang sudah berorientasi sejati)
+  // Tutup bitmap jika digunakan untuk membebaskan memori GPU perangkat
+  if (typeof ImageBitmap !== 'undefined' && imageSource instanceof ImageBitmap) {
+    imageSource.close?.()
+  }
+
+  // 3. Draw Geotag Overlay (dicetak pada dimensi foto yang sudah berorientasi sejati)
   drawGeotagBadge(ctx, width, height, location, displayConfig)
 
-  // 3. Draw Watermark / Logo if available
+  // 4. Draw Watermark / Logo if available
   if (watermark.imageUrl) {
     await drawWatermark(ctx, width, height, watermark)
   }
 
-  return canvas.toDataURL('image/jpeg', 0.92)
+  // Pilihan kualitas ekspor JPEG
+  const qualityMap: Record<JpegQualityTier, number> = {
+    ultra: 0.98,
+    high: 0.95,
+    medium: 0.85,
+  }
+  const exportQuality = qualityMap[jpegTier] || 0.95
+
+  return {
+    dataUrl: canvas.toDataURL('image/jpeg', exportQuality),
+    width,
+    height,
+  }
 }
 
 function drawGeotagBadge(
