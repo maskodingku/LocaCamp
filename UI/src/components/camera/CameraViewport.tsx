@@ -57,7 +57,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
   watermark,
   isLandscape = false,
 }) => {
-  const { isInstalled, installApp } = usePWAInstall()
+  const { canInstall, installApp } = usePWAInstall()
 
   return (
     <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none">
@@ -101,8 +101,8 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
 
       {/* 4. Top Minimal Bar (Controls & Status) */}
       <div className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-gradient-to-b from-black/70 via-black/30 to-transparent pointer-events-auto">
-        {/* Install App Button (Dihilangkan jika aplikasi sudah terpasang) */}
-        {!isInstalled ? (
+        {/* Install App Button (Hanya tampil jika belum terpasang dan siap diinstal) */}
+        {canInstall ? (
           <button
             type="button"
             onClick={installApp}

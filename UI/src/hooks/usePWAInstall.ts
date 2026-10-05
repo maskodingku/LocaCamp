@@ -18,10 +18,18 @@ function checkIsStandalone(): boolean {
   )
 }
 
+function checkIsIOS(): boolean {
+  if (typeof window === 'undefined') return false
+  return (
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  )
+}
+
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
 
-  // Status terpasang murni ditentukan oleh apakah jendela yang aktif adalah mode standalone
+  // Status terpasang murni ditentukan oleh mode standalone atau deteksi OS
   const [isInstalled, setIsInstalled] = useState<boolean>(() => {
     // Bersihkan flag legacy dari localStorage jika ada
     if (typeof window !== 'undefined') {
@@ -42,7 +50,21 @@ export function usePWAInstall() {
     }
     mediaQuery.addEventListener('change', handleMediaChange)
 
-    // 2. Tangkap event beforeinstallprompt (Chrome, Edge, Android)
+    // 2. Deteksi status aplikasi terpasang langsung dari sistem operasi via getInstalledRelatedApps (Chrome Android / PC)
+    if (typeof navigator !== 'undefined' && 'getInstalledRelatedApps' in navigator) {
+      ;(navigator as unknown as { getInstalledRelatedApps: () => Promise<Array<{ platform: string; id?: string; url?: string }>> })
+        .getInstalledRelatedApps()
+        .then((relatedApps) => {
+          if (Array.isArray(relatedApps) && relatedApps.length > 0) {
+            setIsInstalled(true)
+          }
+        })
+        .catch((err) => {
+          console.debug('getInstalledRelatedApps check:', err)
+        })
+    }
+
+    // 3. Tangkap event beforeinstallprompt (Chrome, Edge, Android)
     // Jika event ini ditembakkan oleh browser, artinya aplikasi BELUM terpasang di perangkat
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault()
@@ -51,7 +73,7 @@ export function usePWAInstall() {
       setIsInstalled(false)
     }
 
-    // 3. Tangkap event appinstalled ketika aplikasi sukses diinstall oleh pengguna
+    // 4. Tangkap event appinstalled ketika aplikasi sukses diinstall oleh pengguna
     const handleAppInstalled = () => {
       setIsInstalled(true)
       setDeferredPrompt(null)
@@ -82,7 +104,7 @@ export function usePWAInstall() {
       }
     } else {
       // Deteksi iOS Safari
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !('MSStream' in window)
+      const isIOS = checkIsIOS()
       if (isIOS) {
         alert(
           'Untuk memasang di iPhone/iPad:\n1. Ketuk ikon Bagikan (Share) di browser Safari\n2. Gulir dan pilih "Tambahkan ke Layar Utama" (Add to Home Screen)'
@@ -95,8 +117,15 @@ export function usePWAInstall() {
     }
   }, [deferredPrompt])
 
+  const isIOS = typeof window !== 'undefined' ? checkIsIOS() : false
+  // Tombol hanya dapat ditampilkan jika aplikasi belum terpasang dan siap diinstal:
+  // - Pada browser Chromium: jika event beforeinstallprompt aktif (menandakan aplikasi belum terpasang di HP)
+  // - Pada iOS Safari: jika belum dalam mode standalone
+  const canInstall = !isInstalled && (deferredPrompt !== null || isIOS)
+
   return {
     isInstalled,
+    canInstall,
     installApp,
     isPromptReady: Boolean(deferredPrompt),
   }
