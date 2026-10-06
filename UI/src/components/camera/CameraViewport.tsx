@@ -10,6 +10,7 @@ import {
   Download,
   Sparkles,
   Palette,
+  Camera,
 } from 'lucide-react'
 import { usePWAInstall } from '../../hooks/usePWAInstall'
 import { GeotagBadge } from '../overlay/GeotagBadge'
@@ -138,19 +139,35 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
 
       {/* 3. Error / Permission Denied State */}
       {error && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-zinc-950/95 z-30 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center mb-4">
-            <AlertTriangle className="w-7 h-7 text-rose-400" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-zinc-950/95 z-30 text-center animate-in fade-in duration-200">
+          <div
+            className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg ${
+              error.includes('tab')
+                ? 'bg-amber-500/10 border border-amber-500/30'
+                : 'bg-rose-500/10 border border-rose-500/20'
+            }`}
+          >
+            {error.includes('tab') ? (
+              <Camera className="w-7 h-7 text-amber-400" />
+            ) : (
+              <AlertTriangle className="w-7 h-7 text-rose-400" />
+            )}
           </div>
-          <h3 className="text-lg font-semibold text-white mb-2">Akses Kamera Diperlukan</h3>
-          <p className="text-sm text-zinc-400 max-w-sm mb-6 leading-relaxed">{error}</p>
+          <h3 className="text-lg font-semibold text-white mb-2">
+            {error.includes('tab') ? 'Kamera Sedang Aktif di Tab Lain' : 'Akses Kamera Diperlukan'}
+          </h3>
+          <p className="text-sm text-zinc-400 max-w-sm mb-6 leading-relaxed">
+            {error.includes('tab')
+              ? 'Kamera sedang digunakan oleh tab browser lain. Klik tombol di bawah untuk mengalihkan kamera ke tab ini.'
+              : error}
+          </p>
           <button
             type="button"
             onClick={onRestartCamera}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 active:scale-95 transition-all shadow-lg"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 active:scale-95 transition-all shadow-lg cursor-pointer"
           >
             <RefreshCw className="w-4 h-4" />
-            Coba Lagi
+            <span>{error.includes('tab') ? 'Gunakan Kamera di Tab Ini' : 'Coba Lagi'}</span>
           </button>
         </div>
       )}

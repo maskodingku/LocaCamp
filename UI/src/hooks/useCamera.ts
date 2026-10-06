@@ -67,24 +67,8 @@ export function useCamera(options: UseCameraOptions = {}) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const sessionCounterRef = useRef(0)
-
-  // Deteksi status tab / layar aktif peramban (Page Visibility API)
-  const [isTabVisible, setIsTabVisible] = useState(() =>
-    typeof document !== 'undefined' ? document.visibilityState === 'visible' : true
-  )
-
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      setIsTabVisible(document.visibilityState === 'visible')
-    }
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-    }
-  }, [])
-
-  // Kamera hanya boleh aktif jika enabled bernilai true dan tab sedang dilihat
-  const shouldStream = enabled && isTabVisible
+  const tabIdRef = useRef<string>(Math.random().toString(36).substring(2, 9))
+  const broadcastChannelRef = useRef<BroadcastChannel | null>(null)
 
   const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment')
   const [isStreaming, setIsStreaming] = useState(false)
@@ -123,12 +107,50 @@ export function useCamera(options: UseCameraOptions = {}) {
     setSupportsTorch(false)
   }, [])
 
-  // Start camera stream
-  const startCamera = useCallback(async () => {
+  // Koordinasi antar-tab: Lepaskan kamera jika ada tab LocaCamp lain yang meminta akses
+  useEffect(() => {
+    if (typeof BroadcastChannel !== 'undefined') {
+      const channel = new BroadcastChannel('locacamp_camera_sync')
+      broadcastChannelRef.current = channel
+
+      channel.onmessage = (event) => {
+        if (event.data?.type === 'CLAIM_CAMERA' && event.data.tabId !== tabIdRef.current) {
+          // Tab lain meminta kamera, lepaskan stream secara sopan
+          sessionCounterRef.current++
+          stopStream()
+          setIsLoading(false)
+        }
+      }
+
+      return () => {
+        channel.close()
+        broadcastChannelRef.current = null
+      }
+    }
+  }, [stopStream])
+
+  // Start camera stream dengan dukungan multi-tab handover & auto-retry
+  const startCamera = useCallback(async (retryCount = 0): Promise<void> => {
     const sessionId = ++sessionCounterRef.current
     setIsLoading(true)
     setError(null)
     stopStream()
+
+    // 1. Kirim sinyal ke tab lain di browser untuk melepaskan kamera jika sedang dipegang
+    if (broadcastChannelRef.current) {
+      try {
+        broadcastChannelRef.current.postMessage({
+          type: 'CLAIM_CAMERA',
+          tabId: tabIdRef.current,
+        })
+      } catch {
+        // Abaikan
+      }
+    }
+
+    // Beri jeda 120ms agar driver webcam OS/tab lain selesai melepaskan perangkat
+    await new Promise(r => setTimeout(r, 120))
+    if (sessionId !== sessionCounterRef.current) return
 
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setError('Browser Anda tidak mendukung akses kamera (getUserMedia tidak tersedia).')
@@ -216,21 +238,62 @@ export function useCamera(options: UseCameraOptions = {}) {
     } catch (err: unknown) {
       if (sessionId !== sessionCounterRef.current) return
 
+      const errorObj = err as Error
+
+      // Auto-retry jika kamera masih dalam proses pelepasan oleh tab sebelumnya (NotReadableError / TrackStartError)
+      if (
+        (errorObj.name === 'NotReadableError' || errorObj.name === 'TrackStartError') &&
+        retryCount < 2
+      ) {
+        await new Promise(r => setTimeout(r, 350))
+        if (sessionId === sessionCounterRef.current) {
+          return startCamera(retryCount + 1)
+        }
+        return
+      }
+
       setIsLoading(false)
       setIsStreaming(false)
-      const errorObj = err as Error
 
       if (errorObj.name === 'NotAllowedError' || errorObj.name === 'PermissionDeniedError') {
         setError('Akses kamera ditolak. Silakan izinkan akses kamera di setelan browser Anda.')
       } else if (errorObj.name === 'NotFoundError' || errorObj.name === 'DevicesNotFoundError') {
         setError('Kamera tidak ditemukan pada perangkat Anda.')
       } else if (errorObj.name === 'NotReadableError' || errorObj.name === 'TrackStartError') {
-        setError('Kamera sedang digunakan oleh aplikasi lain.')
+        setError('Kamera sedang digunakan oleh tab atau aplikasi lain.')
       } else {
         setError(`Gagal mengakses kamera: ${errorObj.message || 'Kesalahan tidak diketahui'}`)
       }
     }
   }, [facingMode, currentPreset, stopStream, checkDevices])
+
+  // Deteksi status tab / layar aktif peramban (Page Visibility API & Window Focus)
+  const [isTabVisible, setIsTabVisible] = useState(() =>
+    typeof document !== 'undefined' ? document.visibilityState === 'visible' : true
+  )
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsTabVisible(document.visibilityState === 'visible')
+    }
+
+    const handleFocus = () => {
+      // Saat pengguna mengklik atau berpindah ke tab ini, pastikan kamera otomatis aktif
+      if (enabled && document.visibilityState === 'visible' && !streamRef.current) {
+        startCamera()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('focus', handleFocus)
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('focus', handleFocus)
+    }
+  }, [enabled, startCamera])
+
+  // Kamera hanya boleh aktif jika enabled bernilai true dan tab sedang dilihat
+  const shouldStream = enabled && isTabVisible
 
   // Switch between front and back camera
   const switchCamera = useCallback(() => {
