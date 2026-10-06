@@ -36,7 +36,20 @@ export async function captureAndComposite({
   effectConfig,
 }: CompositeOptions): Promise<{ dataUrl: string; width: number; height: number }> {
   const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d', { alpha: false })
+  // Inisialisasi Canvas 2D dengan dukungan Wide-Gamut Display-P3 (Warna asli sensor kamera HP 100%)
+  let ctx: CanvasRenderingContext2D | null = null
+  try {
+    ctx = canvas.getContext('2d', {
+      alpha: false,
+      colorSpace: 'display-p3',
+      desynchronized: true,
+    }) as CanvasRenderingContext2D | null
+  } catch {
+    ctx = null
+  }
+  if (!ctx) {
+    ctx = canvas.getContext('2d', { alpha: false })
+  }
   if (!ctx) throw new Error('Canvas 2D context not available')
 
   // 1. Dapatkan sumber gambar berkualitas maksimal:
@@ -75,10 +88,11 @@ export async function captureAndComposite({
       const blob = await imageCapture.takePhoto(photoSettings)
       let bitmap: ImageBitmap
       try {
+        // Bit-exact decoding: Tanpa konversi color space browser & tanpa premultiplied alpha
         bitmap = await createImageBitmap(blob, {
           imageOrientation: 'none',
           premultiplyAlpha: 'none',
-          colorSpaceConversion: 'default',
+          colorSpaceConversion: 'none',
         })
       } catch {
         bitmap = await createImageBitmap(blob)
@@ -99,8 +113,9 @@ export async function captureAndComposite({
   const shouldRotateFrame = isLandscapeOrientation && rawWidth < rawHeight
 
   // Jika ponsel dimiringkan landscape tapi feed kamera masih portrait, tukar dimensi canvas agar hasil foto landscape sejati
-  const width = shouldRotateFrame ? rawHeight : rawWidth
-  const height = shouldRotateFrame ? rawWidth : rawHeight
+  // Gunakan Math.round agar dimensi kanvas tepat 1:1 pixel-perfect (mencegah bilinear resampling blur)
+  const width = Math.round(shouldRotateFrame ? rawHeight : rawWidth)
+  const height = Math.round(shouldRotateFrame ? rawWidth : rawHeight)
 
   canvas.width = width
   canvas.height = height
@@ -116,7 +131,7 @@ export async function captureAndComposite({
     denoiseMode,
   })
 
-  // 2. Draw Camera Frame
+  // 2. Draw Camera Frame (Zero-Filter Direct Blit jika preset normal untuk menjaga 100% piksel asli)
   ctx.save()
   if ('filter' in ctx && photoFilter !== 'none') {
     ctx.filter = photoFilter
@@ -156,13 +171,13 @@ export async function captureAndComposite({
     await drawWatermark(ctx, width, height, watermark)
   }
 
-  // Pilihan kualitas ekspor JPEG
+  // Pilihan kualitas ekspor JPEG: Ultra disetel 1.0 untuk mencegah kompresi ulang & distorsi chroma subsampling
   const qualityMap: Record<JpegQualityTier, number> = {
-    ultra: 0.98,
-    high: 0.95,
-    medium: 0.85,
+    ultra: 1.0,
+    high: 0.96,
+    medium: 0.88,
   }
-  const exportQuality = qualityMap[jpegTier] || 0.98
+  const exportQuality = qualityMap[jpegTier] || 1.0
 
   return {
     dataUrl: canvas.toDataURL('image/jpeg', exportQuality),

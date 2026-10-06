@@ -497,9 +497,9 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         </div>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { id: 'ultra' as const, label: 'Ultra (98%)', sub: 'Kualitas Terbaik' },
-            { id: 'high' as const, label: 'Tinggi (95%)', sub: 'Standar Optimal' },
-            { id: 'medium' as const, label: 'Sedang (85%)', sub: 'Hemat Ukuran' },
+            { id: 'ultra' as const, label: 'Ultra (100%)', sub: 'Maksimal / Pro' },
+            { id: 'high' as const, label: 'Tinggi (96%)', sub: 'Standar Optimal' },
+            { id: 'medium' as const, label: 'Sedang (88%)', sub: 'Hemat Ukuran' },
           ].map((tier) => {
             const isSelected = cameraQualityConfig.jpegTier === tier.id
             return (
