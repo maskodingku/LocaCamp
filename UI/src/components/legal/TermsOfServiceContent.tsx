@@ -145,9 +145,20 @@ export const TermsOfServiceContent: React.FC = () => {
         <p className="text-xs text-slate-400 leading-relaxed">
           Ketentuan Layanan ini diatur dan ditafsirkan sesuai dengan hukum Negara Kesatuan Republik Indonesia. Untuk pertanyaan hukum atau lisensi penggunaan perusahaan, hubungi kami di:
         </p>
-        <div className="mt-3 text-xs text-slate-300 space-y-1">
+        <div className="mt-3 text-xs text-slate-300 space-y-1.5">
           <p><strong className="text-white">Pengembang:</strong> Abdi Syahputra Harahap</p>
           <p><strong className="text-white">Email Resmi:</strong> <span className="text-emerald-400 font-mono">maskoding12@gmail.com</span></p>
+          <p>
+            <strong className="text-white">Repositori Open Source:</strong>{' '}
+            <a
+              href="https://github.com/maskodingku/LocaCamp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 font-mono break-all underline hover:text-emerald-300"
+            >
+              https://github.com/maskodingku/LocaCamp
+            </a>
+          </p>
         </div>
       </section>
     </div>

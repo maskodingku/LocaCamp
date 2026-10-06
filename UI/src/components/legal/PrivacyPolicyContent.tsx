@@ -1,5 +1,5 @@
 import React from 'react'
-import { ShieldCheck, Camera, MapPin, HardDrive, Lock, RefreshCw, Mail } from 'lucide-react'
+import { ShieldCheck, Camera, MapPin, HardDrive, Lock, Mail, Code2 } from 'lucide-react'
 
 export const PrivacyPolicyContent: React.FC = () => {
   return (
@@ -11,15 +11,40 @@ export const PrivacyPolicyContent: React.FC = () => {
             <ShieldCheck className="h-5 w-5 text-emerald-400" />
           </div>
           <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
-            Kebijakan Privasi Resmi
+            Transparansi Privasi & Keamanan Data
           </span>
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
           Kebijakan Privasi LocaCamp
         </h1>
         <p className="mt-2 text-sm text-slate-400">
-          Terakhir Diperbarui: 6 Oktober 2026 • Berlaku Efektif untuk Pengguna LocaCamp PWA
+          Terakhir Diperbarui: 6 Oktober 2026 • 100% On-Device & Open Source
         </p>
+      </div>
+
+      {/* Jaminan Inti: 100% On-Device & Open Source */}
+      <div className="rounded-2xl border border-emerald-500/30 bg-emerald-950/25 p-5 text-xs text-slate-200">
+        <div className="flex items-center gap-2 font-bold text-emerald-300 text-sm mb-2">
+          <Lock className="h-4 w-4 text-emerald-400 shrink-0" />
+          <span>Jaminan Privasi: Data Sepenuhnya Berada di Perangkat Anda Sendiri</span>
+        </div>
+        <p className="leading-relaxed text-slate-300">
+          LocaCamp dibangun dengan prinsip <strong className="text-white">Client-First & Privacy by Design</strong>. Seluruh proses pengolahan foto, komposit watermark, dan geotagging satelit dijalankan secara langsung di peramban (browser) perangkat Anda. Kami <strong className="text-white">tidak mengoperasikan server penyimpanan atau database eksternal</strong> untuk mengumpulkan foto, rekaman video, atau data lokasi Anda.
+        </p>
+        <div className="mt-3 flex items-center gap-2 pt-2 border-t border-emerald-500/20 text-emerald-300">
+          <Code2 className="h-4 w-4 shrink-0 text-slate-300" />
+          <span>
+            Kode sumber aplikasi terbuka transparan dan dapat diaudit secara bebas di{' '}
+            <a
+              href="https://github.com/maskodingku/LocaCamp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white underline hover:text-emerald-300 font-semibold inline-flex items-center gap-1"
+            >
+              GitHub (maskodingku/LocaCamp)
+            </a>
+          </span>
+        </div>
       </div>
 
       {/* 1. Pendahuluan */}
@@ -28,43 +53,43 @@ export const PrivacyPolicyContent: React.FC = () => {
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">
             1
           </span>
-          Pendahuluan & Komitmen Privasi
+          Pendahuluan & Komitmen Bebas Pelacak
         </h2>
         <p className="text-sm text-slate-300">
-          Selamat datang di <strong className="text-white">LocaCamp</strong> (aplikasi kamera cerdas web berbasis Progressive Web App untuk survei lapangan presisi). Privasi Anda adalah prioritas utama kami. Kebijakan Privasi ini menjelaskan bagaimana LocaCamp mengumpulkan, menggunakan, dan melindungi informasi Anda saat menggunakan aplikasi kamera kami.
+          Selamat datang di <strong className="text-white">LocaCamp</strong> (aplikasi kamera web Progressive Web App untuk dokumentasi teknis dan survei lapangan). Dokumen ini menguraikan bagaimana peramban perangkat Anda memproses izin perangkat secara aman dan mandiri saat Anda menggunakan fitur-fitur kamera LocaCamp.
         </p>
         <p className="text-sm text-slate-300">
-          LocaCamp beroperasi dengan prinsip <em>Client-First & Privacy by Design</em>: sebagian besar proses pemrosesan data (seperti komposit watermark, stempel koordinat geotagging satelit, dan filter visual kamera) dilakukan secara langsung di peramban (browser) perangkat Anda tanpa dikirimkan ke server pihak ketiga mana pun kecuali atas persetujuan sadar Anda saat mencadangkan ke Google Drive pribadi.
+          Aplikasi ini <strong className="text-white">bebas dari pelacak pihak ketiga (no trackers)</strong>, bebas iklan, dan tidak menyisipkan skrip analitik invasif apa pun. Tidak ada data pribadi Anda yang dikomersialkan, ditransfer, atau dipantau oleh siapa pun.
         </p>
       </section>
 
-      {/* 2. Izin Perangkat yang Digunakan */}
+      {/* 2. Penggunaan Izin Perangkat di Sisi Klien */}
       <section className="space-y-4">
         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">
             2
           </span>
-          Izin Perangkat yang Kami Akses
+          Penggunaan Izin di Perangkat Anda (100% On-Device di Browser)
         </h2>
         
         <div className="grid gap-4 sm:grid-cols-2">
           <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
             <div className="flex items-center gap-2.5 text-emerald-400 mb-2 font-medium text-sm">
               <Camera className="h-4 w-4" />
-              <span>Akses Kamera (Video Stream)</span>
+              <span>Kamera Perangkat (Video Stream)</span>
             </div>
             <p className="text-xs text-slate-400 leading-normal">
-              Digunakan semata-mata untuk menampilkan live preview jendela bidik (viewfinder) dan menjepret foto survei. Aliran video diproses langsung secara lokal di kartu grafis / kanvas peramban perangkat Anda. Kami tidak merekam atau mentransmisikan video tanpa sepengetahuan Anda.
+              Digunakan oleh mesin peramban Anda untuk menampilkan live viewfinder jendela bidik dan menangkap foto survei. Pemrosesan piksel dan rendering filter visual terjadi 100% secara lokal pada memori GPU/Canvas perangkat Anda. Aliran kamera tidak pernah dikirim ke jaringan mana pun.
             </p>
           </div>
 
           <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
             <div className="flex items-center gap-2.5 text-emerald-400 mb-2 font-medium text-sm">
               <MapPin className="h-4 w-4" />
-              <span>Sensor Lokasi GPS & Kompas</span>
+              <span>Sensor GPS & Kompas Digital</span>
             </div>
             <p className="text-xs text-slate-400 leading-normal">
-              Digunakan untuk membaca koordinat (Lintang, Bujur), akurasi sinyal, elevasi, dan arah mata angin kompas saat tombol rana ditekan, guna dicetak pada watermark resmi dan minimap foto survei. Lokasi tidak pernah dilacak secara pasif di latar belakang saat aplikasi ditutup.
+              Digunakan untuk membaca koordinat (Lintang, Bujur), akurasi sinyal, elevasi, dan arah kompas pada saat Anda menekan tombol jepret, guna dicetak langsung sebagai stempel watermark survei Anda. Aplikasi tidak pernah melacak posisi Anda secara pasif atau saat aplikasi ditutup.
             </p>
           </div>
         </div>
@@ -74,29 +99,29 @@ export const PrivacyPolicyContent: React.FC = () => {
       <section className="space-y-4 rounded-2xl border border-teal-500/30 bg-teal-950/20 p-5 sm:p-6">
         <div className="flex items-center gap-2 text-teal-300 font-semibold text-base">
           <HardDrive className="h-5 w-5 text-teal-400" />
-          <span>3. Integrasi Google Drive & Kepatuhan Kebijakan Pengguna Google</span>
+          <span>3. Integrasi Opsional Google Drive & Perlindungan Data Pengguna Google</span>
         </div>
 
         <p className="text-sm text-slate-300">
-          LocaCamp menyediakan fitur opsional pencadangan awan (cloud backup) langsung ke akun Google Drive pribadi pengguna melalui protokol OAuth 2.0 resmi Google.
+          Jika Anda memilih untuk mengaktifkan fitur pencadangan awan (cloud backup), aplikasi akan menghubungkan peramban Anda langsung ke akun Google Drive pribadi Anda melalui protokol OAuth 2.0 resmi Google.
         </p>
 
         <div className="space-y-3 rounded-xl border border-white/10 bg-slate-950/70 p-4 text-xs">
           <p className="font-semibold text-white">
-            Batasan Akses & Isolasi Folder (Drive Scope: <code>drive.file</code>):
+            Isolasi Akses Folder Tertutup (Drive Scope: <code>drive.file</code>):
           </p>
           <ul className="list-disc pl-5 space-y-1.5 text-slate-300">
             <li>
-              Aplikasi hanya meminta izin scope <code className="text-teal-300 font-mono break-all">https://www.googleapis.com/auth/drive.file</code>. Izin ini dibatasi khusus hanya pada file yang diunggah atau dibuat langsung oleh aplikasi LocaCamp.
+              Aplikasi meminta scope izin minimal <code className="text-teal-300 font-mono break-all">https://www.googleapis.com/auth/drive.file</code>. Izin ini dibatasi khusus hanya pada file yang diunggah oleh aplikasi LocaCamp.
             </li>
             <li>
-              Seluruh foto survei yang Anda pilih untuk dicadangkan otomatis disimpan ke dalam folder khusus bernama <strong className="text-white">LocaCamp Photos</strong> di Google Drive Anda.
+              Semua foto survei dicadangkan ke dalam folder khusus bernama <strong className="text-white">LocaCamp Photos</strong> di Google Drive Anda.
             </li>
             <li>
-              <strong className="text-emerald-400">Isolasi Privasi Total:</strong> LocaCamp <strong className="text-white">TIDAK BISA dan TIDAK AKAN PERNAH</strong> membaca, melihat, mengedit, mengunduh, atau menghapus berkas, folder, dokumen, spreadsheet, atau foto pribadi lainnya yang sudah ada di Google Drive Anda.
+              <strong className="text-emerald-400">Privasi Berkas Lain Terjamin:</strong> LocaCamp <strong className="text-white">TIDAK BISA dan TIDAK AKAN PERNAH</strong> membaca, melihat, mengedit, atau menghapus berkas, dokumen, spreadsheet, atau foto lain yang ada di Google Drive pribadi Anda.
             </li>
             <li>
-              <strong className="text-emerald-400">Tidak Ada Server Perantara:</strong> Unggahan foto dilakukan secara langsung (*direct peer-to-cloud*) dari peramban Anda ke server Google Cloud tanpa melalui server perantara pihak ketiga.
+              <strong className="text-emerald-400">Koneksi Langsung Tanpa Server Perantara:</strong> Unggahan dikirimkan secara langsung (*direct peer-to-cloud*) dari peramban Anda ke server Google Cloud tanpa singgah di server pihak ketiga atau server pengembang.
             </li>
           </ul>
         </div>
@@ -112,7 +137,7 @@ export const PrivacyPolicyContent: React.FC = () => {
         </div>
 
         <p className="text-xs text-slate-400">
-          Kami <strong className="text-white">tidak pernah menjual, menyewakan, atau memperjualbelikan</strong> data Google Drive pengguna, alamat email, atau foto Anda kepada pengiklan, pialang data (data broker), atau pihak ketiga mana pun.
+          Kami <strong className="text-white">tidak pernah menjual, menyewakan, atau memperjualbelikan</strong> data Google Drive pengguna, alamat email, atau foto Anda kepada pihak mana pun.
         </p>
       </section>
 
@@ -125,70 +150,69 @@ export const PrivacyPolicyContent: React.FC = () => {
           Penyimpanan Lokal (IndexedDB & LocalStorage)
         </h2>
         <p className="text-sm text-slate-300">
-          LocaCamp menggunakan teknologi basis data lokal peramban (<code className="text-emerald-300 font-mono">IndexedDB</code>) untuk menyimpan foto-foto hasil jepretan Anda secara offline di perangkat, serta <code className="text-emerald-300 font-mono">localStorage</code> untuk mengingat preferensi watermark, filter kamera, dan pengaturan antrian upload. Data ini sepenuhnya berada di bawah kendali fisik perangkat Anda.
+          Foto survei yang Anda jepret disimpan langsung di memori peramban perangkat Anda menggunakan teknologi <code className="text-emerald-300 font-mono">IndexedDB</code>, sedangkan preferensi watermark dan setelan kualitas disimpan di <code className="text-emerald-300 font-mono">localStorage</code>. Seluruh data ini tersimpan secara fisik di perangkat Anda dan dapat dihapus kapan saja melalui pengaturan peramban atau galeri riwayat.
         </p>
       </section>
 
-      {/* 5. Kontrol & Penghapusan Data */}
+      {/* 5. Kontrol & Hak Pengguna */}
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 text-xs font-bold text-emerald-400">
             5
           </span>
-          Kontrol & Hak Penghapusan Data oleh Pengguna
+          Kendali Penuh di Tangan Pengguna
         </h2>
         <div className="space-y-2 text-sm text-slate-300">
-          <p>Anda memegang kendali penuh atas data Anda setiap saat:</p>
+          <p>Anda memegang hak dan kontrol mutlak setiap saat:</p>
           <ul className="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
             <li>
-              <strong>Memutuskan Akun Google:</strong> Anda dapat mengklik tombol <em>&ldquo;Putuskan Akun&rdquo;</em> di menu Pengaturan Google Drive aplikasi kapan saja untuk mencabut token sesi seketika, atau melalui portal <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" className="text-emerald-400 underline">Izin Akun Google</a>.
+              <strong>Memutuskan Akun Google:</strong> Anda dapat mengklik tombol <em>&ldquo;Putuskan Akun&rdquo;</em> di pengaturan aplikasi kapan saja untuk mencabut sesi token secara instan.
             </li>
             <li>
-              <strong>Menghapus Riwayat Foto:</strong> Anda dapat menghapus satu per satu atau mengosongkan seluruh foto yang tersimpan di memori browser melalui tombol hapus pada Galeri Riwayat.
+              <strong>Menghapus Riwayat Foto:</strong> Anda dapat menghapus satu foto atau seluruh foto di memori peramban kapan pun melalui Galeri Riwayat.
             </li>
             <li>
-              <strong>Reset Pengaturan:</strong> Pengaturan watermark dan preferensi kamera dapat dikembalikan ke konfigurasi awal pabrik kapan saja.
+              <strong>Audit Kode Sumber:</strong> Anda dapat meninjau setiap baris logika aplikasi di repositori open source kami.
             </li>
           </ul>
         </div>
       </section>
 
-      {/* 6. Keamanan Data */}
+      {/* 6. Keamanan & Enkripsi */}
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-white flex items-center gap-2">
           <Lock className="h-5 w-5 text-emerald-400" />
-          <span>Keamanan Data</span>
+          <span>Keamanan Transmisi & Enkripsi Standar Industri</span>
         </h2>
         <p className="text-sm text-slate-300">
-          Semua transmisi data antara aplikasi dan layanan Google Drive dienkripsi menggunakan protokol aman HTTPS / TLS 1.3 standar industri perbankan dan cloud terpercaya.
+          Seluruh komunikasi antara peramban Anda dan Google API dilindungi oleh enkripsi TLS 1.3 / HTTPS standar tinggi guna mencegah penyadapan data di jaringan publik.
         </p>
       </section>
 
-      {/* 7. Perubahan Kebijakan */}
-      <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-          <RefreshCw className="h-5 w-5 text-emerald-400" />
-          <span>Pembaruan Kebijakan Privasi</span>
-        </h2>
-        <p className="text-sm text-slate-300">
-          Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu untuk menyesuaikan dengan fitur baru atau regulasi hukum yang berlaku. Tanggal pembaruan terkini akan selalu ditampilkan di bagian atas dokumen ini.
-        </p>
-      </section>
-
-      {/* 8. Hubungi Kami */}
+      {/* 7. Kontak & Keterbukaan Pengembang */}
       <section className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
         <h2 className="text-base font-semibold text-white flex items-center gap-2 mb-2">
           <Mail className="h-4 w-4 text-emerald-400" />
-          <span>Kontak & Pengembang Resmi</span>
+          <span>Pengembang & Kontak Keterbukaan</span>
         </h2>
         <p className="text-xs text-slate-400 leading-relaxed">
-          Jika Anda memiliki pertanyaan, saran, atau permintaan terkait privasi dan pengelolaan data aplikasi LocaCamp, silakan hubungi tim pengembang kami:
+          LocaCamp dikembangkan secara independen dan transparan untuk komunitas survei, pemetaan, dan dokumentasi lapangan presisi.
         </p>
-        <div className="mt-3 text-xs text-slate-300 space-y-1">
+        <div className="mt-3 text-xs text-slate-300 space-y-1.5">
           <p><strong className="text-white">Pengembang:</strong> Abdi Syahputra Harahap</p>
-          <p><strong className="text-white">Proyek:</strong> LocaCamp (Smart Geotag Camera PWA)</p>
-          <p><strong className="text-white">Email Dukungan:</strong> <span className="text-emerald-400 font-mono">maskoding12@gmail.com</span></p>
-          <p><strong className="text-white">Repositori:</strong> <span className="text-slate-400 font-mono break-all">https://github.com/maskodingku/LocaCamp</span></p>
+          <p><strong className="text-white">Proyek:</strong> LocaCamp (Smart Geotag Camera Web PWA)</p>
+          <p><strong className="text-white">Email Resmi:</strong> <span className="text-emerald-400 font-mono">maskoding12@gmail.com</span></p>
+          <p>
+            <strong className="text-white">Repositori Open Source:</strong>{' '}
+            <a
+              href="https://github.com/maskodingku/LocaCamp"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald-400 font-mono break-all underline hover:text-emerald-300"
+            >
+              https://github.com/maskodingku/LocaCamp
+            </a>
+          </p>
         </div>
       </section>
     </div>
