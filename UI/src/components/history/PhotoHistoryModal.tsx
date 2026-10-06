@@ -136,6 +136,8 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     }
   }
 
+  if (!isOpen) return null
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
       {/* Modal Container */}
