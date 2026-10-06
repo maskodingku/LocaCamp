@@ -5,6 +5,7 @@ import { LivePresetBar } from './components/camera/LivePresetBar'
 import { SettingsDrawer } from './components/settings/SettingsDrawer'
 import { CaptureModal } from './components/preview/CaptureModal'
 import { PhotoHistoryModal } from './components/history/PhotoHistoryModal'
+import { LegalPageView } from './components/legal/LegalPageView'
 import { useCamera } from './hooks/useCamera'
 import { useGeolocation } from './hooks/useGeolocation'
 import { useOrientation } from './hooks/useOrientation'
@@ -63,8 +64,40 @@ export default function App() {
   const [isCapturing, setIsCapturing] = useState(false)
   const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
 
-  // Kamera & sensor optik mati total saat membuka riwayat foto, mereview hasil jepretan, atau saat menu pengaturan dibuka
-  const isCameraActive = !isHistoryOpen && !currentPhoto && !isSettingsOpen
+  // Dynamic Path Router State (untuk /privacy dan /terms tanpa dependensi router eksternal)
+  const normalizePath = (pathname: string): string => {
+    const p = pathname.toLowerCase().replace(/\/+$/, '')
+    if (p === '/privacy' || p === '/privacy-policy') return '/privacy'
+    if (p === '/terms' || p === '/terms-of-service') return '/terms'
+    return '/'
+  }
+
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      return normalizePath(window.location.pathname)
+    }
+    return '/'
+  })
+
+  // Sinkronisasi navigasi popstate browser (tombol back/forward)
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(normalizePath(window.location.pathname))
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  const handleNavigate = useCallback((path: string) => {
+    const normalized = normalizePath(path)
+    window.history.pushState({}, '', path)
+    setCurrentPath(normalized)
+  }, [])
+
+  const isLegalPage = currentPath === '/privacy' || currentPath === '/terms'
+
+  // Kamera & sensor optik mati total saat membuka riwayat foto, mereview hasil jepretan, membuka menu pengaturan, atau sedang di halaman legal
+  const isCameraActive = !isLegalPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
@@ -176,6 +209,10 @@ export default function App() {
       setIsCapturing(false)
     }
   }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive, driveQueue])
+
+  if (isLegalPage) {
+    return <LegalPageView currentPath={currentPath} onNavigate={handleNavigate} />
+  }
 
   return (
     <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">
