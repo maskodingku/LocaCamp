@@ -5,6 +5,8 @@ import {
   SlidersHorizontal,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  X,
   HardDrive,
   AlertCircle,
   FolderSync,
@@ -162,46 +164,65 @@ export const HistoryDriveTab: React.FC<HistoryDriveTabProps> = ({ drive }) => {
   return (
     <div className="flex-1 flex flex-col min-h-0">
       {/* 1. Toolbar Kontrol: Search, Sort, Refresh */}
-      <div className="p-4 border-b border-zinc-800/80 bg-zinc-950/60 backdrop-blur-md flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-        {/* Search Bar */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari file foto di Google Drive..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-white text-xs placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500 transition-colors"
-          />
+      <div className="shrink-0 p-3 sm:px-6 sm:py-3.5 bg-zinc-950/80 border-b border-zinc-800/80 flex flex-col gap-2.5">
+        {/* Baris Atas: Search Bar & Tombol Refresh */}
+        <div className="flex items-center gap-2">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 text-zinc-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Cari file foto di Google Drive..."
+              className="w-full pl-8 sm:pl-9 pr-8 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500/80 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-0.5 rounded-full hover:bg-zinc-800 cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Tombol Refresh */}
+          <button
+            type="button"
+            onClick={fetchFiles}
+            disabled={isLoading}
+            className="flex items-center justify-center p-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 transition-all active:scale-95 cursor-pointer shrink-0"
+            title="Muat ulang daftar file Google Drive"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-emerald-400' : ''}`} />
+          </button>
         </div>
 
-        {/* Controls: Sort & Refresh */}
-        <div className="flex items-center gap-2">
-          {/* Sort Selector */}
+        {/* Baris Bawah: Sort Selector & Counter File */}
+        <div className="flex items-center justify-between gap-2">
+          {/* Custom Sleek Sort Selector */}
           <div className="relative flex items-center">
             <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 pointer-events-none" />
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value as DriveSort)}
-              className="pl-8 pr-7 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs font-medium focus:outline-none focus:border-emerald-500 transition-colors cursor-pointer appearance-none"
+              className="pl-8 pr-7 py-1 rounded-xl bg-zinc-900/90 border border-zinc-800 text-zinc-200 text-[11px] sm:text-xs font-medium focus:outline-none focus:border-emerald-500 transition-all cursor-pointer appearance-none"
             >
               <option value="newest">Terbaru</option>
               <option value="oldest">Terlama</option>
               <option value="name-asc">Nama A-Z</option>
               <option value="size-desc">Ukuran Terbesar</option>
             </select>
+            <ChevronDown className="w-3 h-3 text-zinc-400 absolute right-2 pointer-events-none" />
           </div>
 
-          {/* Refresh Button */}
-          <button
-            type="button"
-            onClick={fetchFiles}
-            disabled={isLoading}
-            className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 transition-colors cursor-pointer"
-            title="Muat ulang daftar file Google Drive"
-          >
-            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin text-emerald-400' : ''}`} />
-          </button>
+          {/* Counter File */}
+          <div className="text-[11px] text-zinc-400 font-mono shrink-0 pl-1">
+            <span className="px-2 py-0.5 rounded-lg bg-zinc-900/80 border border-zinc-800/80 text-zinc-300">
+              {filteredFiles.length} file
+            </span>
+          </div>
         </div>
       </div>
 

@@ -145,21 +145,21 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
         className="w-full max-w-4xl h-[94dvh] sm:h-[88vh] bg-zinc-950 border border-zinc-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col text-white my-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ================= MODAL HEADER ================= */}
-        <div className="shrink-0 p-3 sm:px-6 sm:py-3.5 border-b border-zinc-800 bg-zinc-950/90 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          {/* Sisi Kiri: Tab Switcher (Lokal VS Google Drive) */}
-          <div className="flex items-center gap-1.5 p-1 bg-zinc-900 border border-zinc-800 rounded-2xl self-start">
+        {/* ================= MODAL HEADER (ALWAYS SINGLE-ROW HORIZONTAL) ================= */}
+        <div className="shrink-0 px-3 py-2.5 sm:px-6 sm:py-3.5 border-b border-zinc-800/80 bg-zinc-950 flex items-center justify-between gap-2">
+          {/* Sisi Kiri: Segmented Control Tab Switcher */}
+          <div className="flex items-center gap-1 p-1 bg-zinc-900/90 border border-zinc-800 rounded-2xl shrink-0">
             <button
               type="button"
               onClick={() => setActiveTab('local')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                 activeTab === 'local'
                   ? 'bg-zinc-800 text-white shadow-sm'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              <HardDrive className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Memori Browser</span>
+              <HardDrive className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+              <span className="inline">Memori Browser</span>
               <span className="text-[10px] px-1.5 py-0.2 bg-zinc-950/80 rounded-full font-mono text-zinc-300">
                 {photos.length}
               </span>
@@ -168,41 +168,41 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('drive')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 sm:gap-2 transition-all cursor-pointer ${
                 activeTab === 'drive'
                   ? 'bg-zinc-800 text-white shadow-sm'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              <GoogleDriveIcon className="w-3.5 h-3.5" />
+              <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
               <span>Google Drive</span>
               {isDriveConnected && (
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400 shrink-0" />
               )}
             </button>
           </div>
 
-          {/* Sisi Kanan: Aksi Bersihkan Semua (Tab Lokal) & Tombol Tutup */}
-          <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+          {/* Sisi Kanan: Aksi Cepat & Tombol Tutup (Sejajar Horisontal) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {activeTab === 'local' && photos.length > 0 && (
               <button
                 type="button"
                 onClick={() => setIsClearingAll(true)}
-                className="px-2.5 py-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+                className="px-2.5 py-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
                 title="Hapus Semua Riwayat Foto Lokal"
               >
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Bersihkan</span>
+                <Trash2 className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden sm:inline">Bersihkan</span>
               </button>
             )}
 
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800/80 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-all active:scale-95 cursor-pointer"
               title="Tutup Riwayat"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
             </button>
           </div>
         </div>

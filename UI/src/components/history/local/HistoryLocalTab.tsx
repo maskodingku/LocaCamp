@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import {
   Search,
-  SlidersHorizontal,
   ArrowUpDown,
   FolderOpen,
   ChevronLeft,
@@ -95,33 +94,46 @@ export const HistoryLocalTab: React.FC<HistoryLocalTabProps> = ({
   return (
     <div className="flex-1 flex flex-col min-h-0">
       {/* 1. Toolbar Filter & Sort */}
-      <div className="shrink-0 p-2.5 sm:px-6 sm:py-3.5 bg-zinc-900/50 border-b border-zinc-800/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-2.5">
-        {/* Search Box */}
-        <div className="relative w-full sm:flex-1 sm:max-w-md">
-          <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-          <input
-            type="text"
-            placeholder="Cari lokasi, jalan, atau tanggal..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 sm:pl-9 pr-8 py-1.5 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-700/80 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500 transition-colors"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-0.5 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" />
-            </button>
-          )}
+      <div className="shrink-0 p-3 sm:px-6 sm:py-3.5 bg-zinc-950/80 border-b border-zinc-800/80 flex flex-col gap-2.5">
+        {/* Baris Atas: Search Box & Sort Toggle */}
+        <div className="flex items-center gap-2">
+          {/* Search Box */}
+          <div className="relative flex-1">
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+            <input
+              type="text"
+              placeholder="Cari lokasi, jalan, atau tanggal..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-8 sm:pl-9 pr-8 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500/80 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white p-0.5 rounded-full hover:bg-zinc-800 cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Sort Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setSortOrder((prev) => (prev === 'newest' ? 'oldest' : 'newest'))}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-900/90 border border-zinc-800 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 transition-all active:scale-95 shrink-0 cursor-pointer"
+            title={`Urutan: ${sortOrder === 'newest' ? 'Terbaru' : 'Terlama'}`}
+          >
+            <ArrowUpDown className="w-3.5 h-3.5 text-emerald-400" />
+            <span>{sortOrder === 'newest' ? 'Terbaru' : 'Terlama'}</span>
+          </button>
         </div>
 
-        {/* Filter & Sort Controls */}
-        <div className="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-0.5">
+        {/* Baris Bawah: Filter Waktu (Pills) & Counter Foto */}
+        <div className="flex items-center justify-between gap-2">
           {/* Filter Waktu Tabs */}
-          <div className="flex items-center gap-0.5 sm:gap-1 bg-zinc-900 border border-zinc-800 rounded-xl p-0.5 text-[11px] sm:text-xs text-zinc-300 shrink-0">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-zinc-400 ml-1.5 mr-0.5 hidden sm:block" />
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar py-0.5">
             {(
               [
                 { id: 'all', label: 'Semua' },
@@ -134,10 +146,10 @@ export const HistoryLocalTab: React.FC<HistoryLocalTabProps> = ({
                 key={tab.id}
                 type="button"
                 onClick={() => setTimeFilter(tab.id)}
-                className={`px-2 sm:px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                className={`px-2.5 sm:px-3 py-1 rounded-xl text-[11px] sm:text-xs font-medium transition-all shrink-0 cursor-pointer ${
                   timeFilter === tab.id
-                    ? 'bg-zinc-800 text-white font-semibold shadow'
-                    : 'hover:text-white text-zinc-400'
+                    ? 'bg-zinc-800 text-white font-semibold shadow-xs border border-zinc-700/60'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/80'
                 }`}
               >
                 {tab.label}
@@ -145,16 +157,12 @@ export const HistoryLocalTab: React.FC<HistoryLocalTabProps> = ({
             ))}
           </div>
 
-          {/* Sort Toggle */}
-          <button
-            type="button"
-            onClick={() => setSortOrder((prev) => (prev === 'newest' ? 'oldest' : 'newest'))}
-            className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-[11px] sm:text-xs font-medium text-zinc-300 hover:text-white hover:border-zinc-700 transition-all active:scale-95 shrink-0 cursor-pointer"
-            title="Urutkan Foto"
-          >
-            <ArrowUpDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400" />
-            <span>{sortOrder === 'newest' ? 'Terbaru' : 'Terlama'}</span>
-          </button>
+          {/* Counter Foto Terfilter */}
+          <div className="text-[11px] text-zinc-400 font-mono shrink-0 pl-1">
+            <span className="px-2 py-0.5 rounded-lg bg-zinc-900/80 border border-zinc-800/80 text-zinc-300">
+              {filteredPhotos.length} foto
+            </span>
+          </div>
         </div>
       </div>
 
