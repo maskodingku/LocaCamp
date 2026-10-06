@@ -3,17 +3,18 @@
   <img src="UI/public/logo.jpg" alt="LocaCamp Logo" width="160" style="border-radius: 28px; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);" />
 
   # 📸 LocaCamp
-  ### Next-Generation Geotagging Camera & Real-Time Watermarking PWA
+  ### Next-Generation Smart Geotagging Camera, Canvas Compositor & Google Drive Sync PWA
   
-  **Solusi Dokumentasi Lapangan Presisi Satelit, 100% Pemrosesan Klien, Tanpa Instalasi Aplikasi.**
+  **Platform Kamera Web Cerdas untuk Survei Lapangan, Inspeksi Teknis, Pemetaan Satelit GPS Real-Time, dan Pencadangan Awan Mandiri.**
 
   <p align="center">
     <a href="https://locacamp.pages.dev/" target="_blank"><img src="https://img.shields.io/badge/Live_Demo-locacamp.pages.dev-10b981?style=for-the-badge&logo=cloudflarepages&logoColor=white" alt="Live Demo"></a>
-    <a href="https://github.com/maskodingku/LocaCamp"><img src="https://img.shields.io/badge/Version-1.0.0-emerald?style=for-the-badge&logo=git&logoColor=white" alt="Version"></a>
+    <a href="https://github.com/maskodingku/LocaCamp"><img src="https://img.shields.io/badge/Version-2.5.0-emerald?style=for-the-badge&logo=git&logoColor=white" alt="Version"></a>
     <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19.x-blue?style=for-the-badge&logo=react&logoColor=white" alt="React 19"></a>
     <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a>
-    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-6.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"></a>
+    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-8.x-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite"></a>
     <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS"></a>
+    <img src="https://img.shields.io/badge/Google_Drive-OAuth_2.0_Sync-4285F4?style=for-the-badge&logo=googledrive&logoColor=white" alt="Google Drive Sync">
     <img src="https://img.shields.io/badge/Privacy-100%25_Client_Side-success?style=for-the-badge&logo=shield&logoColor=white" alt="Privacy">
     <img src="https://img.shields.io/badge/PWA-Ready-orange?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA Ready">
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="MIT License"></a>
@@ -21,92 +22,111 @@
 
   <p align="center">
     <a href="https://locacamp.pages.dev/" target="_blank">
-      <img src="https://img.shields.io/badge/🚀_Akses_Live_Demo_Aplikasi-https%3A%2F%2Flocacamp.pages.dev-059669?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Akses Live Demo">
+      <img src="https://img.shields.io/badge/🚀_Buka_Kamera_PWA-https%3A%2F%2Flocacamp.pages.dev-059669?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Buka Kamera">
+    </a>
+    <a href="https://locacamp.pages.dev/home" target="_blank">
+      <img src="https://img.shields.io/badge/🏠_Halaman_Beranda_Resmi-https%3A%2F%2Flocacamp.pages.dev%2Fhome-0284c7?style=for-the-badge&logo=googlecloud&logoColor=white" alt="Beranda Resmi">
     </a>
   </p>
 
   <p align="center">
-    <a href="#-akses-live-demo-produksi">Live Demo</a> •
+    <a href="#-akses-live-demo--tautan-resmi">Tautan Resmi</a> •
     <a href="#-sekilas-tentang-locacamp">Tentang</a> •
-    <a href="#-keunggulan--fitur-utama">Fitur Utama</a> •
+    <a href="#-fitur-fitur-utama--kapabilitas-teknis">Fitur Utama</a> •
     <a href="#-arsitektur-dan-alur-kerja">Arsitektur</a> •
     <a href="#-tech-stack">Tech Stack</a> •
     <a href="#-struktur-direktori">Struktur Folder</a> •
     <a href="#-panduan-instalasi--menjalankan">Instalasi</a> •
-    <a href="#-profil-pengembang--dedikasi-resmi">Pengembang</a>
+    <a href="#-profil-pengembang--dedikasi-resmi">Profil Pengembang</a> •
+    <a href="#-kepatuhan-kebijakan-data-pengguna-google">Kepatuhan Google</a>
   </p>
 </div>
 
 ---
 
-## 🌐 Akses Live Demo Produksi
+## 🌐 Akses Live Demo & Tautan Resmi
 
-Aplikasi **LocaCamp** telah dipublikasikan dan aktif secara global di jaringan edge Cloudflare Pages. Anda dapat langsung menguji coba seluruh kapabilitas fitur secara langsung melalui peramban ponsel pintar maupun komputer tanpa instalasi aplikasi tambahan:
+Aplikasi **LocaCamp** telah di-deploy dan berjalan aktif secara global melalui jaringan edge CDN Cloudflare Pages. Anda dapat langsung menguji seluruh fitur kamera, geotagging satelit, filter visual, dan sinkronisasi Google Drive tanpa instalasi aplikasi pihak ketiga:
 
-🔗 **Tautan Live Demo**: [**https://locacamp.pages.dev**](https://locacamp.pages.dev/)
-
-> [!TIP]
-> **Panduan Pengujian Optimal**:
-> 1. Buka tautan di atas melalui peramban mobile (seperti **Google Chrome** di Android atau **Safari** di iOS).
-> 2. Izinkan permintaan **Akses Kamera** dan **Akses Lokasi (GPS)** agar sistem satelit dapat mendeteksi koordinat dan menerjemahkan alamat jalan secara real-time.
-> 3. Anda juga dapat menekan tombol **Install App** yang muncul di bagian atas kamera untuk memasang LocaCamp langsung ke layar utama (*homescreen*) sebagai **Progressive Web App (PWA)** mandiri.
+| Layanan | URL Publik | Deskripsi |
+| :--- | :--- | :--- |
+| 📸 **Aplikasi Kamera Utama (PWA)** | [**https://locacamp.pages.dev/**](https://locacamp.pages.dev/) | Kamera geotagging real-time, komposit watermark, dan riwayat offline. |
+| 🏠 **Beranda Resmi (Official Homepage)** | [**https://locacamp.pages.dev/home**](https://locacamp.pages.dev/home) | Halaman beranda resmi kepemilikan pengembang sesuai panduan Google Cloud (answer/13807376). |
+| 🛡️ **Kebijakan Privasi (Privacy Policy)** | [**https://locacamp.pages.dev/privacy**](https://locacamp.pages.dev/privacy) | Klausul kepatuhan Google User Data Policy (Limited Use), jaminan 100% on-device, tanpa pelacak. |
+| 📄 **Ketentuan Layanan (Terms of Service)** | [**https://locacamp.pages.dev/terms**](https://locacamp.pages.dev/terms) | Syarat & ketentuan lisensi MIT, integritas data survei, dan batasan tanggung jawab. |
+| 💻 **Repositori Kode Sumber Terbuka** | [**https://github.com/maskodingku/LocaCamp**](https://github.com/maskodingku/LocaCamp) | Kode sumber lengkap, terbuka, dan transparan untuk audit keamanan. |
 
 ---
 
 ## 🌟 Sekilas Tentang LocaCamp
 
-**LocaCamp** adalah platform kamera web modern (*Progressive Web Application*) yang dirancang khusus untuk memvalidasi dan mengotomatisasi dokumentasi lapangan secara real-time. Dengan menggabungkan teknologi kamera peramban, sensor GPS berakurasi tinggi, *reverse geocoding*, *hardware orientation sensing*, dan *client-side canvas rendering engine*, **LocaCamp** menghasilkan foto dokumentasi berstandar industri lengkap dengan stempel lokasi presisi dan logo resmi tanpa memerlukan instalasi aplikasi tambahan (APK/App Store).
+**LocaCamp** adalah platform kamera web modern (*Progressive Web Application*) yang dirancang khusus untuk memvalidasi dan mengotomatisasi dokumentasi lapangan secara instan. Menggabungkan sensor optik kamera, sensor GPS satelit presisi tinggi, *reverse geocoding* alamat jalan, *hardware orientation sensing*, rendering kanvas Display P3 bergamut warna lebar, dan sinkronisasi peer-to-cloud ke Google Drive, **LocaCamp** menghasilkan foto dokumentasi berstandar industri dengan stempel lokasi presisi dan logo resmi instansi tanpa memerlukan instalasi aplikasi manual (APK/App Store).
 
-Semua proses pengolahan gambar dan penyimpanan riwayat foto berlangsung **100% di sisi perangkat pengguna (client-side)** tanpa mengirim foto mentah ke server eksternal, menjamin privasi maksimal, nol latensi upload, dan efisiensi kuota data.
+Semua pemrosesan citra komposit dan penyimpanan riwayat berlangsung **100% di sisi perangkat pengguna (client-side)** tanpa server perantara pengumpul data, menjamin privasi absolut, nol latensi upload, dan kebebasan penggunaan saat berada di lapangan terpencil.
 
 ---
 
-## ✨ Keunggulan & Fitur Utama
+## ✨ Fitur-Fitur Utama & Kapabilitas Teknis
 
-### 1. 🛰️ Geotagging Live Presisi Tinggi & Reverse Geocoding
-- **Koordinat Satelit Real-time**: Menampilkan garis lintang (*latitude*) dan garis bujur (*longitude*) dengan akurasi 5 desimal.
-- **Indikator Akurasi GPS**: Menghitung dan menampilkan toleransi radius akurasi satelit dalam satuan meter secara dinamis.
-- **Reverse Geocoding Terintegrasi**: Mengonversi titik koordinat mentah menjadi nama jalan, kelurahan, kecamatan, kota, hingga provinsi secara otomatis.
-- **Zona Waktu Otomatis**: Mendeteksi secara cerdas zona waktu setempat (**WIB**, **WITA**, **WIT**, atau GMT) berdasarkan bujur posisi pemotretan.
-- **Tombol Kalibrasi Ulang (Refresh GPS)**: Pengguna dapat menyegarkan koordinat GPS secara manual langsung dari antarmuka kamera jika posisi berpindah.
+### 1. 🛰️ Geotagging Satelit Presisi & Mini Map Satelit
+- **Koordinat Satelit Real-time**: Menampilkan Lintang (*Latitude*), Bujur (*Longitude*), Elevasi (*Altitude*), dan Tingkat Akurasi GPS (dalam radius meter).
+- **Arah Kompas Presisi (Heading/Azimuth)**: Menampilkan orientasi arah mata angin kamera derajat secara langsung.
+- **Penyematan Mini Map Satelit Terintegrasi**: Menyematkan cuplikan visual peta satelit Google Maps langsung pada stempel kanvas foto survei dengan sistem failover subdomain otomatis.
+- **Reverse Geocoding Terbalik**: Menerjemahkan titik koordinat mentah menjadi nama jalan, kelurahan, kecamatan, kota, hingga provinsi secara otomatis.
+- **Zona Waktu Cerdas**: Mendeteksi otomatis zona waktu setempat (**WIB**, **WITA**, **WIT**, atau GMT) berdasarkan bujur posisi pemotretan.
+- **Penempatan 9 Titik Kuadran**: Fleksibilitas menentukan posisi stempel geotag di 9 area layar (Kiri Atas, Tengah Atas, Kanan Atas, Kiri Tengah, Tengah Layar, Kanan Tengah, Kiri Bawah, Tengah Bawah, Kanan Bawah).
 
-### 2. 📸 Hardware Camera Controls & Ergonomic Shutter
-- **Dukungan Multi-Lensa**: Beralih instan antara kamera belakang (*environment/wide*) dan kamera depan (*selfie*) dengan koreksi *auto-mirror*.
-- **Kontrol Senter (Torch/Flashlight)**: Mengaktifkan lampu senter perangkat langsung dari peramban untuk pengambilan foto di area gelap atau malam hari.
-- **Deteksi Orientasi Fisik Cerdas (Gyro & Accelerometer)**:
-  - **Tata Letak Adaptif Landscape**: Saat ponsel diputar ke orientasi mendatar, tombol shutter dan kontrol aksi otomatis berpindah ke sisi kanan layar, memberikan pengalaman ergonomis untuk jempol layaknya kamera digital profesional.
-  - **Stabilisasi Watermark Anti-Guncang**: Watermark dan badge lokasi terkunci kokoh pada orientasi sudut baku (0°, 90°, 180°, 270°) dan tidak berputar liar saat perangkat mengalami kemiringan kecil.
+### 2. ☁️ Pencadangan Awan Google Drive Mandiri (OAuth 2.0 Client-Side)
+- **Koneksi 1-Klik Instan**: Terintegrasi langsung dengan Google OAuth 2.0 Client resmi tanpa mengharuskan pengguna mengisi formulir Client ID yang rumit.
+- **Scope Akses Minimal (`drive.file`)**: Aplikasi hanya meminta izin `https://www.googleapis.com/auth/drive.file` yang dibatasi khusus untuk file yang dibuat oleh LocaCamp.
+- **Isolasi Folder Otomatis**: Seluruh foto survei otomatis disimpan ke folder khusus bernama **LocaCamp Photos** di Google Drive pribadi pengguna tanpa mengakses folder/dokumen lain.
+- **Sistem Antrian Unggah (Queue Worker)**: Dilengkapi worker antrian latar belakang dengan kontrol kapasitas pengunggahan serentak (*bulk queue concurrency*).
+- **Auto-Upload Setelah Jepret**: Opsi otomatis memasukkan foto yang baru saja dijepret ke dalam antrian unggah Google Drive.
+- **Indikator & Notifikasi Status**:
+  - Tombol aksi cepat *"Unggah X Foto Tertunda"* jika ada foto lokal yang belum dicadangkan ke Google Drive.
+  - Tanda badge ikon Google Drive hijau pada kartu foto yang telah berhasil diunggah.
+  - Animasi progress bar dan penghitung persentase unggahan real-time.
+- **Galeri Riwayat Dua Tab**: Tab 1 *Penyimpanan Browser (IndexedDB)* dan Tab 2 *Google Drive* untuk peninjauan foto awan.
 
-### 3. 🎨 Kustomisasi Watermark Logo & Teks Fleksibel
-- **Logo Resmi Bawaan**: Logo resmi perusahaan (**PT Wahana Mitra Amerta**) dan logo konsep LocaCamp telah tertanam secara bawaan.
-- **Unggah Logo Kustom**: Pengguna dapat mengunggah logo perusahaan atau proyek sendiri dengan kompresi cerdas otomatis di browser.
-- **Penempatan 4 Sudut**: Pilih posisi peletakan logo (Kiri Atas, Kanan Atas, Kiri Bawah, Kanan Bawah).
-- **Pengaturan Proporsi & Transparansi**: Atur ukuran logo (Kecil, Sedang, Besar) dan tingkat opasitas (0% hingga 100%).
-- **Pengaturan Ukuran Tulisan Lokasi**: Opsi ukuran tulisan geotag (Kecil, Sedang, Besar) dengan nilai *default* yang rapi dan tidak menutupi objek foto.
-- **Penyimpanan Setelan Otomatis (Auto-Save)**: Semua preferensi disimpan di `localStorage` peramban dan tersedia opsi **Reset Default** untuk mengembalikan setelan ke awal pabrikan kapan saja.
+### 3. 📷 Hardware Camera Engine, Display P3 & Sensor Kualitas Tinggi
+- **Pilihan Resolusi Sensor Kamera**: Mendukung pemilihan resolusi sensor dari *Auto Max Sensor*, *12 MP*, *24 MP*, *48 MP*, *50 MP*, hingga *108 MP* ultra-tajam.
+- **JPEG Quality Tiers**: 4 tingkatan kompresi visual: Standar (85%), Tajam (95%), Ultra HD (98%), dan Lossless P3 (100%).
+- **Wide Gamut Color & Display P3 Engine**: Render kanvas memanfaatkan ruang warna lebar Display P3 untuk mempertahankan kekayaan warna asli sensor kamera tanpa degradasi saturasi.
+- **Algoritma Denoise & Penjernih Foto**: Algoritma penghalus derau otomatis untuk menjaga kejernihan foto saat pemotretan dalam kondisi cahaya rendah (*low-light*).
+- **Live Visual Presets & Finetuning**:
+  - 6 preset warna real-time: *Standard*, *Vivid*, *Warm*, *Cold*, *Monochrome*, dan *Golden Hour*.
+  - Slider penyesuaian langsung: Kecerahan (*Brightness*), Kontras (*Contrast*), dan Kejenuhan (*Saturation*).
+- **Mode Cermin Kamera (Mirror Mode)**: Saklar mode cermin untuk kamera depan dan kamera belakang dengan sinkronisasi framing *What You See Is What You Get (WYSIWYG)*.
+- **Kontrol Senter (Torch) & Multi-Lensa**: Mengaktifkan lampu senter perangkat dan beralih kamera depan/belakang secara instan.
 
-### 4. ⚡ 100% Client-Side Canvas Compositor
-- **Zero Server Overhead**: Penggabungan foto kamera, stempel geotag, badge alamat, dan watermark logo dieksekusi menggunakan **HTML5 Canvas 2D Engine** berkecepatan tinggi di browser pengguna.
-- **Output Beresolusi Tinggi (FHD/4K)**: Gambar hasil jepretan mempertahankan ketajaman asli sensor kamera perangkat.
-- **Unduh & Berbagi Cepat**: Dilengkapi fitur *one-click download* serta integrasi **Web Share API** untuk membagikan foto beserta koordinat langsung ke WhatsApp, Telegram, email, atau drive.
+### 4. 🎨 Kustomisasi Watermark Logo & Transparansi Live
+- **Logo Resmi Bawaan**: Logo resmi perusahaan (**PT Wahana Mitra Amerta**) dan konsep resmi LocaCamp telah tertanam bawaan.
+- **Unggah Logo Kustom**: Pengguna dapat mengunggah logo perusahaan atau proyek sendiri dengan auto-resize & kompresi di peramban.
+- **Mode Transparan Live Pratinjau**: Saat pengguna menggeser slider pengaturan watermark, tampilan kamera tetap aktif dan transparan (*transparent live preview*) sehingga perubahan dapat dilihat langsung tanpa menutup menu.
+- **Penempatan Sudut & Opasitas**: Atur posisi logo di 4 sudut layar dengan slider transparansi dari 0% hingga 100%.
 
-### 5. 🗄️ Riwayat Foto Offline Terintegrasi (IndexedDB Storage)
-- **Penyimpanan Lokal Mandiri**: Setiap foto yang dijepret secara otomatis tersimpan di database lokal browser pengguna (**IndexedDB**), tidak membebani memori `localStorage` dan tidak memerlukan koneksi internet.
-- **Pencarian Cerdas**: Pencarian instan berbasis teks nama jalan, kota, koordinat, maupun tanggal pemotretan.
-- **Filter Waktu & Urutan**: Filter rentang waktu (*Semua*, *Hari Ini*, *7 Hari Terakhir*, *Bulan Ini*) serta tombol sortir (*Terbaru* / *Terlama*).
-- **Pagination Elegan**: Pembagian halaman rapi (6 foto per halaman) dengan penghitung total item.
-- **Fullscreen Photo Inspect**: Pratinjau foto utuh dengan kemampuan unduh ulang resolusi asli kapan saja.
-- **Manajemen Aman**: Hapus foto individual atau bersihkan seluruh galeri dengan dialog konfirmasi aman.
+### 5. 🗄️ Riwayat Foto Offline Cerdas (IndexedDB Storage)
+- **Penyimpanan Lokal Mandiri**: Seluruh hasil jepretan disimpan di database `IndexedDB` perangkat pengguna, tidak membebani kuota `localStorage` dan tidak membutuhkan internet.
+- **Gestur Sentuh Dua Jari (Pinch-to-Zoom & Pan)**: Perbesar foto inspeksi hingga 4x zoom dan geser posisi untuk memeriksa detail lapangan terkecil.
+- **Gestur Usap (Swipe Gestures)**: Navigasi geser jari ke kiri atau kanan untuk berpindah antar foto dalam mode layar penuh.
+- **Pure Fullscreen Mode**: Mode layar penuh murni tanpa elemen navigasi dengan ketukan layar (*tap to toggle toolbar*).
+- **Pencarian Cerdas & Filter Waktu**: Pencarian cepat berbasis nama jalan, koordinat, atau tanggal serta filter rentang (*Hari Ini*, *7 Hari*, *Bulan Ini*).
 
-### 6. 📱 Navigasi Ponsel Alami (Native Mobile Back Button Support)
-- **Modal History Stack Terintegrasi**: Mengintegrasikan `window.history` dan event `popstate` peramban.
-- **Navigasi Bertingkat (Hierarchical Back)**: Menekan tombol *Back* fisik ponsel atau gestur usap tepi layar pada Android/iOS akan menutup layer teratas secara berjenjang (*Pratinjau Penuh → Galeri Riwayat → Kamera Utama*), mencegah aplikasi tertutup mendadak secara tidak sengaja.
-- **Sinkronisasi Dua Arah**: Tombol di layar ('X', 'Kembali', 'Batal') dan tombol fisik ponsel tersinkronisasi sempurna tanpa konflik riwayat.
+### 6. 🔋 Manajemen Hardware & Smart Multi-Tab Broadcaster
+- **Deteksi Multi-Tab Otomatis (`BroadcastChannel`)**: Jika pengguna membuka LocaCamp di tab peramban baru, tab sebelumnya secara otomatis mematikan kamera untuk mencegah konflik akses hardware dan menjaga performa perangkat.
+- **Hemat Daya Hardware (Power Saving)**: Sensor kamera optik otomatis **dimatikan total** saat pengguna membuka menu Pengaturan (*Settings Drawer*), galeri riwayat foto, modal review foto, dialog syarat ketentuan, maupun halaman beranda statis.
 
-### 7. 🚀 Progressive Web Application (PWA)
-- **Instalasi Satu Klik**: Tombol pasang aplikasi langsung di layar kamera peramban untuk pengguna Android, Windows, Mac, dan iOS.
-- **Mode Standalone**: Berjalan dalam jendela aplikasi mandiri tanpa *address bar* peramban, memberikan sensasi aplikasi *native*.
-- **Offline Capable**: *Service Worker* dan aset statis siap pakai bahkan saat berada di pedalaman tanpa sinyal internet.
+### 7. 📱 Navigasi Mobile Native & Progressive Web App (PWA)
+- **Dukungan Tombol Back Fisik Ponsel**: Integrasi `window.history` dan event `popstate` berjenjang (*Fullscreen Inspect → Riwayat Foto → Kamera Utama*).
+- **Tata Letak Adaptif Landscape**: Saat ponsel diputar mendatar, kontrol shutter otomatis berpindah ke sisi kanan layar untuk kenyamanan genggaman jempol.
+- **Instalasi PWA 1-Klik**: Dapat dipasang ke layar utama ponsel (Android & iOS) dan desktop (Windows, Mac, Linux) tanpa melalui toko aplikasi.
+- **Offline Capable**: *Service Worker* dan aset statis siap beroperasi sepenuhnya meski tanpa koneksi internet.
+
+### 8. ⚖️ Kepatuhan Legal & Transparansi Google Cloud Platform
+- **Halaman Beranda Resmi (`/home`)**: Mengikuti panduan resmi Google Cloud [App Homepage (answer/13807376)](https://support.google.com/cloud/answer/13807376) dengan verifikasi identitas resmi pengembang **Abdi Syahputra Harahap** dan email dukungan **Anggista Parasela**.
+- **Klausul Limited Use Google API**: Menegaskan kepatuhan penuh terhadap *Google API Services User Data Policy*.
+- **Modal Persetujuan Syarat & Ketentuan**: Konfirmasi izin legal saat pertama kali pengguna membuka aplikasi dengan penyimpanan status lokal aman.
+- **Verifikasi Domain GSC**: Integrasi file verifikasi HTML dan meta tag Google Site Verification.
 
 ---
 
@@ -114,29 +134,41 @@ Semua proses pengolahan gambar dan penyimpanan riwayat foto berlangsung **100% d
 
 ```mermaid
 flowchart TD
-    A[Pengguna Akses LocaCamp via Browser / PWA] --> B[Inisialisasi Hardware Sensor]
-    B --> C[Sensor Kamera Depan/Belakang]
-    B --> D[Sensor GPS Satelit & Reverse Geocoding]
-    B --> E[Sensor Orientasi Device - Gyro/Acc]
-    
-    C --> F[Live Viewport dengan Badge Geotag & Watermark]
-    D --> F
-    E --> F
-    
-    F -->|Tekan Tombol Shutter| G[Capture Frame Kamera]
-    G --> H[Client-Side Canvas Compositor Engine]
-    H -->|Komposit Foto + Geotag + Logo + Timezone| I[Hasil Foto HD Terkomposit]
-    
-    I --> J[Simpan Otomatis ke IndexedDB Lokal]
-    I --> K[Modal Review Foto & Tombol Unduh / Bagikan]
-    
-    J --> L[Galeri Riwayat Foto Terintegrasi]
-    L -->|Pencarian, Filter Waktu, Sortir, Pagination| M[Fullscreen Photo Inspect & Re-Download]
-    
+    A[Pengguna Membuka LocaCamp PWA] --> B{Persetujuan Syarat & Ketentuan}
+    B -->|Belum Setuju| C[Modal Syarat & Ketentuan Wajib]
+    C -->|Tolak| D[Keluar Halaman / Kamera Mati]
+    C -->|Setuju| E[Inisialisasi Sensor & Hardware Kamera]
+    B -->|Sudah Setuju| E
+
+    E --> F[Sensor Kamera Depan/Belakang]
+    E --> G[Sensor GPS Satelit & Compass Heading]
+    E --> H[Google Maps Satellite Mini Map Engine]
+    E --> I[Sensor Orientasi Device Gyro/Acc]
+
+    F --> J[Live Viewport Kamera 60FPS Display P3]
+    G --> J
+    H --> J
+    I --> J
+
+    J -->|Tekan Tombol Shutter| K[Ambil Frame Kamera Resolusi Asli]
+    K --> L[Client-Side Canvas Compositor Engine]
+    L -->|Komposit: Foto + Geotag + Mini Map + Logo + Denoise| M[Hasil Foto HD Terkomposit]
+
+    M --> N[Simpan Otomatis ke IndexedDB Lokal]
+    M --> O{Pengaturan Auto-Upload Google Drive?}
+    O -->|Aktif| P[Queue Worker: Upload ke Folder LocaCamp Photos]
+    O -->|Non-aktif| Q[Modal Review Foto: Unduh / Bagikan / Upload Manual]
+
+    P --> R[Google Drive Pribadi Pengguna - Peer to Cloud]
+    N --> S[Galeri Riwayat Foto Terintegrasi]
+    S --> T[Tab 1: Browser Storage & Pinch-Zoom]
+    S --> U[Tab 2: Manajemen Google Drive Cloud]
+
     style A fill:#064e3b,stroke:#10b981,color:#fff
-    style H fill:#0f172a,stroke:#38bdf8,color:#fff
-    style I fill:#065f46,stroke:#34d399,color:#fff
-    style J fill:#1e1b4b,stroke:#818cf8,color:#fff
+    style L fill:#0f172a,stroke:#38bdf8,color:#fff
+    style M fill:#065f46,stroke:#34d399,color:#fff
+    style P fill:#1e1b4b,stroke:#818cf8,color:#fff
+    style R fill:#1e3a8a,stroke:#60a5fa,color:#fff
 ```
 
 ---
@@ -145,15 +177,16 @@ flowchart TD
 
 | Kategori | Teknologi | Deskripsi |
 | :--- | :--- | :--- |
-| **Frontend Framework** | **React 19** + **TypeScript** | Arsitektur komponen modular dengan *strict type safety* tingkat tinggi. |
-| **Build Tool & Bundler** | **Vite 6** | *Lightning-fast HMR* dan hasil build teroptimasi dengan kompresi gzip. |
-| **Styling & Theme** | **Tailwind CSS v4** | Desain antarmuka *Dark Mode* ultra-modern bergaya Linear / Vercel. |
-| **Iconography** | **Lucide React** | Ikon vektor presisi dan konsisten. |
-| **Grafis & Pengolahan** | **HTML5 Canvas 2D API** | Pemrosesan citra komposit resolusi tinggi secara *real-time* di sisi klien. |
-| **Penyimpanan Klien** | **IndexedDB** & **LocalStorage** | Database terstruktur lokal untuk riwayat foto dan persistensi konfigurasi. |
-| **Aplikasi Native (PWA)** | **Web App Manifest + Service Worker** | Standalone web app yang dapat diinstal langsung ke layar utama ponsel. |
-| **Local Deployment** | **Node.js ESM (`app.js`)** | Server lokal berbasis Express ringan untuk menyajikan aplikasi produksi. |
-| **Cloud Deployment** | **Cloudflare Pages** | Platform *edge hosting* global dengan auto-deploy terhubung ke branch main. |
+| **Frontend Framework** | **React 19** + **TypeScript** | Arsitektur komponen modular (*Anti-Monolith*) dengan keamanan tipe ketat. |
+| **Build Tool & Bundler** | **Vite 8** | Bundler ultra cepat dengan *Hot Module Replacement* dan optimasi gzip. |
+| **Styling & Desain** | **Tailwind CSS v4** | Desain antarmuka *Dark Mode* modern berestetika tinggi dan responsif ponsel. |
+| **Icon Library** | **Lucide React** | Ikon vektor presisi dan konsisten di seluruh antarmuka. |
+| **Mesin Grafis & Render** | **HTML5 Canvas 2D API (Display P3)** | Pemrosesan citra resolusi tinggi, minimap, dan komposit watermark di browser. |
+| **Penyimpanan Lokal** | **IndexedDB & LocalStorage** | Database terstruktur lokal untuk riwayat foto survei dan konfigurasi. |
+| **Integrasi Cloud** | **Google Drive REST API v3 (OAuth 2.0)** | Unggah peer-to-cloud langsung ke folder terisolasi pengguna tanpa server perantara. |
+| **PWA & Offline** | **Web App Manifest + Service Worker** | Aplikasi mandiri yang dapat dipasang di Android, iOS, Windows, dan MacOS. |
+| **Local Web Server** | **Node.js ESM (`app.js`)** | Server lokal Express statis ringan dengan proteksi directory traversal & routing SPA. |
+| **Cloud Deployment** | **Cloudflare Pages** | Hosting edge global dengan auto-deploy terhubung ke cabang `main` GitHub. |
 
 ---
 
@@ -161,37 +194,45 @@ flowchart TD
 
 ```text
 LocaCamp/
-├── UI/                         # Source code antarmuka utama (React 19 + TypeScript + Vite)
-│   ├── public/                 # Aset statis peramban (favicon, logo, manifest, service worker)
+├── UI/                                 # Sumber kode antarmuka aplikasi (React 19 + TypeScript + Vite 8)
+│   ├── public/                         # Aset publik statis (favicon, logo, manifest, service worker, verifikasi GSC)
 │   ├── src/
-│   │   ├── assets/             # Aset grafis aplikasi, logo resmi, dan foto profil
+│   │   ├── assets/                     # Grafis aplikasi, logo resmi, dan foto profil pengembang
 │   │   ├── components/
-│   │   │   ├── camera/         # Viewport kamera, tombol shutter, dan kontrol torch
-│   │   │   ├── history/        # Modal riwayat foto, filter, pagination, dan inspect view
-│   │   │   ├── overlay/        # Geotag badge, watermark layer, dan status satelit
-│   │   │   ├── preview/        # Modal review foto jepretan dan unduh HD
-│   │   │   └── settings/       # Drawer pengaturan, kustomisasi logo, dan menu about
+│   │   │   ├── camera/                 # Viewport kamera, tombol shutter, dan kontrol flash
+│   │   │   ├── history/                # Modal riwayat foto, antrian Drive, tab local/cloud, zoom
+│   │   │   ├── home/                   # Komponen modular halaman beranda resmi (/home)
+│   │   │   ├── legal/                  # Komponen kebijakan privasi (/privacy) & syarat layanan (/terms)
+│   │   │   ├── overlay/                # Geotag badge, watermark layer, minimap, status satelit
+│   │   │   ├── preview/                # Modal review foto jepretan, unduh, dan bagikan
+│   │   │   └── settings/               # Drawer pengaturan kamera, watermark, denoise, Google Drive
 │   │   ├── hooks/
-│   │   │   ├── useCamera.ts         # Hook kontrol kamera dan resolusi stream
-│   │   │   ├── useGeolocation.ts    # Hook GPS satelit dan reverse geocoding
-│   │   │   ├── useModalHistory.ts   # Hook navigasi tombol back ponsel (popstate)
-│   │   │   ├── useOrientation.ts    # Hook sensor orientasi fisik (portrait/landscape)
-│   │   │   └── usePWAInstall.ts     # Hook prompt instalasi aplikasi PWA
-│   │   ├── types/                   # Definisi interface dan tipe data TypeScript
+│   │   │   ├── useCamera.ts            # Hook kontrol stream kamera, resolusi, cermin, dan senter
+│   │   │   ├── useGeolocation.ts       # Hook sensor GPS satelit, akurasi, dan reverse geocoding
+│   │   │   ├── useGoogleDrive.ts       # Hook integrasi Google Drive OAuth 2.0 & status sesi
+│   │   │   ├── useGoogleDriveQueue.ts  # Hook queue worker antrian unggah latar belakang
+│   │   │   ├── useModalHistory.ts      # Hook navigasi tombol back ponsel (popstate)
+│   │   │   ├── useOrientation.ts       # Hook sensor orientasi fisik (portrait/landscape)
+│   │   │   └── usePWAInstall.ts        # Hook prompt instalasi aplikasi PWA
+│   │   ├── services/
+│   │   │   └── googleDriveService.ts   # Handler API Google Drive multipart upload
+│   │   ├── types/                      # Definisi tipe data & interface TypeScript
 │   │   ├── utils/
-│   │   │   ├── canvasComposite.ts   # Mesin komposit foto, watermark, dan geotag
-│   │   │   ├── photoStorage.ts      # Engine database IndexedDB sisi klien
-│   │   │   ├── storage.ts           # Handler konfigurasi lokal (localStorage)
-│   │   │   └── timezone.ts          # Algoritma deteksi zona waktu WIB/WITA/WIT
-│   │   ├── App.tsx             # Komponen orkestrasi utama
-│   │   ├── index.css           # Styling dasar dan utility class kustom
-│   │   └── main.tsx            # Entry point React 19
-│   ├── package.json            # Dependensi paket UI
-│   └── vite.config.ts          # Konfigurasi bundler Vite
-├── app.js                      # Server lokal Node.js ESM untuk melayani aplikasi
-├── package.json                # Script runner root proyek
-├── LICENSE                     # Lisensi resmi MIT Hak Cipta
-└── README.md                   # Dokumentasi resmi proyek LocaCamp
+│   │   │   ├── canvasComposite.ts      # Mesin komposit foto, watermark, geotag, denoise
+│   │   │   ├── miniMapGenerator.ts     # Generator cuplikan peta satelit Google Maps
+│   │   │   ├── photoStorage.ts         # Engine database IndexedDB lokal
+│   │   │   ├── storage.ts              # Handler konfigurasi lokal (localStorage)
+│   │   │   └── timezone.ts             # Algoritma zona waktu otomatis WIB/WITA/WIT
+│   │   ├── App.tsx                     # Router SPA & orchestrator komponen utama
+│   │   ├── index.css                   # Tailwind CSS styling & custom utility
+│   │   └── main.tsx                    # Entry point React 19
+│   ├── package.json                    # Dependensi frontend UI
+│   └── vite.config.ts                  # Konfigurasi bundler Vite 8
+├── siap-deploy/                        # Folder hasil build produksi siap saji (Vite output)
+├── app.js                              # Server lokal Node.js ESM untuk melayani aplikasi
+├── package.json                        # Root runner script proyek
+├── LICENSE                             # Lisensi resmi MIT Hak Cipta
+└── README.md                           # Dokumentasi resmi proyek LocaCamp
 ```
 
 ---
@@ -199,7 +240,7 @@ LocaCamp/
 ## 🚀 Panduan Instalasi & Menjalankan
 
 ### Prasyarat Sistem
-- **Node.js**: Versi `18.x` atau lebih baru
+- **Node.js**: Versi `18.x`, `20.x`, atau lebih baru
 - **Peramban Web**: Google Chrome, Microsoft Edge, Safari, atau Firefox versi modern dengan izin akses Kamera dan Lokasi (HTTPS / Localhost).
 
 ### Langkah 1: Kloning Repositori
@@ -242,16 +283,36 @@ Buka peramban dan akses: **`http://localhost:3000`**.
 
 ---
 
-## 👨‍💻 Profil Pengembang & Dedikasi Resmi
+## 🔒 Kepatuhan Kebijakan Data Pengguna Google (Google User Data Policy)
+
+Aplikasi **LocaCamp** mematuhi sepenuhnya kebijakan privasi pengguna Google API:
+1. **Scope Akses Minimal**: Aplikasi hanya menggunakan izin `https://www.googleapis.com/auth/drive.file`. Izin ini secara khusus hanya memberikan hak akses kepada file dan folder yang dibuat langsung oleh LocaCamp.
+2. **Koneksi Peer-to-Cloud Langsung**: Pengunggahan foto survei dilakukan langsung dari peramban perangkat pengguna ke server Google Drive via protokol HTTPS aman, tanpa pernah melalui server proxy atau perantara pihak ketiga.
+3. **Pernyataan Penggunaan Terbatas (Limited Use Disclosure)**:
+   > *"Penggunaan dan transfer informasi yang diterima dari Google API oleh LocaCamp ke aplikasi lain mana pun akan mematuhi Kebijakan Data Pengguna Layanan Google API (Google API Services User Data Policy), termasuk persyaratan Penggunaan Terbatas (Limited Use requirements)."*
+4. **Pencabutan Izin Kapan Saja**: Pengguna dapat memutuskan integrasi Google Drive secara instan melalui menu Pengaturan atau langsung melalui dashboard akun Google di `https://myaccount.google.com/permissions`.
+
+---
+
+## 👨‍💻 Profil Pengembang & Kepemilikan Resmi
 
 <div align="center">
   <img src="UI/src/assets/foto-profil-abdi-syahputra-harahap.jpg" alt="Abdi Syahputra Harahap" width="130" style="border-radius: 50%; border: 3px solid #10b981; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);" />
 
   ### **Abdi Syahputra Harahap**
-  **Node.js Fullstack Developer & Rust Systems Engineer**  
-  *Spesialisasi: High-Performance Distributed Systems, Web Performance, and Reactive Client Applications.*
+  **Lead Fullstack Developer & Creator of LocaCamp PWA**  
+  *Spesialisasi: High-Performance Distributed Systems, Canvas 2D Graphic Engine, and Modern Web Architectures.*
 
-  `Node.js & TypeScript` • `Rust Systems Engineering` • `React & Canvas Engine`
+  📧 Kontak Pengembang: [maskoding12@gmail.com](mailto:maskoding12@gmail.com)  
+  🌐 Repositori GitHub: [https://github.com/maskodingku/LocaCamp](https://github.com/maskodingku/LocaCamp)
+
+  <br/>
+
+  ### **Anggista Parasela**
+  **Project Co-Owner & Official Support Lead**  
+  *Pemilik Akun Google Cloud Platform & Properti Terverifikasi Google Search Console (GSC).*
+
+  📧 Email Dukungan Resmi: [anggistaparasela@gmail.com](mailto:anggistaparasela@gmail.com)
 </div>
 
 <br/>
@@ -266,17 +327,9 @@ Buka peramban dan akses: **`http://localhost:3000`**.
 
 ---
 
-## 🔒 Privasi dan Keamanan Data
-
-- **Zero-Cloud Image Storage**: LocaCamp tidak mengunggah hasil jepretan kamera ke server mana pun. Foto, koordinat GPS, dan watermark disatukan secara lokal di dalam memori peramban pengunjung.
-- **Penyimpanan Lokal Mandiri**: Riwayat foto tersimpan dalam database `IndexedDB` perangkat pengguna sendiri dan hanya dapat diakses oleh pengguna bersangkutan melalui peramban yang sama.
-- **Izin Aman**: Aplikasi hanya meminta akses sensor perangkat (Kamera dan Lokasi GPS) saat dibutuhkan untuk fungsi geotagging.
-
----
-
 ## 📄 Lisensi
 
 Proyek ini dilindungi di bawah lisensi resmi **[MIT License](LICENSE)**.  
-Hak Cipta © 2026 **Abdi Syahputra Harahap** & **PT Wahana Mitra Amerta**.  
+Hak Cipta © 2026 **Abdi Syahputra Harahap**, **Anggista Parasela**, & **PT Wahana Mitra Amerta**.  
 
 *Penggunaan, modifikasi, dan distribusi kode diperbolehkan dengan syarat mencantumkan pemberitahuan hak cipta resmi dan teks lisensi asli ini dalam seluruh salinan perangkat lunak.*
