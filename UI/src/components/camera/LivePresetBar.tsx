@@ -172,10 +172,10 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
   // =================== LAYOUT PORTRAIT (Bawah Layar) ===================
   return (
     <div
-      className={`w-full pt-3 pb-6 px-4 flex flex-col items-center justify-center gap-3 z-20 shrink-0 select-none transition-all duration-200 ${
+      className={`w-full pt-3 pb-6 px-4 flex flex-col items-center justify-center gap-3 shrink-0 select-none transition-all duration-200 ${
         activeSlider
-          ? 'bg-transparent border-transparent shadow-none'
-          : 'bg-gradient-to-t from-black via-zinc-950/98 to-zinc-950/90 border-t border-zinc-800/60 shadow-2xl animate-in slide-in-from-bottom-3 duration-200'
+          ? 'bg-transparent border-transparent shadow-none z-[100]'
+          : 'bg-gradient-to-t from-black via-zinc-950/98 to-zinc-950/90 border-t border-zinc-800/60 shadow-2xl animate-in slide-in-from-bottom-3 duration-200 z-20'
       }`}
     >
       {/* 1. Baris Atas: Carousel Preset ATAU Slider Finetuning */}
@@ -260,7 +260,7 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
             <div
               className={`space-y-1 transition-all duration-150 ${
                 activeSlider === 'brightness'
-                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40 relative z-50'
                   : activeSlider !== null
                   ? 'opacity-0 pointer-events-none'
                   : ''
@@ -305,7 +305,7 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
             <div
               className={`space-y-1 transition-all duration-150 ${
                 activeSlider === 'contrast'
-                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40 relative z-50'
                   : activeSlider !== null
                   ? 'opacity-0 pointer-events-none'
                   : ''
@@ -350,7 +350,7 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
             <div
               className={`space-y-1 transition-all duration-150 ${
                 activeSlider === 'saturation'
-                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40 relative z-50'
                   : activeSlider !== null
                   ? 'opacity-0 pointer-events-none'
                   : ''
@@ -396,9 +396,9 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
 
       {/* 2. Baris Bawah: Tombol Koreksi, Shutter Tengah, dan Tombol Selesai */}
       <div
-        className={`w-full flex items-center justify-between px-2 pt-1 transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
+        className={`${
+          activeSlider ? 'hidden' : 'flex'
+        } w-full items-center justify-between px-2 pt-1 transition-opacity duration-150`}
       >
         {/* Sisi Kiri: Toggle Finetuning */}
         <div className="w-20 flex justify-start">

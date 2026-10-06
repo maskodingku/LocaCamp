@@ -187,7 +187,7 @@ export default function App() {
         </div>
 
         {/* Shutter and Quick Controls: Di KANAN saat Landscape, di BAWAH saat Portrait */}
-        <div className={orientation.isLandscape ? 'h-full shrink-0' : 'w-full shrink-0'}>
+        <div className={`${orientation.isLandscape ? 'h-full shrink-0' : 'w-full shrink-0'} ${isSettingsOpen ? 'invisible pointer-events-none' : ''}`}>
           {isPresetBarOpen ? (
             <LivePresetBar
               cameraEffect={cameraEffect}

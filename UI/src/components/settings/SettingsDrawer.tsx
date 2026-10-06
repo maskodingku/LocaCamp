@@ -131,17 +131,17 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-end md:items-center justify-center transition-all duration-200 ${
+      className={`fixed inset-0 flex items-end md:items-center justify-center transition-all duration-200 ${
         activeSlider
-          ? 'bg-transparent backdrop-blur-none pointer-events-auto'
-          : 'bg-black/70 backdrop-blur-md animate-in fade-in'
+          ? 'bg-transparent backdrop-blur-none pointer-events-auto z-[100]'
+          : 'bg-black/70 backdrop-blur-md animate-in fade-in z-50'
       }`}
     >
       <div
-        className={`w-full md:max-w-xl max-h-[88vh] md:max-h-[85vh] rounded-t-3xl md:rounded-3xl flex flex-col overflow-hidden text-white transition-all duration-200 ${
+        className={`w-full md:max-w-xl max-h-[88vh] md:max-h-[85vh] rounded-t-3xl md:rounded-3xl flex flex-col text-white transition-all duration-200 ${
           activeSlider
-            ? 'bg-transparent border-transparent shadow-none'
-            : 'bg-zinc-950 border border-zinc-800 shadow-2xl animate-in slide-in-from-bottom-6 duration-200'
+            ? 'bg-transparent border-transparent shadow-none overflow-visible'
+            : 'bg-zinc-950 border border-zinc-800 shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200'
         }`}
         onClick={e => e.stopPropagation()}
       >
@@ -221,7 +221,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         </div>
 
         {/* Tab Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className={`flex-1 overflow-y-auto p-6 space-y-6 ${activeSlider ? 'pb-36 sm:pb-28' : ''}`}>
           {activeTab === 'watermark' ? (
             <>
               {/* Upload Custom Logo */}
@@ -334,7 +334,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   <div
                     className={`transition-all duration-150 ${
                       activeSlider === 'watermark_size'
-                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-white/40 shadow-2xl ring-2 ring-white/20'
+                        ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/50 shadow-2xl ring-2 ring-white/30 relative z-50'
                         : activeSlider !== null
                         ? 'opacity-0 pointer-events-none'
                         : ''
@@ -368,7 +368,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   <div
                     className={`transition-all duration-150 ${
                       activeSlider === 'watermark_opacity'
-                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-white/40 shadow-2xl ring-2 ring-white/20'
+                        ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/50 shadow-2xl ring-2 ring-white/30 relative z-50'
                         : activeSlider !== null
                         ? 'opacity-0 pointer-events-none'
                         : ''
@@ -729,18 +729,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   <div
                     className={`space-y-1 transition-all duration-150 ${
                       activeSlider === 'camera_brightness'
-                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
                         : activeSlider !== null
                         ? 'opacity-0 pointer-events-none'
                         : ''
                     }`}
                   >
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
+                      <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_brightness' ? 'text-white font-bold' : 'text-zinc-400'}`}>
                         <Sun className="w-3.5 h-3.5 text-amber-400" />
                         Kecerahan
                       </span>
-                      <span className="font-mono text-zinc-300 text-[11px]">
+                      <span className="font-mono text-zinc-200 text-[11px]">
                         {cameraEffect.finetune.brightness > 0
                           ? `+${cameraEffect.finetune.brightness}%`
                           : `${cameraEffect.finetune.brightness}%`}
@@ -775,18 +775,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   <div
                     className={`space-y-1 transition-all duration-150 ${
                       activeSlider === 'camera_contrast'
-                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
                         : activeSlider !== null
                         ? 'opacity-0 pointer-events-none'
                         : ''
                     }`}
                   >
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
+                      <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_contrast' ? 'text-white font-bold' : 'text-zinc-400'}`}>
                         <Contrast className="w-3.5 h-3.5 text-sky-400" />
                         Kontras
                       </span>
-                      <span className="font-mono text-zinc-300 text-[11px]">
+                      <span className="font-mono text-zinc-200 text-[11px]">
                         {cameraEffect.finetune.contrast > 0
                           ? `+${cameraEffect.finetune.contrast}%`
                           : `${cameraEffect.finetune.contrast}%`}
@@ -821,18 +821,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   <div
                     className={`space-y-1 transition-all duration-150 ${
                       activeSlider === 'camera_saturation'
-                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
                         : activeSlider !== null
                         ? 'opacity-0 pointer-events-none'
                         : ''
                     }`}
                   >
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
+                      <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_saturation' ? 'text-white font-bold' : 'text-zinc-400'}`}>
                         <Palette className="w-3.5 h-3.5 text-rose-400" />
                         Kejenuhan Warna
                       </span>
-                      <span className="font-mono text-zinc-300 text-[11px]">
+                      <span className="font-mono text-zinc-200 text-[11px]">
                         {cameraEffect.finetune.saturation > 0
                           ? `+${cameraEffect.finetune.saturation}%`
                           : `${cameraEffect.finetune.saturation}%`}
@@ -1309,9 +1309,9 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
         {/* Footer */}
         <div
-          className={`p-4 border-t border-zinc-800 bg-zinc-950 flex items-center justify-between gap-3 transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
+          className={`${
+            activeSlider ? 'hidden' : 'flex'
+          } p-4 border-t border-zinc-800 bg-zinc-950 items-center justify-between gap-3 transition-opacity duration-150`}
         >
           {onResetSettings ? (
             <button
