@@ -20,7 +20,6 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
   activeSlider,
 }) => {
   const {
-    config,
     isConnected,
     isConnecting,
     error,
@@ -32,7 +31,6 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
   } = drive
 
   const [inputClientId, setInputClientId] = useState(effectiveClientId || '')
-  const [inputFolderName, setInputFolderName] = useState(config.folderName || 'LocaCamp Photos')
 
   // Aksi 1-Klik Murni: Langsung memicu jendela otorisasi Google
   const handleOneClickConnect = async () => {
@@ -85,11 +83,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
 
       {/* 3. Konten Utama: Terhubung VS Belum Terhubung */}
       {isConnected ? (
-        <GoogleDriveConnectedCard
-          drive={drive}
-          inputFolderName={inputFolderName}
-          setInputFolderName={setInputFolderName}
-        />
+        <GoogleDriveConnectedCard drive={drive} />
       ) : (
         <div className="space-y-4">
           {/* Hero Card 1-Click Connect Ramah Pengguna Awam */}

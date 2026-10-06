@@ -4,19 +4,16 @@ import {
   Folder,
   LogOut,
   FolderCheck,
+  Lock,
 } from 'lucide-react'
 import type { useGoogleDrive } from '../../../hooks/useGoogleDrive'
 
 interface GoogleDriveConnectedCardProps {
   drive: ReturnType<typeof useGoogleDrive>
-  inputFolderName: string
-  setInputFolderName: (name: string) => void
 }
 
 export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> = ({
   drive,
-  inputFolderName,
-  setInputFolderName,
 }) => {
   const { config, session, disconnect, updateConfig } = drive
 
@@ -63,7 +60,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
         </div>
       </div>
 
-      {/* 2. Pengaturan Folder Target */}
+      {/* 2. Pengaturan Folder Target (Terkunci Permanen) */}
       <div className="space-y-2 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800">
         <div className="flex items-center justify-between">
           <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
@@ -74,18 +71,17 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             Otomatis Dibuat
           </span>
         </div>
-        <div className="relative">
-          <Folder className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-          <input
-            type="text"
-            value={inputFolderName}
-            onChange={(e) => {
-              setInputFolderName(e.target.value)
-              updateConfig({ folderName: e.target.value })
-            }}
-            placeholder="LocaCamp Photos"
-            className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white text-xs placeholder:text-zinc-600 focus:outline-none focus:border-emerald-500 transition-colors"
-          />
+        <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white select-none">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-zinc-100 tracking-wide truncate">
+              LocaCamp Photos
+            </span>
+          </div>
+          <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800/90 text-[10px] text-zinc-400 font-medium shrink-0">
+            <Lock className="w-2.5 h-2.5 text-zinc-400" />
+            <span>Terkunci</span>
+          </span>
         </div>
         <p className="text-[11px] text-zinc-500">
           Semua foto survei & geotag akan disimpan ke folder ini di Google Drive Anda.

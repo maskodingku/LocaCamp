@@ -43,6 +43,7 @@ export function useGoogleDrive() {
         return {
           ...DEFAULT_CONFIG,
           ...parsed,
+          folderName: 'LocaCamp Photos',
           clientId: isLegacyOrDummy ? DEFAULT_APP_CLIENT_ID : parsed.clientId,
         }
       }
