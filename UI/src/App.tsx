@@ -7,6 +7,7 @@ import { CaptureModal } from './components/preview/CaptureModal'
 import { PhotoHistoryModal } from './components/history/PhotoHistoryModal'
 import { LegalPageView } from './components/legal/LegalPageView'
 import { TermsConsentModal } from './components/legal/TermsConsentModal'
+import { HomePageView } from './components/home/HomePageView'
 import { useCamera } from './hooks/useCamera'
 import { useGeolocation } from './hooks/useGeolocation'
 import { useOrientation } from './hooks/useOrientation'
@@ -65,9 +66,10 @@ export default function App() {
   const [isCapturing, setIsCapturing] = useState(false)
   const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
 
-  // Dynamic Path Router State (untuk /privacy dan /terms tanpa dependensi router eksternal)
+  // Dynamic Path Router State (untuk /home, /privacy, dan /terms tanpa dependensi router eksternal)
   const normalizePath = (pathname: string): string => {
     const p = pathname.toLowerCase().replace(/\/+$/, '')
+    if (p === '/home' || p === '/beranda') return '/home'
     if (p === '/privacy' || p === '/privacy-policy') return '/privacy'
     if (p === '/terms' || p === '/terms-of-service') return '/terms'
     return '/'
@@ -95,7 +97,9 @@ export default function App() {
     setCurrentPath(normalized)
   }, [])
 
+  const isHomePage = currentPath === '/home'
   const isLegalPage = currentPath === '/privacy' || currentPath === '/terms'
+  const isCustomPage = isHomePage || isLegalPage
 
   // Status Persetujuan Syarat & Ketentuan (wajib disetujui saat pertama kali buka aplikasi)
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(() => {
@@ -112,8 +116,8 @@ export default function App() {
     setHasAcceptedTerms(true)
   }, [])
 
-  // Kamera & sensor optik mati total saat belum menyetujui syarat/ketentuan, membuka riwayat foto, mereview hasil jepretan, membuka menu pengaturan, atau sedang di halaman legal
-  const isCameraActive = hasAcceptedTerms && !isLegalPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
+  // Kamera & sensor optik mati total saat di beranda, halaman legal, belum menyetujui syarat/ketentuan, membuka riwayat foto, mereview hasil jepretan, atau membuka menu pengaturan
+  const isCameraActive = hasAcceptedTerms && !isCustomPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
@@ -225,6 +229,10 @@ export default function App() {
       setIsCapturing(false)
     }
   }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive, driveQueue])
+
+  if (isHomePage) {
+    return <HomePageView onNavigate={handleNavigate} />
+  }
 
   if (isLegalPage) {
     return <LegalPageView currentPath={currentPath} onNavigate={handleNavigate} />

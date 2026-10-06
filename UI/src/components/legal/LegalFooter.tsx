@@ -53,6 +53,17 @@ export const LegalFooter: React.FC<LegalFooterProps> = ({ currentPath, onNavigat
           <span className="text-slate-700">•</span>
 
           <button
+            onClick={() => onNavigate('/home')}
+            className={`flex items-center gap-1 hover:text-emerald-400 transition-colors ${
+              currentPath === '/home' ? 'text-emerald-400 font-medium' : 'text-slate-400'
+            }`}
+          >
+            <span>Beranda</span>
+          </button>
+
+          <span className="text-slate-700">•</span>
+
+          <button
             onClick={() => onNavigate('/')}
             className="flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition-colors"
           >

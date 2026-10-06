@@ -26,6 +26,14 @@ export const LegalHeader: React.FC<LegalHeaderProps> = ({ currentPath, onNavigat
               <span>Kamera</span>
             </button>
 
+            <button
+              onClick={() => onNavigate('/home')}
+              className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-2.5 py-1.5 text-xs font-medium text-slate-200 transition-all hover:bg-white/10 hover:text-white active:scale-95"
+              title="Halaman Beranda Resmi"
+            >
+              <span>Beranda</span>
+            </button>
+
             <div
               onClick={() => onNavigate('/')}
               className="flex cursor-pointer items-center gap-2 select-none"
