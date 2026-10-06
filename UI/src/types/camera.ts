@@ -45,6 +45,8 @@ export interface CapturedPhoto {
   location: GeoLocationData
   width: number
   height: number
+  uploadedToDrive?: boolean
+  driveFileId?: string
 }
 
 export type CameraQualityPreset = 'auto' | '12mp' | '8mp' | '2mp' | '1mp'

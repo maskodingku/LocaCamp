@@ -10,6 +10,8 @@ export interface StoredPhoto {
   accuracy: number | null
   width: number
   height: number
+  uploadedToDrive?: boolean
+  driveFileId?: string
 }
 
 const DB_NAME = 'LocaCampDB'
@@ -57,6 +59,8 @@ export async function savePhotoToStorage(photo: CapturedPhoto): Promise<void> {
       accuracy: photo.location.accuracy,
       width: photo.width,
       height: photo.height,
+      uploadedToDrive: photo.uploadedToDrive,
+      driveFileId: photo.driveFileId,
     }
 
     return new Promise((resolve, reject) => {
@@ -69,6 +73,39 @@ export async function savePhotoToStorage(photo: CapturedPhoto): Promise<void> {
     })
   } catch (err) {
     console.error('Gagal menyimpan foto ke IndexedDB:', err)
+  }
+}
+
+/**
+ * Menandai status foto lokal sebagai telah berhasil diunggah ke Google Drive
+ */
+export async function markPhotoAsUploadedToDrive(
+  id: string,
+  driveFileId?: string
+): Promise<void> {
+  try {
+    const db = await openDB()
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite')
+      const store = tx.objectStore(STORE_NAME)
+      const getReq = store.get(id)
+
+      getReq.onsuccess = () => {
+        const item = getReq.result as StoredPhoto | undefined
+        if (item) {
+          item.uploadedToDrive = true
+          if (driveFileId) item.driveFileId = driveFileId
+          const putReq = store.put(item)
+          putReq.onsuccess = () => resolve()
+          putReq.onerror = () => reject(putReq.error)
+        } else {
+          resolve()
+        }
+      }
+      getReq.onerror = () => reject(getReq.error)
+    })
+  } catch (err) {
+    console.error('Gagal menandai status Google Drive di IndexedDB:', err)
   }
 }
 

@@ -7,13 +7,12 @@ import {
   ChevronLeft,
   ChevronRight,
   RotateCcw,
-  Cloud,
   Loader2,
-  ExternalLink,
   Check,
 } from 'lucide-react'
 import type { StoredPhoto } from '../../utils/photoStorage'
 import { useModalHistory } from '../../hooks/useModalHistory'
+import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
 
 interface HistoryPhotoDetailModalProps {
   photo: StoredPhoto | null
@@ -76,6 +75,8 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
       if (onUploadToDrive) {
         const res = await onUploadToDrive(photo)
         setDriveResult(res)
+        photo.uploadedToDrive = true
+        if (res.fileId) photo.driveFileId = res.fileId
       }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Gagal mengunggah ke Google Drive'
@@ -526,24 +527,21 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
               <span>Hapus</span>
             </button>
 
-            {driveResult?.webViewLink ? (
-              <a
-                href={driveResult.webViewLink}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 text-xs font-semibold transition-all active:scale-95 shadow-md"
-                title="Buka Foto di Google Drive"
+            {Boolean(photo.uploadedToDrive || driveResult) ? (
+              <div
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 text-xs font-semibold cursor-default select-none shadow-md"
+                title="Foto ini sudah pernah di-upload ke Google Drive"
               >
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Di Drive</span>
-                <ExternalLink className="w-3 h-3 text-emerald-400" />
-              </a>
+                <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
+                <span>Drive</span>
+                <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" />
+              </div>
             ) : (
               <button
                 type="button"
                 onClick={handleDriveUpload}
                 disabled={isUploadingDrive}
-                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold transition-all active:scale-95 shadow-md"
+                className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 text-xs font-semibold transition-all active:scale-95 shadow-md cursor-pointer disabled:opacity-50"
                 title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
               >
                 {isUploadingDrive ? (
@@ -553,7 +551,7 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
                   </>
                 ) : (
                   <>
-                    <Cloud className={`w-3.5 h-3.5 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                    <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
                     <span>Drive</span>
                   </>
                 )}

@@ -11,7 +11,11 @@ import { useOrientation } from './hooks/useOrientation'
 import { useModalHistory } from './hooks/useModalHistory'
 import { useGoogleDrive } from './hooks/useGoogleDrive'
 import { captureAndComposite } from './utils/canvasComposite'
-import { savePhotoToStorage, getPhotosCountFromStorage } from './utils/photoStorage'
+import {
+  savePhotoToStorage,
+  getPhotosCountFromStorage,
+  markPhotoAsUploadedToDrive,
+} from './utils/photoStorage'
 import {
   loadStoredWatermark,
   saveStoredWatermark,
@@ -149,9 +153,22 @@ export default function App() {
 
       // Auto-upload Google Drive jika diaktifkan dan terhubung
       if (drive.config.autoUpload && drive.isConnected) {
-        drive.uploadPhoto(dataUrl, `LocaCamp_${newPhoto.id}.jpg`).catch((err) => {
-          console.debug('Auto-upload ke Google Drive gagal:', err)
-        })
+        drive
+          .uploadPhoto(dataUrl, `LocaCamp_${newPhoto.id}.jpg`)
+          .then(async (res) => {
+            if (res && res.fileId) {
+              await markPhotoAsUploadedToDrive(newPhoto.id, res.fileId)
+              setCurrentPhoto((prev) =>
+                prev?.id === newPhoto.id
+                  ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId }
+                  : prev
+              )
+              refreshHistoryCount()
+            }
+          })
+          .catch((err) => {
+            console.debug('Auto-upload ke Google Drive gagal:', err)
+          })
       }
     } catch (err) {
       console.error('Gagal mengambil foto komposit:', err)
@@ -254,7 +271,18 @@ export default function App() {
         onClose={() => setCurrentPhoto(null)}
         onRetake={() => setCurrentPhoto(null)}
         isLandscape={orientation.isLandscape}
-        onUploadToDrive={(dataUrl) => drive.uploadPhoto(dataUrl)}
+        onUploadToDrive={async (dataUrl) => {
+          const filename = currentPhoto ? `LocaCamp_${currentPhoto.id}.jpg` : undefined
+          const res = await drive.uploadPhoto(dataUrl, filename)
+          if (res && res.fileId && currentPhoto) {
+            await markPhotoAsUploadedToDrive(currentPhoto.id, res.fileId)
+            setCurrentPhoto((prev) =>
+              prev ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId } : null
+            )
+            refreshHistoryCount()
+          }
+          return res
+        }}
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
         lastDriveResult={drive.lastUploadResult}
@@ -267,7 +295,14 @@ export default function App() {
         isOpen={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}
         onPhotosUpdated={refreshHistoryCount}
-        onUploadToDrive={(p) => drive.uploadPhoto(p.dataUrl, `LocaCamp_${p.id}.jpg`)}
+        onUploadToDrive={async (p) => {
+          const res = await drive.uploadPhoto(p.dataUrl, `LocaCamp_${p.id}.jpg`)
+          if (res && res.fileId) {
+            await markPhotoAsUploadedToDrive(p.id, res.fileId)
+            refreshHistoryCount()
+          }
+          return res
+        }}
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
         drive={drive}

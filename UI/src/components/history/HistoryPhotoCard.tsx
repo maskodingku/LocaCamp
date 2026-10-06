@@ -8,6 +8,7 @@ import {
   Check,
 } from 'lucide-react'
 import type { StoredPhoto } from '../../utils/photoStorage'
+import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
 
 interface HistoryPhotoCardProps {
   item: StoredPhoto
@@ -62,6 +63,18 @@ export const HistoryPhotoCard: React.FC<HistoryPhotoCardProps> = ({
         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-lg bg-black/70 backdrop-blur-md border border-white/10 text-[10px] font-mono text-zinc-200">
           {timeStr} WIB
         </div>
+
+        {/* Cap Google Drive pada Foto Terunggah */}
+        {item.uploadedToDrive && (
+          <div
+            className="absolute top-2 right-2 px-2 py-0.5 rounded-lg bg-black/80 backdrop-blur-md border border-emerald-500/50 text-[10px] text-zinc-200 flex items-center gap-1.5 shadow-md z-10"
+            title="Foto ini sudah tersimpan di Google Drive"
+          >
+            <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
+            <span className="font-semibold text-emerald-300">Drive</span>
+            <Check className="w-3 h-3 text-emerald-400 stroke-[3]" />
+          </div>
+        )}
       </div>
 
       {/* Metadata Details Card */}

@@ -7,13 +7,12 @@ import {
   Calendar,
   MapPin,
   X,
-  Cloud,
   Loader2,
-  ExternalLink,
 } from 'lucide-react'
 import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
 import { DriveUploadProgressBanner } from './DriveUploadProgressBanner'
+import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
 
 interface CaptureModalProps {
   photo: CapturedPhoto | null
@@ -226,23 +225,20 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   <span>Ambil Ulang</span>
                 </button>
 
-                {driveResult?.webViewLink ? (
-                  <a
-                    href={driveResult.webViewLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 transition-all active:scale-95 shrink-0 flex items-center gap-1"
-                    title="Buka Foto di Google Drive"
+                {Boolean(driveResult || photo.uploadedToDrive) ? (
+                  <div
+                    className="p-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 transition-all shrink-0 flex items-center gap-1 cursor-default select-none shadow-md"
+                    title="Foto ini sudah tersimpan di Google Drive"
                   >
-                    <Check className="w-3.5 h-3.5 text-emerald-400" />
-                    <ExternalLink className="w-3 h-3 text-emerald-400" />
-                  </a>
+                    <GoogleDriveIcon className="w-4 h-4 shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[3]" />
+                  </div>
                 ) : (
                   <button
                     type="button"
                     onClick={handleDriveUpload}
                     disabled={isUploadingDrive || isAutoUploadingDrive}
-                    className="p-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
+                    className="p-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0 cursor-pointer disabled:opacity-50"
                     title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
                   >
                     {isUploadingDrive || isAutoUploadingDrive ? (
@@ -251,7 +247,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                         <span>{uploadProgress}%</span>
                       </div>
                     ) : (
-                      <Cloud className={`w-4 h-4 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                      <GoogleDriveIcon className="w-4 h-4 shrink-0" />
                     )}
                   </button>
                 )}
@@ -337,23 +333,20 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
               <span>Ambil Ulang</span>
             </button>
 
-            {driveResult?.webViewLink ? (
-              <a
-                href={driveResult.webViewLink}
-                target="_blank"
-                rel="noreferrer"
-                className="p-2.5 sm:p-3 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 transition-all active:scale-95 shrink-0 flex items-center gap-1.5"
-                title="Buka Foto di Google Drive"
+            {Boolean(driveResult || photo.uploadedToDrive) ? (
+              <div
+                className="p-2.5 sm:p-3 rounded-xl border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 transition-all shrink-0 flex items-center gap-1.5 cursor-default select-none shadow-md"
+                title="Foto ini sudah tersimpan di Google Drive"
               >
-                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
-                <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
-              </a>
+                <GoogleDriveIcon className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
+                <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 stroke-[3]" />
+              </div>
             ) : (
               <button
                 type="button"
                 onClick={handleDriveUpload}
                 disabled={isUploadingDrive || isAutoUploadingDrive}
-                className="p-2.5 sm:p-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
+                className="p-2.5 sm:p-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0 cursor-pointer disabled:opacity-50"
                 title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
               >
                 {isUploadingDrive || isAutoUploadingDrive ? (
@@ -362,7 +355,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                     <span>{uploadProgress}%</span>
                   </div>
                 ) : (
-                  <Cloud className={`w-4 h-4 sm:w-5 sm:h-5 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                  <GoogleDriveIcon className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
                 )}
               </button>
             )}

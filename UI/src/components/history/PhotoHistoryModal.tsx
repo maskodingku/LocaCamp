@@ -9,7 +9,9 @@ import {
   getAllPhotosFromStorage,
   deletePhotoFromStorage,
   clearAllPhotosFromStorage,
+  markPhotoAsUploadedToDrive,
 } from '../../utils/photoStorage'
+import { listGoogleDriveFiles } from '../../services/googleDriveService'
 import { useModalHistory } from '../../hooks/useModalHistory'
 import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
 import { HistoryPhotoDetailModal } from './HistoryPhotoDetailModal'
@@ -63,12 +65,58 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     () => setDeleteConfirmId(null)
   )
 
-  // Muat foto dari IndexedDB saat modal dibuka
+  // Muat foto dari IndexedDB saat modal dibuka & sinkronisasi otomatis status Drive
   const loadPhotos = async () => {
     setIsLoading(true)
     const data = await getAllPhotosFromStorage()
     setPhotos(data)
     setIsLoading(false)
+
+    // Jika Google Drive terhubung, periksa file di cloud untuk menandai foto yang sudah terunggah
+    if (drive.isConnected && drive.session.accessToken) {
+      try {
+        const folderName = drive.config.folderName || 'LocaCamp Photos'
+        const driveFiles = await listGoogleDriveFiles(drive.session.accessToken, folderName)
+        if (driveFiles.length > 0) {
+          let hasChange = false
+          const updated = data.map((photo) => {
+            if (photo.uploadedToDrive) return photo
+
+            // Format tanggal standar numeric (YYYYMMDDHHmmss)
+            const cleanTs = new Date(photo.timestamp)
+              .toISOString()
+              .replace(/[-:T]/g, '')
+              .slice(0, 14)
+            const shortTs = cleanTs.slice(0, 12)
+
+            const matched = driveFiles.find(
+              (f) =>
+                f.name.includes(photo.id) ||
+                f.name.includes(cleanTs) ||
+                f.name.includes(shortTs) ||
+                f.id === photo.driveFileId
+            )
+
+            if (matched) {
+              hasChange = true
+              markPhotoAsUploadedToDrive(photo.id, matched.id)
+              return {
+                ...photo,
+                uploadedToDrive: true,
+                driveFileId: matched.id,
+              }
+            }
+            return photo
+          })
+
+          if (hasChange) {
+            setPhotos(updated)
+          }
+        }
+      } catch (err) {
+        console.debug('Gagal sinkronisasi otomatis status Google Drive:', err)
+      }
+    }
   }
 
   useEffect(() => {
@@ -235,8 +283,26 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
           onClose={() => setSelectedPhoto(null)}
           onDownload={handleDownload}
           onDelete={(id: string) => setDeleteConfirmId(id)}
-          onUploadToDrive={onUploadToDrive}
           isDriveConnected={isDriveConnected}
+          onUploadToDrive={async (p) => {
+            if (onUploadToDrive) {
+              const res = await onUploadToDrive(p)
+              setPhotos((prev) =>
+                prev.map((item) =>
+                  item.id === p.id
+                    ? { ...item, uploadedToDrive: true, driveFileId: res.fileId }
+                    : item
+                )
+              )
+              setSelectedPhoto((prev) =>
+                prev && prev.id === p.id
+                  ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId }
+                  : prev
+              )
+              return res
+            }
+            throw new Error('Upload handler not available')
+          }}
           onOpenSettings={onOpenSettings}
         />
       )}
