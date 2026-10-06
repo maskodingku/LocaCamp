@@ -83,12 +83,15 @@ export function getCameraFilterString(
 
   const parts: string[] = []
 
-  // Tambahkan denoise blur jika diaktifkan (untuk canvas photo frame)
+  // Tambahkan denoise jika diaktifkan (untuk canvas photo frame)
+  // 'natural': 100% ketajaman murni sensor asli tanpa blur
+  // 'smooth': reduksi grain mikro sub-pixel lembut (0.2px) tanpa mengaburkan detail objek
+  // 'extra': reduksi noise intensif (0.6px) untuk kondisi minim cahaya
   if (options?.includeDenoise) {
     if (options.denoiseMode === 'smooth') {
-      parts.push('blur(0.45px)')
+      parts.push('blur(0.2px)')
     } else if (options.denoiseMode === 'extra') {
-      parts.push('blur(0.85px)')
+      parts.push('blur(0.6px)')
     }
   }
 

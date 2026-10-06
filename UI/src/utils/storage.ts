@@ -28,8 +28,8 @@ export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {
 
 export const DEFAULT_CAMERA_QUALITY_CONFIG: CameraQualityConfig = {
   preset: 'auto',
-  jpegTier: 'high',
-  denoiseMode: 'smooth',
+  jpegTier: 'ultra',
+  denoiseMode: 'natural',
 }
 
 export const DEFAULT_CAMERA_EFFECT_CONFIG: CameraEffectConfig = {

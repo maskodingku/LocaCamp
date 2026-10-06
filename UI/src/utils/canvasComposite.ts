@@ -73,7 +73,16 @@ export async function captureAndComposite({
       }
 
       const blob = await imageCapture.takePhoto(photoSettings)
-      const bitmap = await createImageBitmap(blob)
+      let bitmap: ImageBitmap
+      try {
+        bitmap = await createImageBitmap(blob, {
+          imageOrientation: 'none',
+          premultiplyAlpha: 'none',
+          colorSpaceConversion: 'default',
+        })
+      } catch {
+        bitmap = await createImageBitmap(blob)
+      }
       imageSource = bitmap
       rawWidth = bitmap.width
       rawHeight = bitmap.height
@@ -153,7 +162,7 @@ export async function captureAndComposite({
     high: 0.95,
     medium: 0.85,
   }
-  const exportQuality = qualityMap[jpegTier] || 0.95
+  const exportQuality = qualityMap[jpegTier] || 0.98
 
   return {
     dataUrl: canvas.toDataURL('image/jpeg', exportQuality),

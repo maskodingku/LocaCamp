@@ -112,7 +112,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       onClick={handleViewportClick}
       className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none cursor-default"
     >
-      {/* 1. Camera Video Element */}
+      {/* 1. Camera Video Element (GPU Hardware Accelerated 60 FPS) */}
       <video
         ref={videoRef}
         autoPlay
@@ -120,10 +120,12 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
         muted
         style={{
           filter: liveFilter !== 'none' ? liveFilter : undefined,
+          transform: facingMode === 'user' ? 'translateZ(0) scaleX(-1)' : 'translateZ(0)',
+          willChange: 'transform',
         }}
-        className={`w-full h-full object-cover transition-opacity duration-500 ${
+        className={`w-full h-full object-cover transition-opacity duration-300 ${
           isStreaming ? 'opacity-100' : 'opacity-0'
-        } ${facingMode === 'user' ? '-scale-x-100' : ''}`}
+        }`}
       />
 
       {/* 2. Loading State */}

@@ -20,33 +20,42 @@ export interface UseCameraOptions {
 function getResolutionConstraints(preset: CameraQualityPreset = 'auto'): {
   width: ConstrainULong
   height: ConstrainULong
+  frameRate: ConstrainDouble
 } {
   switch (preset) {
     case '12mp':
       return {
         width: { ideal: 4000, max: 4096 },
         height: { ideal: 3000, max: 3072 },
+        frameRate: { ideal: 60, min: 30 },
       }
     case '8mp':
       return {
         width: { ideal: 3264, max: 3840 },
         height: { ideal: 2448, max: 2560 },
+        frameRate: { ideal: 60, min: 30 },
       }
     case '2mp':
       return {
         width: { ideal: 1920, max: 1920 },
         height: { ideal: 1080, max: 1080 },
+        frameRate: { ideal: 60, min: 30 },
       }
     case '1mp':
       return {
         width: { ideal: 1280, max: 1280 },
         height: { ideal: 720, max: 720 },
+        frameRate: { ideal: 60, min: 30 },
       }
     case 'auto':
     default:
+      // Mode 'auto' memprioritaskan frame rate 60 FPS super smooth di resolusi optimal 1080p.
+      // Ini mencegah lag & GPU thermal throttling di HP, sementara ImageCapture.takePhoto()
+      // tetap mengambil foto resolusi penuh sensor fisik (12MP - 48MP+) saat shutter ditekan.
       return {
-        width: { ideal: 3840, max: 4096 },
-        height: { ideal: 2160, max: 3072 },
+        width: { ideal: 1920, max: 3840 },
+        height: { ideal: 1080, max: 2160 },
+        frameRate: { ideal: 60, min: 30 },
       }
   }
 }
@@ -134,6 +143,7 @@ export function useCamera(options: UseCameraOptions = {}) {
           facingMode: { ideal: facingMode },
           width: resolution.width,
           height: resolution.height,
+          frameRate: resolution.frameRate,
         },
         audio: false,
       }
