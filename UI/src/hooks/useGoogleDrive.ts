@@ -14,8 +14,10 @@ import {
 const STORAGE_KEY_CONFIG = 'locacamp_gdrive_config'
 const STORAGE_KEY_SESSION = 'locacamp_gdrive_session'
 
+export const ENV_CLIENT_ID = ((import.meta.env.VITE_GOOGLE_CLIENT_ID as string) || '').trim()
+
 const DEFAULT_CONFIG: GoogleDriveConfig = {
-  clientId: '',
+  clientId: ENV_CLIENT_ID,
   folderName: 'LocaCamp Photos',
   autoUpload: false,
 }
@@ -29,7 +31,15 @@ export function useGoogleDrive() {
   const [config, setConfig] = useState<GoogleDriveConfig>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_CONFIG)
-      return saved ? { ...DEFAULT_CONFIG, ...JSON.parse(saved) } : DEFAULT_CONFIG
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        return {
+          ...DEFAULT_CONFIG,
+          ...parsed,
+          clientId: parsed.clientId || ENV_CLIENT_ID,
+        }
+      }
+      return DEFAULT_CONFIG
     } catch {
       return DEFAULT_CONFIG
     }
@@ -79,9 +89,9 @@ export function useGoogleDrive() {
   }, [])
 
   const connect = useCallback(async (customClientId?: string) => {
-    const targetClientId = (customClientId || config.clientId || '').trim()
+    const targetClientId = (customClientId || config.clientId || ENV_CLIENT_ID || '').trim()
     if (!targetClientId) {
-      setError('Google Client ID diperlukan untuk menghubungkan akun.')
+      setError('Google Client ID diperlukan untuk menghubungkan akun. Silakan tentukan Client ID di pengaturan atau file konfigurasi.')
       return
     }
 
@@ -162,6 +172,9 @@ export function useGoogleDrive() {
     [session, config.folderName]
   )
 
+  const effectiveClientId = (config.clientId || ENV_CLIENT_ID || '').trim()
+  const hasClientId = Boolean(effectiveClientId)
+
   return {
     config,
     session,
@@ -170,6 +183,8 @@ export function useGoogleDrive() {
     isUploading,
     error,
     lastUploadResult,
+    hasClientId,
+    effectiveClientId,
     connect,
     disconnect,
     updateConfig,
