@@ -12,11 +12,11 @@ export const WatermarkLayer: React.FC<WatermarkLayerProps> = ({
 }) => {
   if (!watermark.imageUrl) return null
 
-  // Pada mode landscape, geser posisi top ke top-16 agar tidak menabrak tombol aksi kamera atas
+  // Posisi watermark identik dengan hasil jepretan (WYSIWYG)
   const positionClasses = {
-    'top-left': isLandscape ? 'top-16 left-4 items-start justify-start' : 'top-4 left-4 items-start justify-start',
-    'top-center': isLandscape ? 'top-16 left-1/2 -translate-x-1/2 items-start justify-center' : 'top-4 left-1/2 -translate-x-1/2 items-start justify-center',
-    'top-right': isLandscape ? 'top-16 right-4 items-start justify-end' : 'top-4 right-4 items-start justify-end',
+    'top-left': 'top-4 left-4 items-start justify-start',
+    'top-center': 'top-4 left-1/2 -translate-x-1/2 items-start justify-center',
+    'top-right': 'top-4 right-4 items-start justify-end',
     'center': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center',
     'bottom-left': isLandscape ? 'bottom-4 left-4 items-end justify-start' : 'bottom-20 left-4 items-end justify-start',
     'bottom-center': isLandscape ? 'bottom-4 left-1/2 -translate-x-1/2 items-end justify-center' : 'bottom-20 left-1/2 -translate-x-1/2 items-end justify-center',

@@ -68,8 +68,8 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
   const positionClasses = {
     'bottom-left': 'bottom-3 left-3 origin-bottom-left',
     'bottom-right': 'bottom-3 right-3 origin-bottom-right',
-    'top-left': isLandscape ? 'top-16 left-3 origin-top-left' : 'top-3 left-3 origin-top-left',
-    'top-right': isLandscape ? 'top-16 right-3 origin-top-right' : 'top-3 right-3 origin-top-right',
+    'top-left': 'top-3 left-3 origin-top-left',
+    'top-right': 'top-3 right-3 origin-top-right',
   }[config.position]
 
   const portraitSizeStyles = {
