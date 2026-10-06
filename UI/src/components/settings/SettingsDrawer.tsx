@@ -5,6 +5,7 @@ import {
   Sliders,
   MapPin,
   Camera,
+  Cloud,
   Info,
   RotateCcw,
 } from 'lucide-react'
@@ -15,9 +16,11 @@ import type {
   SensorCapabilitiesInfo,
   CameraEffectConfig,
 } from '../../types/camera'
+import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
 import { WatermarkTab } from './WatermarkTab'
 import { GeotagTab } from './GeotagTab'
 import { CameraTab } from './CameraTab'
+import { GoogleDriveTab } from './GoogleDriveTab'
 import { AboutTab } from './AboutTab'
 
 interface SettingsDrawerProps {
@@ -33,6 +36,7 @@ interface SettingsDrawerProps {
   onChangeCameraEffect: (cfg: CameraEffectConfig) => void
   sensorInfo?: SensorCapabilitiesInfo | null
   onResetSettings?: () => void
+  drive: ReturnType<typeof useGoogleDrive>
 }
 
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
@@ -48,8 +52,9 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   onChangeCameraEffect,
   sensorInfo,
   onResetSettings,
+  drive,
 }) => {
-  const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'about'>('watermark')
+  const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'drive' | 'about'>('watermark')
   const [activeSlider, setActiveSlider] = useState<string | null>(null)
 
   // Global listener untuk deteksi saat slider dilepas di mana saja
@@ -107,7 +112,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
         {/* Tab Buttons */}
         <div
-          className={`grid grid-cols-4 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
+          className={`grid grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
             activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
@@ -149,6 +154,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           </button>
           <button
             type="button"
+            onClick={() => setActiveTab('drive')}
+            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
+              activeTab === 'drive'
+                ? 'border-white text-white'
+                : 'border-transparent text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            <Cloud className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Drive</span>
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveTab('about')}
             className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
               activeTab === 'about'
@@ -184,6 +201,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               onChangeCameraQualityConfig={onChangeCameraQualityConfig}
               activeSlider={activeSlider}
               setActiveSlider={setActiveSlider}
+            />
+          ) : activeTab === 'drive' ? (
+            <GoogleDriveTab
+              drive={drive}
+              activeSlider={activeSlider}
             />
           ) : (
             <AboutTab />

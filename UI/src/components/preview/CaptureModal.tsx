@@ -7,6 +7,9 @@ import {
   Calendar,
   MapPin,
   X,
+  Cloud,
+  Loader2,
+  ExternalLink,
 } from 'lucide-react'
 import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
@@ -16,6 +19,9 @@ interface CaptureModalProps {
   onClose: () => void
   onRetake: () => void
   isLandscape?: boolean
+  onUploadToDrive?: (dataUrl: string) => Promise<{ fileId: string; webViewLink?: string }>
+  isDriveConnected?: boolean
+  onOpenSettings?: () => void
 }
 
 export const CaptureModal: React.FC<CaptureModalProps> = ({
@@ -23,9 +29,42 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   onClose,
   onRetake,
   isLandscape = false,
+  onUploadToDrive,
+  isDriveConnected = false,
+  onOpenSettings,
 }) => {
   const [downloaded, setDownloaded] = useState(false)
   const [shared, setShared] = useState(false)
+  const [isUploadingDrive, setIsUploadingDrive] = useState(false)
+  const [driveResult, setDriveResult] = useState<{ fileId: string; webViewLink?: string } | null>(null)
+  const [driveError, setDriveError] = useState<string | null>(null)
+
+  const handleDriveUpload = async () => {
+    if (!photo) return
+    if (!isDriveConnected) {
+      if (onOpenSettings) {
+        onClose()
+        onOpenSettings()
+      } else {
+        alert('Silakan hubungkan akun Google Drive terlebih dahulu di Pengaturan.')
+      }
+      return
+    }
+
+    setIsUploadingDrive(true)
+    setDriveError(null)
+    try {
+      if (onUploadToDrive) {
+        const res = await onUploadToDrive(photo.dataUrl)
+        setDriveResult(res)
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Gagal mengunggah ke Google Drive'
+      setDriveError(msg)
+    } finally {
+      setIsUploadingDrive(false)
+    }
+  }
 
   if (!photo) return null
 
@@ -161,6 +200,33 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   <span>Ambil Ulang</span>
                 </button>
 
+                {driveResult?.webViewLink ? (
+                  <a
+                    href={driveResult.webViewLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-2.5 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 transition-all active:scale-95 shrink-0 flex items-center gap-1"
+                    title="Buka Foto di Google Drive"
+                  >
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <ExternalLink className="w-3 h-3 text-emerald-400" />
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleDriveUpload}
+                    disabled={isUploadingDrive}
+                    className="p-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
+                    title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
+                  >
+                    {isUploadingDrive ? (
+                      <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                    ) : (
+                      <Cloud className={`w-4 h-4 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                    )}
+                  </button>
+                )}
+
                 <button
                   type="button"
                   onClick={handleShare}
@@ -170,6 +236,9 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   {shared ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
                 </button>
               </div>
+              {driveError && (
+                <p className="text-[10px] text-rose-400 mt-1">{driveError}</p>
+              )}
             </div>
           </div>
         </div>
@@ -220,6 +289,12 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </div>
           </div>
 
+          {driveError && (
+            <div className="px-4 py-1.5 bg-rose-500/10 text-rose-300 text-xs border-t border-rose-500/20 text-center">
+              {driveError}
+            </div>
+          )}
+
           {/* Action Buttons */}
           <div className="shrink-0 p-3 sm:p-4 md:p-5 bg-zinc-950 border-t border-zinc-800 flex items-center gap-2 sm:gap-3">
             <button
@@ -230,6 +305,33 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
               <RotateCcw className="w-4 h-4 text-zinc-400 shrink-0" />
               <span>Ambil Ulang</span>
             </button>
+
+            {driveResult?.webViewLink ? (
+              <a
+                href={driveResult.webViewLink}
+                target="_blank"
+                rel="noreferrer"
+                className="p-2.5 sm:p-3 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/50 text-emerald-300 transition-all active:scale-95 shrink-0 flex items-center gap-1.5"
+                title="Buka Foto di Google Drive"
+              >
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />
+                <ExternalLink className="w-3.5 h-3.5 text-emerald-400" />
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={handleDriveUpload}
+                disabled={isUploadingDrive}
+                className="p-2.5 sm:p-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
+                title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
+              >
+                {isUploadingDrive ? (
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-emerald-400" />
+                ) : (
+                  <Cloud className={`w-4 h-4 sm:w-5 sm:h-5 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
+                )}
+              </button>
+            )}
 
             <button
               type="button"

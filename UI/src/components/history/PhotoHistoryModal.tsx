@@ -24,6 +24,9 @@ interface PhotoHistoryModalProps {
   isOpen: boolean
   onClose: () => void
   onPhotosUpdated?: () => void
+  onUploadToDrive?: (photo: StoredPhoto) => Promise<{ fileId: string; webViewLink?: string }>
+  isDriveConnected?: boolean
+  onOpenSettings?: () => void
 }
 
 type TimeFilter = 'all' | 'today' | 'week' | 'month'
@@ -35,6 +38,9 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
   isOpen,
   onClose,
   onPhotosUpdated,
+  onUploadToDrive,
+  isDriveConnected = false,
+  onOpenSettings,
 }) => {
   const [photos, setPhotos] = useState<StoredPhoto[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -413,6 +419,9 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
         onClose={() => setSelectedPhoto(null)}
         onDownload={handleDownload}
         onDelete={setDeleteConfirmId}
+        onUploadToDrive={onUploadToDrive ? (p) => onUploadToDrive(p) : undefined}
+        isDriveConnected={isDriveConnected}
+        onOpenSettings={onOpenSettings}
       />
 
       {/* ================= CONFIRMATION MODALS ================= */}
