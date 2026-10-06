@@ -124,6 +124,11 @@ export function useGoogleDrive() {
         // Abaikan
       }
 
+      // Selalu pastikan folder penyimpanan khusus (LocaCamp Photos) ada di Google Drive
+      // Jika belum ada, otomatis buat folder baru secara instan
+      const targetFolder = config.folderName || 'LocaCamp Photos'
+      await getOrCreateFolder(accessToken, targetFolder)
+
       if (customClientId && customClientId !== config.clientId) {
         updateConfig({ clientId: targetClientId })
       }

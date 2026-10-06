@@ -318,35 +318,23 @@ export async function uploadPhotoToGoogleDrive(
 
 /**
  * Mengambil daftar file foto di Google Drive
+ * Terisolasi ketat hanya di dalam folder khusus LocaCamp Photos
  */
 export async function listGoogleDriveFiles(
   accessToken: string,
   folderName = 'LocaCamp Photos'
 ): Promise<GoogleDriveFile[]> {
-  let folderId: string | null = null
-  try {
-    const safeName = folderName.replace(/'/g, "\\'")
-    const fQuery = encodeURIComponent(
-      `name = '${safeName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`
-    )
-    const fRes = await fetch(
-      `https://www.googleapis.com/drive/v3/files?q=${fQuery}&fields=files(id)`,
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    )
-    if (fRes.ok) {
-      const fData = await fRes.json()
-      if (fData.files && fData.files.length > 0) {
-        folderId = fData.files[0].id
-      }
-    }
-  } catch (err) {
-    console.warn('Gagal mencari folder:', err)
-  }
+  // 1. Selalu pastikan folder LocaCamp Photos ada (buat otomatis jika belum ada)
+  const folderId = await getOrCreateFolder(accessToken, folderName)
 
-  // Cari file di dalam folder khusus jika ada, atau semua gambar LocaCamp
-  let q = `trashed = false and mimeType contains 'image/'`
-  if (folderId) {
+  // 2. Query HANYA file yang berada di dalam folder tersebut demi menjaga privasi pengguna!
+  let q: string
+  if (folderId && folderId !== 'root') {
     q = `'${folderId}' in parents and trashed = false`
+  } else {
+    // Pengaman ketat: jika failover ke root karena pembatasan permission folder,
+    // HANYA ambil file yang diawali nama 'LocaCamp_'. JANGAN PERNAH mengambil foto umum pengguna!
+    q = `trashed = false and name contains 'LocaCamp_' and mimeType contains 'image/'`
   }
 
   const queryParam = encodeURIComponent(q)
