@@ -3,7 +3,7 @@ import { FileText, CheckCircle2, AlertTriangle, ShieldCheck, Scale, Mail } from 
 
 export const TermsOfServiceContent: React.FC = () => {
   return (
-    <div className="space-y-8 text-slate-300 leading-relaxed">
+    <div className="space-y-8 text-slate-300 leading-relaxed max-w-full break-words">
       {/* Header Banner */}
       <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-950 p-6 sm:p-8 shadow-xl">
         <div className="flex items-center gap-3 text-emerald-400 mb-3">

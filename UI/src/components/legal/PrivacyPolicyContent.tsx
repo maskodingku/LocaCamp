@@ -3,7 +3,7 @@ import { ShieldCheck, Camera, MapPin, HardDrive, Lock, RefreshCw, Mail } from 'l
 
 export const PrivacyPolicyContent: React.FC = () => {
   return (
-    <div className="space-y-8 text-slate-300 leading-relaxed">
+    <div className="space-y-8 text-slate-300 leading-relaxed max-w-full break-words">
       {/* Header Banner */}
       <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-950 p-6 sm:p-8 shadow-xl">
         <div className="flex items-center gap-3 text-emerald-400 mb-3">
@@ -87,7 +87,7 @@ export const PrivacyPolicyContent: React.FC = () => {
           </p>
           <ul className="list-disc pl-5 space-y-1.5 text-slate-300">
             <li>
-              Aplikasi hanya meminta izin scope <code className="text-teal-300 font-mono">https://www.googleapis.com/auth/drive.file</code>. Izin ini dibatasi khusus hanya pada file yang diunggah atau dibuat langsung oleh aplikasi LocaCamp.
+              Aplikasi hanya meminta izin scope <code className="text-teal-300 font-mono break-all">https://www.googleapis.com/auth/drive.file</code>. Izin ini dibatasi khusus hanya pada file yang diunggah atau dibuat langsung oleh aplikasi LocaCamp.
             </li>
             <li>
               Seluruh foto survei yang Anda pilih untuk dicadangkan otomatis disimpan ke dalam folder khusus bernama <strong className="text-white">LocaCamp Photos</strong> di Google Drive Anda.
@@ -188,7 +188,7 @@ export const PrivacyPolicyContent: React.FC = () => {
           <p><strong className="text-white">Pengembang:</strong> Abdi Syahputra Harahap</p>
           <p><strong className="text-white">Proyek:</strong> LocaCamp (Smart Geotag Camera PWA)</p>
           <p><strong className="text-white">Email Dukungan:</strong> <span className="text-emerald-400 font-mono">maskoding12@gmail.com</span></p>
-          <p><strong className="text-white">Repositori:</strong> <span className="text-slate-400 font-mono">https://github.com/maskodingku/LocaCamp</span></p>
+          <p><strong className="text-white">Repositori:</strong> <span className="text-slate-400 font-mono break-all">https://github.com/maskodingku/LocaCamp</span></p>
         </div>
       </section>
     </div>

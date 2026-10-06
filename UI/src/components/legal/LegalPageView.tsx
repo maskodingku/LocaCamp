@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { LegalHeader } from './LegalHeader'
 import { LegalFooter } from './LegalFooter'
 import { PrivacyPolicyContent } from './PrivacyPolicyContent'
@@ -11,6 +11,7 @@ interface LegalPageViewProps {
 
 export const LegalPageView: React.FC<LegalPageViewProps> = ({ currentPath, onNavigate }) => {
   const isPrivacy = currentPath === '/privacy' || currentPath === '/privacy-policy'
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Set dynamic document title and scroll to top on path change
@@ -19,25 +20,39 @@ export const LegalPageView: React.FC<LegalPageViewProps> = ({ currentPath, onNav
     } else {
       document.title = 'Ketentuan Layanan (Terms of Service) - LocaCamp'
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    // Scroll container to top
+    if (containerRef.current) {
+      containerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
   }, [currentPath, isPrivacy])
 
   useEffect(() => {
-    // Izinkan scrolling dan text selection di halaman legal
+    // Izinkan scrolling dan text selection di root container
+    const rootEl = document.getElementById('root')
+    if (rootEl) {
+      rootEl.classList.remove('overflow-hidden', 'select-none')
+    }
     document.body.classList.remove('overflow-hidden', 'select-none')
+
     return () => {
+      if (rootEl) {
+        rootEl.classList.add('overflow-hidden', 'select-none')
+      }
       document.body.classList.add('overflow-hidden', 'select-none')
       document.title = 'LocaCamp - Live Geotag & Watermark Camera'
     }
   }, [])
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 overflow-y-auto">
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-50 h-[100dvh] w-full max-w-full overflow-x-hidden overflow-y-auto overscroll-contain bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 touch-pan-y"
+    >
       {/* Top Navigation Bar with Dynamic Path Switches */}
       <LegalHeader currentPath={currentPath} onNavigate={onNavigate} />
 
       {/* Main Content Area */}
-      <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+      <main className="flex-1 mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 sm:py-10">
         {isPrivacy ? <PrivacyPolicyContent /> : <TermsOfServiceContent />}
       </main>
 

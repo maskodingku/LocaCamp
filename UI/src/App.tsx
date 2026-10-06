@@ -6,6 +6,7 @@ import { SettingsDrawer } from './components/settings/SettingsDrawer'
 import { CaptureModal } from './components/preview/CaptureModal'
 import { PhotoHistoryModal } from './components/history/PhotoHistoryModal'
 import { LegalPageView } from './components/legal/LegalPageView'
+import { TermsConsentModal } from './components/legal/TermsConsentModal'
 import { useCamera } from './hooks/useCamera'
 import { useGeolocation } from './hooks/useGeolocation'
 import { useOrientation } from './hooks/useOrientation'
@@ -96,8 +97,23 @@ export default function App() {
 
   const isLegalPage = currentPath === '/privacy' || currentPath === '/terms'
 
-  // Kamera & sensor optik mati total saat membuka riwayat foto, mereview hasil jepretan, membuka menu pengaturan, atau sedang di halaman legal
-  const isCameraActive = !isLegalPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
+  // Status Persetujuan Syarat & Ketentuan (wajib disetujui saat pertama kali buka aplikasi)
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('locacamp_terms_accepted') === 'true'
+    }
+    return false
+  })
+
+  const handleAcceptTerms = useCallback(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('locacamp_terms_accepted', 'true')
+    }
+    setHasAcceptedTerms(true)
+  }, [])
+
+  // Kamera & sensor optik mati total saat belum menyetujui syarat/ketentuan, membuka riwayat foto, mereview hasil jepretan, membuka menu pengaturan, atau sedang di halaman legal
+  const isCameraActive = hasAcceptedTerms && !isLegalPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
@@ -350,6 +366,12 @@ export default function App() {
         onOpenSettings={() => setIsSettingsOpen(true)}
         drive={drive}
         driveQueue={driveQueue}
+      />
+
+      {/* Modal Persetujuan Syarat & Ketentuan Pertama Kali */}
+      <TermsConsentModal
+        isOpen={!hasAcceptedTerms}
+        onAccept={handleAcceptTerms}
       />
     </main>
   )
