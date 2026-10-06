@@ -354,8 +354,16 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                     title: 'Indikator Akurasi GPS (Meter)',
                     desc: 'Toleransi meteran sinyal satelit GPS saat capture',
                   },
+                  {
+                    key: 'showMiniMap' as const,
+                    title: 'Mini Map (Cuplikan Peta Lokasi)',
+                    desc: 'Tampilkan peta jalan sekitar dan pin merah di samping geotag',
+                  },
                 ].map(item => {
-                  const isChecked = geotagConfig[item.key]
+                  const isChecked =
+                    item.key === 'showMiniMap'
+                      ? geotagConfig.showMiniMap !== false
+                      : geotagConfig[item.key]
                   return (
                     <label
                       key={item.key}

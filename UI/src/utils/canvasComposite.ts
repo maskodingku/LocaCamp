@@ -8,6 +8,7 @@ import type {
 } from '../types/camera'
 import { formatTimeWithTimezone } from './timezone'
 import { getCameraFilterString } from './cameraFilters'
+import { generateMiniMapCanvas } from './miniMapGenerator'
 
 export interface CompositeOptions {
   video: HTMLVideoElement
@@ -139,7 +140,7 @@ export async function captureAndComposite({
   }
 
   // 3. Draw Geotag Overlay (dicetak pada dimensi foto yang sudah berorientasi sejati)
-  drawGeotagBadge(ctx, width, height, location, displayConfig)
+  await drawGeotagBadge(ctx, width, height, location, displayConfig)
 
   // 4. Draw Watermark / Logo if available
   if (watermark.imageUrl) {
@@ -161,13 +162,13 @@ export async function captureAndComposite({
   }
 }
 
-function drawGeotagBadge(
+async function drawGeotagBadge(
   ctx: CanvasRenderingContext2D,
   canvasWidth: number,
   canvasHeight: number,
   location: GeoLocationData,
   config: GeotagDisplayConfig
-) {
+): Promise<void> {
   // Multiplier berdasarkan pilihan ukuran font visitor
   const fontMultipliers: Record<string, number> = {
     small: 0.85,
@@ -237,7 +238,19 @@ function drawGeotagBadge(
   // Measure badge width & height
   const badgePadX = 16 * scale
   const badgePadY = 12 * scale
-  const maxContentWidth = canvasWidth * 0.88
+
+  const hasMiniMap =
+    config.showMiniMap !== false &&
+    location.latitude !== null &&
+    location.longitude !== null
+
+  // Sediakan ruang untuk mini map di sebelah kanan teks jika aktif
+  const estimatedMapSize = hasMiniMap ? 78 * scale : 0
+  const mapGap = hasMiniMap ? 12 * scale : 0
+  const maxContentWidth = Math.max(
+    120 * scale,
+    canvasWidth * 0.88 - (hasMiniMap ? estimatedMapSize + mapGap + badgePadX : 0)
+  )
 
   // Word wrap lines if too long
   const finalLines: { text: string; isBold?: boolean; size: number; color: string }[] = []
@@ -269,8 +282,30 @@ function drawGeotagBadge(
     totalTextHeight += item.size + lineSpacing
   }
 
-  const badgeWidth = maxLineWidth + badgePadX * 2
-  const badgeHeight = totalTextHeight + badgePadY * 2 - lineSpacing
+  // Buat mini map canvas jika aktif
+  let mapCanvas: HTMLCanvasElement | null = null
+  let mapSize = 0
+
+  if (hasMiniMap && location.latitude !== null && location.longitude !== null) {
+    mapSize = Math.max(68 * scale, totalTextHeight)
+    try {
+      mapCanvas = await generateMiniMapCanvas(
+        location.latitude,
+        location.longitude,
+        Math.round(mapSize * 1.5),
+        Math.round(mapSize * 1.5),
+        16
+      )
+    } catch {
+      mapCanvas = null
+    }
+  }
+
+  const badgeWidth = maxLineWidth + badgePadX * 2 + (mapCanvas ? mapGap + mapSize : 0)
+  const badgeHeight = Math.max(
+    totalTextHeight + badgePadY * 2 - lineSpacing,
+    mapCanvas ? mapSize + badgePadY * 2 : 0
+  )
   const borderRadius = 12 * scale
 
   // Position calculation
@@ -308,6 +343,28 @@ function drawGeotagBadge(
     ctx.fillText(item.text, x + badgePadX, currentY)
     currentY += item.size + lineSpacing
   }
+
+  // Draw mini map on the right side if available
+  if (mapCanvas) {
+    const mapX = x + maxLineWidth + badgePadX + mapGap
+    const mapY = y + (badgeHeight - mapSize) / 2
+    const mapRadius = 10 * scale
+
+    ctx.save()
+    roundRect(ctx, mapX, mapY, mapSize, mapSize, mapRadius)
+    ctx.clip()
+    ctx.drawImage(mapCanvas, mapX, mapY, mapSize, mapSize)
+    ctx.restore()
+
+    // Border halus di sekeliling mini map
+    ctx.save()
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)'
+    ctx.lineWidth = 1.2 * scale
+    roundRect(ctx, mapX, mapY, mapSize, mapSize, mapRadius)
+    ctx.stroke()
+    ctx.restore()
+  }
+
   ctx.restore()
 }
 

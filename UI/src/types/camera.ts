@@ -35,6 +35,7 @@ export interface GeotagDisplayConfig {
   showAccuracy: boolean
   position: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
   fontSize: 'small' | 'medium' | 'large' | 'xlarge'
+  showMiniMap?: boolean
 }
 
 export interface CapturedPhoto {

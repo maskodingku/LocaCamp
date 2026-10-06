@@ -23,6 +23,7 @@ export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {
   showAccuracy: true,
   position: 'bottom-right',
   fontSize: 'small',
+  showMiniMap: true,
 }
 
 export const DEFAULT_CAMERA_QUALITY_CONFIG: CameraQualityConfig = {
