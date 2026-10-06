@@ -234,15 +234,16 @@ export const CameraTab: React.FC<CameraTabProps> = ({
             )
           })}
         </div>
+      </div>
 
-        {/* Finetuning Sliders */}
-        <div
-          className={`space-y-3 transition-all duration-150 ${
-            activeSlider
-              ? 'bg-transparent border-transparent p-0 mt-0'
-              : 'mt-4 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80'
-          }`}
-        >
+      {/* Finetuning Sliders */}
+      <div
+        className={`space-y-3 transition-all duration-150 ${
+          activeSlider
+            ? 'bg-transparent border-transparent p-0 mt-0'
+            : 'mt-4 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80'
+        }`}
+      >
           <div
             className={`flex items-center justify-between transition-opacity duration-150 ${
               activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -412,7 +413,6 @@ export const CameraTab: React.FC<CameraTabProps> = ({
             />
           </div>
         </div>
-      </div>
 
       {/* Target Resolusi Sensor */}
       <div
