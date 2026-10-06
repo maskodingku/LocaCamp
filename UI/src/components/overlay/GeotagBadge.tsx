@@ -107,6 +107,7 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
 
   return (
     <div
+      onClick={e => e.stopPropagation()}
       className={`absolute z-20 pointer-events-auto ${
         isLandscape ? 'max-w-[70%] md:max-w-sm' : 'max-w-[90%] md:max-w-md'
       } ${positionClasses} transition-all duration-300 ease-out`}

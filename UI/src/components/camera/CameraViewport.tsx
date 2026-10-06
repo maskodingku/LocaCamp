@@ -1,4 +1,4 @@
-import type { RefObject } from 'react'
+import { useState, type RefObject } from 'react'
 import appLogo from '../../assets/locacamp-logo.jpg'
 import {
   RotateCcw,
@@ -71,6 +71,9 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
 }) => {
   const { canInstall, installApp } = usePWAInstall()
 
+  // Kontrol visibilitas toolbar atas saat layar kamera diketuk
+  const [isTopBarVisible, setIsTopBarVisible] = useState(true)
+
   // Filter visual real-time pada video stream (WYSIWYG 60fps)
   const liveFilter = getCameraFilterString(cameraEffect, { includeDenoise: false })
 
@@ -94,14 +97,20 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
     ? 'HDR'
     : 'Efek Aktif'
 
+  const handleViewportClick = () => {
+    // Jika preset selector bar sedang terbuka di bawah, utamakan menutup preset bar
+    if (isPresetBarOpen && onClosePresetBar) {
+      onClosePresetBar()
+      return
+    }
+    // Toggle visibilitas toolbar atas (clean view mode)
+    setIsTopBarVisible(prev => !prev)
+  }
+
   return (
     <div
-      onClick={() => {
-        if (isPresetBarOpen && onClosePresetBar) {
-          onClosePresetBar()
-        }
-      }}
-      className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none"
+      onClick={handleViewportClick}
+      className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none cursor-default"
     >
       {/* 1. Camera Video Element */}
       <video
@@ -147,7 +156,11 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       {/* 4. Top Minimal Bar (Controls & Status) */}
       <div
         onClick={e => e.stopPropagation()}
-        className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent pointer-events-auto"
+        className={`absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent transition-all duration-300 ease-in-out ${
+          isTopBarVisible
+            ? 'opacity-100 translate-y-0 pointer-events-auto'
+            : 'opacity-0 -translate-y-8 pointer-events-none'
+        }`}
       >
         {/* Sisi Kiri: Tombol Install App dan/atau Badge Efek Visual Aktif */}
         <div className="flex items-center gap-2">
