@@ -32,7 +32,7 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
 
     let isMounted = true
 
-    getMiniMapDataUrl(location.latitude, location.longitude, 200, 200, 16)
+    getMiniMapDataUrl(location.latitude, location.longitude, 200, 200, 17)
       .then(url => {
         if (isMounted) {
           setMapUrl(url)

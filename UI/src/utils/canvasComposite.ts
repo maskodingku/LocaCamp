@@ -294,7 +294,7 @@ async function drawGeotagBadge(
         location.longitude,
         Math.round(mapSize * 1.5),
         Math.round(mapSize * 1.5),
-        16
+        17
       )
     } catch {
       mapCanvas = null
