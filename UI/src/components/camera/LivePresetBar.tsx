@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Check,
   Sliders,
@@ -50,6 +50,23 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
   rotationAngle = 0,
 }) => {
   const [activeTab, setActiveTab] = useState<'presets' | 'finetune'>('presets')
+  const [activeSlider, setActiveSlider] = useState<string | null>(null)
+
+  // Global listener untuk deteksi saat slider dilepas di mana saja
+  useEffect(() => {
+    if (!activeSlider) return
+    const handleRelease = () => setActiveSlider(null)
+    window.addEventListener('pointerup', handleRelease)
+    window.addEventListener('pointercancel', handleRelease)
+    window.addEventListener('touchend', handleRelease)
+    window.addEventListener('mouseup', handleRelease)
+    return () => {
+      window.removeEventListener('pointerup', handleRelease)
+      window.removeEventListener('pointercancel', handleRelease)
+      window.removeEventListener('touchend', handleRelease)
+      window.removeEventListener('mouseup', handleRelease)
+    }
+  }, [activeSlider])
 
   const hasFinetune =
     cameraEffect.finetune.brightness !== 0 ||
@@ -154,7 +171,13 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
 
   // =================== LAYOUT PORTRAIT (Bawah Layar) ===================
   return (
-    <div className="w-full bg-gradient-to-t from-black via-zinc-950/98 to-zinc-950/90 border-t border-zinc-800/60 pt-3 pb-6 px-4 flex flex-col items-center justify-center gap-3 z-20 shrink-0 select-none shadow-2xl animate-in slide-in-from-bottom-3 duration-200">
+    <div
+      className={`w-full pt-3 pb-6 px-4 flex flex-col items-center justify-center gap-3 z-20 shrink-0 select-none transition-all duration-200 ${
+        activeSlider
+          ? 'bg-transparent border-transparent shadow-none'
+          : 'bg-gradient-to-t from-black via-zinc-950/98 to-zinc-950/90 border-t border-zinc-800/60 shadow-2xl animate-in slide-in-from-bottom-3 duration-200'
+      }`}
+    >
       {/* 1. Baris Atas: Carousel Preset ATAU Slider Finetuning */}
       {activeTab === 'presets' ? (
         <div className="w-full flex items-center gap-2 overflow-x-auto py-1 px-1 scrollbar-none">
@@ -193,8 +216,18 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
         </div>
       ) : (
         /* Sub-Mode Finetuning Sliders */
-        <div className="w-full bg-zinc-900/80 border border-zinc-800 rounded-2xl p-3 space-y-2.5 animate-in fade-in duration-150">
-          <div className="flex items-center justify-between">
+        <div
+          className={`w-full transition-all duration-150 ${
+            activeSlider
+              ? 'bg-transparent border-transparent p-0'
+              : 'bg-zinc-900/80 border border-zinc-800 rounded-2xl p-3 space-y-2.5 animate-in fade-in duration-150'
+          }`}
+        >
+          <div
+            className={`flex items-center justify-between transition-opacity duration-150 ${
+              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            }`}
+          >
             <button
               type="button"
               onClick={() => setActiveTab('presets')}
@@ -224,7 +257,15 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
           {/* Sliders Grid */}
           <div className="grid grid-cols-3 gap-2 pt-0.5">
             {/* Kecerahan */}
-            <div className="space-y-1">
+            <div
+              className={`space-y-1 transition-all duration-150 ${
+                activeSlider === 'brightness'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  : activeSlider !== null
+                  ? 'opacity-0 pointer-events-none'
+                  : ''
+              }`}
+            >
               <div className="flex justify-between text-[10px]">
                 <span className="text-zinc-400 flex items-center gap-1">
                   <Sun className="w-3 h-3 text-amber-400" /> Kecerahan
@@ -241,6 +282,12 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
                 max="20"
                 step="1"
                 value={cameraEffect.finetune.brightness}
+                onPointerDown={() => setActiveSlider('brightness')}
+                onTouchStart={() => setActiveSlider('brightness')}
+                onMouseDown={() => setActiveSlider('brightness')}
+                onPointerUp={() => setActiveSlider(null)}
+                onTouchEnd={() => setActiveSlider(null)}
+                onMouseUp={() => setActiveSlider(null)}
                 onChange={e =>
                   onChangeCameraEffect({
                     ...cameraEffect,
@@ -255,7 +302,15 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
             </div>
 
             {/* Kontras */}
-            <div className="space-y-1">
+            <div
+              className={`space-y-1 transition-all duration-150 ${
+                activeSlider === 'contrast'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  : activeSlider !== null
+                  ? 'opacity-0 pointer-events-none'
+                  : ''
+              }`}
+            >
               <div className="flex justify-between text-[10px]">
                 <span className="text-zinc-400 flex items-center gap-1">
                   <Contrast className="w-3 h-3 text-sky-400" /> Kontras
@@ -272,6 +327,12 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
                 max="20"
                 step="1"
                 value={cameraEffect.finetune.contrast}
+                onPointerDown={() => setActiveSlider('contrast')}
+                onTouchStart={() => setActiveSlider('contrast')}
+                onMouseDown={() => setActiveSlider('contrast')}
+                onPointerUp={() => setActiveSlider(null)}
+                onTouchEnd={() => setActiveSlider(null)}
+                onMouseUp={() => setActiveSlider(null)}
                 onChange={e =>
                   onChangeCameraEffect({
                     ...cameraEffect,
@@ -286,7 +347,15 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
             </div>
 
             {/* Kejenuhan */}
-            <div className="space-y-1">
+            <div
+              className={`space-y-1 transition-all duration-150 ${
+                activeSlider === 'saturation'
+                  ? 'p-2.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-emerald-500/60 shadow-xl ring-2 ring-emerald-400/40'
+                  : activeSlider !== null
+                  ? 'opacity-0 pointer-events-none'
+                  : ''
+              }`}
+            >
               <div className="flex justify-between text-[10px]">
                 <span className="text-zinc-400 flex items-center gap-1">
                   <Palette className="w-3 h-3 text-rose-400" /> Warna
@@ -303,6 +372,12 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
                 max="20"
                 step="1"
                 value={cameraEffect.finetune.saturation}
+                onPointerDown={() => setActiveSlider('saturation')}
+                onTouchStart={() => setActiveSlider('saturation')}
+                onMouseDown={() => setActiveSlider('saturation')}
+                onPointerUp={() => setActiveSlider(null)}
+                onTouchEnd={() => setActiveSlider(null)}
+                onMouseUp={() => setActiveSlider(null)}
                 onChange={e =>
                   onChangeCameraEffect({
                     ...cameraEffect,
@@ -320,7 +395,11 @@ export const LivePresetBar: React.FC<LivePresetBarProps> = ({
       )}
 
       {/* 2. Baris Bawah: Tombol Koreksi, Shutter Tengah, dan Tombol Selesai */}
-      <div className="w-full flex items-center justify-between px-2 pt-1">
+      <div
+        className={`w-full flex items-center justify-between px-2 pt-1 transition-opacity duration-150 ${
+          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
         {/* Sisi Kiri: Toggle Finetuning */}
         <div className="w-20 flex justify-start">
           <button

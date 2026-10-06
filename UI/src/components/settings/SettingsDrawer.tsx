@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   X,
   Upload,
@@ -81,6 +81,23 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   onResetSettings,
 }) => {
   const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'about'>('watermark')
+  const [activeSlider, setActiveSlider] = useState<string | null>(null)
+
+  // Global listener untuk deteksi saat slider dilepas di mana saja
+  useEffect(() => {
+    if (!activeSlider) return
+    const handleRelease = () => setActiveSlider(null)
+    window.addEventListener('pointerup', handleRelease)
+    window.addEventListener('pointercancel', handleRelease)
+    window.addEventListener('touchend', handleRelease)
+    window.addEventListener('mouseup', handleRelease)
+    return () => {
+      window.removeEventListener('pointerup', handleRelease)
+      window.removeEventListener('pointercancel', handleRelease)
+      window.removeEventListener('touchend', handleRelease)
+      window.removeEventListener('mouseup', handleRelease)
+    }
+  }, [activeSlider])
 
   if (!isOpen) return null
 
@@ -113,13 +130,27 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   ]
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in">
+    <div
+      className={`fixed inset-0 z-50 flex items-end md:items-center justify-center transition-all duration-200 ${
+        activeSlider
+          ? 'bg-transparent backdrop-blur-none pointer-events-auto'
+          : 'bg-black/70 backdrop-blur-md animate-in fade-in'
+      }`}
+    >
       <div
-        className="w-full md:max-w-xl max-h-[88vh] md:max-h-[85vh] bg-zinc-950 border border-zinc-800 rounded-t-3xl md:rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in slide-in-from-bottom-6 duration-200"
+        className={`w-full md:max-w-xl max-h-[88vh] md:max-h-[85vh] rounded-t-3xl md:rounded-3xl flex flex-col overflow-hidden text-white transition-all duration-200 ${
+          activeSlider
+            ? 'bg-transparent border-transparent shadow-none'
+            : 'bg-zinc-950 border border-zinc-800 shadow-2xl animate-in slide-in-from-bottom-6 duration-200'
+        }`}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800">
+        <div
+          className={`flex items-center justify-between px-6 py-4 border-b border-zinc-800 transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <Sliders className="w-5 h-5 text-zinc-400" />
             <h2 className="text-base font-semibold text-white">Pengaturan Foto & Tampilan</h2>
@@ -134,7 +165,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         </div>
 
         {/* Tab Buttons */}
-        <div className="grid grid-cols-4 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50">
+        <div
+          className={`grid grid-cols-4 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
           <button
             type="button"
             onClick={() => setActiveTab('watermark')}
@@ -190,7 +225,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           {activeTab === 'watermark' ? (
             <>
               {/* Upload Custom Logo */}
-              <div>
+              <div
+                className={`transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                   Unggah Logo / Gambar Sendiri
                 </label>
@@ -219,39 +258,49 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Preview Logo Aktif */}
-              {watermark.imageUrl ? (
-                <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="w-14 h-14 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0">
-                      <img
-                        src={watermark.imageUrl}
-                        alt="Logo Aktif"
-                        className="max-w-full max-h-full object-contain"
-                      />
+              <div
+                className={`transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
+                {watermark.imageUrl ? (
+                  <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="w-14 h-14 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0">
+                        <img
+                          src={watermark.imageUrl}
+                          alt="Logo Aktif"
+                          className="max-w-full max-h-full object-contain"
+                        />
+                      </div>
+                      <div className="overflow-hidden">
+                        <p className="text-xs font-semibold text-white">Logo Aktif</p>
+                        <p className="text-[11px] text-zinc-400">Siap dicetak pada hasil foto</p>
+                      </div>
                     </div>
-                    <div className="overflow-hidden">
-                      <p className="text-xs font-semibold text-white">Logo Aktif</p>
-                      <p className="text-[11px] text-zinc-400">Siap dicetak pada hasil foto</p>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
+                      className="p-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors shrink-0"
+                      title="Hapus Logo"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-                    className="p-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors shrink-0"
-                    title="Hapus Logo"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
-                <div className="p-3.5 rounded-xl border border-dashed border-zinc-800 text-center bg-zinc-900/30">
-                  <p className="text-xs text-zinc-500 italic">Belum ada logo yang diunggah</p>
-                </div>
-              )}
+                ) : (
+                  <div className="p-3.5 rounded-xl border border-dashed border-zinc-800 text-center bg-zinc-900/30">
+                    <p className="text-xs text-zinc-500 italic">Belum ada logo yang diunggah</p>
+                  </div>
+                )}
+              </div>
 
               {/* Position Selector (9-Grid) */}
               {watermark.imageUrl && (
-                <div>
+                <div
+                  className={`transition-opacity duration-150 ${
+                    activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                  }`}
+                >
                   <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                     Posisi Watermark di Foto
                   </label>
@@ -282,16 +331,30 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               {/* Sliders: Size and Opacity */}
               {watermark.imageUrl && (
                 <div className="space-y-4 pt-1">
-                  <div>
+                  <div
+                    className={`transition-all duration-150 ${
+                      activeSlider === 'watermark_size'
+                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-white/40 shadow-2xl ring-2 ring-white/20'
+                        : activeSlider !== null
+                        ? 'opacity-0 pointer-events-none'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-                      <span>Ukuran Watermark</span>
-                      <span className="text-zinc-200">{watermark.sizePercent}% lebar foto</span>
+                      <span className={activeSlider === 'watermark_size' ? 'text-white font-bold' : ''}>Ukuran Watermark</span>
+                      <span className="text-zinc-200 font-mono">{watermark.sizePercent}% lebar foto</span>
                     </div>
                     <input
                       type="range"
                       min={8}
                       max={45}
                       value={watermark.sizePercent}
+                      onPointerDown={() => setActiveSlider('watermark_size')}
+                      onTouchStart={() => setActiveSlider('watermark_size')}
+                      onMouseDown={() => setActiveSlider('watermark_size')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
                       onChange={e =>
                         onChangeWatermark({
                           ...watermark,
@@ -302,10 +365,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                     />
                   </div>
 
-                  <div>
+                  <div
+                    className={`transition-all duration-150 ${
+                      activeSlider === 'watermark_opacity'
+                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-white/40 shadow-2xl ring-2 ring-white/20'
+                        : activeSlider !== null
+                        ? 'opacity-0 pointer-events-none'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-                      <span>Transparansi (Opacity)</span>
-                      <span className="text-zinc-200">{Math.round(watermark.opacity * 100)}%</span>
+                      <span className={activeSlider === 'watermark_opacity' ? 'text-white font-bold' : ''}>Transparansi (Opacity)</span>
+                      <span className="text-zinc-200 font-mono">{Math.round(watermark.opacity * 100)}%</span>
                     </div>
                     <input
                       type="range"
@@ -313,6 +384,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                       max={1.0}
                       step={0.05}
                       value={watermark.opacity}
+                      onPointerDown={() => setActiveSlider('watermark_opacity')}
+                      onTouchStart={() => setActiveSlider('watermark_opacity')}
+                      onMouseDown={() => setActiveSlider('watermark_opacity')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
                       onChange={e =>
                         onChangeWatermark({
                           ...watermark,
@@ -457,7 +534,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             /* Camera Quality Tab */
             <div className="space-y-6 animate-in fade-in duration-200">
               {/* Sensor Hardware Detection Card */}
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-zinc-900 to-zinc-950 border border-emerald-500/30 relative overflow-hidden">
+              <div
+                className={`p-4 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-zinc-900 to-zinc-950 border border-emerald-500/30 relative overflow-hidden transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400">
                     <Cpu className="w-5 h-5" />
@@ -502,7 +583,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Efek Visual & Filter Warna */}
-              <div className="pt-2 border-t border-zinc-800/80">
+              <div
+                className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="flex items-center justify-between mb-1">
                   <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
                     Preset Efek & Nuansa Warna
@@ -602,8 +687,18 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                 </div>
 
                 {/* Finetuning Sliders */}
-                <div className="mt-4 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80 space-y-3">
-                  <div className="flex items-center justify-between">
+                <div
+                  className={`space-y-3 transition-all duration-150 ${
+                    activeSlider
+                      ? 'bg-transparent border-transparent p-0 mt-0'
+                      : 'mt-4 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80'
+                  }`}
+                >
+                  <div
+                    className={`flex items-center justify-between transition-opacity duration-150 ${
+                      activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                    }`}
+                  >
                     <div className="flex items-center gap-1.5">
                       <Sliders className="w-3.5 h-3.5 text-zinc-400" />
                       <span className="text-xs font-semibold text-zinc-300">
@@ -631,7 +726,15 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   </div>
 
                   {/* Slider Kecerahan */}
-                  <div className="space-y-1">
+                  <div
+                    className={`space-y-1 transition-all duration-150 ${
+                      activeSlider === 'camera_brightness'
+                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        : activeSlider !== null
+                        ? 'opacity-0 pointer-events-none'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
                         <Sun className="w-3.5 h-3.5 text-amber-400" />
@@ -649,6 +752,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                       max="20"
                       step="1"
                       value={cameraEffect.finetune.brightness}
+                      onPointerDown={() => setActiveSlider('camera_brightness')}
+                      onTouchStart={() => setActiveSlider('camera_brightness')}
+                      onMouseDown={() => setActiveSlider('camera_brightness')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
                       onChange={e =>
                         onChangeCameraEffect({
                           ...cameraEffect,
@@ -663,7 +772,15 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   </div>
 
                   {/* Slider Kontras */}
-                  <div className="space-y-1">
+                  <div
+                    className={`space-y-1 transition-all duration-150 ${
+                      activeSlider === 'camera_contrast'
+                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        : activeSlider !== null
+                        ? 'opacity-0 pointer-events-none'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
                         <Contrast className="w-3.5 h-3.5 text-sky-400" />
@@ -681,6 +798,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                       max="20"
                       step="1"
                       value={cameraEffect.finetune.contrast}
+                      onPointerDown={() => setActiveSlider('camera_contrast')}
+                      onTouchStart={() => setActiveSlider('camera_contrast')}
+                      onMouseDown={() => setActiveSlider('camera_contrast')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
                       onChange={e =>
                         onChangeCameraEffect({
                           ...cameraEffect,
@@ -695,7 +818,15 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   </div>
 
                   {/* Slider Kejenuhan Warna */}
-                  <div className="space-y-1">
+                  <div
+                    className={`space-y-1 transition-all duration-150 ${
+                      activeSlider === 'camera_saturation'
+                        ? 'p-4 rounded-2xl bg-zinc-950/85 backdrop-blur-md border border-emerald-500/50 shadow-2xl ring-2 ring-emerald-400/40'
+                        : activeSlider !== null
+                        ? 'opacity-0 pointer-events-none'
+                        : ''
+                    }`}
+                  >
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-zinc-400 flex items-center gap-1.5 text-[11px]">
                         <Palette className="w-3.5 h-3.5 text-rose-400" />
@@ -713,6 +844,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                       max="20"
                       step="1"
                       value={cameraEffect.finetune.saturation}
+                      onPointerDown={() => setActiveSlider('camera_saturation')}
+                      onTouchStart={() => setActiveSlider('camera_saturation')}
+                      onMouseDown={() => setActiveSlider('camera_saturation')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
                       onChange={e =>
                         onChangeCameraEffect({
                           ...cameraEffect,
@@ -729,7 +866,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Target Resolusi Sensor */}
-              <div>
+              <div
+                className={`transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
                     Target Resolusi Sensor
@@ -843,7 +984,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Kompresi JPEG */}
-              <div className="pt-2 border-t border-zinc-800/80">
+              <div
+                className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
                     Kualitas Kompresi JPEG
@@ -884,7 +1029,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Mode Penghalus Derau (Denoise / Anti Pasir Halus) */}
-              <div className="pt-2 border-t border-zinc-800/80">
+              <div
+                className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="flex items-center justify-between mb-1">
                   <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
                     Penghalus Pasir Derau (Denoise)
@@ -948,7 +1097,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               </div>
 
               {/* Penjelasan Ketajaman */}
-              <div className="p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 space-y-1">
+              <div
+                className={`p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 space-y-1 transition-opacity duration-150 ${
+                  activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+              >
                 <div className="font-semibold text-zinc-300 flex items-center gap-1.5">
                   <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
                   Mengapa foto di aplikasi ini kini sejernih kamera bawaan?
@@ -1155,7 +1308,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-zinc-800 bg-zinc-950 flex items-center justify-between gap-3">
+        <div
+          className={`p-4 border-t border-zinc-800 bg-zinc-950 flex items-center justify-between gap-3 transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
           {onResetSettings ? (
             <button
               type="button"
