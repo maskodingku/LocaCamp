@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { HomeHeader } from './HomeHeader'
 import { HomeHeroSection } from './HomeHeroSection'
 import { HomeFeaturesSection } from './HomeFeaturesSection'
 import { HomeDataUsageSection } from './HomeDataUsageSection'
@@ -40,6 +41,7 @@ export const HomePageView: React.FC<HomePageViewProps> = ({ onNavigate }) => {
       ref={containerRef}
       className="fixed inset-0 z-50 h-[100dvh] w-full max-w-full overflow-x-hidden overflow-y-auto overscroll-contain bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 touch-pan-y"
     >
+      <HomeHeader onNavigate={onNavigate} />
       <HomeHeroSection onNavigate={onNavigate} />
       <HomeFeaturesSection />
       <HomeDataUsageSection />
