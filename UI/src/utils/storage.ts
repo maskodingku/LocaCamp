@@ -1,5 +1,10 @@
 import defaultWatermarkUrl from '../assets/default-watermark.jpg'
-import type { WatermarkConfig, GeotagDisplayConfig, CameraQualityConfig } from '../types/camera'
+import type {
+  WatermarkConfig,
+  GeotagDisplayConfig,
+  CameraQualityConfig,
+  CameraEffectConfig,
+} from '../types/camera'
 
 export const DEFAULT_WATERMARK_URL = defaultWatermarkUrl
 
@@ -26,9 +31,19 @@ export const DEFAULT_CAMERA_QUALITY_CONFIG: CameraQualityConfig = {
   denoiseMode: 'smooth',
 }
 
+export const DEFAULT_CAMERA_EFFECT_CONFIG: CameraEffectConfig = {
+  preset: 'normal',
+  finetune: {
+    brightness: 0,
+    contrast: 0,
+    saturation: 0,
+  },
+}
+
 const STORAGE_KEY_WATERMARK = 'locacamp_settings_watermark'
 const STORAGE_KEY_GEOTAG = 'locacamp_settings_geotag'
 const STORAGE_KEY_CAMERA_QUALITY = 'locacamp_settings_camera_quality'
+const STORAGE_KEY_CAMERA_EFFECT = 'locacamp_settings_camera_effect'
 const STORAGE_KEY_MIGRATED = 'locacamp_settings_migrated_v3'
 
 const OLD_DEFAULT_WATERMARK_KEYWORD = 'LOCACAMP'
@@ -156,6 +171,39 @@ export function saveStoredCameraQuality(config: CameraQualityConfig): void {
 }
 
 /**
+ * Membaca konfigurasi efek kamera dari localStorage
+ */
+export function loadStoredCameraEffect(): CameraEffectConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_CAMERA_EFFECT)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<CameraEffectConfig>
+      return {
+        preset: parsed.preset || DEFAULT_CAMERA_EFFECT_CONFIG.preset,
+        finetune: {
+          ...DEFAULT_CAMERA_EFFECT_CONFIG.finetune,
+          ...(parsed.finetune || {}),
+        },
+      }
+    }
+  } catch {
+    // Abaikan
+  }
+  return DEFAULT_CAMERA_EFFECT_CONFIG
+}
+
+/**
+ * Menyimpan konfigurasi efek kamera ke localStorage
+ */
+export function saveStoredCameraEffect(config: CameraEffectConfig): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_CAMERA_EFFECT, JSON.stringify(config))
+  } catch {
+    // Abaikan
+  }
+}
+
+/**
  * Menghapus setting tersimpan dan mengembalikan ke setelan awal
  */
 export function clearStoredSettings(): void {
@@ -163,6 +211,7 @@ export function clearStoredSettings(): void {
     localStorage.removeItem(STORAGE_KEY_WATERMARK)
     localStorage.removeItem(STORAGE_KEY_GEOTAG)
     localStorage.removeItem(STORAGE_KEY_CAMERA_QUALITY)
+    localStorage.removeItem(STORAGE_KEY_CAMERA_EFFECT)
   } catch {
     // Abaikan
   }

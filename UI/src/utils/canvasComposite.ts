@@ -4,8 +4,10 @@ import type {
   GeotagDisplayConfig,
   JpegQualityTier,
   DenoiseMode,
+  CameraEffectConfig,
 } from '../types/camera'
 import { formatTimeWithTimezone } from './timezone'
+import { getCameraFilterString } from './cameraFilters'
 
 export interface CompositeOptions {
   video: HTMLVideoElement
@@ -17,6 +19,7 @@ export interface CompositeOptions {
   rotationAngle?: 0 | 90 | 180 | 270
   jpegTier?: JpegQualityTier
   denoiseMode?: DenoiseMode
+  effectConfig?: CameraEffectConfig | null
 }
 
 export async function captureAndComposite({
@@ -29,6 +32,7 @@ export async function captureAndComposite({
   rotationAngle = 0,
   jpegTier = 'high',
   denoiseMode = 'smooth',
+  effectConfig,
 }: CompositeOptions): Promise<{ dataUrl: string; width: number; height: number }> {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d', { alpha: false })
@@ -95,24 +99,17 @@ export async function captureAndComposite({
   ctx.imageSmoothingEnabled = true
   ctx.imageSmoothingQuality = 'high'
 
-  // Tentukan filter penghalus derau (denoise) sesuai pilihan pengguna
+  // Tentukan filter gabungan (Preset Efek Warna + Finetuning + Denoise)
   // Sub-pixel filtering ini secara presisi meratakan bintik pasir mikro tanpa mengaburkan detail objek
-  let denoiseFilter = 'none'
-  if (denoiseMode === 'smooth') {
-    // Default Rekomendasi: Menghaluskan butiran pasir mikro sensor secara natural
-    denoiseFilter = 'blur(0.45px) contrast(1.02)'
-  } else if (denoiseMode === 'extra') {
-    // Mode Ekstra: Denoise lebih kuat untuk kondisi minim cahaya / malam hari
-    denoiseFilter = 'blur(0.85px) contrast(1.03)'
-  } else {
-    // Mode Natural: Tanpa filter
-    denoiseFilter = 'none'
-  }
+  const photoFilter = getCameraFilterString(effectConfig, {
+    includeDenoise: true,
+    denoiseMode,
+  })
 
   // 2. Draw Camera Frame
   ctx.save()
-  if ('filter' in ctx && denoiseFilter !== 'none') {
-    ctx.filter = denoiseFilter
+  if ('filter' in ctx && photoFilter !== 'none') {
+    ctx.filter = photoFilter
   }
 
   if (shouldRotateFrame) {

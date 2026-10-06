@@ -56,6 +56,25 @@ export interface CameraQualityConfig {
   denoiseMode: DenoiseMode
 }
 
+export type CameraEffectPreset =
+  | 'normal'
+  | 'vivid'
+  | 'warm'
+  | 'cool'
+  | 'monochrome'
+  | 'hdr'
+
+export interface CameraFinetuneConfig {
+  brightness: number // rentang -20 s/d +20 (%)
+  contrast: number   // rentang -20 s/d +20 (%)
+  saturation: number // rentang -20 s/d +20 (%)
+}
+
+export interface CameraEffectConfig {
+  preset: CameraEffectPreset
+  finetune: CameraFinetuneConfig
+}
+
 export interface SensorCapabilitiesInfo {
   maxMegapixels: number
   maxWidth: number

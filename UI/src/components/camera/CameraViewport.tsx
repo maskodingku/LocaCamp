@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   RefreshCw,
   Download,
+  Sparkles,
 } from 'lucide-react'
 import { usePWAInstall } from '../../hooks/usePWAInstall'
 import { GeotagBadge } from '../overlay/GeotagBadge'
@@ -16,7 +17,9 @@ import type {
   GeoLocationData,
   GeotagDisplayConfig,
   WatermarkConfig,
+  CameraEffectConfig,
 } from '../../types/camera'
+import { getCameraFilterString } from '../../utils/cameraFilters'
 
 interface CameraViewportProps {
   videoRef: RefObject<HTMLVideoElement | null>
@@ -35,6 +38,7 @@ interface CameraViewportProps {
   location: GeoLocationData
   geotagConfig: GeotagDisplayConfig
   watermark: WatermarkConfig
+  cameraEffect?: CameraEffectConfig | null
   isLandscape?: boolean
 }
 
@@ -55,9 +59,33 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
   location,
   geotagConfig,
   watermark,
+  cameraEffect,
   isLandscape = false,
 }) => {
   const { canInstall, installApp } = usePWAInstall()
+
+  // Filter visual real-time pada video stream (WYSIWYG 60fps)
+  const liveFilter = getCameraFilterString(cameraEffect, { includeDenoise: false })
+
+  const isEffectActive = Boolean(
+    cameraEffect &&
+      (cameraEffect.preset !== 'normal' ||
+        cameraEffect.finetune.brightness !== 0 ||
+        cameraEffect.finetune.contrast !== 0 ||
+        cameraEffect.finetune.saturation !== 0)
+  )
+
+  const effectLabel = cameraEffect?.preset === 'vivid'
+    ? 'Vivid'
+    : cameraEffect?.preset === 'warm'
+    ? 'Warm'
+    : cameraEffect?.preset === 'cool'
+    ? 'Cool'
+    : cameraEffect?.preset === 'monochrome'
+    ? 'B&W'
+    : cameraEffect?.preset === 'hdr'
+    ? 'HDR'
+    : 'Efek Aktif'
 
   return (
     <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none">
@@ -67,6 +95,9 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
         autoPlay
         playsInline
         muted
+        style={{
+          filter: liveFilter !== 'none' ? liveFilter : undefined,
+        }}
         className={`w-full h-full object-cover transition-opacity duration-500 ${
           isStreaming ? 'opacity-100' : 'opacity-0'
         } ${facingMode === 'user' ? '-scale-x-100' : ''}`}
@@ -101,27 +132,39 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
 
       {/* 4. Top Minimal Bar (Controls & Status) */}
       <div className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent pointer-events-auto">
-        {/* Install App Button (Hanya tampil jika belum terpasang dan siap diinstal) */}
-        {canInstall ? (
-          <button
-            type="button"
-            onClick={installApp}
-            className="flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full glass-pill border border-emerald-500/40 hover:border-emerald-400/70 bg-emerald-950/70 hover:bg-emerald-900/80 shadow-lg backdrop-blur-md transition-all active:scale-95 group cursor-pointer"
-            title="Install LocaCamp ke Perangkat"
-          >
-            <img
-              src={appLogo}
-              alt="LocaCamp"
-              className="w-5 h-5 rounded-full object-cover border border-emerald-500/40"
-            />
-            <span className="text-xs font-semibold tracking-wide text-emerald-300 group-hover:text-emerald-200">
-              Install App
-            </span>
-            <Download className="w-3.5 h-3.5 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
-          </button>
-        ) : (
-          <div />
-        )}
+        {/* Sisi Kiri: Tombol Install App dan/atau Badge Efek Visual Aktif */}
+        <div className="flex items-center gap-2">
+          {canInstall && (
+            <button
+              type="button"
+              onClick={installApp}
+              className="flex items-center gap-2 pl-1.5 pr-3 py-1 rounded-full glass-pill border border-emerald-500/40 hover:border-emerald-400/70 bg-emerald-950/70 hover:bg-emerald-900/80 shadow-lg backdrop-blur-md transition-all active:scale-95 group cursor-pointer"
+              title="Install LocaCamp ke Perangkat"
+            >
+              <img
+                src={appLogo}
+                alt="LocaCamp"
+                className="w-5 h-5 rounded-full object-cover border border-emerald-500/40"
+              />
+              <span className="text-xs font-semibold tracking-wide text-emerald-300 group-hover:text-emerald-200">
+                Install App
+              </span>
+              <Download className="w-3.5 h-3.5 text-emerald-400 group-hover:translate-y-0.5 transition-transform" />
+            </button>
+          )}
+
+          {isEffectActive && (
+            <button
+              type="button"
+              onClick={onOpenSettings}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill border border-amber-500/40 bg-amber-950/50 hover:bg-amber-900/60 shadow-lg backdrop-blur-md text-amber-300 text-xs font-semibold active:scale-95 transition-all cursor-pointer"
+              title="Filter Efek Visual Aktif (Klik untuk ubah di Pengaturan)"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>{effectLabel}</span>
+            </button>
+          )}
+        </div>
 
         {/* Top Actions */}
         <div className="flex items-center gap-2">

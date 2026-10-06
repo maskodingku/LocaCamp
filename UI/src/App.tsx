@@ -17,15 +17,19 @@ import {
   saveStoredGeotag,
   loadStoredCameraQuality,
   saveStoredCameraQuality,
+  loadStoredCameraEffect,
+  saveStoredCameraEffect,
   clearStoredSettings,
   DEFAULT_WATERMARK_CONFIG,
   DEFAULT_GEOTAG_CONFIG,
   DEFAULT_CAMERA_QUALITY_CONFIG,
+  DEFAULT_CAMERA_EFFECT_CONFIG,
 } from './utils/storage'
 import type {
   WatermarkConfig,
   GeotagDisplayConfig,
   CameraQualityConfig,
+  CameraEffectConfig,
   CapturedPhoto,
 } from './types/camera'
 
@@ -49,6 +53,9 @@ export default function App() {
   // Camera Quality Configuration State (dimuat dari localStorage saat start, default 'auto')
   const [cameraQualityConfig, setCameraQualityConfig] = useState<CameraQualityConfig>(() => loadStoredCameraQuality())
 
+  // Camera Visual Effect & Finetune State (dimuat dari localStorage saat start, default 'vivid')
+  const [cameraEffect, setCameraEffect] = useState<CameraEffectConfig>(() => loadStoredCameraEffect())
+
   // Simpan otomatis ke localStorage setiap kali ada perubahan konfigurasi
   useEffect(() => {
     saveStoredWatermark(watermark)
@@ -61,6 +68,10 @@ export default function App() {
   useEffect(() => {
     saveStoredCameraQuality(cameraQualityConfig)
   }, [cameraQualityConfig])
+
+  useEffect(() => {
+    saveStoredCameraEffect(cameraEffect)
+  }, [cameraEffect])
 
   // Hardware & Sensor Hooks (menerima konfigurasi resolusi/kualitas target)
   const camera = useCamera({
@@ -91,6 +102,7 @@ export default function App() {
     setWatermark(DEFAULT_WATERMARK_CONFIG)
     setGeotagConfig(DEFAULT_GEOTAG_CONFIG)
     setCameraQualityConfig(DEFAULT_CAMERA_QUALITY_CONFIG)
+    setCameraEffect(DEFAULT_CAMERA_EFFECT_CONFIG)
   }, [])
 
   // Capture Trigger: Jepret foto, komposit canvas, dan simpan otomatis ke IndexedDB visitor
@@ -109,6 +121,7 @@ export default function App() {
         rotationAngle: orientation.rotationAngle,
         jpegTier: cameraQualityConfig.jpegTier,
         denoiseMode: cameraQualityConfig.denoiseMode,
+        effectConfig: cameraEffect,
       })
 
       const newPhoto: CapturedPhoto = {
@@ -130,7 +143,7 @@ export default function App() {
     } finally {
       setIsCapturing(false)
     }
-  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, isCapturing, orientation.rotationAngle, refreshHistoryCount])
+  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount])
 
   return (
     <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">
@@ -161,6 +174,7 @@ export default function App() {
             location={location}
             geotagConfig={geotagConfig}
             watermark={watermark}
+            cameraEffect={cameraEffect}
             isLandscape={orientation.isLandscape}
           />
         </div>
@@ -190,6 +204,8 @@ export default function App() {
         onChangeGeotagConfig={setGeotagConfig}
         cameraQualityConfig={cameraQualityConfig}
         onChangeCameraQualityConfig={setCameraQualityConfig}
+        cameraEffect={cameraEffect}
+        onChangeCameraEffect={setCameraEffect}
         sensorInfo={camera.sensorInfo}
         onResetSettings={handleResetSettings}
       />
