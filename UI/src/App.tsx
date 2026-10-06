@@ -63,9 +63,8 @@ export default function App() {
   const [isCapturing, setIsCapturing] = useState(false)
   const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
 
-  // Kamera & sensor optik tetap aktif saat pengaturan terbuka (agar slider live preview WYSIWYG bekerja langsung)
-  // Hanya mati saat membuka galeri riwayat foto atau saat mereview hasil jepretan
-  const isCameraActive = !isHistoryOpen && !currentPhoto
+  // Kamera & sensor optik mati total saat membuka riwayat foto, mereview hasil jepretan, atau saat menu pengaturan dibuka
+  const isCameraActive = !isHistoryOpen && !currentPhoto && !isSettingsOpen
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
