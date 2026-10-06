@@ -9,6 +9,7 @@ import {
   RefreshCw,
   Download,
   Sparkles,
+  Palette,
 } from 'lucide-react'
 import { usePWAInstall } from '../../hooks/usePWAInstall'
 import { GeotagBadge } from '../overlay/GeotagBadge'
@@ -40,6 +41,9 @@ interface CameraViewportProps {
   watermark: WatermarkConfig
   cameraEffect?: CameraEffectConfig | null
   isLandscape?: boolean
+  isPresetBarOpen?: boolean
+  onTogglePresetBar?: () => void
+  onClosePresetBar?: () => void
 }
 
 export const CameraViewport: React.FC<CameraViewportProps> = ({
@@ -61,6 +65,9 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
   watermark,
   cameraEffect,
   isLandscape = false,
+  isPresetBarOpen = false,
+  onTogglePresetBar,
+  onClosePresetBar,
 }) => {
   const { canInstall, installApp } = usePWAInstall()
 
@@ -88,7 +95,14 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
     : 'Efek Aktif'
 
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none">
+    <div
+      onClick={() => {
+        if (isPresetBarOpen && onClosePresetBar) {
+          onClosePresetBar()
+        }
+      }}
+      className="relative w-full h-full bg-black overflow-hidden flex items-center justify-center select-none"
+    >
       {/* 1. Camera Video Element */}
       <video
         ref={videoRef}
@@ -131,7 +145,10 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       )}
 
       {/* 4. Top Minimal Bar (Controls & Status) */}
-      <div className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent pointer-events-auto">
+      <div
+        onClick={e => e.stopPropagation()}
+        className="absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent pointer-events-auto"
+      >
         {/* Sisi Kiri: Tombol Install App dan/atau Badge Efek Visual Aktif */}
         <div className="flex items-center gap-2">
           {canInstall && (
@@ -156,9 +173,13 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
           {isEffectActive && (
             <button
               type="button"
-              onClick={onOpenSettings}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill border border-amber-500/40 bg-amber-950/50 hover:bg-amber-900/60 shadow-lg backdrop-blur-md text-amber-300 text-xs font-semibold active:scale-95 transition-all cursor-pointer"
-              title="Filter Efek Visual Aktif (Klik untuk ubah di Pengaturan)"
+              onClick={onTogglePresetBar || onOpenSettings}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full glass-pill border transition-all active:scale-95 cursor-pointer shadow-lg backdrop-blur-md text-xs font-semibold ${
+                isPresetBarOpen
+                  ? 'border-emerald-400 bg-emerald-950/80 text-emerald-300 ring-2 ring-emerald-500/40'
+                  : 'border-amber-500/40 bg-amber-950/50 hover:bg-amber-900/60 text-amber-300'
+              }`}
+              title="Filter Efek Visual Aktif (Klik untuk ubah preset langsung)"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>{effectLabel}</span>
@@ -193,6 +214,24 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
               title="Ganti Kamera Depan/Belakang"
             >
               <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
+
+          {/* Preset Filter Shortcut Button */}
+          {onTogglePresetBar && (
+            <button
+              type="button"
+              onClick={onTogglePresetBar}
+              className={`p-2.5 rounded-full shadow-md backdrop-blur-md transition-all active:scale-90 ${
+                isPresetBarOpen
+                  ? 'bg-emerald-500 text-black shadow-lg shadow-emerald-500/30 ring-2 ring-emerald-400'
+                  : isEffectActive
+                  ? 'glass-pill text-amber-300 border border-amber-500/40 hover:bg-amber-950/40'
+                  : 'glass-pill text-white hover:bg-white/10'
+              }`}
+              title="Pilih Efek Visual & Filter Kamera"
+            >
+              <Palette className="w-4 h-4" />
             </button>
           )}
 

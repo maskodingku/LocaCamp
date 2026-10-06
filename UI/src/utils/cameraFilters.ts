@@ -50,11 +50,12 @@ export function getCameraFilterString(
       break
 
     case 'monochrome':
+    case 'mono':
       // Monokrom: Hitam-putih berbobot untuk arsip resmi
       baseGrayscale = 1.0
       baseContrast = 1.22
       baseBrightness = 1.02
-      break
+      break;
 
     case 'hdr':
       // HDR Boost: Angkat detail bayangan & kontras dramatis

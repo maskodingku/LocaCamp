@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import { CameraViewport } from './components/camera/CameraViewport'
 import { ShutterControls } from './components/camera/ShutterControls'
+import { LivePresetBar } from './components/camera/LivePresetBar'
 import { SettingsDrawer } from './components/settings/SettingsDrawer'
 import { CaptureModal } from './components/preview/CaptureModal'
 import { PhotoHistoryModal } from './components/history/PhotoHistoryModal'
@@ -34,9 +35,10 @@ import type {
 } from './types/camera'
 
 export default function App() {
-  // UI Flow States (Modal, Drawer, Review, History)
+  // UI Flow States (Modal, Drawer, Review, History, Quick Presets)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
+  const [isPresetBarOpen, setIsPresetBarOpen] = useState(false)
   const [historyCount, setHistoryCount] = useState(0)
   const [isCapturing, setIsCapturing] = useState(false)
   const [currentPhoto, setCurrentPhoto] = useState<CapturedPhoto | null>(null)
@@ -85,6 +87,7 @@ export default function App() {
   useModalHistory('drawer-settings', isSettingsOpen, () => setIsSettingsOpen(false))
   useModalHistory('modal-capture', Boolean(currentPhoto), () => setCurrentPhoto(null))
   useModalHistory('modal-history', isHistoryOpen, () => setIsHistoryOpen(false))
+  useModalHistory('bar-presets', isPresetBarOpen, () => setIsPresetBarOpen(false))
 
   // Muat jumlah riwayat foto di IndexedDB
   const refreshHistoryCount = useCallback(async () => {
@@ -176,21 +179,43 @@ export default function App() {
             watermark={watermark}
             cameraEffect={cameraEffect}
             isLandscape={orientation.isLandscape}
+            isPresetBarOpen={isPresetBarOpen}
+            onTogglePresetBar={() => setIsPresetBarOpen(prev => !prev)}
+            onClosePresetBar={() => setIsPresetBarOpen(false)}
           />
         </div>
 
         {/* Shutter and Quick Controls: Di KANAN saat Landscape, di BAWAH saat Portrait */}
         <div className={orientation.isLandscape ? 'h-full shrink-0' : 'w-full shrink-0'}>
-          <ShutterControls
-            onCapture={handleCapture}
-            isCapturing={isCapturing}
-            isReady={camera.isStreaming}
-            onOpenSettings={() => setIsSettingsOpen(true)}
-            onOpenHistory={() => setIsHistoryOpen(true)}
-            historyCount={historyCount}
-            isLandscape={orientation.isLandscape}
-            rotationAngle={orientation.rotationAngle}
-          />
+          {isPresetBarOpen ? (
+            <LivePresetBar
+              cameraEffect={cameraEffect}
+              onChangeCameraEffect={setCameraEffect}
+              onCapture={handleCapture}
+              isCapturing={isCapturing}
+              isReady={camera.isStreaming}
+              onClose={() => setIsPresetBarOpen(false)}
+              isLandscape={orientation.isLandscape}
+              rotationAngle={orientation.rotationAngle}
+            />
+          ) : (
+            <ShutterControls
+              onCapture={handleCapture}
+              isCapturing={isCapturing}
+              isReady={camera.isStreaming}
+              onOpenSettings={() => {
+                setIsPresetBarOpen(false)
+                setIsSettingsOpen(true)
+              }}
+              onOpenHistory={() => {
+                setIsPresetBarOpen(false)
+                setIsHistoryOpen(true)
+              }}
+              historyCount={historyCount}
+              isLandscape={orientation.isLandscape}
+              rotationAngle={orientation.rotationAngle}
+            />
+          )}
         </div>
       </div>
 

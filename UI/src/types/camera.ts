@@ -62,6 +62,7 @@ export type CameraEffectPreset =
   | 'warm'
   | 'cool'
   | 'monochrome'
+  | 'mono'
   | 'hdr'
 
 export interface CameraFinetuneConfig {
