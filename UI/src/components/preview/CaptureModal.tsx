@@ -13,6 +13,7 @@ import {
 } from 'lucide-react'
 import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
+import { DriveUploadProgressBanner } from './DriveUploadProgressBanner'
 
 interface CaptureModalProps {
   photo: CapturedPhoto | null
@@ -24,6 +25,7 @@ interface CaptureModalProps {
   onOpenSettings?: () => void
   lastDriveResult?: { fileId: string; webViewLink?: string } | null
   isAutoUploadingDrive?: boolean
+  uploadProgress?: number
 }
 
 export const CaptureModal: React.FC<CaptureModalProps> = ({
@@ -36,6 +38,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   onOpenSettings,
   lastDriveResult = null,
   isAutoUploadingDrive = false,
+  uploadProgress = 0,
 }) => {
   const [downloaded, setDownloaded] = useState(false)
   const [shared, setShared] = useState(false)
@@ -182,6 +185,17 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
               </div>
             </div>
 
+            {/* Banner Progres Upload Google Drive (Keren dengan persentase & animasi) */}
+            <div className="py-1">
+              <DriveUploadProgressBanner
+                isUploading={isUploadingDrive || isAutoUploadingDrive}
+                progress={uploadProgress}
+                driveResult={driveResult}
+                driveError={driveError}
+                onRetry={handleDriveUpload}
+              />
+            </div>
+
             {/* Tombol Aksi: Unduh HD, Ambil Ulang, Share */}
             <div className="space-y-2 pt-2 border-t border-zinc-800/80">
               <button
@@ -227,12 +241,15 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   <button
                     type="button"
                     onClick={handleDriveUpload}
-                    disabled={isUploadingDrive}
+                    disabled={isUploadingDrive || isAutoUploadingDrive}
                     className="p-2.5 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
                     title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
                   >
-                    {isUploadingDrive ? (
-                      <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                    {isUploadingDrive || isAutoUploadingDrive ? (
+                      <div className="flex items-center gap-1 font-mono text-emerald-400 font-bold text-[11px] px-0.5">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+                        <span>{uploadProgress}%</span>
+                      </div>
                     ) : (
                       <Cloud className={`w-4 h-4 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
                     )}
@@ -248,9 +265,6 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   {shared ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
                 </button>
               </div>
-              {driveError && (
-                <p className="text-[10px] text-rose-400 mt-1">{driveError}</p>
-              )}
             </div>
           </div>
         </div>
@@ -301,11 +315,16 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </div>
           </div>
 
-          {driveError && (
-            <div className="px-4 py-1.5 bg-rose-500/10 text-rose-300 text-xs border-t border-rose-500/20 text-center">
-              {driveError}
-            </div>
-          )}
+          {/* Banner Progres Upload Google Drive (Keren dengan persentase & animasi) */}
+          <div className="shrink-0 px-3 sm:px-5 py-2 bg-zinc-950/90 border-t border-zinc-800/80">
+            <DriveUploadProgressBanner
+              isUploading={isUploadingDrive || isAutoUploadingDrive}
+              progress={uploadProgress}
+              driveResult={driveResult}
+              driveError={driveError}
+              onRetry={handleDriveUpload}
+            />
+          </div>
 
           {/* Action Buttons */}
           <div className="shrink-0 p-3 sm:p-4 md:p-5 bg-zinc-950 border-t border-zinc-800 flex items-center gap-2 sm:gap-3">
@@ -338,7 +357,10 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                 title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
               >
                 {isUploadingDrive || isAutoUploadingDrive ? (
-                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-emerald-400" />
+                  <div className="flex items-center gap-1 font-mono text-emerald-400 font-bold text-xs px-1">
+                    <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                    <span>{uploadProgress}%</span>
+                  </div>
                 ) : (
                   <Cloud className={`w-4 h-4 sm:w-5 sm:h-5 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
                 )}

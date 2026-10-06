@@ -259,6 +259,7 @@ export default function App() {
         onOpenSettings={() => setIsSettingsOpen(true)}
         lastDriveResult={drive.lastUploadResult}
         isAutoUploadingDrive={drive.isUploading}
+        uploadProgress={drive.uploadProgress}
       />
 
       {/* Photo History Gallery Modal (Client-side IndexedDB & Google Drive) */}

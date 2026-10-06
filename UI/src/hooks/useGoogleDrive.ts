@@ -63,6 +63,7 @@ export function useGoogleDrive() {
 
   const [isConnecting, setIsConnecting] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
   const [lastUploadResult, setLastUploadResult] = useState<GoogleDriveUploadResult | null>(null)
 
@@ -150,7 +151,8 @@ export function useGoogleDrive() {
   const uploadPhoto = useCallback(
     async (
       photoDataUrl: string,
-      customFilename?: string
+      customFilename?: string,
+      onProgressCallback?: (percent: number) => void
     ): Promise<GoogleDriveUploadResult> => {
       if (!session.accessToken) {
         throw new Error('Akun Google Drive belum terhubung. Silakan hubungkan di Pengaturan.')
@@ -161,11 +163,13 @@ export function useGoogleDrive() {
       }
 
       setIsUploading(true)
+      setUploadProgress(5)
       setError(null)
 
       try {
         const folderName = config.folderName.trim() || 'LocaCamp Photos'
         const folderId = await getOrCreateFolder(session.accessToken, folderName)
+        setUploadProgress(15)
 
         const filename =
           customFilename ||
@@ -175,12 +179,18 @@ export function useGoogleDrive() {
           session.accessToken,
           folderId,
           photoDataUrl,
-          filename
+          filename,
+          (pct) => {
+            setUploadProgress(pct)
+            onProgressCallback?.(pct)
+          }
         )
 
+        setUploadProgress(100)
         setLastUploadResult(result)
         return result
       } catch (err: unknown) {
+        setUploadProgress(0)
         let msg = err instanceof Error ? err.message : 'Gagal mengunggah foto ke Google Drive'
         if (msg.includes('insufficient authentication scopes') || msg.includes('insufficient')) {
           msg = 'Izin Google Drive belum lengkap. Silakan klik "Putuskan" lalu klik "Kaitkan" ulang untuk menyetujui izin akses file foto.'
@@ -203,6 +213,7 @@ export function useGoogleDrive() {
     isConnected,
     isConnecting,
     isUploading,
+    uploadProgress,
     error,
     lastUploadResult,
     hasClientId,

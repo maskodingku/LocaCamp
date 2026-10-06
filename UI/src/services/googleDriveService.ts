@@ -229,14 +229,71 @@ export async function getOrCreateFolder(
 }
 
 /**
+ * Helper untuk upload multipart via XMLHttpRequest dengan tracking progress (0-100%)
+ */
+function uploadMultipartXhr(
+  url: string,
+  accessToken: string,
+  boundary: string,
+  body: Blob,
+  onProgress?: (percent: number) => void
+): Promise<{ id: string; webViewLink?: string }> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', url)
+    xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`)
+    xhr.setRequestHeader('Content-Type', `multipart/related; boundary=${boundary}`)
+
+    if (xhr.upload && onProgress) {
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable && e.total > 0) {
+          // Range 10% - 95% selama byte diunggah
+          const pct = Math.min(95, Math.max(10, Math.round((e.loaded / e.total) * 85) + 10))
+          onProgress(pct)
+        }
+      }
+    }
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress?.(100)
+        try {
+          const res = JSON.parse(xhr.responseText)
+          resolve(res)
+        } catch {
+          resolve({ id: 'unknown' })
+        }
+      } else {
+        try {
+          const errRes = JSON.parse(xhr.responseText)
+          reject(new Error(errRes.error?.message || `Upload gagal dengan kode status HTTP ${xhr.status}`))
+        } catch {
+          reject(new Error(`Upload gagal dengan kode status HTTP ${xhr.status}`))
+        }
+      }
+    }
+
+    xhr.onerror = () => {
+      reject(new Error('Koneksi internet terputus saat mengunggah foto ke Google Drive'))
+    }
+
+    onProgress?.(10)
+    xhr.send(body)
+  })
+}
+
+/**
  * Mengunggah foto hasil jepretan secara multipart ke Google Drive
+ * Dilengkapi tracking persentase progres upload (0% - 100%)
  */
 export async function uploadPhotoToGoogleDrive(
   accessToken: string,
   folderId: string,
   photoDataUrl: string,
-  filename: string
+  filename: string,
+  onProgress?: (percent: number) => void
 ): Promise<GoogleDriveUploadResult> {
+  onProgress?.(5)
   const photoRes = await fetch(photoDataUrl)
   const photoBlob = await photoRes.blob()
 
@@ -266,53 +323,33 @@ export async function uploadPhotoToGoogleDrive(
   const closeBuffer = encoder.encode(closeDelimiter)
 
   const body = new Blob([metadataBuffer, photoBlob, closeBuffer])
+  const uploadUrl = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink'
 
-  let uploadRes = await fetch(
-    'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': `multipart/related; boundary=${boundary}`,
-      },
-      body: body,
+  try {
+    const uploadData = await uploadMultipartXhr(uploadUrl, accessToken, boundary, body, onProgress)
+    return {
+      fileId: uploadData.id,
+      webViewLink: uploadData.webViewLink,
     }
-  )
+  } catch (err) {
+    // Jika gagal dan menyertakan parents (misal folder permission issue), coba upload langsung ke root
+    if (metadata.parents) {
+      delete metadata.parents
+      const rootMetadataPart =
+        delimiter +
+        'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+        JSON.stringify(metadata) +
+        delimiter +
+        'Content-Type: image/jpeg\r\n\r\n'
 
-  // Jika gagal karena parents (misal folder permission issue), coba upload langsung ke root
-  if (!uploadRes.ok && metadata.parents) {
-    delete metadata.parents
-    const rootMetadataPart =
-      delimiter +
-      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      JSON.stringify(metadata) +
-      delimiter +
-      'Content-Type: image/jpeg\r\n\r\n'
-
-    const rootBody = new Blob([encoder.encode(rootMetadataPart), photoBlob, closeBuffer])
-
-    uploadRes = await fetch(
-      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': `multipart/related; boundary=${boundary}`,
-        },
-        body: rootBody,
+      const rootBody = new Blob([encoder.encode(rootMetadataPart), photoBlob, closeBuffer])
+      const rootData = await uploadMultipartXhr(uploadUrl, accessToken, boundary, rootBody, onProgress)
+      return {
+        fileId: rootData.id,
+        webViewLink: rootData.webViewLink,
       }
-    )
-  }
-
-  const uploadData = await uploadRes.json()
-
-  if (!uploadRes.ok) {
-    throw new Error(uploadData.error?.message || 'Gagal mengunggah foto ke Google Drive')
-  }
-
-  return {
-    fileId: uploadData.id,
-    webViewLink: uploadData.webViewLink,
+    }
+    throw err
   }
 }
 
