@@ -15,9 +15,11 @@ const STORAGE_KEY_CONFIG = 'locacamp_gdrive_config'
 const STORAGE_KEY_SESSION = 'locacamp_gdrive_session'
 
 export const ENV_CLIENT_ID = ((import.meta.env.VITE_GOOGLE_CLIENT_ID as string) || '').trim()
+export const DEFAULT_APP_CLIENT_ID =
+  ENV_CLIENT_ID || '468845772138-jcavfnvf03tp5o4ev6ft4d01kj475h3c.apps.googleusercontent.com'
 
 const DEFAULT_CONFIG: GoogleDriveConfig = {
-  clientId: ENV_CLIENT_ID,
+  clientId: DEFAULT_APP_CLIENT_ID,
   folderName: 'LocaCamp Photos',
   autoUpload: false,
 }
@@ -33,10 +35,15 @@ export function useGoogleDrive() {
       const saved = localStorage.getItem(STORAGE_KEY_CONFIG)
       if (saved) {
         const parsed = JSON.parse(saved)
+        const isLegacyOrDummy =
+          !parsed.clientId ||
+          parsed.clientId.includes('locacamp-survey') ||
+          parsed.clientId.includes('202264815644') ||
+          parsed.clientId.includes('locacamp.apps')
         return {
           ...DEFAULT_CONFIG,
           ...parsed,
-          clientId: parsed.clientId || ENV_CLIENT_ID,
+          clientId: isLegacyOrDummy ? DEFAULT_APP_CLIENT_ID : parsed.clientId,
         }
       }
       return DEFAULT_CONFIG
@@ -89,11 +96,11 @@ export function useGoogleDrive() {
   }, [])
 
   const connect = useCallback(async (customClientId?: string) => {
-    const targetClientId = (customClientId || config.clientId || ENV_CLIENT_ID || '').trim()
-    if (!targetClientId) {
-      setError('Google Client ID diperlukan untuk menghubungkan akun. Silakan tentukan Client ID di pengaturan atau file konfigurasi.')
-      return
-    }
+    const targetClientId = (
+      customClientId ||
+      config.clientId ||
+      DEFAULT_APP_CLIENT_ID
+    ).trim()
 
     setIsConnecting(true)
     setError(null)
@@ -121,7 +128,10 @@ export function useGoogleDrive() {
         updateConfig({ clientId: targetClientId })
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Gagal menghubungkan ke Google Drive'
+      const msg =
+        err instanceof Error
+          ? err.message
+          : 'Izin akses Google Drive dibatalkan atau belum disetujui'
       setError(msg)
     } finally {
       setIsConnecting(false)

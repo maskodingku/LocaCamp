@@ -9,7 +9,6 @@ import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
 import { GoogleDriveIcon } from './gdrive/GoogleDriveIcon'
 import { GoogleDriveConnectedCard } from './gdrive/GoogleDriveConnectedCard'
 import { GoogleDriveAdvancedSettings } from './gdrive/GoogleDriveAdvancedSettings'
-import { GoogleDriveQuickPromptModal } from './gdrive/GoogleDriveQuickPromptModal'
 
 interface GoogleDriveTabProps {
   drive: ReturnType<typeof useGoogleDrive>
@@ -25,7 +24,6 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
     isConnected,
     isConnecting,
     error,
-    hasClientId,
     effectiveClientId,
     connect,
     updateConfig,
@@ -34,23 +32,11 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
 
   const [inputClientId, setInputClientId] = useState(effectiveClientId || '')
   const [inputFolderName, setInputFolderName] = useState(config.folderName || 'LocaCamp Photos')
-  const [showPromptModal, setShowPromptModal] = useState(false)
 
-  // 1-Click Connect Action
+  // Aksi 1-Klik Murni: Langsung memicu jendela otorisasi Google
   const handleOneClickConnect = async () => {
-    if (!hasClientId && !inputClientId.trim()) {
-      setShowPromptModal(true)
-      return
-    }
-    const target = inputClientId.trim() || effectiveClientId
+    const target = inputClientId.trim() || undefined
     await connect(target)
-  }
-
-  const handlePromptConfirm = async (clientId: string) => {
-    setInputClientId(clientId)
-    updateConfig({ clientId })
-    setShowPromptModal(false)
-    await connect(clientId)
   }
 
   const handleSaveCustomClientId = () => {
@@ -73,7 +59,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
         <div className="text-xs text-zinc-300 leading-relaxed">
           <p className="font-semibold text-white mb-0.5">Keamanan Data & Privasi Terjamin</p>
           <p className="text-zinc-400">
-            Foto diunggah langsung ke Google Drive pribadi Anda via scope terisolasi (<code className="text-emerald-400 font-mono">drive.file</code>).
+            Foto diunggah langsung ke Google Drive pribadi Anda via izin terbatas (<code className="text-emerald-400 font-mono">drive.file</code>).
             Aplikasi tidak dapat mengakses dokumen atau file pribadi lain di Google Drive Anda.
           </p>
         </div>
@@ -121,7 +107,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
               </p>
             </div>
 
-            {/* Tombol Utama 1-Klik dengan Logo Resmi Google Drive */}
+            {/* Tombol Utama 1-Klik Murni dengan Logo Resmi Google Drive */}
             <button
               type="button"
               onClick={handleOneClickConnect}
@@ -131,7 +117,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
               {isConnecting ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin text-zinc-900" />
-                  <span>Membuka Akses Google...</span>
+                  <span>Membuka Izin Akses Google...</span>
                 </>
               ) : (
                 <>
@@ -142,11 +128,11 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
             </button>
 
             <p className="text-[11px] text-zinc-500">
-              Cukup 1 klik. Jendela resmi Google akan terbuka untuk meminta izin akses penyimpanan foto.
+              Cukup 1 kali klik. Jendela resmi Google akan langsung terbuka meminta izin akses penyimpanan foto.
             </p>
           </div>
 
-          {/* Pengaturan Lanjutan (Collapsible untuk Pengembang / Custom Client ID) */}
+          {/* Pengaturan Lanjutan (Collapsible untuk Pengembang / Kustomisasi) */}
           <GoogleDriveAdvancedSettings
             inputClientId={inputClientId}
             setInputClientId={setInputClientId}
@@ -154,14 +140,6 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
           />
         </div>
       )}
-
-      {/* Modal Cepat jika Client ID Belum Ada Sama Sekali */}
-      <GoogleDriveQuickPromptModal
-        isOpen={showPromptModal}
-        onClose={() => setShowPromptModal(false)}
-        onConfirm={handlePromptConfirm}
-        initialClientId={inputClientId}
-      />
     </div>
   )
 }
