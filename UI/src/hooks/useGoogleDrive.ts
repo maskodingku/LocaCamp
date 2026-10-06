@@ -22,6 +22,7 @@ const DEFAULT_CONFIG: GoogleDriveConfig = {
   clientId: DEFAULT_APP_CLIENT_ID,
   folderName: 'LocaCamp Photos',
   autoUpload: false,
+  concurrency: 2,
 }
 
 const DEFAULT_SESSION: GoogleDriveSession = {
@@ -44,6 +45,7 @@ export function useGoogleDrive() {
           ...DEFAULT_CONFIG,
           ...parsed,
           folderName: 'LocaCamp Photos',
+          concurrency: Number(parsed.concurrency) || 2,
           clientId: isLegacyOrDummy ? DEFAULT_APP_CLIENT_ID : parsed.clientId,
         }
       }

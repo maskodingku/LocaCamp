@@ -9,6 +9,8 @@ import {
 } from 'lucide-react'
 import type { StoredPhoto } from '../../../utils/photoStorage'
 import { HistoryPhotoCard } from '../HistoryPhotoCard'
+import { HistoryDriveSyncBanner } from './HistoryDriveSyncBanner'
+import type { useGoogleDriveQueue } from '../../../hooks/useGoogleDriveQueue'
 
 interface HistoryLocalTabProps {
   photos: StoredPhoto[]
@@ -17,6 +19,8 @@ interface HistoryLocalTabProps {
   onDeleteRequest: (id: string) => void
   onSelectPhoto: (photo: StoredPhoto) => void
   downloadSuccessId: string | null
+  isDriveConnected?: boolean
+  driveQueue?: ReturnType<typeof useGoogleDriveQueue>
 }
 
 type TimeFilter = 'all' | 'today' | 'week' | 'month'
@@ -31,11 +35,19 @@ export const HistoryLocalTab: React.FC<HistoryLocalTabProps> = ({
   onDeleteRequest,
   onSelectPhoto,
   downloadSuccessId,
+  isDriveConnected = false,
+  driveQueue,
 }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all')
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest')
   const [currentPage, setCurrentPage] = useState(1)
+
+  // Hitung jumlah foto yang belum diupload ke Google Drive
+  const unuploadedPhotos = useMemo(
+    () => photos.filter((p) => !p.uploadedToDrive),
+    [photos]
+  )
 
   // Filter & Search Logic
   const filteredPhotos = useMemo(() => {
@@ -93,6 +105,26 @@ export const HistoryLocalTab: React.FC<HistoryLocalTabProps> = ({
 
   return (
     <div className="flex-1 flex flex-col min-h-0">
+      {/* 0. Banner Peringatan & Status Sinkronisasi Antrian Google Drive */}
+      {driveQueue && (
+        <HistoryDriveSyncBanner
+          isDriveConnected={isDriveConnected}
+          unuploadedCount={unuploadedPhotos.length}
+          queueStats={driveQueue.stats}
+          concurrency={driveQueue.concurrency}
+          onStartUploadAll={() => {
+            driveQueue.enqueuePhotos(
+              unuploadedPhotos.map((p) => ({
+                id: p.id,
+                dataUrl: p.dataUrl,
+                filename: `LocaCamp_${p.id}.jpg`,
+              }))
+            )
+          }}
+          onCancelQueue={driveQueue.cancelQueue}
+        />
+      )}
+
       {/* 1. Toolbar Filter & Sort */}
       <div className="shrink-0 p-3 sm:px-6 sm:py-3.5 bg-zinc-950/80 border-b border-zinc-800/80 flex flex-col gap-2.5">
         {/* Baris Atas: Search Box & Sort Toggle */}

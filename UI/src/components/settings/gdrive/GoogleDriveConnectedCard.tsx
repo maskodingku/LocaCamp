@@ -110,6 +110,53 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
           />
         </button>
       </div>
+
+      {/* 4. Pengaturan Batas Antrian Bulk Upload (Queue Concurrency) */}
+      <div className="space-y-2 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+        <div className="flex items-center justify-between">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Batas Upload Bersamaan
+          </label>
+          <span className="text-[10px] text-emerald-400 font-mono">
+            {config.concurrency || 2} foto simultan
+          </span>
+        </div>
+        <p className="text-[11px] text-zinc-500">
+          Jumlah foto yang diunggah secara paralel saat memproses antrian ke Google Drive.
+        </p>
+
+        <div className="grid grid-cols-4 gap-2 pt-1">
+          {[
+            { value: 1, label: '1 Foto', desc: 'Stabil' },
+            { value: 2, label: '2 Foto', desc: 'Disarankan' },
+            { value: 3, label: '3 Foto', desc: 'Cepat' },
+            { value: 4, label: '4 Foto', desc: 'Maksimal' },
+          ].map((opt) => {
+            const isSelected = (config.concurrency || 2) === opt.value
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => updateConfig({ concurrency: opt.value })}
+                className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
+                  isSelected
+                    ? 'bg-emerald-500/20 border-emerald-500/50 text-white shadow-sm'
+                    : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
+                }`}
+              >
+                <div
+                  className={`text-xs font-bold ${
+                    isSelected ? 'text-emerald-400' : 'text-zinc-300'
+                  }`}
+                >
+                  {opt.label}
+                </div>
+                <div className="text-[9px] text-zinc-500 mt-0.5">{opt.desc}</div>
+              </button>
+            )
+          })}
+        </div>
+      </div>
     </div>
   )
 }

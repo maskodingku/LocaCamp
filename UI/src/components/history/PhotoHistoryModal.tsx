@@ -14,6 +14,7 @@ import {
 import { listGoogleDriveFiles } from '../../services/googleDriveService'
 import { useModalHistory } from '../../hooks/useModalHistory'
 import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
+import type { useGoogleDriveQueue } from '../../hooks/useGoogleDriveQueue'
 import { HistoryPhotoDetailModal } from './HistoryPhotoDetailModal'
 import { ConfirmDeleteModal, ConfirmClearAllModal } from './HistoryConfirmModals'
 import { HistoryLocalTab } from './local/HistoryLocalTab'
@@ -28,6 +29,7 @@ interface PhotoHistoryModalProps {
   isDriveConnected?: boolean
   onOpenSettings?: () => void
   drive: ReturnType<typeof useGoogleDrive>
+  driveQueue?: ReturnType<typeof useGoogleDriveQueue>
 }
 
 type TabType = 'local' | 'drive'
@@ -40,6 +42,7 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
   isDriveConnected = false,
   onOpenSettings,
   drive,
+  driveQueue,
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('local')
   const [photos, setPhotos] = useState<StoredPhoto[]>([])
@@ -184,6 +187,23 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
     }
   }
 
+  // Listen ke perubahan antrian: update status foto lokal jika ada item selesai diunggah
+  useEffect(() => {
+    if (!driveQueue) return
+    const completedIds = new Set(
+      driveQueue.queue.filter((it) => it.status === 'completed').map((it) => it.id)
+    )
+    if (completedIds.size > 0) {
+      setPhotos((prev) =>
+        prev.map((p) =>
+          completedIds.has(p.id) && !p.uploadedToDrive
+            ? { ...p, uploadedToDrive: true }
+            : p
+        )
+      )
+    }
+  }, [driveQueue?.queue])
+
   if (!isOpen) return null
 
   return (
@@ -264,6 +284,8 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
             onDeleteRequest={(id) => setDeleteConfirmId(id)}
             onSelectPhoto={(p) => setSelectedPhoto(p)}
             downloadSuccessId={downloadSuccessId}
+            isDriveConnected={isDriveConnected}
+            driveQueue={driveQueue}
           />
         ) : (
           <HistoryDriveTab drive={drive} />

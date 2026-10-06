@@ -10,6 +10,7 @@ import { useGeolocation } from './hooks/useGeolocation'
 import { useOrientation } from './hooks/useOrientation'
 import { useModalHistory } from './hooks/useModalHistory'
 import { useGoogleDrive } from './hooks/useGoogleDrive'
+import { useGoogleDriveQueue } from './hooks/useGoogleDriveQueue'
 import { captureAndComposite } from './utils/canvasComposite'
 import {
   savePhotoToStorage,
@@ -40,8 +41,19 @@ import type {
 } from './types/camera'
 
 export default function App() {
-  // Google Drive Cloud Storage Hook
+  // Google Drive Cloud Storage & Queue Hooks
   const drive = useGoogleDrive()
+  const driveQueue = useGoogleDriveQueue({
+    drive,
+    onPhotoUploaded: (photoId, fileId) => {
+      setCurrentPhoto((prev) =>
+        prev?.id === photoId
+          ? { ...prev, uploadedToDrive: true, driveFileId: fileId }
+          : prev
+      )
+      refreshHistoryCount()
+    },
+  })
 
   // UI Flow States (Modal, Drawer, Review, History, Quick Presets)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
@@ -151,31 +163,20 @@ export default function App() {
 
       setCurrentPhoto(newPhoto)
 
-      // Auto-upload Google Drive jika diaktifkan dan terhubung
+      // Auto-upload Google Drive jika diaktifkan dan terhubung (masuk antrian queue)
       if (drive.config.autoUpload && drive.isConnected) {
-        drive
-          .uploadPhoto(dataUrl, `LocaCamp_${newPhoto.id}.jpg`)
-          .then(async (res) => {
-            if (res && res.fileId) {
-              await markPhotoAsUploadedToDrive(newPhoto.id, res.fileId)
-              setCurrentPhoto((prev) =>
-                prev?.id === newPhoto.id
-                  ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId }
-                  : prev
-              )
-              refreshHistoryCount()
-            }
-          })
-          .catch((err) => {
-            console.debug('Auto-upload ke Google Drive gagal:', err)
-          })
+        driveQueue.enqueueSinglePhoto({
+          id: newPhoto.id,
+          dataUrl,
+          filename: `LocaCamp_${newPhoto.id}.jpg`,
+        })
       }
     } catch (err) {
       console.error('Gagal mengambil foto komposit:', err)
     } finally {
       setIsCapturing(false)
     }
-  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive])
+  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive, driveQueue])
 
   return (
     <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">
@@ -286,8 +287,14 @@ export default function App() {
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
         lastDriveResult={drive.lastUploadResult}
-        isAutoUploadingDrive={drive.isUploading}
-        uploadProgress={drive.uploadProgress}
+        isAutoUploadingDrive={
+          driveQueue.queue.some((it) => it.id === currentPhoto?.id && it.status === 'uploading') ||
+          drive.isUploading
+        }
+        uploadProgress={
+          driveQueue.queue.find((it) => it.id === currentPhoto?.id)?.progress ??
+          drive.uploadProgress
+        }
       />
 
       {/* Photo History Gallery Modal (Client-side IndexedDB & Google Drive) */}
@@ -306,6 +313,7 @@ export default function App() {
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
         drive={drive}
+        driveQueue={driveQueue}
       />
     </main>
   )
