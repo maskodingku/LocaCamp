@@ -134,35 +134,35 @@ Semua pemrosesan citra komposit dan penyimpanan riwayat berlangsung **100% di si
 
 ```mermaid
 flowchart TD
-    A[Pengguna Membuka LocaCamp PWA] --> B{Persetujuan Syarat & Ketentuan}
-    B -->|Belum Setuju| C[Modal Syarat & Ketentuan Wajib]
-    C -->|Tolak| D[Keluar Halaman / Kamera Mati]
-    C -->|Setuju| E[Inisialisasi Sensor & Hardware Kamera]
+    A["Pengguna Akses<br/>LocaCamp PWA"] --> B{"Persetujuan Syarat<br/>& Ketentuan?"}
+    B -->|Belum Ada| C["Modal Persetujuan<br/>Syarat & Ketentuan"]
+    C -->|Tolak| D["Keluar Aplikasi /<br/>Kamera Mati"]
+    C -->|Setuju| E["Inisialisasi Hardware<br/>& Sensor Perangkat"]
     B -->|Sudah Setuju| E
 
-    E --> F[Sensor Kamera Depan/Belakang]
-    E --> G[Sensor GPS Satelit & Compass Heading]
-    E --> H[Google Maps Satellite Mini Map Engine]
-    E --> I[Sensor Orientasi Device Gyro/Acc]
+    E --> F["Sensor Optik Kamera<br/>(Depan / Belakang)"]
+    E --> G["Sensor GPS Satelit<br/>& Arah Kompas"]
+    E --> H["Google Maps Satelit<br/>Mini Map Engine"]
+    E --> I["Sensor Orientasi Fisik<br/>(Gyro & Accelerometer)"]
 
-    F --> J[Live Viewport Kamera 60FPS Display P3]
+    F --> J["Live Viewport Kamera<br/>60FPS Display P3"]
     G --> J
     H --> J
     I --> J
 
-    J -->|Tekan Tombol Shutter| K[Ambil Frame Kamera Resolusi Asli]
-    K --> L[Client-Side Canvas Compositor Engine]
-    L -->|Komposit: Foto + Geotag + Mini Map + Logo + Denoise| M[Hasil Foto HD Terkomposit]
+    J -->|Tekan Shutter| K["Ambil Frame Kamera<br/>Resolusi Asli Sensor"]
+    K --> L["Client-Side Canvas<br/>Compositor Engine"]
+    L -->|Komposisi Citra| M["Hasil Foto Komposit<br/>Ultra HD / Display P3"]
 
-    M --> N[Simpan Otomatis ke IndexedDB Lokal]
-    M --> O{Pengaturan Auto-Upload Google Drive?}
-    O -->|Aktif| P[Queue Worker: Upload ke Folder LocaCamp Photos]
-    O -->|Non-aktif| Q[Modal Review Foto: Unduh / Bagikan / Upload Manual]
+    M --> N["Simpan Otomatis ke<br/>IndexedDB Lokal"]
+    M --> O{"Auto-Upload ke<br/>Google Drive?"}
+    O -->|Aktif| P["Queue Worker Upload<br/>Folder LocaCamp Photos"]
+    O -->|Non-Aktif| Q["Modal Review Foto:<br/>Unduh / Bagikan Manual"]
 
-    P --> R[Google Drive Pribadi Pengguna - Peer to Cloud]
-    N --> S[Galeri Riwayat Foto Terintegrasi]
-    S --> T[Tab 1: Browser Storage & Pinch-Zoom]
-    S --> U[Tab 2: Manajemen Google Drive Cloud]
+    P --> R["Google Drive Pribadi<br/>(Peer-to-Cloud)"]
+    N --> S["Galeri Riwayat Foto<br/>Terintegrasi (IndexedDB)"]
+    S --> T["Tab 1: Browser Storage<br/>(Offline & Pinch-Zoom)"]
+    S --> U["Tab 2: Google Drive<br/>(Pencadangan Awan)"]
 
     style A fill:#064e3b,stroke:#10b981,color:#fff
     style L fill:#0f172a,stroke:#38bdf8,color:#fff
