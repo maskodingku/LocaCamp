@@ -133,36 +133,37 @@ Semua pemrosesan citra komposit dan penyimpanan riwayat berlangsung **100% di si
 ## 🏗️ Arsitektur dan Alur Kerja
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '12px' }}}%%
 flowchart TD
-    A["Pengguna Akses<br/>LocaCamp PWA"] --> B{"Persetujuan Syarat<br/>& Ketentuan?"}
-    B -->|Belum Ada| C["Modal Persetujuan<br/>Syarat & Ketentuan"]
-    C -->|Tolak| D["Keluar Aplikasi /<br/>Kamera Mati"]
-    C -->|Setuju| E["Inisialisasi Hardware<br/>& Sensor Perangkat"]
-    B -->|Sudah Setuju| E
+    A["Buka Aplikasi<br/>LocaCamp PWA"] --> B{"Syarat Akses<br/>Disetujui?"}
+    B -->|Belum| C["Modal Syarat<br/>& Ketentuan"]
+    C -->|Tolak| D["Tutup Aplikasi<br/>Kamera Mati"]
+    C -->|Setuju| E["Inisialisasi<br/>Sensor Kamera"]
+    B -->|Sudah| E
 
-    E --> F["Sensor Optik Kamera<br/>(Depan / Belakang)"]
-    E --> G["Sensor GPS Satelit<br/>& Arah Kompas"]
-    E --> H["Google Maps Satelit<br/>Mini Map Engine"]
-    E --> I["Sensor Orientasi Fisik<br/>(Gyro & Accelerometer)"]
+    E --> F["Sensor Kamera<br/>Depan/Belakang"]
+    E --> G["GPS Satelit &<br/>Arah Kompas"]
+    E --> H["Mini Map Peta<br/>Satelit Google"]
+    E --> I["Sensor Gerak<br/>Gyro & Akselero"]
 
-    F --> J["Live Viewport Kamera<br/>60FPS Display P3"]
+    F --> J["Live Viewport<br/>Display P3"]
     G --> J
     H --> J
     I --> J
 
-    J -->|Tekan Shutter| K["Ambil Frame Kamera<br/>Resolusi Asli Sensor"]
-    K --> L["Client-Side Canvas<br/>Compositor Engine"]
-    L -->|Komposisi Citra| M["Hasil Foto Komposit<br/>Ultra HD / Display P3"]
+    J -->|Tekan Shutter| K["Ambil Frame<br/>Resolusi Penuh"]
+    K --> L["Mesin Komposit<br/>Kanvas Klien"]
+    L -->|Komposisi Foto| M["Foto Komposit<br/>Ultra HD P3"]
 
-    M --> N["Simpan Otomatis ke<br/>IndexedDB Lokal"]
-    M --> O{"Auto-Upload ke<br/>Google Drive?"}
-    O -->|Aktif| P["Queue Worker Upload<br/>Folder LocaCamp Photos"]
-    O -->|Non-Aktif| Q["Modal Review Foto:<br/>Unduh / Bagikan Manual"]
+    M --> N["Simpan Otomatis<br/>IndexedDB"]
+    M --> O{"Auto-Upload<br/>ke Drive?"}
+    O -->|Ya| P["Antrian Unggah<br/>Folder Foto"]
+    O -->|Tidak| Q["Modal Pratinjau<br/>Unduh Manual"]
 
-    P --> R["Google Drive Pribadi<br/>(Peer-to-Cloud)"]
-    N --> S["Galeri Riwayat Foto<br/>Terintegrasi (IndexedDB)"]
-    S --> T["Tab 1: Browser Storage<br/>(Offline & Pinch-Zoom)"]
-    S --> U["Tab 2: Google Drive<br/>(Pencadangan Awan)"]
+    P --> R["Google Drive<br/>Pribadi"]
+    N --> S["Galeri Riwayat<br/>Foto Terpadu"]
+    S --> T["Memori Lokal<br/>Pinch-Zoom 4x"]
+    S --> U["Sinkronisasi<br/>Google Drive"]
 
     style A fill:#064e3b,stroke:#10b981,color:#fff
     style L fill:#0f172a,stroke:#38bdf8,color:#fff
