@@ -257,6 +257,8 @@ export default function App() {
         onUploadToDrive={(dataUrl) => drive.uploadPhoto(dataUrl)}
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        lastDriveResult={drive.lastUploadResult}
+        isAutoUploadingDrive={drive.isUploading}
       />
 
       {/* Photo History Gallery Modal (Client-side IndexedDB) */}

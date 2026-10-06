@@ -178,6 +178,8 @@ export async function uploadPhotoToGoogleDrive(
   const photoRes = await fetch(photoDataUrl)
   const photoBlob = await photoRes.blob()
 
+  const boundary = 'LocaCampMultiPart' + Date.now()
+
   const metadata: Record<string, unknown> = {
     name: filename,
     mimeType: 'image/jpeg',
@@ -187,21 +189,21 @@ export async function uploadPhotoToGoogleDrive(
     metadata.parents = [folderId]
   }
 
-  const boundary = '-------LocaCampMultiPart314159'
   const delimiter = `\r\n--${boundary}\r\n`
   const closeDelimiter = `\r\n--${boundary}--`
 
-  const metadataHeader =
+  const metadataPart =
     delimiter +
     'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
     JSON.stringify(metadata) +
-    '\r\n' +
     delimiter +
     'Content-Type: image/jpeg\r\n\r\n'
 
-  const multipartBlob = new Blob([metadataHeader, photoBlob, closeDelimiter], {
-    type: `multipart/related; boundary=${boundary}`,
-  })
+  const encoder = new TextEncoder()
+  const metadataBuffer = encoder.encode(metadataPart)
+  const closeBuffer = encoder.encode(closeDelimiter)
+
+  const body = new Blob([metadataBuffer, photoBlob, closeBuffer])
 
   let uploadRes = await fetch(
     'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
@@ -209,28 +211,23 @@ export async function uploadPhotoToGoogleDrive(
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        'Content-Type': `multipart/related; boundary=${boundary}`,
       },
-      body: multipartBlob,
+      body: body,
     }
   )
 
-  // Jika gagal karena parents, coba sekali lagi langsung ke root tanpa parents
+  // Jika gagal karena parents (misal folder permission issue), coba upload langsung ke root
   if (!uploadRes.ok && metadata.parents) {
-    const rootMetadata = {
-      name: filename,
-      mimeType: 'image/jpeg',
-    }
-    const rootMetadataHeader =
+    delete metadata.parents
+    const rootMetadataPart =
       delimiter +
       'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      JSON.stringify(rootMetadata) +
-      '\r\n' +
+      JSON.stringify(metadata) +
       delimiter +
       'Content-Type: image/jpeg\r\n\r\n'
 
-    const rootMultipartBlob = new Blob([rootMetadataHeader, photoBlob, closeDelimiter], {
-      type: `multipart/related; boundary=${boundary}`,
-    })
+    const rootBody = new Blob([encoder.encode(rootMetadataPart), photoBlob, closeBuffer])
 
     uploadRes = await fetch(
       'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
@@ -238,8 +235,9 @@ export async function uploadPhotoToGoogleDrive(
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': `multipart/related; boundary=${boundary}`,
         },
-        body: rootMultipartBlob,
+        body: rootBody,
       }
     )
   }

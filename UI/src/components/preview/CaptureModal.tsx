@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Download,
   RotateCcw,
@@ -22,6 +22,8 @@ interface CaptureModalProps {
   onUploadToDrive?: (dataUrl: string) => Promise<{ fileId: string; webViewLink?: string }>
   isDriveConnected?: boolean
   onOpenSettings?: () => void
+  lastDriveResult?: { fileId: string; webViewLink?: string } | null
+  isAutoUploadingDrive?: boolean
 }
 
 export const CaptureModal: React.FC<CaptureModalProps> = ({
@@ -32,12 +34,22 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   onUploadToDrive,
   isDriveConnected = false,
   onOpenSettings,
+  lastDriveResult = null,
+  isAutoUploadingDrive = false,
 }) => {
   const [downloaded, setDownloaded] = useState(false)
   const [shared, setShared] = useState(false)
   const [isUploadingDrive, setIsUploadingDrive] = useState(false)
-  const [driveResult, setDriveResult] = useState<{ fileId: string; webViewLink?: string } | null>(null)
+  const [driveResult, setDriveResult] = useState<{ fileId: string; webViewLink?: string } | null>(
+    lastDriveResult || null
+  )
   const [driveError, setDriveError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (lastDriveResult) {
+      setDriveResult(lastDriveResult)
+    }
+  }, [lastDriveResult])
 
   const handleDriveUpload = async () => {
     if (!photo) return
@@ -321,11 +333,11 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
               <button
                 type="button"
                 onClick={handleDriveUpload}
-                disabled={isUploadingDrive}
+                disabled={isUploadingDrive || isAutoUploadingDrive}
                 className="p-2.5 sm:p-3 rounded-xl border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 transition-all active:scale-95 shrink-0"
                 title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
               >
-                {isUploadingDrive ? (
+                {isUploadingDrive || isAutoUploadingDrive ? (
                   <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin text-emerald-400" />
                 ) : (
                   <Cloud className={`w-4 h-4 sm:w-5 sm:h-5 ${isDriveConnected ? 'text-emerald-400' : 'text-zinc-400'}`} />
