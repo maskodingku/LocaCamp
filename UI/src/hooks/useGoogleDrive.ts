@@ -172,7 +172,10 @@ export function useGoogleDrive() {
         setLastUploadResult(result)
         return result
       } catch (err: unknown) {
-        const msg = err instanceof Error ? err.message : 'Gagal mengunggah foto ke Google Drive'
+        let msg = err instanceof Error ? err.message : 'Gagal mengunggah foto ke Google Drive'
+        if (msg.includes('insufficient authentication scopes') || msg.includes('insufficient')) {
+          msg = 'Izin Google Drive belum lengkap. Silakan klik "Putuskan" lalu klik "Kaitkan" ulang untuk menyetujui izin akses file foto.'
+        }
         setError(msg)
         throw err
       } finally {

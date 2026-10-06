@@ -67,7 +67,7 @@ export async function requestGoogleAccessToken(clientId: string): Promise<{
       const client = window.google!.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope:
-          'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+          'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         callback: (response) => {
           if (response.error) {
             reject(new Error(response.error_description || response.error || 'Akses Google Drive dibatalkan'))
@@ -113,52 +113,57 @@ export async function fetchGoogleUserProfile(accessToken: string): Promise<{
 
 /**
  * Mencari atau membuat folder khusus proyek di Google Drive
+ * Memiliki failover otomatis ke 'root' jika ada pembatasan scope/izin folder
  */
 export async function getOrCreateFolder(
   accessToken: string,
   folderName: string
 ): Promise<string> {
-  const safeName = folderName.replace(/'/g, "\\'")
-  const query = encodeURIComponent(
-    `name = '${safeName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`
-  )
+  try {
+    const safeName = folderName.replace(/'/g, "\\'")
+    const query = encodeURIComponent(
+      `name = '${safeName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`
+    )
 
-  const searchRes = await fetch(
-    `https://www.googleapis.com/drive/v3/files?q=${query}&fields=files(id,name)`,
-    {
+    const searchRes = await fetch(
+      `https://www.googleapis.com/drive/v3/files?q=${query}&fields=files(id,name)`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+
+    if (searchRes.ok) {
+      const data = await searchRes.json()
+      if (data.files && data.files.length > 0) {
+        return data.files[0].id
+      }
+    }
+
+    // Jika folder belum ada, coba buat baru
+    const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
       },
-    }
-  )
+      body: JSON.stringify({
+        name: folderName,
+        mimeType: 'application/vnd.google-apps.folder',
+      }),
+    })
 
-  if (searchRes.ok) {
-    const data = await searchRes.json()
-    if (data.files && data.files.length > 0) {
-      return data.files[0].id
+    if (createRes.ok) {
+      const newFolder = await createRes.json()
+      return newFolder.id
     }
+  } catch (err) {
+    console.warn('Gagal mengakses atau membuat folder, failover ke root Drive:', err)
   }
 
-  // Jika folder belum ada, buat baru
-  const createRes = await fetch('https://www.googleapis.com/drive/v3/files', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name: folderName,
-      mimeType: 'application/vnd.google-apps.folder',
-    }),
-  })
-
-  if (!createRes.ok) {
-    const errData = await createRes.json()
-    throw new Error(errData.error?.message || 'Gagal membuat folder di Google Drive')
-  }
-
-  const newFolder = await createRes.json()
-  return newFolder.id
+  // Failover aman jika query/create folder dibatasi: simpan di root Drive
+  return 'root'
 }
 
 /**
@@ -173,10 +178,13 @@ export async function uploadPhotoToGoogleDrive(
   const photoRes = await fetch(photoDataUrl)
   const photoBlob = await photoRes.blob()
 
-  const metadata = {
+  const metadata: Record<string, unknown> = {
     name: filename,
-    parents: [folderId],
     mimeType: 'image/jpeg',
+  }
+
+  if (folderId && folderId !== 'root') {
+    metadata.parents = [folderId]
   }
 
   const boundary = '-------LocaCampMultiPart314159'
@@ -195,7 +203,7 @@ export async function uploadPhotoToGoogleDrive(
     type: `multipart/related; boundary=${boundary}`,
   })
 
-  const uploadRes = await fetch(
+  let uploadRes = await fetch(
     'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
     {
       method: 'POST',
@@ -205,6 +213,36 @@ export async function uploadPhotoToGoogleDrive(
       body: multipartBlob,
     }
   )
+
+  // Jika gagal karena parents, coba sekali lagi langsung ke root tanpa parents
+  if (!uploadRes.ok && metadata.parents) {
+    const rootMetadata = {
+      name: filename,
+      mimeType: 'image/jpeg',
+    }
+    const rootMetadataHeader =
+      delimiter +
+      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+      JSON.stringify(rootMetadata) +
+      '\r\n' +
+      delimiter +
+      'Content-Type: image/jpeg\r\n\r\n'
+
+    const rootMultipartBlob = new Blob([rootMetadataHeader, photoBlob, closeDelimiter], {
+      type: `multipart/related; boundary=${boundary}`,
+    })
+
+    uploadRes = await fetch(
+      'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webViewLink',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: rootMultipartBlob,
+      }
+    )
+  }
 
   const uploadData = await uploadRes.json()
 
