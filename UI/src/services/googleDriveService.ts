@@ -1,4 +1,4 @@
-import type { GoogleDriveUploadResult } from '../types/drive'
+import type { GoogleDriveUploadResult, GoogleDriveFile } from '../types/drive'
 
 declare global {
   interface Window {
@@ -252,4 +252,106 @@ export async function uploadPhotoToGoogleDrive(
     fileId: uploadData.id,
     webViewLink: uploadData.webViewLink,
   }
+}
+
+/**
+ * Mengambil daftar file foto di Google Drive
+ */
+export async function listGoogleDriveFiles(
+  accessToken: string,
+  folderName = 'LocaCamp Photos'
+): Promise<GoogleDriveFile[]> {
+  let folderId: string | null = null
+  try {
+    const safeName = folderName.replace(/'/g, "\\'")
+    const fQuery = encodeURIComponent(
+      `name = '${safeName}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false`
+    )
+    const fRes = await fetch(
+      `https://www.googleapis.com/drive/v3/files?q=${fQuery}&fields=files(id)`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    )
+    if (fRes.ok) {
+      const fData = await fRes.json()
+      if (fData.files && fData.files.length > 0) {
+        folderId = fData.files[0].id
+      }
+    }
+  } catch (err) {
+    console.warn('Gagal mencari folder:', err)
+  }
+
+  // Cari file di dalam folder khusus jika ada, atau semua gambar LocaCamp
+  let q = `trashed = false and mimeType contains 'image/'`
+  if (folderId) {
+    q = `'${folderId}' in parents and trashed = false`
+  }
+
+  const queryParam = encodeURIComponent(q)
+  const fields = encodeURIComponent(
+    'files(id,name,size,mimeType,createdTime,modifiedTime,thumbnailLink,webContentLink,webViewLink)'
+  )
+
+  const res = await fetch(
+    `https://www.googleapis.com/drive/v3/files?q=${queryParam}&fields=${fields}&pageSize=100&orderBy=createdTime%20desc`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  )
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.error?.message || 'Gagal mengambil daftar file Google Drive')
+  }
+
+  const data = await res.json()
+  return data.files || []
+}
+
+/**
+ * Menghapus file di Google Drive
+ */
+export async function deleteGoogleDriveFile(
+  accessToken: string,
+  fileId: string
+): Promise<void> {
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+
+  if (!res.ok && res.status !== 204) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.error?.message || 'Gagal menghapus file dari Google Drive')
+  }
+}
+
+/**
+ * Mengunduh file dari Google Drive ke memori dan trigger download di browser
+ */
+export async function downloadGoogleDriveFile(
+  accessToken: string,
+  fileId: string,
+  filename: string
+): Promise<void> {
+  const res = await fetch(
+    `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error('Gagal mengunduh file dari Google Drive')
+  }
+
+  const blob = await res.blob()
+  const blobUrl = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = blobUrl
+  a.download = filename
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  URL.revokeObjectURL(blobUrl)
 }

@@ -17,3 +17,15 @@ export interface GoogleDriveUploadResult {
   fileId: string
   webViewLink?: string
 }
+
+export interface GoogleDriveFile {
+  id: string
+  name: string
+  size?: number | string
+  mimeType: string
+  createdTime?: string
+  modifiedTime?: string
+  thumbnailLink?: string
+  webContentLink?: string
+  webViewLink?: string
+}

@@ -261,7 +261,7 @@ export default function App() {
         isAutoUploadingDrive={drive.isUploading}
       />
 
-      {/* Photo History Gallery Modal (Client-side IndexedDB) */}
+      {/* Photo History Gallery Modal (Client-side IndexedDB & Google Drive) */}
       <PhotoHistoryModal
         isOpen={isHistoryOpen}
         onClose={() => setIsHistoryOpen(false)}
@@ -269,6 +269,7 @@ export default function App() {
         onUploadToDrive={(p) => drive.uploadPhoto(p.dataUrl, `LocaCamp_${p.id}.jpg`)}
         isDriveConnected={drive.isConnected}
         onOpenSettings={() => setIsSettingsOpen(true)}
+        drive={drive}
       />
     </main>
   )
