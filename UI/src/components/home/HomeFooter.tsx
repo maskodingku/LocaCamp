@@ -75,7 +75,7 @@ export const HomeFooter: React.FC<HomeFooterProps> = ({ onNavigate }) => {
         {/* Copyright & Pernyataan Kepemilikan */}
         <div className="pt-5 sm:pt-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-center sm:text-left text-[11px] text-slate-500">
           <p>
-            © {new Date().getFullYear()} LocaCamp. Hak Cipta & Kepemilikan Resmi oleh <strong>Abdi Syahputra Harahap</strong>.
+            © {new Date().getFullYear()} LocaCamp. Hak Cipta & Kepemilikan Resmi oleh <strong>Abdi Syahputra Harahap & Anggista Parasela</strong>.
           </p>
           <p>
             Domain Resmi: <span className="text-slate-400 font-mono">https://locacamp.pages.dev</span>

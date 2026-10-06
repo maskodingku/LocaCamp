@@ -12,11 +12,11 @@ export const HomeHeroSection: React.FC<HomeHeroSectionProps> = ({ onNavigate }) 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-72 bg-gradient-to-tr from-emerald-500/15 via-teal-500/10 to-transparent blur-3xl pointer-events-none" />
 
       <div className="relative mx-auto max-w-5xl px-4 sm:px-6 text-center">
-        {/* Developer Verification Badge */}
+        {/* Developer & Ownership Verification Badge */}
         <div className="inline-flex items-center gap-2 rounded-2xl sm:rounded-full border border-emerald-500/30 bg-emerald-950/40 px-3.5 py-1.5 text-[11px] sm:text-xs text-emerald-300 mb-6 shadow-sm max-w-full">
           <UserCheck className="h-4 w-4 text-emerald-400 shrink-0" />
           <span className="leading-snug">
-            Aplikasi Resmi Milik Pengembang: <strong className="text-white font-semibold">Abdi Syahputra Harahap</strong>
+            Aplikasi Resmi Milik: <strong className="text-white font-semibold">Abdi Syahputra Harahap & Anggista Parasela</strong>
           </span>
         </div>
 
