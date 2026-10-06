@@ -31,7 +31,7 @@ type DriveSort = 'newest' | 'oldest' | 'name-asc' | 'size-desc'
 const ITEMS_PER_PAGE = 6
 
 export const HistoryDriveTab: React.FC<HistoryDriveTabProps> = ({ drive }) => {
-  const { isConnected, isConnecting, session, config, connect } = drive
+  const { isConnected, isConnecting, session, config, connect, cancelConnect, error: driveError } = drive
 
   const [files, setFiles] = useState<GoogleDriveFile[]>([])
   const [isLoading, setIsLoading] = useState(false)
@@ -148,15 +148,35 @@ export const HistoryDriveTab: React.FC<HistoryDriveTabProps> = ({ drive }) => {
             Kaitkan akun Google Drive Anda untuk melihat, mengunduh, dan mengelola hasil foto survei langsung dari cloud.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => connect()}
-          disabled={isConnecting}
-          className="py-3 px-5 rounded-2xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-xs flex items-center gap-2.5 shadow-lg active:scale-95 transition-all cursor-pointer"
-        >
-          <GoogleDriveIcon className="w-4 h-4" />
-          <span>{isConnecting ? 'Membuka Google...' : 'Kaitkan Akun Google Drive'}</span>
-        </button>
+        {/* Pesan Error jika otentikasi gagal atau dibatalkan */}
+        {driveError && (
+          <div className="max-w-xs p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+            <span className="text-left">{driveError}</span>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => connect()}
+            disabled={isConnecting}
+            className="py-3 px-5 rounded-2xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-xs flex items-center gap-2.5 shadow-lg active:scale-95 transition-all cursor-pointer disabled:opacity-85"
+          >
+            <GoogleDriveIcon className="w-4 h-4 shrink-0" />
+            <span>{isConnecting ? 'Membuka Google...' : 'Kaitkan Akun Google Drive'}</span>
+          </button>
+
+          {isConnecting && (
+            <button
+              type="button"
+              onClick={cancelConnect}
+              className="py-3 px-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold text-xs transition-all active:scale-95 cursor-pointer"
+            >
+              Batal
+            </button>
+          )}
+        </div>
       </div>
     )
   }

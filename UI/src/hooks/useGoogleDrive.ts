@@ -138,6 +138,10 @@ export function useGoogleDrive() {
     }
   }, [config.clientId, updateConfig])
 
+  const cancelConnect = useCallback(() => {
+    setIsConnecting(false)
+  }, [])
+
   const uploadPhoto = useCallback(
     async (
       photoDataUrl: string,
@@ -199,6 +203,7 @@ export function useGoogleDrive() {
     hasClientId,
     effectiveClientId,
     connect,
+    cancelConnect,
     disconnect,
     updateConfig,
     uploadPhoto,

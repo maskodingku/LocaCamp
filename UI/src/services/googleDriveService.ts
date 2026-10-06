@@ -14,6 +14,10 @@ declare global {
               error?: string
               error_description?: string
             }) => void
+            error_callback?: (error: {
+              type: string
+              message?: string
+            }) => void
           }) => {
             requestAccessToken: (options?: { prompt?: string }) => void
           }
@@ -51,6 +55,7 @@ export async function loadGsiScript(): Promise<void> {
 
 /**
  * Meminta akses token OAuth2 Google via popup resmi GIS
+ * Dilengkapi error_callback, deteksi penutupan jendela (focus), dan timeout otomatis
  */
 export async function requestGoogleAccessToken(clientId: string): Promise<{
   accessToken: string
@@ -63,12 +68,51 @@ export async function requestGoogleAccessToken(clientId: string): Promise<{
   }
 
   return new Promise((resolve, reject) => {
+    let isSettled = false
+    let focusTimer: ReturnType<typeof setTimeout> | null = null
+    let maxTimeoutTimer: ReturnType<typeof setTimeout> | null = null
+
+    const cleanup = () => {
+      if (focusTimer) clearTimeout(focusTimer)
+      if (maxTimeoutTimer) clearTimeout(maxTimeoutTimer)
+      window.removeEventListener('focus', handleWindowFocus)
+    }
+
+    const handleWindowFocus = () => {
+      // Jendela utama kembali aktif setelah popup Google ditutup/dialihkan
+      // Beri jeda 1.2 detik untuk memberi kesempatan callback GIS dijalankan jika login sukses
+      if (focusTimer) clearTimeout(focusTimer)
+      focusTimer = setTimeout(() => {
+        if (!isSettled) {
+          isSettled = true
+          cleanup()
+          reject(new Error('Otentikasi Google dibatalkan atau jendela ditutup'))
+        }
+      }, 1200)
+    }
+
+    // Timeout maksimal 60 detik jika tidak ada aktivitas sama sekali
+    maxTimeoutTimer = setTimeout(() => {
+      if (!isSettled) {
+        isSettled = true
+        cleanup()
+        reject(new Error('Waktu permintaan otentikasi Google habis'))
+      }
+    }, 60000)
+
+    // Dengarkan saat user kembali ke jendela utama setelah menutup popup
+    window.addEventListener('focus', handleWindowFocus)
+
     try {
       const client = window.google!.accounts.oauth2.initTokenClient({
         client_id: clientId,
         scope:
           'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
         callback: (response) => {
+          if (isSettled) return
+          isSettled = true
+          cleanup()
+
           if (response.error) {
             reject(new Error(response.error_description || response.error || 'Akses Google Drive dibatalkan'))
             return
@@ -78,11 +122,29 @@ export async function requestGoogleAccessToken(clientId: string): Promise<{
             expiresIn: response.expires_in,
           })
         },
+        error_callback: (nonOAuthError) => {
+          if (isSettled) return
+          isSettled = true
+          cleanup()
+
+          const errorType = nonOAuthError?.type
+          if (errorType === 'popup_closed') {
+            reject(new Error('Jendela login Google ditutup'))
+          } else if (errorType === 'popup_failed_to_open') {
+            reject(new Error('Popup diblokir browser. Izinkan popup untuk menghubungkan Google Drive.'))
+          } else {
+            reject(new Error(nonOAuthError?.message || 'Proses otentikasi Google dibatalkan'))
+          }
+        },
       })
 
       client.requestAccessToken({ prompt: 'consent' })
     } catch (err) {
-      reject(err)
+      if (!isSettled) {
+        isSettled = true
+        cleanup()
+        reject(err)
+      }
     }
   })
 }

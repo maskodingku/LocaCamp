@@ -26,6 +26,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
     error,
     effectiveClientId,
     connect,
+    cancelConnect,
     updateConfig,
     clearError,
   } = drive
@@ -108,24 +109,36 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
             </div>
 
             {/* Tombol Utama 1-Klik Murni dengan Logo Resmi Google Drive */}
-            <button
-              type="button"
-              onClick={handleOneClickConnect}
-              disabled={isConnecting}
-              className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-zinc-100 active:scale-[0.98] text-zinc-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-3 shadow-lg shadow-white/5 transition-all cursor-pointer"
-            >
-              {isConnecting ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin text-zinc-900" />
-                  <span>Membuka Izin Akses Google...</span>
-                </>
-              ) : (
-                <>
-                  <GoogleDriveIcon className="w-5 h-5 shrink-0" />
-                  <span>Kaitkan Akun Google Drive</span>
-                </>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={handleOneClickConnect}
+                disabled={isConnecting}
+                className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-zinc-100 active:scale-[0.98] text-zinc-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-3 shadow-lg shadow-white/5 transition-all cursor-pointer disabled:opacity-85"
+              >
+                {isConnecting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin text-zinc-900" />
+                    <span>Membuka Izin Akses Google...</span>
+                  </>
+                ) : (
+                  <>
+                    <GoogleDriveIcon className="w-5 h-5 shrink-0" />
+                    <span>Kaitkan Akun Google Drive</span>
+                  </>
+                )}
+              </button>
+
+              {isConnecting && (
+                <button
+                  type="button"
+                  onClick={cancelConnect}
+                  className="w-full py-1 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer text-center underline"
+                >
+                  Batalkan proses
+                </button>
               )}
-            </button>
+            </div>
 
             <p className="text-[11px] text-zinc-500">
               Cukup 1 kali klik. Jendela resmi Google akan langsung terbuka meminta izin akses penyimpanan foto.
