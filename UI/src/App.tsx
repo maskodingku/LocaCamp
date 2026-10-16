@@ -23,6 +23,8 @@ import {
 import {
   loadStoredWatermark,
   saveStoredWatermark,
+  loadStoredProfile,
+  saveStoredProfile,
   loadStoredGeotag,
   saveStoredGeotag,
   loadStoredCameraQuality,
@@ -30,13 +32,17 @@ import {
   loadStoredCameraEffect,
   saveStoredCameraEffect,
   clearStoredSettings,
+  ensureDefaultLogoCached,
   DEFAULT_WATERMARK_CONFIG,
+  DEFAULT_WATERMARK_URL,
+  DEFAULT_PROFILE_CONFIG,
   DEFAULT_GEOTAG_CONFIG,
   DEFAULT_CAMERA_QUALITY_CONFIG,
   DEFAULT_CAMERA_EFFECT_CONFIG,
 } from './utils/storage'
 import type {
   WatermarkConfig,
+  ProfileConfig,
   GeotagDisplayConfig,
   CameraQualityConfig,
   CameraEffectConfig,
@@ -122,6 +128,9 @@ export default function App() {
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())
 
+  // Profil Pengguna (Jabatan & Nama) State (dimuat dari localStorage saat start)
+  const [profile, setProfile] = useState<ProfileConfig>(() => loadStoredProfile())
+
   // Geotag Overlay Configuration State (dimuat dari localStorage saat start)
   const [geotagConfig, setGeotagConfig] = useState<GeotagDisplayConfig>(() => loadStoredGeotag())
 
@@ -135,6 +144,25 @@ export default function App() {
   useEffect(() => {
     saveStoredWatermark(watermark)
   }, [watermark])
+
+  useEffect(() => {
+    saveStoredProfile(profile)
+  }, [profile])
+
+  // Caching Logo Amerta ke browser storage (localStorage) saat aplikasi dibuka
+  // sehingga jika perangkat offline/tanpa jaringan, logo tetap langsung dimuat seketika
+  useEffect(() => {
+    ensureDefaultLogoCached().then(cachedUrl => {
+      if (cachedUrl && cachedUrl.startsWith('data:image/')) {
+        setWatermark(prev => {
+          if (!prev.imageUrl || prev.imageUrl === DEFAULT_WATERMARK_URL) {
+            return { ...prev, imageUrl: cachedUrl }
+          }
+          return prev
+        })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     saveStoredGeotag(geotagConfig)
@@ -176,6 +204,7 @@ export default function App() {
   const handleResetSettings = useCallback(() => {
     clearStoredSettings()
     setWatermark(DEFAULT_WATERMARK_CONFIG)
+    setProfile(DEFAULT_PROFILE_CONFIG)
     setGeotagConfig(DEFAULT_GEOTAG_CONFIG)
     setCameraQualityConfig(DEFAULT_CAMERA_QUALITY_CONFIG)
     setCameraEffect(DEFAULT_CAMERA_EFFECT_CONFIG)
@@ -191,6 +220,7 @@ export default function App() {
         video: camera.videoRef.current,
         videoTrack: camera.videoTrack,
         watermark,
+        profile,
         location,
         displayConfig: geotagConfig,
         mirror: camera.facingMode === 'user',
@@ -228,7 +258,7 @@ export default function App() {
     } finally {
       setIsCapturing(false)
     }
-  }, [camera, watermark, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive, driveQueue])
+  }, [camera, watermark, profile, location, geotagConfig, cameraQualityConfig.jpegTier, cameraQualityConfig.denoiseMode, cameraEffect, isCapturing, orientation.rotationAngle, refreshHistoryCount, drive, driveQueue])
 
   if (isHomePage) {
     return <HomePageView onNavigate={handleNavigate} />
@@ -267,6 +297,7 @@ export default function App() {
             location={location}
             geotagConfig={geotagConfig}
             watermark={watermark}
+            profile={profile}
             cameraEffect={cameraEffect}
             isLandscape={orientation.isLandscape}
             isPresetBarOpen={isPresetBarOpen}
@@ -315,6 +346,8 @@ export default function App() {
         onClose={() => setIsSettingsOpen(false)}
         watermark={watermark}
         onChangeWatermark={setWatermark}
+        profile={profile}
+        onChangeProfile={setProfile}
         geotagConfig={geotagConfig}
         onChangeGeotagConfig={setGeotagConfig}
         cameraQualityConfig={cameraQualityConfig}

@@ -15,6 +15,27 @@ export interface WatermarkConfig {
   padding: number // in px
 }
 
+export type ProfilePosition =
+  | 'above-geotag'
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right'
+
+export type ProfileFontWeight = 'normal' | 'medium' | 'semibold' | 'bold'
+
+export interface ProfileConfig {
+  enabled: boolean
+  jobTitle: string
+  name: string
+  fontFamily: string
+  position: ProfilePosition
+  fontWeight: ProfileFontWeight
+  fontSize: number // ukuran font default 13
+}
+
 export interface GeoLocationData {
   latitude: number | null
   longitude: number | null

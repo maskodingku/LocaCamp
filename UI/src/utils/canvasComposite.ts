@@ -5,6 +5,7 @@ import type {
   JpegQualityTier,
   DenoiseMode,
   CameraEffectConfig,
+  ProfileConfig,
 } from '../types/camera'
 import { formatTimeWithTimezone } from './timezone'
 import { getCameraFilterString } from './cameraFilters'
@@ -14,6 +15,7 @@ export interface CompositeOptions {
   video: HTMLVideoElement
   videoTrack?: MediaStreamTrack | null
   watermark: WatermarkConfig
+  profile?: ProfileConfig
   location: GeoLocationData
   displayConfig: GeotagDisplayConfig
   mirror?: boolean
@@ -27,6 +29,7 @@ export async function captureAndComposite({
   video,
   videoTrack,
   watermark,
+  profile,
   location,
   displayConfig,
   mirror = false,
@@ -164,9 +167,14 @@ export async function captureAndComposite({
   }
 
   // 3. Draw Geotag Overlay (dicetak pada dimensi foto yang sudah berorientasi sejati)
-  await drawGeotagBadge(ctx, width, height, location, displayConfig)
+  const geotagBox = await drawGeotagBadge(ctx, width, height, location, displayConfig)
 
-  // 4. Draw Watermark / Logo if available
+  // 4. Draw Profile Badge if enabled
+  if (profile && profile.enabled) {
+    await drawProfileBadge(ctx, width, height, profile, displayConfig, geotagBox)
+  }
+
+  // 5. Draw Watermark / Logo if available
   if (watermark.imageUrl) {
     await drawWatermark(ctx, width, height, watermark)
   }
@@ -186,13 +194,21 @@ export async function captureAndComposite({
   }
 }
 
+interface GeotagBoxBounds {
+  x: number
+  y: number
+  width: number
+  height: number
+  scale: number
+}
+
 async function drawGeotagBadge(
   ctx: CanvasRenderingContext2D,
   canvasWidth: number,
   canvasHeight: number,
   location: GeoLocationData,
   config: GeotagDisplayConfig
-): Promise<void> {
+): Promise<GeotagBoxBounds | null> {
   // Multiplier berdasarkan pilihan ukuran font visitor
   const fontMultipliers: Record<string, number> = {
     small: 0.85,
@@ -257,7 +273,7 @@ async function drawGeotagBadge(
     })
   }
 
-  if (lines.length === 0) return
+  if (lines.length === 0) return null
 
   // Measure badge width & height
   const badgePadX = 16 * scale
@@ -388,6 +404,118 @@ async function drawGeotagBadge(
     ctx.stroke()
     ctx.restore()
   }
+
+  ctx.restore()
+  return { x, y, width: badgeWidth, height: badgeHeight, scale }
+}
+
+async function drawProfileBadge(
+  ctx: CanvasRenderingContext2D,
+  canvasWidth: number,
+  canvasHeight: number,
+  profile: ProfileConfig,
+  geotagConfig: GeotagDisplayConfig,
+  geotagBox: GeotagBoxBounds | null
+): Promise<void> {
+  if (!profile.enabled || (!profile.name && !profile.jobTitle)) return
+
+  const text = [profile.name, profile.jobTitle].filter(Boolean).join(' • ')
+  if (!text) return
+
+  // Hitung scale berbasis dimensi foto (proporsional terhadap resolusi foto)
+  const isLandscape = canvasWidth > canvasHeight
+  const minDimension = Math.min(canvasWidth, canvasHeight)
+  const landscapeAdjustment = isLandscape ? 0.82 : 1.0
+  const baseScale = Math.max(1, (minDimension / 400) * landscapeAdjustment)
+
+  // Skala ukuran font profil
+  const fontSize = (profile.fontSize || 13) * baseScale
+  const fontWeight =
+    profile.fontWeight === 'bold'
+      ? '700'
+      : profile.fontWeight === 'semibold'
+      ? '600'
+      : profile.fontWeight === 'medium'
+      ? '500'
+      : '400'
+
+  const fontFamily = profile.fontFamily || 'Inter'
+  ctx.save()
+  ctx.font = `${fontWeight} ${fontSize}px "${fontFamily}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+
+  const textMetrics = ctx.measureText(text)
+  const textWidth = textMetrics.width
+
+  // Icon bullet / user marker
+  const iconSpacing = 16 * baseScale
+  const padX = 13 * baseScale
+  const padY = 8 * baseScale
+  const badgeWidth = textWidth + padX * 2 + iconSpacing
+  const badgeHeight = fontSize + padY * 2
+  const borderRadius = 8 * baseScale
+  const padding = 16 * baseScale
+
+  let x = padding
+  let y = padding
+
+  const pos = profile.position || 'above-geotag'
+
+  if (pos === 'above-geotag' && geotagBox) {
+    // Menempel persis di atas kotak geotag
+    const gap = 8 * baseScale
+    y = geotagBox.y - badgeHeight - gap
+    if (geotagConfig.position === 'bottom-right' || geotagConfig.position === 'top-right') {
+      x = geotagBox.x + geotagBox.width - badgeWidth
+    } else {
+      x = geotagBox.x
+    }
+  } else {
+    // Posisi mandiri
+    const targetPos = pos === 'above-geotag' ? 'bottom-right' : pos
+    if (targetPos === 'top-left') {
+      x = padding
+      y = padding
+    } else if (targetPos === 'top-center') {
+      x = (canvasWidth - badgeWidth) / 2
+      y = padding
+    } else if (targetPos === 'top-right') {
+      x = canvasWidth - badgeWidth - padding
+      y = padding
+    } else if (targetPos === 'bottom-left') {
+      x = padding
+      y = canvasHeight - badgeHeight - padding
+    } else if (targetPos === 'bottom-center') {
+      x = (canvasWidth - badgeWidth) / 2
+      y = canvasHeight - badgeHeight - padding
+    } else {
+      // bottom-right
+      x = canvasWidth - badgeWidth - padding
+      y = canvasHeight - badgeHeight - padding
+    }
+  }
+
+  // Gambar badge glassmorphism
+  ctx.fillStyle = 'rgba(9, 9, 11, 0.78)'
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)'
+  ctx.lineWidth = 1.2 * baseScale
+
+  roundRect(ctx, x, y, badgeWidth, badgeHeight, borderRadius)
+  ctx.fill()
+  ctx.stroke()
+
+  // Gambar Bullet / Dot Hijau Emerald Elegan
+  const dotX = x + padX + 3.5 * baseScale
+  const dotY = y + badgeHeight / 2
+  ctx.beginPath()
+  ctx.arc(dotX, dotY, 3.2 * baseScale, 0, Math.PI * 2)
+  ctx.fillStyle = '#10b981'
+  ctx.fill()
+
+  // Gambar Teks
+  ctx.font = `${fontWeight} ${fontSize}px "${fontFamily}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+  ctx.fillStyle = '#ffffff'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(text, x + padX + iconSpacing, y + badgeHeight / 2)
 
   ctx.restore()
 }

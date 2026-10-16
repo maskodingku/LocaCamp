@@ -15,6 +15,7 @@ import type {
   CameraQualityConfig,
   SensorCapabilitiesInfo,
   CameraEffectConfig,
+  ProfileConfig,
 } from '../../types/camera'
 import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
 import { WatermarkTab } from './WatermarkTab'
@@ -28,6 +29,8 @@ interface SettingsDrawerProps {
   onClose: () => void
   watermark: WatermarkConfig
   onChangeWatermark: (cfg: WatermarkConfig) => void
+  profile: ProfileConfig
+  onChangeProfile: (cfg: ProfileConfig) => void
   geotagConfig: GeotagDisplayConfig
   onChangeGeotagConfig: (cfg: GeotagDisplayConfig) => void
   cameraQualityConfig: CameraQualityConfig
@@ -44,6 +47,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   onClose,
   watermark,
   onChangeWatermark,
+  profile,
+  onChangeProfile,
   geotagConfig,
   onChangeGeotagConfig,
   cameraQualityConfig,
@@ -184,6 +189,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             <WatermarkTab
               watermark={watermark}
               onChangeWatermark={onChangeWatermark}
+              profile={profile}
+              onChangeProfile={onChangeProfile}
               activeSlider={activeSlider}
               setActiveSlider={setActiveSlider}
             />

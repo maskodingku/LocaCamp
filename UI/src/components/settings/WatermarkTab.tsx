@@ -1,11 +1,14 @@
 import React from 'react'
 import { Upload, Trash2 } from 'lucide-react'
-import type { WatermarkConfig, WatermarkPosition } from '../../types/camera'
+import type { WatermarkConfig, WatermarkPosition, ProfileConfig } from '../../types/camera'
 import { optimizeWatermarkImage } from '../../utils/storage'
+import { ProfileSection } from './watermark/ProfileSection'
 
 interface WatermarkTabProps {
   watermark: WatermarkConfig
   onChangeWatermark: (cfg: WatermarkConfig) => void
+  profile: ProfileConfig
+  onChangeProfile: (cfg: ProfileConfig) => void
   activeSlider: string | null
   setActiveSlider: (slider: string | null) => void
 }
@@ -23,6 +26,8 @@ const POSITIONS: { id: WatermarkPosition; label: string; col: string; row: strin
 export const WatermarkTab: React.FC<WatermarkTabProps> = ({
   watermark,
   onChangeWatermark,
+  profile,
+  onChangeProfile,
   activeSlider,
   setActiveSlider,
 }) => {
@@ -223,6 +228,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           </div>
         </div>
       )}
+
+      {/* Section Profil Pengguna */}
+      <ProfileSection
+        profile={profile}
+        onChangeProfile={onChangeProfile}
+        activeSlider={activeSlider}
+        setActiveSlider={setActiveSlider}
+      />
     </>
   )
 }

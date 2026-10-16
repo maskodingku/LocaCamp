@@ -1,12 +1,14 @@
 import React from 'react'
 import { MapPin, Calendar, Compass, RefreshCw } from 'lucide-react'
-import type { GeoLocationData, GeotagDisplayConfig } from '../../types/camera'
+import type { GeoLocationData, GeotagDisplayConfig, ProfileConfig } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
 import { getMiniMapDataUrl } from '../../utils/miniMapGenerator'
+import { ProfileBadge } from './ProfileBadge'
 
 interface GeotagBadgeProps {
   location: GeoLocationData
   config: GeotagDisplayConfig
+  profile?: ProfileConfig
   onRefresh?: () => void
   isLandscape?: boolean
 }
@@ -14,6 +16,7 @@ interface GeotagBadgeProps {
 export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
   location,
   config,
+  profile,
   onRefresh,
   isLandscape = false,
 }) => {
@@ -148,10 +151,19 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
     location.latitude !== null &&
     location.longitude !== null
 
+  const showProfileAbove = Boolean(
+    profile &&
+      profile.enabled &&
+      (profile.name || profile.jobTitle) &&
+      (profile.position === 'above-geotag' || !profile.position)
+  )
+
   return (
     <div
       onClick={e => e.stopPropagation()}
-      className={`absolute z-20 pointer-events-auto ${
+      className={`absolute z-20 pointer-events-auto flex flex-col gap-1.5 ${
+        config.position.includes('right') ? 'items-end' : 'items-start'
+      } ${
         isLandscape
           ? hasMiniMap
             ? 'max-w-[78%] md:max-w-md'
@@ -161,8 +173,17 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
           : 'max-w-[90%] md:max-w-md'
       } ${positionClasses} transition-all duration-300 ease-out`}
     >
+      {/* Kartu Profil Mandiri di Atas Kotak Geotag */}
+      {showProfileAbove && profile && (
+        <ProfileBadge
+          profile={profile}
+          isLandscape={isLandscape}
+          className={config.position.includes('right') ? 'self-end' : 'self-start'}
+        />
+      )}
+
       <div
-        className={`glass-panel rounded-2xl ${sizeStyles.container} shadow-2xl backdrop-blur-xl border border-white/10 text-white animate-in fade-in zoom-in-95 duration-200 flex items-stretch gap-2.5 md:gap-3`}
+        className={`w-full glass-panel rounded-2xl ${sizeStyles.container} shadow-2xl backdrop-blur-xl border border-white/10 text-white animate-in fade-in zoom-in-95 duration-200 flex items-stretch gap-2.5 md:gap-3`}
       >
         {/* Kolom Kiri: Informasi Geotag Lengkap */}
         <div className="flex-1 min-w-0 flex flex-col justify-between space-y-1">

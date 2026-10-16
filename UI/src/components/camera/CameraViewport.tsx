@@ -15,11 +15,13 @@ import {
 import { usePWAInstall } from '../../hooks/usePWAInstall'
 import { GeotagBadge } from '../overlay/GeotagBadge'
 import { WatermarkLayer } from '../overlay/WatermarkLayer'
+import { ProfileBadge } from '../overlay/ProfileBadge'
 import type {
   GeoLocationData,
   GeotagDisplayConfig,
   WatermarkConfig,
   CameraEffectConfig,
+  ProfileConfig,
 } from '../../types/camera'
 import { getCameraFilterString } from '../../utils/cameraFilters'
 
@@ -40,6 +42,7 @@ interface CameraViewportProps {
   location: GeoLocationData
   geotagConfig: GeotagDisplayConfig
   watermark: WatermarkConfig
+  profile?: ProfileConfig
   cameraEffect?: CameraEffectConfig | null
   isLandscape?: boolean
   isPresetBarOpen?: boolean
@@ -64,6 +67,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
   location,
   geotagConfig,
   watermark,
+  profile,
   cameraEffect,
   isLandscape = false,
   isPresetBarOpen = false,
@@ -279,7 +283,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
         </div>
       </div>
 
-      {/* 5. Live Overlays (Watermark + Geotag HUD) */}
+      {/* 5. Live Overlays (Watermark + Geotag HUD + Profil) */}
       {isStreaming && (
         <>
           <WatermarkLayer
@@ -289,9 +293,22 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
           <GeotagBadge
             location={location}
             config={geotagConfig}
+            profile={profile}
             onRefresh={onRefreshLocation}
             isLandscape={isLandscape}
           />
+          {/* Jika posisi profil dipilih selain Di Atas Geotag */}
+          {profile &&
+            profile.enabled &&
+            (profile.name || profile.jobTitle) &&
+            profile.position &&
+            profile.position !== 'above-geotag' && (
+              <ProfileBadge
+                profile={profile}
+                isLandscape={isLandscape}
+                standalonePosition={true}
+              />
+            )}
         </>
       )}
 

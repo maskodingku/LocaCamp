@@ -4,6 +4,7 @@ import type {
   GeotagDisplayConfig,
   CameraQualityConfig,
   CameraEffectConfig,
+  ProfileConfig,
 } from '../types/camera'
 
 export const DEFAULT_WATERMARK_URL = defaultWatermarkUrl
@@ -14,6 +15,16 @@ export const DEFAULT_WATERMARK_CONFIG: WatermarkConfig = {
   sizePercent: 22,
   opacity: 0.9,
   padding: 24,
+}
+
+export const DEFAULT_PROFILE_CONFIG: ProfileConfig = {
+  enabled: false,
+  jobTitle: '',
+  name: '',
+  fontFamily: 'Inter',
+  position: 'above-geotag',
+  fontWeight: 'medium',
+  fontSize: 13,
 }
 
 export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {
@@ -42,17 +53,101 @@ export const DEFAULT_CAMERA_EFFECT_CONFIG: CameraEffectConfig = {
 }
 
 const STORAGE_KEY_WATERMARK = 'locacamp_settings_watermark'
+const STORAGE_KEY_PROFILE = 'locacamp_settings_profile'
 const STORAGE_KEY_GEOTAG = 'locacamp_settings_geotag'
 const STORAGE_KEY_CAMERA_QUALITY = 'locacamp_settings_camera_quality'
 const STORAGE_KEY_CAMERA_EFFECT = 'locacamp_settings_camera_effect'
 const STORAGE_KEY_MIGRATED = 'locacamp_settings_migrated_v3'
+const STORAGE_KEY_DEFAULT_LOGO_CACHE = 'locacamp_cached_default_logo'
 
 const OLD_DEFAULT_WATERMARK_KEYWORD = 'LOCACAMP'
+
+/**
+ * Mengambil URL Logo Amerta default aktif, memprioritaskan Data URL base64 yang
+ * tersimpan di localStorage agar tetap tampil seketika saat perangkat offline / tanpa jaringan.
+ */
+export function getCachedDefaultLogoUrl(): string {
+  try {
+    const cached = localStorage.getItem(STORAGE_KEY_DEFAULT_LOGO_CACHE)
+    if (cached && cached.startsWith('data:image/')) {
+      return cached
+    }
+  } catch {
+    // Abaikan
+  }
+  return DEFAULT_WATERMARK_URL
+}
+
+/**
+ * Menyimpan gambar logo Amerta default ke localStorage browser sebagai Data URL base64.
+ * Fungsi ini otomatis dipanggil saat aplikasi dimuat pertama kali.
+ */
+export async function ensureDefaultLogoCached(): Promise<string> {
+  try {
+    const cached = localStorage.getItem(STORAGE_KEY_DEFAULT_LOGO_CACHE)
+    if (cached && cached.startsWith('data:image/')) {
+      return cached
+    }
+
+    const response = await fetch(DEFAULT_WATERMARK_URL)
+    const blob = await response.blob()
+
+    return new Promise(resolve => {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const base64data = reader.result as string
+        if (base64data && base64data.startsWith('data:image/')) {
+          try {
+            localStorage.setItem(STORAGE_KEY_DEFAULT_LOGO_CACHE, base64data)
+          } catch {
+            // Kuota storage penuh
+          }
+          resolve(base64data)
+        } else {
+          resolve(DEFAULT_WATERMARK_URL)
+        }
+      }
+      reader.onerror = () => resolve(DEFAULT_WATERMARK_URL)
+      reader.readAsDataURL(blob)
+    })
+  } catch {
+    // Fallback jika fetch terhalang, load lewat Image element
+    return new Promise(resolve => {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas')
+          canvas.width = img.naturalWidth || img.width
+          canvas.height = img.naturalHeight || img.height
+          const ctx = canvas.getContext('2d')
+          if (ctx) {
+            ctx.drawImage(img, 0, 0)
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.95)
+            try {
+              localStorage.setItem(STORAGE_KEY_DEFAULT_LOGO_CACHE, dataUrl)
+            } catch {
+              // Abaikan
+            }
+            resolve(dataUrl)
+            return
+          }
+        } catch {
+          // Abaikan
+        }
+        resolve(DEFAULT_WATERMARK_URL)
+      }
+      img.onerror = () => resolve(DEFAULT_WATERMARK_URL)
+      img.src = DEFAULT_WATERMARK_URL
+    })
+  }
+}
 
 /**
  * Membaca konfigurasi watermark dari localStorage dengan fallback ke default
  */
 export function loadStoredWatermark(): WatermarkConfig {
+  const defaultLogo = getCachedDefaultLogoUrl()
   try {
     const raw = localStorage.getItem(STORAGE_KEY_WATERMARK)
     if (raw) {
@@ -64,19 +159,24 @@ export function loadStoredWatermark(): WatermarkConfig {
         (imageUrl.includes(OLD_DEFAULT_WATERMARK_KEYWORD) ||
           imageUrl.startsWith('data:image/svg+xml'))
       ) {
-        imageUrl = DEFAULT_WATERMARK_URL
+        imageUrl = defaultLogo
+      } else if (!imageUrl || imageUrl === DEFAULT_WATERMARK_URL) {
+        imageUrl = defaultLogo
       }
 
       return {
         ...DEFAULT_WATERMARK_CONFIG,
         ...parsed,
-        imageUrl: imageUrl ?? DEFAULT_WATERMARK_URL,
+        imageUrl: imageUrl ?? defaultLogo,
       }
     }
   } catch {
     // Jika ada error atau storage diblokir
   }
-  return DEFAULT_WATERMARK_CONFIG
+  return {
+    ...DEFAULT_WATERMARK_CONFIG,
+    imageUrl: defaultLogo,
+  }
 }
 
 /**
@@ -87,6 +187,36 @@ export function saveStoredWatermark(config: WatermarkConfig): void {
     localStorage.setItem(STORAGE_KEY_WATERMARK, JSON.stringify(config))
   } catch {
     // Abaikan jika kuota storage penuh
+  }
+}
+
+/**
+ * Membaca konfigurasi profil pengguna dari localStorage
+ */
+export function loadStoredProfile(): ProfileConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_PROFILE)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<ProfileConfig>
+      return {
+        ...DEFAULT_PROFILE_CONFIG,
+        ...parsed,
+      }
+    }
+  } catch {
+    // Abaikan
+  }
+  return DEFAULT_PROFILE_CONFIG
+}
+
+/**
+ * Menyimpan konfigurasi profil pengguna ke localStorage
+ */
+export function saveStoredProfile(config: ProfileConfig): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_PROFILE, JSON.stringify(config))
+  } catch {
+    // Abaikan
   }
 }
 
@@ -210,6 +340,7 @@ export function saveStoredCameraEffect(config: CameraEffectConfig): void {
 export function clearStoredSettings(): void {
   try {
     localStorage.removeItem(STORAGE_KEY_WATERMARK)
+    localStorage.removeItem(STORAGE_KEY_PROFILE)
     localStorage.removeItem(STORAGE_KEY_GEOTAG)
     localStorage.removeItem(STORAGE_KEY_CAMERA_QUALITY)
     localStorage.removeItem(STORAGE_KEY_CAMERA_EFFECT)
