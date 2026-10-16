@@ -5,7 +5,7 @@ import type { GeotagDisplayConfig } from '../../types/camera'
 interface GeotagTabProps {
   geotagConfig: GeotagDisplayConfig
   onChangeGeotagConfig: (cfg: GeotagDisplayConfig) => void
-  onTriggerPreview?: () => void
+  onTriggerPreview?: (inputId: string) => void
 }
 
 const GEOTAG_INFO_ITEMS = [
@@ -64,7 +64,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
         {onTriggerPreview && (
           <button
             type="button"
-            onClick={onTriggerPreview}
+            onClick={() => onTriggerPreview?.('geotag_position')}
             className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
             title="Lihat Pratinjau Langsung di Kamera"
           >
@@ -114,7 +114,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
           {onTriggerPreview && (
             <button
               type="button"
-              onClick={onTriggerPreview}
+              onClick={() => onTriggerPreview?.('geotag_position')}
               className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
               title="Lihat Pratinjau Langsung di Kamera"
             >
@@ -152,7 +152,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
           {onTriggerPreview && (
             <button
               type="button"
-              onClick={onTriggerPreview}
+              onClick={() => onTriggerPreview?.('geotag_size')}
               className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
               title="Lihat Pratinjau Langsung di Kamera"
             >

@@ -7,7 +7,7 @@ interface ProfileSectionProps {
   onChangeProfile: (cfg: ProfileConfig) => void
   activeSlider: string | null
   setActiveSlider: (slider: string | null) => void
-  onTriggerPreview?: () => void
+  onTriggerPreview?: (inputId: string) => void
 }
 
 export const FONT_OPTIONS = [
@@ -128,7 +128,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 {onTriggerPreview && (
                   <button
                     type="button"
-                    onClick={onTriggerPreview}
+                    onClick={() => onTriggerPreview?.('profile_job')}
                     className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
@@ -160,7 +160,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 {onTriggerPreview && (
                   <button
                     type="button"
-                    onClick={onTriggerPreview}
+                    onClick={() => onTriggerPreview?.('profile_name')}
                     className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
@@ -198,7 +198,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               {onTriggerPreview && (
                 <button
                   type="button"
-                  onClick={onTriggerPreview}
+                  onClick={() => onTriggerPreview?.('profile_font')}
                   className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
@@ -250,7 +250,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               {onTriggerPreview && (
                 <button
                   type="button"
-                  onClick={onTriggerPreview}
+                  onClick={() => onTriggerPreview?.('profile_position')}
                   className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
@@ -299,7 +299,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               {onTriggerPreview && (
                 <button
                   type="button"
-                  onClick={onTriggerPreview}
+                  onClick={() => onTriggerPreview?.('profile_weight')}
                   className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
@@ -354,7 +354,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               {onTriggerPreview && activeSlider !== 'profile_size' && (
                 <button
                   type="button"
-                  onClick={onTriggerPreview}
+                  onClick={() => onTriggerPreview?.('profile_size')}
                   className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >

@@ -11,7 +11,7 @@ interface WatermarkTabProps {
   onChangeProfile: (cfg: ProfileConfig) => void
   activeSlider: string | null
   setActiveSlider: (slider: string | null) => void
-  onTriggerPreview?: () => void
+  onTriggerPreview?: (inputId: string) => void
 }
 
 const POSITIONS: { id: WatermarkPosition; label: string; col: string; row: string }[] = [
@@ -109,7 +109,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             {onTriggerPreview && (
               <button
                 type="button"
-                onClick={onTriggerPreview}
+                onClick={() => onTriggerPreview?.('watermark_position')}
                 className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                 title="Lihat Pratinjau Langsung di Kamera"
               >
@@ -193,7 +193,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               {onTriggerPreview && (
                 <button
                   type="button"
-                  onClick={onTriggerPreview}
+                  onClick={() => onTriggerPreview?.('watermark_position')}
                   className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
@@ -246,7 +246,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 {onTriggerPreview && activeSlider !== 'watermark_size' && (
                   <button
                     type="button"
-                    onClick={onTriggerPreview}
+                    onClick={() => onTriggerPreview?.('watermark_size')}
                     className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
@@ -293,7 +293,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 {onTriggerPreview && activeSlider !== 'watermark_opacity' && (
                   <button
                     type="button"
-                    onClick={onTriggerPreview}
+                    onClick={() => onTriggerPreview?.('watermark_opacity')}
                     className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >

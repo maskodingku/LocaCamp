@@ -23,6 +23,7 @@ import { GeotagTab } from './GeotagTab'
 import { CameraTab } from './CameraTab'
 import { GoogleDriveTab } from './GoogleDriveTab'
 import { AboutTab } from './AboutTab'
+import { LivePreviewDock } from './LivePreviewDock'
 
 interface SettingsDrawerProps {
   isOpen: boolean
@@ -61,24 +62,24 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'drive' | 'about'>('watermark')
   const [activeSlider, setActiveSlider] = useState<string | null>(null)
-  const [isPreviewActive, setIsPreviewActive] = useState(false)
+  const [activePreviewInput, setActivePreviewInput] = useState<string | null>(null)
 
   // Reset mode preview jika modal pengaturan ditutup
   useEffect(() => {
     if (!isOpen) {
-      setIsPreviewActive(false)
+      setActivePreviewInput(null)
     }
   }, [isOpen])
 
   // Listener tombol Escape keyboard untuk menutup mode preview
   useEffect(() => {
-    if (!isPreviewActive) return
+    if (!activePreviewInput) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setIsPreviewActive(false)
+      if (e.key === 'Escape') setActivePreviewInput(null)
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isPreviewActive])
+  }, [activePreviewInput])
 
   // Global listener untuk deteksi saat slider dilepas di mana saja
   useEffect(() => {
@@ -100,22 +101,23 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
   return (
     <>
-      {/* Floating Close Button di pojok kanan bawah saat Mode Preview Aktif */}
-      {isPreviewActive && (
-        <button
-          type="button"
-          onClick={() => setIsPreviewActive(false)}
-          className="fixed bottom-6 right-6 z-[120] pointer-events-auto flex items-center gap-2 px-4 py-2.5 rounded-full bg-zinc-950/85 hover:bg-zinc-900 text-white border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.6)] backdrop-blur-md active:scale-95 transition-all text-xs font-semibold cursor-pointer animate-in fade-in zoom-in-95 group"
-          title="Tutup Mode Pratinjau Langsung"
-        >
-          <X className="w-4 h-4 text-rose-400 group-hover:rotate-90 transition-transform duration-200" />
-          <span>Tutup Preview</span>
-        </button>
+      {/* Floating Dock Input Interaktif di samping tombol tutup saat Mode Preview Aktif */}
+      {activePreviewInput && (
+        <LivePreviewDock
+          activeInput={activePreviewInput}
+          onClose={() => setActivePreviewInput(null)}
+          profile={profile}
+          onChangeProfile={onChangeProfile}
+          watermark={watermark}
+          onChangeWatermark={onChangeWatermark}
+          geotagConfig={geotagConfig}
+          onChangeGeotagConfig={onChangeGeotagConfig}
+        />
       )}
 
       <div
         className={`fixed inset-0 flex items-end md:items-center justify-center transition-all duration-200 ${
-          isPreviewActive
+          activePreviewInput
             ? 'bg-transparent pointer-events-none z-0 hidden'
             : activeSlider
             ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
@@ -233,13 +235,13 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               onChangeProfile={onChangeProfile}
               activeSlider={activeSlider}
               setActiveSlider={setActiveSlider}
-              onTriggerPreview={() => setIsPreviewActive(true)}
+              onTriggerPreview={id => setActivePreviewInput(id)}
             />
           ) : activeTab === 'geotag' ? (
             <GeotagTab
               geotagConfig={geotagConfig}
               onChangeGeotagConfig={onChangeGeotagConfig}
-              onTriggerPreview={() => setIsPreviewActive(true)}
+              onTriggerPreview={id => setActivePreviewInput(id)}
             />
           ) : activeTab === 'camera' ? (
             <CameraTab
