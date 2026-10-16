@@ -131,7 +131,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Logo</span>
+            <span className="truncate">Basic</span>
           </button>
           <button
             type="button"
