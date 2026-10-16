@@ -60,14 +60,26 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
       />
 
       {/* SECTION 2: WATERMARK LOGO */}
-      <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4">
+      <div
+        className={`relative rounded-2xl transition-all duration-150 ${
+          activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
+            ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
+            : activeSlider
+            ? 'hidden'
+            : 'border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4'
+        }`}
+      >
         {/* Garis Aksen Vertikal Glassmorphism di samping kiri border */}
-        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_12px_rgba(6,182,212,0.5)] transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        />
 
         {/* Header Section Watermark Logo */}
         <div
-          className={`flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          className={`items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
+            activeSlider ? 'hidden' : 'flex'
           }`}
         >
           <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0">
@@ -84,180 +96,180 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
         {/* Upload Custom Logo */}
         <div
           className={`transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
-        >
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Unggah Logo / Gambar Sendiri
-        </label>
-        <div className="flex items-center gap-3">
-          <label className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-dashed border-zinc-700 hover:border-zinc-500 bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all text-sm font-medium text-zinc-200">
-            <Upload className="w-4 h-4 text-zinc-400" />
-            <span>Pilih Gambar (PNG/JPG/SVG)</span>
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileUpload}
-            />
-          </label>
-          {watermark.imageUrl && (
-            <button
-              type="button"
-              onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-              className="p-3 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors"
-              title="Hapus Watermark"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Preview Logo Aktif */}
-      <div
-        className={`transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        {watermark.imageUrl ? (
-          <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 overflow-hidden">
-              <div className="w-14 h-14 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0">
-                <img
-                  src={watermark.imageUrl}
-                  alt="Logo Aktif"
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
-              <div className="overflow-hidden">
-                <p className="text-xs font-semibold text-white">Logo Aktif</p>
-                <p className="text-[11px] text-zinc-400">Siap dicetak pada hasil foto</p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-              className="p-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors shrink-0"
-              title="Hapus Logo"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </div>
-        ) : (
-          <div className="p-3.5 rounded-xl border border-dashed border-zinc-800 text-center bg-zinc-900/30">
-            <p className="text-xs text-zinc-500 italic">Belum ada logo yang diunggah</p>
-          </div>
-        )}
-      </div>
-
-      {/* Position Selector (9-Grid) */}
-      {watermark.imageUrl && (
-        <div
-          className={`transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            activeSlider ? 'hidden' : 'block'
           }`}
         >
           <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-            Posisi Watermark di Foto
+            Unggah Logo / Gambar Sendiri
           </label>
-          <div className="grid grid-cols-3 gap-2 p-3 bg-zinc-900/60 rounded-2xl border border-zinc-800">
-            {POSITIONS.map(pos => {
-              const active = watermark.position === pos.id
-              return (
-                <button
-                  key={pos.id}
-                  type="button"
-                  onClick={() =>
-                    onChangeWatermark({ ...watermark, position: pos.id })
-                  }
-                  className={`py-2 px-3 rounded-lg text-xs font-medium transition-all ${
-                    active
-                      ? 'bg-white text-zinc-950 font-semibold shadow-md'
-                      : 'bg-zinc-800/60 text-zinc-300 hover:bg-zinc-700/60'
-                  }`}
-                >
-                  {pos.label}
-                </button>
-              )
-            })}
+          <div className="flex items-center gap-3">
+            <label className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-dashed border-zinc-700 hover:border-zinc-500 bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all text-sm font-medium text-zinc-200">
+              <Upload className="w-4 h-4 text-zinc-400" />
+              <span>Pilih Gambar (PNG/JPG/SVG)</span>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
+            </label>
+            {watermark.imageUrl && (
+              <button
+                type="button"
+                onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
+                className="p-3 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors"
+                title="Hapus Watermark"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
-      )}
 
-      {/* Sliders: Size and Opacity */}
-      {watermark.imageUrl && (
-        <div className="space-y-4 pt-1">
-          <div
-            className={`transition-all duration-150 ${
-              activeSlider === 'watermark_size'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/50 shadow-2xl ring-2 ring-white/30 relative z-50'
-                : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
-                : ''
-            }`}
-          >
-            <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-              <span className={activeSlider === 'watermark_size' ? 'text-white font-bold' : ''}>Ukuran Watermark</span>
-              <span className="text-zinc-200 font-mono">{watermark.sizePercent}% lebar foto</span>
+        {/* Preview Logo Aktif */}
+        <div
+          className={`transition-opacity duration-150 ${
+            activeSlider ? 'hidden' : 'block'
+          }`}
+        >
+          {watermark.imageUrl ? (
+            <div className="p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 overflow-hidden">
+                <div className="w-14 h-14 rounded-xl bg-black/60 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0">
+                  <img
+                    src={watermark.imageUrl}
+                    alt="Logo Aktif"
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+                <div className="overflow-hidden">
+                  <p className="text-xs font-semibold text-white">Logo Aktif</p>
+                  <p className="text-[11px] text-zinc-400">Siap dicetak pada hasil foto</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
+                className="p-2.5 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors shrink-0"
+                title="Hapus Logo"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
             </div>
-            <input
-              type="range"
-              min={8}
-              max={45}
-              value={watermark.sizePercent}
-              onPointerDown={() => setActiveSlider('watermark_size')}
-              onTouchStart={() => setActiveSlider('watermark_size')}
-              onMouseDown={() => setActiveSlider('watermark_size')}
-              onPointerUp={() => setActiveSlider(null)}
-              onTouchEnd={() => setActiveSlider(null)}
-              onMouseUp={() => setActiveSlider(null)}
-              onChange={e =>
-                onChangeWatermark({
-                  ...watermark,
-                  sizePercent: Number(e.target.value),
-                })
-              }
-              className="w-full accent-white h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
-            />
-          </div>
-
-          <div
-            className={`transition-all duration-150 ${
-              activeSlider === 'watermark_opacity'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/50 shadow-2xl ring-2 ring-white/30 relative z-50'
-                : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
-                : ''
-            }`}
-          >
-            <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-              <span className={activeSlider === 'watermark_opacity' ? 'text-white font-bold' : ''}>Transparansi (Opacity)</span>
-              <span className="text-zinc-200 font-mono">{Math.round(watermark.opacity * 100)}%</span>
+          ) : (
+            <div className="p-3.5 rounded-xl border border-dashed border-zinc-800 text-center bg-zinc-900/30">
+              <p className="text-xs text-zinc-500 italic">Belum ada logo yang diunggah</p>
             </div>
-            <input
-              type="range"
-              min={0.15}
-              max={1.0}
-              step={0.05}
-              value={watermark.opacity}
-              onPointerDown={() => setActiveSlider('watermark_opacity')}
-              onTouchStart={() => setActiveSlider('watermark_opacity')}
-              onMouseDown={() => setActiveSlider('watermark_opacity')}
-              onPointerUp={() => setActiveSlider(null)}
-              onTouchEnd={() => setActiveSlider(null)}
-              onMouseUp={() => setActiveSlider(null)}
-              onChange={e =>
-                onChangeWatermark({
-                  ...watermark,
-                  opacity: Number(e.target.value),
-                })
-              }
-              className="w-full accent-white h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
-            />
-          </div>
+          )}
         </div>
-      )}
+
+        {/* Position Selector (9-Grid) */}
+        {watermark.imageUrl && (
+          <div
+            className={`transition-opacity duration-150 ${
+              activeSlider ? 'hidden' : 'block'
+            }`}
+          >
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+              Posisi Watermark di Foto
+            </label>
+            <div className="grid grid-cols-3 gap-2 p-3 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+              {POSITIONS.map(pos => {
+                const active = watermark.position === pos.id
+                return (
+                  <button
+                    key={pos.id}
+                    type="button"
+                    onClick={() =>
+                      onChangeWatermark({ ...watermark, position: pos.id })
+                    }
+                    className={`py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+                      active
+                        ? 'bg-white text-zinc-950 font-semibold shadow-md'
+                        : 'bg-zinc-800/60 text-zinc-300 hover:bg-zinc-700/60'
+                    }`}
+                  >
+                    {pos.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Sliders: Size and Opacity */}
+        {watermark.imageUrl && (
+          <div className={`space-y-4 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
+            <div
+              className={`transition-all duration-150 ${
+                activeSlider === 'watermark_size'
+                  ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
+                  : activeSlider !== null
+                  ? 'hidden'
+                  : ''
+              }`}
+            >
+              <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
+                <span className={activeSlider === 'watermark_size' ? 'text-white font-bold' : ''}>Ukuran Watermark</span>
+                <span className="text-zinc-200 font-mono">{watermark.sizePercent}% lebar foto</span>
+              </div>
+              <input
+                type="range"
+                min={8}
+                max={45}
+                value={watermark.sizePercent}
+                onPointerDown={() => setActiveSlider('watermark_size')}
+                onTouchStart={() => setActiveSlider('watermark_size')}
+                onMouseDown={() => setActiveSlider('watermark_size')}
+                onPointerUp={() => setActiveSlider(null)}
+                onTouchEnd={() => setActiveSlider(null)}
+                onMouseUp={() => setActiveSlider(null)}
+                onChange={e =>
+                  onChangeWatermark({
+                    ...watermark,
+                    sizePercent: Number(e.target.value),
+                  })
+                }
+                className="w-full accent-white h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+              />
+            </div>
+
+            <div
+              className={`transition-all duration-150 ${
+                activeSlider === 'watermark_opacity'
+                  ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
+                  : activeSlider !== null
+                  ? 'hidden'
+                  : ''
+              }`}
+            >
+              <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
+                <span className={activeSlider === 'watermark_opacity' ? 'text-white font-bold' : ''}>Transparansi (Opacity)</span>
+                <span className="text-zinc-200 font-mono">{Math.round(watermark.opacity * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min={0.15}
+                max={1.0}
+                step={0.05}
+                value={watermark.opacity}
+                onPointerDown={() => setActiveSlider('watermark_opacity')}
+                onTouchStart={() => setActiveSlider('watermark_opacity')}
+                onMouseDown={() => setActiveSlider('watermark_opacity')}
+                onPointerUp={() => setActiveSlider(null)}
+                onTouchEnd={() => setActiveSlider(null)}
+                onMouseUp={() => setActiveSlider(null)}
+                onChange={e =>
+                  onChangeWatermark({
+                    ...watermark,
+                    opacity: Number(e.target.value),
+                  })
+                }
+                className="w-full accent-white h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+              />
+            </div>
+          </div>
+        )}
       </div>
     </>
   )

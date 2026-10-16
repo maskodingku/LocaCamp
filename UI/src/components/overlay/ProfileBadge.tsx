@@ -15,11 +15,12 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
   className = '',
   standalonePosition = false,
 }) => {
-  if (!profile.enabled || (!profile.name && !profile.jobTitle)) {
+  if (!profile.enabled) {
     return null
   }
 
-  const displayText = [profile.name, profile.jobTitle].filter(Boolean).join(' • ')
+  const displayText =
+    [profile.name, profile.jobTitle].filter(Boolean).join(' • ') || 'Nama • Jabatan'
   const fontWeightValue =
     profile.fontWeight === 'bold'
       ? 700

@@ -84,7 +84,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
     <div
       className={`fixed inset-0 flex items-end md:items-center justify-center transition-all duration-200 ${
         activeSlider
-          ? 'bg-transparent backdrop-blur-none pointer-events-auto z-[100]'
+          ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
           : 'bg-black/70 backdrop-blur-md animate-in fade-in z-50'
       }`}
     >
@@ -98,8 +98,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
       >
         {/* Header */}
         <div
-          className={`flex items-center justify-between px-6 py-4 border-b border-zinc-800 transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          className={`items-center justify-between px-6 py-4 border-b border-zinc-800 transition-opacity duration-150 ${
+            activeSlider ? 'hidden' : 'flex'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -117,8 +117,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
         {/* Tab Buttons */}
         <div
-          className={`grid grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          className={`grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
+            activeSlider ? 'hidden' : 'grid'
           }`}
         >
           <button
@@ -184,7 +184,13 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         </div>
 
         {/* Tab Content */}
-        <div className={`flex-1 overflow-y-auto p-6 space-y-6 ${activeSlider ? 'pb-36 sm:pb-28' : ''}`}>
+        <div
+          className={`transition-all duration-150 ${
+            activeSlider
+              ? 'p-4 sm:p-6 overflow-visible'
+              : 'flex-1 overflow-y-auto p-6 space-y-6'
+          }`}
+        >
           {activeTab === 'watermark' ? (
             <WatermarkTab
               watermark={watermark}

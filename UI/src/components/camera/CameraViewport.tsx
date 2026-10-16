@@ -300,7 +300,6 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
           {/* Jika posisi profil dipilih selain Di Atas Geotag */}
           {profile &&
             profile.enabled &&
-            (profile.name || profile.jobTitle) &&
             profile.position &&
             profile.position !== 'above-geotag' && (
               <ProfileBadge

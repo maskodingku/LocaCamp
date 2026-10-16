@@ -154,7 +154,6 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
   const showProfileAbove = Boolean(
     profile &&
       profile.enabled &&
-      (profile.name || profile.jobTitle) &&
       (profile.position === 'above-geotag' || !profile.position)
   )
 

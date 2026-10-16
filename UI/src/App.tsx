@@ -122,8 +122,8 @@ export default function App() {
     setHasAcceptedTerms(true)
   }, [])
 
-  // Kamera & sensor optik mati total saat di beranda, halaman legal, belum menyetujui syarat/ketentuan, membuka riwayat foto, mereview hasil jepretan, atau membuka menu pengaturan
-  const isCameraActive = hasAcceptedTerms && !isCustomPage && !isHistoryOpen && !currentPhoto && !isSettingsOpen
+  // Kamera & sensor optik mati total saat di beranda, halaman legal, belum menyetujui syarat/ketentuan, membuka riwayat foto, atau mereview hasil jepretan
+  const isCameraActive = hasAcceptedTerms && !isCustomPage && !isHistoryOpen && !currentPhoto
 
   // Watermark Configuration State (dimuat dari localStorage saat start)
   const [watermark, setWatermark] = useState<WatermarkConfig>(() => loadStoredWatermark())

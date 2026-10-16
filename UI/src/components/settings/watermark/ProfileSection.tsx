@@ -44,14 +44,26 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   setActiveSlider,
 }) => {
   return (
-    <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4">
+    <div
+      className={`relative rounded-2xl transition-all duration-150 ${
+        activeSlider === 'profile_size'
+          ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
+          : activeSlider
+          ? 'hidden'
+          : 'border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 shadow-lg overflow-hidden space-y-4'
+      }`}
+    >
       {/* Garis Aksen Vertikal Glassmorphism di samping kiri border */}
-      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-600 shadow-[0_0_12px_rgba(16,185,129,0.5)]" />
+      <div
+        className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-600 shadow-[0_0_12px_rgba(16,185,129,0.5)] transition-opacity duration-150 ${
+          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      />
 
       {/* Header Section dengan Switch On/Off */}
       <div
-        className={`flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        className={`items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
+          activeSlider ? 'hidden' : 'flex'
         }`}
       >
         <div className="flex items-center gap-3">
@@ -98,11 +110,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
       {/* Konten Saat Profil On */}
       {profile.enabled && (
-        <div className="space-y-4">
+        <div className={`space-y-4 ${activeSlider ? 'space-y-0' : ''}`}>
           {/* Input Jabatan & Nama */}
           <div
             className={`space-y-3 transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              activeSlider ? 'hidden' : 'block'
             }`}
           >
             <div>
@@ -147,7 +159,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           {/* Pemilihan Font Dropdown */}
           <div
             className={`transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              activeSlider ? 'hidden' : 'block'
             }`}
           >
             <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
@@ -186,7 +198,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           {/* Pengaturan Posisi Profil */}
           <div
             className={`transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              activeSlider ? 'hidden' : 'block'
             }`}
           >
             <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
@@ -223,7 +235,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           {/* Pengaturan Ketebalan Teks (Font Weight) */}
           <div
             className={`transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              activeSlider ? 'hidden' : 'block'
             }`}
           >
             <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
@@ -259,9 +271,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div
             className={`transition-all duration-150 ${
               activeSlider === 'profile_size'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-white/50 shadow-2xl ring-2 ring-white/30 relative z-50'
+                ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
                 : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
+                ? 'hidden'
                 : ''
             }`}
           >
@@ -296,7 +308,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           {/* Mini Preview Profil */}
           <div
             className={`p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              activeSlider ? 'hidden' : 'block'
             }`}
           >
             <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">
