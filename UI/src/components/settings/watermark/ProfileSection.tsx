@@ -44,7 +44,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   setActiveSlider,
 }) => {
   return (
-    <div className="space-y-4 pt-2 border-t border-zinc-800/80">
+    <div className="space-y-4 pb-4 border-b border-zinc-800/80">
       {/* Header Section dengan Switch On/Off */}
       <div
         className={`flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${

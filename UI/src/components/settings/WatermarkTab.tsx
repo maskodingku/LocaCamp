@@ -51,6 +51,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
   return (
     <>
+      {/* Section Profil Pengguna (Paling Atas) */}
+      <ProfileSection
+        profile={profile}
+        onChangeProfile={onChangeProfile}
+        activeSlider={activeSlider}
+        setActiveSlider={setActiveSlider}
+      />
+
       {/* Upload Custom Logo */}
       <div
         className={`transition-opacity duration-150 ${
@@ -228,14 +236,6 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           </div>
         </div>
       )}
-
-      {/* Section Profil Pengguna */}
-      <ProfileSection
-        profile={profile}
-        onChangeProfile={onChangeProfile}
-        activeSlider={activeSlider}
-        setActiveSlider={setActiveSlider}
-      />
     </>
   )
 }
