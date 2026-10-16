@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload, Trash2 } from 'lucide-react'
+import { Upload, Trash2, Sparkles } from 'lucide-react'
 import type { WatermarkConfig, WatermarkPosition, ProfileConfig } from '../../types/camera'
 import { optimizeWatermarkImage } from '../../utils/storage'
 import { ProfileSection } from './watermark/ProfileSection'
@@ -59,12 +59,34 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
         setActiveSlider={setActiveSlider}
       />
 
-      {/* Upload Custom Logo */}
-      <div
-        className={`transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
+      {/* SECTION 2: WATERMARK LOGO */}
+      <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4">
+        {/* Garis Aksen Vertikal Glassmorphism di samping kiri border */}
+        <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
+
+        {/* Header Section Watermark Logo */}
+        <div
+          className={`flex items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold text-white">Watermark Logo</h3>
+            <p className="text-xs text-zinc-400">
+              Unggah logo resmi, sesuaikan posisi, ukuran &amp; transparansi
+            </p>
+          </div>
+        </div>
+
+        {/* Upload Custom Logo */}
+        <div
+          className={`transition-opacity duration-150 ${
+            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
         <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
           Unggah Logo / Gambar Sendiri
         </label>
@@ -236,6 +258,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           </div>
         </div>
       )}
+      </div>
     </>
   )
 }

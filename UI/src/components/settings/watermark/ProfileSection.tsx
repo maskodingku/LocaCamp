@@ -44,7 +44,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   setActiveSlider,
 }) => {
   return (
-    <div className="space-y-4 pb-4 border-b border-zinc-800/80">
+    <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4">
+      {/* Garis Aksen Vertikal Glassmorphism di samping kiri border */}
+      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-emerald-400 via-teal-400 to-emerald-600 shadow-[0_0_12px_rgba(16,185,129,0.5)]" />
+
       {/* Header Section dengan Switch On/Off */}
       <div
         className={`flex items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
