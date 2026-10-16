@@ -1,5 +1,5 @@
 import React from 'react'
-import { User, Briefcase, Type, MapPin, Check } from 'lucide-react'
+import { User, Briefcase, Type, MapPin, Check, Eye } from 'lucide-react'
 import type { ProfileConfig, ProfilePosition, ProfileFontWeight } from '../../../types/camera'
 
 interface ProfileSectionProps {
@@ -7,6 +7,7 @@ interface ProfileSectionProps {
   onChangeProfile: (cfg: ProfileConfig) => void
   activeSlider: string | null
   setActiveSlider: (slider: string | null) => void
+  onTriggerPreview?: () => void
 }
 
 export const FONT_OPTIONS = [
@@ -42,6 +43,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   onChangeProfile,
   activeSlider,
   setActiveSlider,
+  onTriggerPreview,
 }) => {
   return (
     <div
@@ -118,10 +120,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
-                <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Jabatan / Posisi</span>
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                  <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Jabatan / Posisi</span>
+                </label>
+                {onTriggerPreview && (
+                  <button
+                    type="button"
+                    onClick={onTriggerPreview}
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    title="Lihat Pratinjau Langsung di Kamera"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Preview</span>
+                  </button>
+                )}
+              </div>
               <input
                 type="text"
                 value={profile.jobTitle}
@@ -137,10 +152,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Nama Lengkap</span>
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Nama Lengkap</span>
+                </label>
+                {onTriggerPreview && (
+                  <button
+                    type="button"
+                    onClick={onTriggerPreview}
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    title="Lihat Pratinjau Langsung di Kamera"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Preview</span>
+                  </button>
+                )}
+              </div>
               <input
                 type="text"
                 value={profile.name}
@@ -162,10 +190,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
-              <Type className="w-3.5 h-3.5 text-zinc-400" />
-              <span>Jenis Font Profil</span>
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Type className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Jenis Font Profil</span>
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={onTriggerPreview}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
             <div className="relative">
               <select
                 value={profile.fontFamily}
@@ -201,10 +242,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5 flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5 text-zinc-400" />
-              <span>Posisi Profil di Foto</span>
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Posisi Profil di Foto</span>
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={onTriggerPreview}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 p-2 bg-zinc-900/60 rounded-2xl border border-zinc-800">
               {PROFILE_POSITIONS.map(pos => {
                 const active = (profile.position || 'above-geotag') === pos.id
@@ -238,9 +292,22 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-              Ketebalan Teks
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                Ketebalan Teks
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={onTriggerPreview}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
             <div className="grid grid-cols-4 gap-1.5 p-1.5 bg-zinc-900/60 rounded-xl border border-zinc-800">
               {FONT_WEIGHTS.map(fw => {
                 const active = (profile.fontWeight || 'medium') === fw.id
@@ -277,11 +344,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 : ''
             }`}
           >
-            <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-              <span className={activeSlider === 'profile_size' ? 'text-white font-bold' : ''}>
-                Ukuran Teks Profil
-              </span>
-              <span className="text-zinc-200 font-mono">{profile.fontSize || 13} px</span>
+            <div className="flex items-center justify-between text-xs font-semibold text-zinc-400 mb-1.5">
+              <div className="flex items-center gap-2">
+                <span className={activeSlider === 'profile_size' ? 'text-white font-bold' : ''}>
+                  Ukuran Teks Profil
+                </span>
+                <span className="text-zinc-200 font-mono">{profile.fontSize || 13} px</span>
+              </div>
+              {onTriggerPreview && activeSlider !== 'profile_size' && (
+                <button
+                  type="button"
+                  onClick={onTriggerPreview}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
             </div>
             <input
               type="range"

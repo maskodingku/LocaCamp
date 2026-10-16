@@ -1,9 +1,11 @@
 import React from 'react'
+import { Eye } from 'lucide-react'
 import type { GeotagDisplayConfig } from '../../types/camera'
 
 interface GeotagTabProps {
   geotagConfig: GeotagDisplayConfig
   onChangeGeotagConfig: (cfg: GeotagDisplayConfig) => void
+  onTriggerPreview?: () => void
 }
 
 const GEOTAG_INFO_ITEMS = [
@@ -51,12 +53,26 @@ const FONT_SIZES = [
 export const GeotagTab: React.FC<GeotagTabProps> = ({
   geotagConfig,
   onChangeGeotagConfig,
+  onTriggerPreview,
 }) => {
   return (
     <div className="space-y-4">
-      <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-        Informasi yang Ditampilkan pada Foto
-      </label>
+      <div className="flex items-center justify-between mb-2">
+        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          Informasi yang Ditampilkan pada Foto
+        </label>
+        {onTriggerPreview && (
+          <button
+            type="button"
+            onClick={onTriggerPreview}
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+            title="Lihat Pratinjau Langsung di Kamera"
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span>Preview</span>
+          </button>
+        )}
+      </div>
 
       <div className="space-y-2">
         {GEOTAG_INFO_ITEMS.map(item => {
@@ -91,9 +107,22 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
 
       {/* Geotag Position */}
       <div className="pt-2">
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Posisi Badge Geotag
-        </label>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Posisi Badge Geotag
+          </label>
+          {onTriggerPreview && (
+            <button
+              type="button"
+              onClick={onTriggerPreview}
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+              title="Lihat Pratinjau Langsung di Kamera"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Preview</span>
+            </button>
+          )}
+        </div>
         <div className="grid grid-cols-2 gap-2">
           {POSITIONS.map(pos => (
             <button
@@ -116,9 +145,22 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
 
       {/* Ukuran Tulisan Geotag */}
       <div className="pt-2">
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Ukuran Tulisan Lokasi pada Foto
-        </label>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            Ukuran Tulisan Lokasi pada Foto
+          </label>
+          {onTriggerPreview && (
+            <button
+              type="button"
+              onClick={onTriggerPreview}
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-amber-400 hover:text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+              title="Lihat Pratinjau Langsung di Kamera"
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Preview</span>
+            </button>
+          )}
+        </div>
         <div className="grid grid-cols-4 gap-2">
           {FONT_SIZES.map(item => {
             const active = (geotagConfig.fontSize || 'medium') === item.id

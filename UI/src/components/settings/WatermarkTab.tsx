@@ -1,5 +1,5 @@
 import React from 'react'
-import { Upload, Trash2, Sparkles } from 'lucide-react'
+import { Upload, Trash2, Sparkles, Eye } from 'lucide-react'
 import type { WatermarkConfig, WatermarkPosition, ProfileConfig } from '../../types/camera'
 import { optimizeWatermarkImage } from '../../utils/storage'
 import { ProfileSection } from './watermark/ProfileSection'
@@ -11,6 +11,7 @@ interface WatermarkTabProps {
   onChangeProfile: (cfg: ProfileConfig) => void
   activeSlider: string | null
   setActiveSlider: (slider: string | null) => void
+  onTriggerPreview?: () => void
 }
 
 const POSITIONS: { id: WatermarkPosition; label: string; col: string; row: string }[] = [
@@ -30,6 +31,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
   onChangeProfile,
   activeSlider,
   setActiveSlider,
+  onTriggerPreview,
 }) => {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -57,6 +59,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
         onChangeProfile={onChangeProfile}
         activeSlider={activeSlider}
         setActiveSlider={setActiveSlider}
+        onTriggerPreview={onTriggerPreview}
       />
 
       {/* SECTION 2: WATERMARK LOGO */}
@@ -99,9 +102,22 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             activeSlider ? 'hidden' : 'block'
           }`}
         >
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-            Unggah Logo / Gambar Sendiri
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              Unggah Logo / Gambar Sendiri
+            </label>
+            {onTriggerPreview && (
+              <button
+                type="button"
+                onClick={onTriggerPreview}
+                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                title="Lihat Pratinjau Langsung di Kamera"
+              >
+                <Eye className="w-3.5 h-3.5" />
+                <span>Preview</span>
+              </button>
+            )}
+          </div>
           <div className="flex items-center gap-3">
             <label className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-dashed border-zinc-700 hover:border-zinc-500 bg-zinc-900 hover:bg-zinc-800/80 cursor-pointer transition-all text-sm font-medium text-zinc-200">
               <Upload className="w-4 h-4 text-zinc-400" />
@@ -170,9 +186,22 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-              Posisi Watermark di Foto
-            </label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                Posisi Watermark di Foto
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={onTriggerPreview}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
             <div className="grid grid-cols-3 gap-2 p-3 bg-zinc-900/60 rounded-2xl border border-zinc-800">
               {POSITIONS.map(pos => {
                 const active = watermark.position === pos.id
@@ -209,9 +238,22 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   : ''
               }`}
             >
-              <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-                <span className={activeSlider === 'watermark_size' ? 'text-white font-bold' : ''}>Ukuran Watermark</span>
-                <span className="text-zinc-200 font-mono">{watermark.sizePercent}% lebar foto</span>
+              <div className="flex items-center justify-between text-xs font-semibold text-zinc-400 mb-1.5">
+                <div className="flex items-center gap-2">
+                  <span className={activeSlider === 'watermark_size' ? 'text-white font-bold' : ''}>Ukuran Watermark</span>
+                  <span className="text-zinc-200 font-mono">{watermark.sizePercent}% lebar foto</span>
+                </div>
+                {onTriggerPreview && activeSlider !== 'watermark_size' && (
+                  <button
+                    type="button"
+                    onClick={onTriggerPreview}
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    title="Lihat Pratinjau Langsung di Kamera"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Preview</span>
+                  </button>
+                )}
               </div>
               <input
                 type="range"
@@ -243,9 +285,22 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   : ''
               }`}
             >
-              <div className="flex justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-                <span className={activeSlider === 'watermark_opacity' ? 'text-white font-bold' : ''}>Transparansi (Opacity)</span>
-                <span className="text-zinc-200 font-mono">{Math.round(watermark.opacity * 100)}%</span>
+              <div className="flex items-center justify-between text-xs font-semibold text-zinc-400 mb-1.5">
+                <div className="flex items-center gap-2">
+                  <span className={activeSlider === 'watermark_opacity' ? 'text-white font-bold' : ''}>Transparansi (Opacity)</span>
+                  <span className="text-zinc-200 font-mono">{Math.round(watermark.opacity * 100)}%</span>
+                </div>
+                {onTriggerPreview && activeSlider !== 'watermark_opacity' && (
+                  <button
+                    type="button"
+                    onClick={onTriggerPreview}
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    title="Lihat Pratinjau Langsung di Kamera"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Preview</span>
+                  </button>
+                )}
               </div>
               <input
                 type="range"
