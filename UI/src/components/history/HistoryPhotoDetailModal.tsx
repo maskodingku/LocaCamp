@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   X,
   Download,
@@ -6,13 +6,13 @@ import {
   MapPin,
   ChevronLeft,
   ChevronRight,
-  RotateCcw,
   Loader2,
   Check,
 } from 'lucide-react'
 import type { StoredPhoto } from '../../utils/photoStorage'
 import { useModalHistory } from '../../hooks/useModalHistory'
 import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
+import { ZoomablePhotoViewer } from '../preview/ZoomablePhotoViewer'
 
 interface HistoryPhotoDetailModalProps {
   photo: StoredPhoto | null
@@ -46,7 +46,6 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
   onOpenSettings,
 }) => {
   const [isPureFullscreen, setIsPureFullscreen] = useState(false)
-  const [zoomScale, setZoomScale] = useState<number>(1)
   const [isUploadingDrive, setIsUploadingDrive] = useState(false)
   const [driveResult, setDriveResult] = useState<{ fileId: string; webViewLink?: string } | null>(null)
   const [driveError, setDriveError] = useState<string | null>(null)
@@ -85,29 +84,6 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
       setIsUploadingDrive(false)
     }
   }
-  const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-
-  const initialPinchDistRef = useRef<number | null>(null)
-  const initialZoomScaleRef = useRef<number>(1)
-  const initialPanRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
-  const isPinchingRef = useRef<boolean>(false)
-  const lastTapTimeRef = useRef<number>(0)
-  const tapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const touchStartX = useRef<number | null>(null)
-  const touchStartY = useRef<number | null>(null)
-  const isDraggingRef = useRef<boolean>(false)
-  const [swipeOffset, setSwipeOffset] = useState<number>(0)
-  const [isSwiping, setIsSwiping] = useState<boolean>(false)
-
-  const resetZoom = useCallback(() => {
-    setZoomScale(1)
-    setPanOffset({ x: 0, y: 0 })
-    if (tapTimeoutRef.current) {
-      clearTimeout(tapTimeoutRef.current)
-      tapTimeoutRef.current = null
-    }
-  }, [])
 
   // Integrasi tombol Back fisik/gesture ponsel
   useModalHistory(
@@ -116,7 +92,6 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
     () => {
       onClose()
       setIsPureFullscreen(false)
-      resetZoom()
     }
   )
 
@@ -124,18 +99,9 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
     'history-pure-fullscreen',
     Boolean(photo) && isPureFullscreen,
     () => {
-      if (zoomScale > 1.05) {
-        resetZoom()
-      } else {
-        setIsPureFullscreen(false)
-      }
+      setIsPureFullscreen(false)
     }
   )
-
-  // Reset zoom & pan saat foto berganti
-  useEffect(() => {
-    resetZoom()
-  }, [photo?.id, resetZoom])
 
   // Navigasi Keyboard Panah Kiri / Kanan & Esc
   useEffect(() => {
@@ -150,9 +116,7 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
         onNext()
       } else if (e.key === 'Escape') {
         e.preventDefault()
-        if (zoomScale > 1.05) {
-          resetZoom()
-        } else if (isPureFullscreen) {
+        if (isPureFullscreen) {
           setIsPureFullscreen(false)
         } else {
           onClose()
@@ -162,179 +126,14 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [photo, onPrev, onNext, isPureFullscreen, zoomScale, resetZoom, onClose])
+  }, [photo, onPrev, onNext, isPureFullscreen, onClose])
 
   if (!photo) return null
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 2) {
-      // Dua Jari: Gestur Pinch to Zoom
-      const x1 = e.touches[0].clientX
-      const y1 = e.touches[0].clientY
-      const x2 = e.touches[1].clientX
-      const y2 = e.touches[1].clientY
-      const dist = Math.hypot(x2 - x1, y2 - y1)
-
-      initialPinchDistRef.current = dist
-      initialZoomScaleRef.current = zoomScale
-      isPinchingRef.current = true
-      isDraggingRef.current = true
-      setIsSwiping(false)
-      setSwipeOffset(0)
-    } else if (e.touches.length === 1) {
-      // Satu Jari: Pan (jika zoom > 1) atau Swipe Foto (jika normal 1x)
-      touchStartX.current = e.touches[0].clientX
-      touchStartY.current = e.touches[0].clientY
-      initialPanRef.current = { ...panOffset }
-      isDraggingRef.current = false
-      isPinchingRef.current = false
-
-      if (zoomScale <= 1.05) {
-        setIsSwiping(true)
-      }
-    }
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length === 2 && isPinchingRef.current && initialPinchDistRef.current) {
-      const x1 = e.touches[0].clientX
-      const y1 = e.touches[0].clientY
-      const x2 = e.touches[1].clientX
-      const y2 = e.touches[1].clientY
-      const currentDist = Math.hypot(x2 - x1, y2 - y1)
-      const ratio = currentDist / initialPinchDistRef.current
-      const newScale = Math.min(Math.max(1, initialZoomScaleRef.current * ratio), 4.5)
-
-      setZoomScale(newScale)
-      if (newScale <= 1.02) {
-        setPanOffset({ x: 0, y: 0 })
-      }
-      isDraggingRef.current = true
-      return
-    }
-
-    if (e.touches.length === 1 && touchStartX.current !== null && touchStartY.current !== null) {
-      const currentX = e.touches[0].clientX
-      const currentY = e.touches[0].clientY
-      const diffX = currentX - touchStartX.current
-      const diffY = currentY - touchStartY.current
-
-      if (Math.abs(diffX) > 6 || Math.abs(diffY) > 6) {
-        isDraggingRef.current = true
-      }
-
-      if (zoomScale > 1.05) {
-        // Mode Zoom: Pan/Drag gambar ke segala arah
-        const maxPanX = (window.innerWidth * (zoomScale - 1)) / 1.5
-        const maxPanY = (window.innerHeight * (zoomScale - 1)) / 1.5
-        const targetX = initialPanRef.current.x + diffX
-        const targetY = initialPanRef.current.y + diffY
-
-        setPanOffset({
-          x: Math.min(Math.max(-maxPanX, targetX), maxPanX),
-          y: Math.min(Math.max(-maxPanY, targetY), maxPanY),
-        })
-      } else {
-        // Mode Normal 1x: Swipe horizontal foto
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-          if ((diffX > 0 && !hasPrev) || (diffX < 0 && !hasNext)) {
-            setSwipeOffset(diffX * 0.25)
-          } else {
-            setSwipeOffset(diffX * 0.75)
-          }
-        }
-      }
-    }
-  }
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (isPinchingRef.current) {
-      initialPinchDistRef.current = null
-      isPinchingRef.current = false
-      if (zoomScale < 1.05) {
-        resetZoom()
-      }
-      setTimeout(() => {
-        isDraggingRef.current = false
-      }, 150)
-      return
-    }
-
-    if (zoomScale <= 1.05 && touchStartX.current !== null && touchStartY.current !== null) {
-      const diffX = e.changedTouches[0].clientX - touchStartX.current
-      const diffY = e.changedTouches[0].clientY - touchStartY.current
-      const minSwipeDistance = 45
-
-      if (Math.abs(diffX) > minSwipeDistance && Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX > 0 && hasPrev) {
-          onPrev()
-        } else if (diffX < 0 && hasNext) {
-          onNext()
-        }
-      }
-    }
-
-    touchStartX.current = null
-    touchStartY.current = null
-    setSwipeOffset(0)
-    setIsSwiping(false)
-    setTimeout(() => {
-      isDraggingRef.current = false
-    }, 120)
-  }
-
-  const handlePhotoClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (isDraggingRef.current) return
-
-    const now = Date.now()
-    const DOUBLE_TAP_DELAY = 280
-
-    if (now - lastTapTimeRef.current < DOUBLE_TAP_DELAY) {
-      // Double Tap Terdeteksi: Toggle Zoom 1x <-> 2.5x
-      if (tapTimeoutRef.current) {
-        clearTimeout(tapTimeoutRef.current)
-        tapTimeoutRef.current = null
-      }
-      lastTapTimeRef.current = 0
-
-      if (zoomScale > 1.1) {
-        resetZoom()
-      } else {
-        setZoomScale(2.5)
-        setPanOffset({ x: 0, y: 0 })
-      }
-      return
-    }
-
-    lastTapTimeRef.current = now
-
-    // Single Tap: Toggle pure fullscreen jika tidak sedang di-zoom
-    tapTimeoutRef.current = setTimeout(() => {
-      if (zoomScale > 1.1) {
-        resetZoom()
-      } else {
-        setIsPureFullscreen(prev => !prev)
-      }
-      tapTimeoutRef.current = null
-    }, DOUBLE_TAP_DELAY)
-  }
-
-  const handleWheel = (e: React.WheelEvent) => {
-    const zoomFactor = e.deltaY < 0 ? 1.2 : 0.83
-    setZoomScale(prev => {
-      const next = Math.min(Math.max(1, prev * zoomFactor), 4.5)
-      if (next <= 1.05) {
-        setPanOffset({ x: 0, y: 0 })
-      }
-      return next
-    })
-  }
 
   return (
     <div
       className={`fixed inset-0 z-60 bg-black flex flex-col items-center justify-between transition-all duration-300 animate-in fade-in select-none ${
-        isPureFullscreen ? 'p-0 cursor-zoom-out' : 'p-3 sm:p-6 bg-black/95'
+        isPureFullscreen ? 'p-0' : 'p-3 sm:p-6 bg-black/95'
       }`}
       onClick={() => {
         if (isPureFullscreen) {
@@ -387,34 +186,17 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
         </div>
       )}
 
-      {/* Large Image View with Left/Right Buttons & Swipe Gestures & Pinch-to-Zoom */}
+      {/* Large Image View with Left/Right Buttons & ZoomablePhotoViewer */}
       <div
         className={`relative flex items-center justify-center overflow-hidden transition-all duration-300 ${
           isPureFullscreen
             ? 'w-full h-full p-0'
             : 'flex-1 w-full max-w-4xl p-2'
-        } ${
-          zoomScale > 1.05
-            ? 'cursor-grab active:cursor-grabbing'
-            : isPureFullscreen
-            ? 'cursor-zoom-out'
-            : 'cursor-zoom-in'
         }`}
-        onClick={handlePhotoClick}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onWheel={handleWheel}
-        title={
-          zoomScale > 1.05
-            ? 'Seret gambar untuk melihat detail • Ketuk 2x untuk reset zoom'
-            : isPureFullscreen
-            ? 'Ketuk layar untuk kembali • Cubit 2 jari / ketuk 2x untuk zoom'
-            : 'Cubit 2 jari untuk zoom • Ketuk foto untuk layar penuh'
-        }
+        onClick={e => e.stopPropagation()}
       >
         {/* Tombol Panah Kiri (Sebelumnya) */}
-        {!isPureFullscreen && hasPrev && zoomScale <= 1.05 && (
+        {!isPureFullscreen && hasPrev && (
           <button
             type="button"
             onClick={e => {
@@ -422,43 +204,26 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
               onPrev()
             }}
             className="absolute left-2 sm:left-4 z-20 p-2.5 sm:p-3 rounded-full bg-zinc-950/75 hover:bg-zinc-900 border border-white/15 text-white backdrop-blur-md shadow-2xl transition-all hover:scale-110 active:scale-95 group cursor-pointer"
-            title="Foto Sebelumnya (Panah Kiri / Geser Kanan)"
+            title="Foto Sebelumnya (Panah Kiri)"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-300 group-hover:text-white group-hover:-translate-x-0.5 transition-transform" />
           </button>
         )}
 
-        {/* Container Gambar dengan Efek Transisi / Swipe Translation / Zoom & Pan */}
+        {/* Container Gambar dengan ZoomablePhotoViewer (Otomatis Reset Zoom saat ganti foto via key) */}
         <div
           key={photo.id}
-          className="w-full h-full flex items-center justify-center animate-in fade-in zoom-in-95 duration-200 select-none"
-          style={{
-            transform:
-              zoomScale > 1.02
-                ? `translate3d(${panOffset.x}px, ${panOffset.y}px, 0px) scale(${zoomScale})`
-                : `translate3d(${swipeOffset}px, 0px, 0px) scale(1)`,
-            transition:
-              isSwiping || isDraggingRef.current
-                ? 'none'
-                : 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1)',
-            willChange: 'transform',
-          }}
+          className="w-full h-full flex items-center justify-center animate-in fade-in duration-200 overflow-hidden"
         >
-          <img
+          <ZoomablePhotoViewer
             src={photo.dataUrl}
-            alt="Preview Penuh"
-            draggable={false}
-            style={{ imageRendering: 'auto' }}
-            className={`object-contain pointer-events-none transition-all duration-300 ${
-              isPureFullscreen
-                ? 'w-full h-full max-w-none max-h-none rounded-none'
-                : 'max-w-full max-h-full w-auto h-auto rounded-2xl shadow-2xl'
-            }`}
+            alt={photo.address || 'Dokumentasi Lokasi'}
+            className="w-full h-full"
           />
         </div>
 
         {/* Tombol Panah Kanan (Selanjutnya) */}
-        {!isPureFullscreen && hasNext && zoomScale <= 1.05 && (
+        {!isPureFullscreen && hasNext && (
           <button
             type="button"
             onClick={e => {
@@ -466,33 +231,10 @@ export const HistoryPhotoDetailModal: React.FC<HistoryPhotoDetailModalProps> = (
               onNext()
             }}
             className="absolute right-2 sm:right-4 z-20 p-2.5 sm:p-3 rounded-full bg-zinc-950/75 hover:bg-zinc-900 border border-white/15 text-white backdrop-blur-md shadow-2xl transition-all hover:scale-110 active:scale-95 group cursor-pointer"
-            title="Foto Selanjutnya (Panah Kanan / Geser Kiri)"
+            title="Foto Selanjutnya (Panah Kanan)"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-zinc-300 group-hover:text-white group-hover:translate-x-0.5 transition-transform" />
           </button>
-        )}
-
-        {/* Indikator Floating Zoom saat foto sedang di-zoom */}
-        {zoomScale > 1.05 && (
-          <div className="absolute bottom-5 inset-x-0 flex items-center justify-center z-30 pointer-events-auto animate-in fade-in zoom-in-90">
-            <button
-              type="button"
-              onClick={e => {
-                e.stopPropagation()
-                resetZoom()
-              }}
-              className="px-3.5 py-1.5 rounded-full bg-zinc-950/90 hover:bg-zinc-900 border border-emerald-500/50 text-white backdrop-blur-md shadow-2xl flex items-center gap-2 text-xs font-medium active:scale-95 transition-all group cursor-pointer"
-              title="Klik untuk kembalikan zoom ke 1x"
-            >
-              <span className="font-mono text-emerald-400 font-bold">
-                {zoomScale.toFixed(1)}x
-              </span>
-              <span className="text-zinc-300 text-[11px] group-hover:text-white">
-                Reset Zoom
-              </span>
-              <RotateCcw className="w-3.5 h-3.5 text-emerald-400 group-hover:-rotate-90 transition-transform" />
-            </button>
-          </div>
         )}
       </div>
 
