@@ -556,8 +556,16 @@ async function drawWatermark(
           x = canvasWidth - targetWidth - padding
           y = padding
           break
+        case 'center-left':
+          x = padding
+          y = (canvasHeight - targetHeight) / 2
+          break
         case 'center':
           x = (canvasWidth - targetWidth) / 2
+          y = (canvasHeight - targetHeight) / 2
+          break
+        case 'center-right':
+          x = canvasWidth - targetWidth - padding
           y = (canvasHeight - targetHeight) / 2
           break
         case 'bottom-left':
