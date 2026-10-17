@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Check, Palette, Sliders } from 'lucide-react'
 import { HexColorPicker } from 'react-colorful'
-import { useSmartPopupPosition, PreviewTargetType } from '../../../hooks/useSmartPopupPosition'
+import { FloatingSmartMirrorPicker } from './FloatingSmartMirrorPicker'
+import type { PreviewTargetType } from '../../../hooks/useSmartPopupPosition'
 
 export interface ColorPresetItem {
   id: string
@@ -130,13 +131,6 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   const [activeDragPart, setActiveDragPart] = useState<'saturation' | 'hue' | 'alpha' | null>(null)
   const throttleTimerRef = useRef<number | null>(null)
   const lastEmittedColorRef = useRef<string>('')
-
-  // Algoritma cerdas penghindaran tabrakan posisi popup
-  const { containerClasses, containerStyle, isFlipped } = useSmartPopupPosition({
-    targetType,
-    isOpen,
-    popupRef,
-  })
 
   // Cek apakah warna saat ini cocok dengan salah satu preset
   const isCurrentPreset = presets.some(p => p.id === selectedColor)
@@ -290,17 +284,25 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
     selectedColor.toLowerCase() === currentCombined
 
   return (
-    <div
-      ref={popupRef}
-      style={isDragging ? undefined : containerStyle}
-      className={`${containerClasses} select-none flex flex-col p-3 sm:p-3.5 transition-all duration-200 ease-out ${
-        isDragging
-          ? 'bg-transparent border-transparent shadow-none backdrop-blur-none pointer-events-auto'
-          : `rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-y-auto custom-scrollbar animate-in fade-in ${
-              isFlipped ? 'slide-in-from-top-2' : 'slide-in-from-bottom-2'
-            } duration-150`
-      }`}
-    >
+    <>
+      {/* Floating Smart Mirror Picker: Muncul secara cerdas di luar area target saat pick ditekan/digeser */}
+      <FloatingSmartMirrorPicker
+        isOpen={isDragging}
+        activeDragPart={activeDragPart}
+        customHex={customHex}
+        alphaPercent={alphaPercent}
+        targetType={targetType}
+      />
+
+      {/* Popup Kontrol Utama: Tetap pada ukuran & posisi aslinya di atas dock tanpa menciut */}
+      <div
+        ref={popupRef}
+        className={`absolute bottom-full mb-3 left-0 right-0 z-[140] select-none flex flex-col p-3 sm:p-3.5 transition-all duration-150 ${
+          isDragging
+            ? 'opacity-0 pointer-events-auto'
+            : 'rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150'
+        }`}
+      >
       {/* ========================================================================= */}
       {/* GLOSSY GLASS BUBBLE ORBS & SPECULAR GLARE (HANYA MUNCUL SAAT IDLE)        */}
       {/* ========================================================================= */}
@@ -686,5 +688,6 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         </div>
       </div>
     </div>
+    </>
   )
 }

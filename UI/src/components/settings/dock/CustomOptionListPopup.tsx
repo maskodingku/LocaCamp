@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { Check } from 'lucide-react'
-import { useSmartPopupPosition, PreviewTargetType } from '../../../hooks/useSmartPopupPosition'
+import type { PreviewTargetType } from '../../../hooks/useSmartPopupPosition'
 
 export interface OptionListItem {
   id: string
@@ -28,16 +28,9 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
   onSelect,
   title,
   items,
-  targetType = 'profile',
+  targetType: _targetType,
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
-
-  // Algoritma cerdas penghindaran tabrakan posisi popup
-  const { containerClasses, containerStyle, isFlipped } = useSmartPopupPosition({
-    targetType,
-    isOpen,
-    popupRef,
-  })
 
   useEffect(() => {
     if (!isOpen) return
@@ -77,10 +70,7 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
   return (
     <div
       ref={popupRef}
-      style={containerStyle}
-      className={`${containerClasses} p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-y-auto custom-scrollbar animate-in fade-in ${
-        isFlipped ? 'slide-in-from-top-2' : 'slide-in-from-bottom-2'
-      } duration-150 select-none`}
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none"
     >
       {/* ========================================================================= */}
       {/* GLOSSY GLASS BUBBLE ORBS: BOLA KACA BENING REALISTIS DI LATAR BELAKANG    */}
