@@ -117,7 +117,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
       )}
 
       <div
-        className={`fixed inset-0 flex items-end md:items-center justify-center transition-all duration-200 ${
+        className={`fixed inset-0 flex items-stretch md:items-center justify-center transition-all duration-200 ${
           activePreviewInput
             ? 'bg-transparent pointer-events-none z-0 hidden'
             : activeSlider
@@ -126,16 +126,16 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         }`}
       >
         <div
-          className={`w-full md:max-w-xl max-h-[88vh] md:max-h-[85vh] rounded-t-3xl md:rounded-3xl flex flex-col text-white transition-all duration-200 ${
+          className={`w-full md:max-w-xl h-full md:h-auto md:max-h-[88vh] rounded-none md:rounded-3xl flex flex-col text-white transition-all duration-200 ${
             activeSlider
               ? 'bg-transparent border-transparent shadow-none overflow-visible'
-              : 'bg-zinc-950 border border-zinc-800 shadow-2xl overflow-hidden animate-in slide-in-from-bottom-6 duration-200'
+              : 'bg-zinc-950 border-0 md:border md:border-zinc-800 shadow-2xl overflow-hidden animate-in fade-in md:slide-in-from-bottom-6 duration-200'
           }`}
           onClick={e => e.stopPropagation()}
         >
         {/* Header */}
         <div
-          className={`items-center justify-between px-6 py-4 border-b border-zinc-800 transition-opacity duration-150 ${
+          className={`items-center justify-between px-5 md:px-6 py-3.5 md:py-4 pt-[max(0.875rem,env(safe-area-inset-top))] border-b border-zinc-800 shrink-0 transition-opacity duration-150 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
@@ -154,7 +154,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
         {/* Tab Buttons */}
         <div
-          className={`grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 transition-opacity duration-150 ${
+          className={`grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 shrink-0 transition-opacity duration-150 ${
             activeSlider ? 'hidden' : 'grid'
           }`}
         >
@@ -268,7 +268,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         <div
           className={`${
             activeSlider ? 'hidden' : 'flex'
-          } p-4 border-t border-zinc-800 bg-zinc-950 items-center justify-between gap-3 transition-opacity duration-150`}
+          } p-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-zinc-800 bg-zinc-950 items-center justify-between gap-3 shrink-0 transition-opacity duration-150`}
         >
           {onResetSettings ? (
             <button
