@@ -93,15 +93,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
           : activeSlider
           ? 'hidden'
-          : 'bg-[#031d28]/75 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)] space-y-4'
+          : 'bg-[#031d28]/75 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)]'
       }`}
     >
       {/* Specular Glint Top-Left */}
-      <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80" />
-      <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff]" />
-      {/* Header Section dengan Switch On/Off */}
+      <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80 z-20" />
+      <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff] z-20" />
+
+      {/* Header Section dengan Switch On/Off (LEKAT KE KIRI, KANAN, DAN ATAS BOX LUAR) */}
       <div
-        className={`items-center justify-between p-3 rounded-2xl bg-black/25 backdrop-blur-sm border border-cyan-500/20 transition-opacity duration-150 ${
+        className={`w-full items-center justify-between px-4 sm:px-5 py-3 sm:py-3.5 border-b border-cyan-500/30 bg-black/35 backdrop-blur-sm rounded-t-[21px] sm:rounded-t-[25px] transition-opacity duration-150 ${
           activeSlider ? 'hidden' : 'flex'
         }`}
       >
@@ -149,12 +150,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
       {/* Konten Saat Profil On */}
       {profile.enabled && (
-        <div className={`space-y-4 ${activeSlider ? 'space-y-0' : ''}`}>
+        <div className={`p-4 sm:p-5 pt-3.5 sm:pt-4 space-y-4 ${activeSlider ? 'space-y-0 p-0' : ''}`}>
           {/* Input Jabatan & Nama */}
           <div
-            className={`space-y-3 transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`space-y-3 transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             {/* Input Jabatan */}
             <div>
@@ -225,9 +225,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pemilihan Font Dropdown */}
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
@@ -277,9 +276,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Posisi Profil */}
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
@@ -304,11 +302,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               <button
                 type="button"
                 onClick={() => onChangeProfile({ ...profile, position: 'above-geotag' })}
-                className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border ${
-                  isAboveGeotag
+                className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border ${isAboveGeotag
                     ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.4)] ring-1 ring-cyan-400/50'
                     : 'bg-black/30 border-cyan-950/40 text-zinc-300 hover:bg-black/50 hover:border-cyan-700/50'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="text-amber-400 text-sm">★</span>
@@ -336,11 +333,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       key={pos.id}
                       type="button"
                       onClick={() => onChangeProfile({ ...profile, position: pos.id })}
-                      className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${
-                        active
+                      className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${active
                           ? 'bg-cyan-400 text-black font-black shadow-[0_0_12px_rgba(34,211,238,0.7)]'
                           : 'bg-black/30 text-zinc-300 hover:bg-black/50 hover:text-white border border-cyan-950/40'
-                      }`}
+                        }`}
                     >
                       <span className="text-cyan-400 font-bold shrink-0">{pos.icon}</span>
                       <span className="truncate">{pos.label}</span>
@@ -353,9 +349,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Ketebalan Teks (Font Weight) */}
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
@@ -386,11 +381,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                         fontWeight: fw.id,
                       })
                     }
-                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all text-center whitespace-nowrap ${
-                      active
+                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all text-center whitespace-nowrap ${active
                         ? 'bg-cyan-400 text-black font-black shadow-[0_0_10px_rgba(34,211,238,0.7)]'
                         : 'text-zinc-400 hover:text-zinc-200'
-                    }`}
+                      }`}
                   >
                     {fw.label}
                   </button>
@@ -401,9 +395,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Garis Tepi (Border) */}
           <div
-            className={`p-3 sm:p-3.5 rounded-2xl bg-black/25 border border-cyan-500/20 flex items-center justify-between gap-3 transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'flex'
-            }`}
+            className={`p-3 sm:p-3.5 rounded-2xl bg-black/25 border border-cyan-500/20 flex items-center justify-between gap-3 transition-opacity duration-150 ${activeSlider ? 'hidden' : 'flex'
+              }`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center shrink-0 text-cyan-400 border border-cyan-800/40">
@@ -452,9 +445,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Warna Background */}
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
@@ -487,11 +479,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                           backgroundColor: preset.id,
                         })
                       }
-                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
-                        active
+                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${active
                           ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
                           : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
-                      }`}
+                        }`}
                       title={preset.label}
                     >
                       <span
@@ -518,11 +509,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
                 {/* Swatch 10: Custom Color */}
                 <label
-                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
-                    isCustomBg
+                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${isCustomBg
                       ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
                       : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
-                  }`}
+                    }`}
                   title="Pilih Warna Bebas Kustom"
                 >
                   <span
@@ -556,9 +546,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Warna Teks */}
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
@@ -591,11 +580,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                           textColor: preset.id,
                         })
                       }
-                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
-                        active
+                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${active
                           ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
                           : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
-                      }`}
+                        }`}
                       title={preset.label}
                     >
                       <span
@@ -604,9 +592,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       >
                         {active && (
                           <Check
-                            className={`w-2.5 h-2.5 ${
-                              preset.id === '#ffffff' ? 'text-black' : 'text-white'
-                            } drop-shadow`}
+                            className={`w-2.5 h-2.5 ${preset.id === '#ffffff' ? 'text-black' : 'text-white'
+                              } drop-shadow`}
                           />
                         )}
                       </span>
@@ -619,11 +606,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
                 {/* Swatch 10: Custom Color */}
                 <label
-                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
-                    isCustomText
+                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${isCustomText
                       ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
                       : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
-                  }`}
+                    }`}
                   title="Pilih Warna Teks Bebas Kustom"
                 >
                   <span
@@ -657,20 +643,18 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Slider Ukuran Teks */}
           <div
-            className={`transition-all duration-150 ${
-              activeSlider === 'profile_size'
+            className={`transition-all duration-150 ${activeSlider === 'profile_size'
                 ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                 : activeSlider !== null
-                ? 'hidden'
-                : ''
-            }`}
+                  ? 'hidden'
+                  : ''
+              }`}
           >
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 min-w-0">
                 <span
-                  className={`text-xs font-semibold uppercase tracking-wider ${
-                    activeSlider === 'profile_size' ? 'text-white font-bold' : 'text-zinc-300'
-                  }`}
+                  className={`text-xs font-semibold uppercase tracking-wider ${activeSlider === 'profile_size' ? 'text-white font-bold' : 'text-zinc-300'
+                    }`}
                 >
                   Ukuran Teks Profil
                 </span>
@@ -714,9 +698,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Mini Preview Profil */}
           <div
-            className={`p-3 rounded-2xl bg-black/35 border border-cyan-500/20 transition-opacity duration-150 space-y-2 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`p-3 rounded-2xl bg-black/35 border border-cyan-500/20 transition-opacity duration-150 space-y-2 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between">
               <p className="text-[10px] font-semibold text-cyan-300/80 uppercase tracking-wider">
@@ -734,17 +717,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     profile.fontWeight === 'bold'
                       ? 700
                       : profile.fontWeight === 'semibold'
-                      ? 600
-                      : profile.fontWeight === 'medium'
-                      ? 500
-                      : 400,
+                        ? 600
+                        : profile.fontWeight === 'medium'
+                          ? 500
+                          : 400,
                   fontSize: `${profile.fontSize || 13}px`,
                   backgroundColor: currentBg,
                   color: currentText,
                 }}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md transition-all shrink-0 max-w-full ${
-                  profile.showBorder !== false ? 'border border-white/20' : 'border-0'
-                }`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md transition-all shrink-0 max-w-full ${profile.showBorder !== false ? 'border border-white/20' : 'border-0'
+                  }`}
               >
                 <User
                   className="w-3.5 h-3.5 shrink-0"

@@ -71,15 +71,16 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'bg-[#031d28]/75 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)] space-y-4'
+            : 'bg-[#031d28]/75 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)]'
         }`}
       >
         {/* Specular Glint Top-Left */}
-        <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80" />
-        <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff]" />
-        {/* Header Section Watermark Logo */}
+        <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80 z-20" />
+        <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff] z-20" />
+
+        {/* Header Section Watermark Logo (LEKAT KE KIRI, KANAN, DAN ATAS BOX LUAR) */}
         <div
-          className={`items-center gap-3 p-3 rounded-2xl bg-black/25 backdrop-blur-sm border border-cyan-500/20 transition-opacity duration-150 ${
+          className={`w-full items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 border-b border-cyan-500/30 bg-black/35 backdrop-blur-sm rounded-t-[21px] sm:rounded-t-[25px] transition-opacity duration-150 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
@@ -94,12 +95,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           </div>
         </div>
 
-        {/* Upload & Preview Logo Aktif */}
-        <div
-          className={`transition-opacity duration-150 ${
-            activeSlider ? 'hidden' : 'block'
-          }`}
-        >
+        {/* Body Konten Watermark */}
+        <div className={`p-4 sm:p-5 pt-3.5 sm:pt-4 space-y-4 ${activeSlider ? 'space-y-0 p-0' : ''}`}>
+          {/* Upload & Preview Logo Aktif */}
+          <div
+            className={`transition-opacity duration-150 ${
+              activeSlider ? 'hidden' : 'block'
+            }`}
+          >
           <div className="flex items-center justify-between mb-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
               Logo Watermark
@@ -182,9 +185,8 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
         {/* Position Selector (9-Grid) */}
         {watermark.imageUrl && (
           <div
-            className={`transition-opacity duration-150 ${
-              activeSlider ? 'hidden' : 'block'
-            }`}
+            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
+              }`}
           >
             <div className="flex items-center justify-between mb-1.5">
               <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
@@ -212,11 +214,10 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     onClick={() =>
                       onChangeWatermark({ ...watermark, position: pos.id })
                     }
-                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${
-                      active
+                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${active
                         ? 'bg-cyan-400 text-black font-black shadow-[0_0_12px_rgba(34,211,238,0.7)]'
                         : 'bg-black/30 text-zinc-300 hover:bg-black/50 hover:text-white border border-cyan-950/40'
-                    }`}
+                      }`}
                   >
                     <span className="text-cyan-400 font-bold shrink-0">{pos.icon}</span>
                     <span className="truncate">{pos.label}</span>
@@ -232,20 +233,18 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           <div className={`space-y-4 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
             {/* Ukuran Watermark Slider */}
             <div
-              className={`transition-all duration-150 ${
-                activeSlider === 'watermark_size'
+              className={`transition-all duration-150 ${activeSlider === 'watermark_size'
                   ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                   : activeSlider !== null
-                  ? 'hidden'
-                  : ''
-              }`}
+                    ? 'hidden'
+                    : ''
+                }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2 min-w-0">
                   <span
-                    className={`text-xs font-semibold uppercase tracking-wider ${
-                      activeSlider === 'watermark_size' ? 'text-white font-bold' : 'text-zinc-300'
-                    }`}
+                    className={`text-xs font-semibold uppercase tracking-wider ${activeSlider === 'watermark_size' ? 'text-white font-bold' : 'text-zinc-300'
+                      }`}
                   >
                     Ukuran Watermark
                   </span>
@@ -288,20 +287,18 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
             {/* Opacity Slider */}
             <div
-              className={`transition-all duration-150 ${
-                activeSlider === 'watermark_opacity'
+              className={`transition-all duration-150 ${activeSlider === 'watermark_opacity'
                   ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                   : activeSlider !== null
-                  ? 'hidden'
-                  : ''
-              }`}
+                    ? 'hidden'
+                    : ''
+                }`}
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2 min-w-0">
                   <span
-                    className={`text-xs font-semibold uppercase tracking-wider ${
-                      activeSlider === 'watermark_opacity' ? 'text-white font-bold' : 'text-zinc-300'
-                    }`}
+                    className={`text-xs font-semibold uppercase tracking-wider ${activeSlider === 'watermark_opacity' ? 'text-white font-bold' : 'text-zinc-300'
+                      }`}
                   >
                     Transparansi (Opacity)
                   </span>
@@ -344,6 +341,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             </div>
           </div>
         )}
+        </div>
       </div>
     </>
   )

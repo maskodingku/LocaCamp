@@ -135,27 +135,27 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
       {/* Backdrop Gelap dengan Blur */}
       <div
-        className={`fixed inset-0 flex items-center justify-center p-2 sm:p-4 transition-all duration-200 ${
+        className={`fixed inset-0 flex items-stretch sm:items-center justify-center p-0 sm:p-4 transition-all duration-200 ${
           activePreviewInput
             ? 'bg-transparent pointer-events-none z-0 hidden'
             : activeSlider
-            ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
-            : 'bg-black/80 backdrop-blur-md animate-in fade-in z-50'
+              ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
+              : 'bg-black/80 backdrop-blur-md animate-in fade-in z-50'
         }`}
       >
         {/* Main Modal Cyber Glassmorphism Container */}
         <div
-          className={`w-full max-w-xl max-h-[96vh] sm:max-h-[92vh] rounded-[28px] sm:rounded-[34px] flex flex-col text-white transition-all duration-200 relative overflow-hidden ${
+          className={`w-full sm:max-w-xl h-full sm:h-auto sm:max-h-[92vh] rounded-none sm:rounded-[34px] flex flex-col text-white transition-all duration-200 relative overflow-hidden ${
             activeSlider
               ? 'bg-transparent border-transparent shadow-none overflow-visible'
-              : 'border-2 border-cyan-400 shadow-[0_0_28px_rgba(6,182,212,0.65),inset_0_0_16px_rgba(6,182,212,0.25)]'
+              : 'border-0 sm:border-2 border-cyan-400 shadow-none sm:shadow-[0_0_28px_rgba(6,182,212,0.65),inset_0_0_16px_rgba(6,182,212,0.25)]'
           }`}
           style={
             activeSlider
               ? undefined
               : {
-                  background: 'radial-gradient(ellipse at 50% 0%, #073549 0%, #031c26 45%, #010d14 100%)',
-                }
+                background: 'radial-gradient(ellipse at 50% 0%, #073549 0%, #031c26 45%, #010d14 100%)',
+              }
           }
           onClick={e => e.stopPropagation()}
         >
@@ -165,16 +165,16 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
           {/* Header Bar */}
           <div
-            className={`items-center justify-between px-4 sm:px-6 pt-3.5 sm:pt-4 pb-2.5 shrink-0 transition-opacity duration-150 relative z-20 ${
+            className={`items-center justify-between px-3 sm:px-6 pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-4 pb-2.5 shrink-0 transition-opacity duration-150 relative z-20 ${
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
             {/* Equalizer/Sliders Neon Icon + Judul */}
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 flex items-center justify-center text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)] shrink-0">
-                <Sliders className="w-6 h-6 stroke-[2.2]" />
+            <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 mr-2">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)] shrink-0">
+                <Sliders className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2]" />
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-white tracking-wide drop-shadow-sm truncate">
+              <h2 className="text-sm sm:text-base md:text-lg font-bold text-white tracking-tight sm:tracking-wide drop-shadow-sm truncate">
                 Pengaturan Foto &amp; Tampilan
               </h2>
             </div>
@@ -183,7 +183,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 border-rose-500/80 text-rose-100 hover:text-white transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_16px_rgba(244,63,94,0.75),inset_0_0_10px_rgba(244,63,94,0.45)] shrink-0 ml-2"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 border-rose-500/80 text-rose-100 hover:text-white transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_16px_rgba(244,63,94,0.75),inset_0_0_10px_rgba(244,63,94,0.45)] shrink-0"
               style={{
                 background: 'radial-gradient(circle at 35% 35%, #881337 0%, #4c0519 65%, #1f0208 100%)',
               }}
@@ -195,7 +195,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
           {/* Tab Navigation Bar (Pill Capsules) */}
           <div
-            className={`px-3 sm:px-5 shrink-0 transition-opacity duration-150 relative z-20 ${
+            className={`px-2 sm:px-5 shrink-0 transition-opacity duration-150 relative z-20 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
@@ -208,7 +208,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 py-1.5 sm:py-2 px-1.5 sm:px-3 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 transition-all relative ${
+                    className={`flex-1 py-1.5 sm:py-2 px-1 sm:px-3 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 transition-all relative ${
                       active
                         ? 'bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-400 text-zinc-950 font-black shadow-[0_0_16px_rgba(34,211,238,0.85)] border border-cyan-100/80'
                         : 'bg-[#052230]/60 hover:bg-[#083344]/80 text-cyan-200/80 hover:text-cyan-100 border border-cyan-800/40 hover:border-cyan-500/50'
@@ -222,19 +222,19 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             </div>
 
             {/* Glowing Neon Separator Line */}
-            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_8px_rgba(34,211,238,0.9)] mt-2.5 mb-2" />
+            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_8px_rgba(34,211,238,0.9)] mt-2 mb-2" />
           </div>
 
           {/* Inner Content Viewport Area */}
           <div
-            className={`relative flex-1 mx-2 sm:mx-4 mb-2 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150`}
+            className={`relative flex-1 mx-1.5 sm:mx-4 mb-1.5 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150`}
           >
             {/* Cyber Liquid Glass Background with 3D Bubbles */}
             {!activeSlider && <CyberGlassBackground />}
 
             {/* Scrollable Tab Content Container */}
             <div
-              className={`relative z-10 flex-1 overflow-y-auto p-3 sm:p-5 space-y-4 scrollbar-thin scrollbar-thumb-cyan-500/40 scrollbar-track-transparent transition-all duration-150 ${
+              className={`relative z-10 flex-1 overflow-y-auto px-2 sm:px-4 py-3 space-y-4 scrollbar-thin scrollbar-thumb-cyan-500/40 scrollbar-track-transparent transition-all duration-150 ${
                 activeSlider ? 'p-0 overflow-visible' : ''
               }`}
             >
@@ -278,7 +278,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             <div
               className={`${
                 activeSlider ? 'hidden' : 'flex'
-              } p-3 sm:p-3.5 border-t border-cyan-900/50 bg-[#020e17]/85 backdrop-blur-md items-center justify-between gap-3 shrink-0 relative z-20`}
+              } p-3 sm:p-3.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:pb-3.5 border-t border-cyan-900/50 bg-[#020e17]/85 backdrop-blur-md items-center justify-between gap-3 shrink-0 relative z-20`}
             >
               {onResetSettings ? (
                 <button
