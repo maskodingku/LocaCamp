@@ -1,6 +1,7 @@
 import React from 'react'
-import { Eye } from 'lucide-react'
+import { Eye, MapPin, Sliders } from 'lucide-react'
 import type { GeotagDisplayConfig } from '../../types/camera'
+import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface GeotagTabProps {
   geotagConfig: GeotagDisplayConfig
@@ -62,9 +63,10 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent z-20" />
 
         <div className="flex items-center justify-between mb-2">
-        <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-          Informasi yang Ditampilkan pada Foto
-        </label>
+          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+            <CyberGlassOrb icon={MapPin} size="xs" variant="cyan" />
+            <span>Informasi yang Ditampilkan pada Foto</span>
+          </label>
         {onTriggerPreview && (
           <button
             type="button"
@@ -112,8 +114,9 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
       {/* Geotag Position */}
       <div className="pt-2">
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-            Posisi Badge Geotag
+          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+            <CyberGlassOrb icon={MapPin} size="xs" variant="cyan" />
+            <span>Posisi Badge Geotag</span>
           </label>
           {onTriggerPreview && (
             <button
@@ -150,8 +153,9 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
       {/* Ukuran Tulisan Geotag */}
       <div className="pt-2">
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-            Ukuran Tulisan Lokasi pada Foto
+          <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+            <CyberGlassOrb icon={Sliders} size="xs" variant="cyan" />
+            <span>Ukuran Tulisan Lokasi pada Foto</span>
           </label>
           {onTriggerPreview && (
             <button

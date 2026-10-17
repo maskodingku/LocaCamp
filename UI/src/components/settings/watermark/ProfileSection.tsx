@@ -1,6 +1,7 @@
 import React from 'react'
 import { User, Briefcase, Type, MapPin, Check, Eye, Frame, Palette, Paintbrush } from 'lucide-react'
 import type { ProfileConfig, ProfilePosition, ProfileFontWeight } from '../../../types/camera'
+import { CyberGlassOrb } from '../CyberGlassOrb'
 
 interface ProfileSectionProps {
   profile: ProfileConfig
@@ -106,15 +107,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         }`}
       >
         <div className="flex items-center gap-3 min-w-0">
-          <div
-            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-              profile.enabled
-                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
-                : 'bg-black/40 text-zinc-500 border border-zinc-800'
-            }`}
-          >
-            <User className="w-5 h-5" />
-          </div>
+          <CyberGlassOrb
+            icon={User}
+            size="md"
+            variant="cyan"
+          />
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-semibold text-white truncate">Profil Pengguna</h3>
@@ -158,8 +155,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {/* Input Jabatan */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                  <CyberGlassOrb icon={Briefcase} size="xs" variant="cyan" />
                   <span>Jabatan / Posisi</span>
                 </label>
                 {onTriggerPreview && (
@@ -191,8 +188,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {/* Input Nama Lengkap */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-cyan-400" />
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                  <CyberGlassOrb icon={User} size="xs" variant="cyan" />
                   <span>Nama Lengkap</span>
                 </label>
                 {onTriggerPreview && (
@@ -228,8 +225,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <Type className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CyberGlassOrb icon={Type} size="xs" variant="cyan" />
                 <span>Jenis Font Profil</span>
               </label>
               {onTriggerPreview && (
@@ -279,8 +276,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CyberGlassOrb icon={MapPin} size="xs" variant="cyan" />
                 <span>Posisi Profil di Foto</span>
               </label>
               {onTriggerPreview && (
@@ -398,9 +395,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center shrink-0 text-cyan-400 border border-cyan-800/40">
-                <Frame className="w-4 h-4" />
-              </div>
+              <CyberGlassOrb icon={Frame} size="sm" variant="cyan" />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-semibold uppercase tracking-wider text-zinc-200">
@@ -448,8 +443,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <Paintbrush className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CyberGlassOrb icon={Paintbrush} size="xs" variant="cyan" />
                 <span>Warna Background</span>
               </label>
               {onTriggerPreview && (
@@ -549,8 +544,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                <Palette className="w-3.5 h-3.5 text-cyan-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CyberGlassOrb icon={Palette} size="xs" variant="cyan" />
                 <span>Warna Teks</span>
               </label>
               {onTriggerPreview && (

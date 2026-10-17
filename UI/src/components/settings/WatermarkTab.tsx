@@ -3,6 +3,7 @@ import { Upload, Trash2, Sparkles, Eye, RefreshCw } from 'lucide-react'
 import type { WatermarkConfig, WatermarkPosition, ProfileConfig } from '../../types/camera'
 import { optimizeWatermarkImage } from '../../utils/storage'
 import { ProfileSection } from './watermark/ProfileSection'
+import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface WatermarkTabProps {
   watermark: WatermarkConfig
@@ -83,9 +84,11 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
-            <Sparkles className="w-5 h-5" />
-          </div>
+          <CyberGlassOrb
+            icon={Sparkles}
+            size="md"
+            variant="cyan"
+          />
           <div className="min-w-0">
             <h3 className="text-sm font-semibold text-white truncate">Watermark Logo</h3>
             <p className="text-xs text-zinc-400 truncate">
@@ -103,8 +106,9 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             }`}
           >
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-              Logo Watermark
+            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+              <CyberGlassOrb icon={Upload} size="xs" variant="cyan" />
+              <span>Logo Watermark</span>
             </label>
             {onTriggerPreview && (
               <button
@@ -188,8 +192,9 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                Posisi Watermark di Foto
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                <CyberGlassOrb icon={Sparkles} size="xs" variant="cyan" />
+                <span>Posisi Watermark di Foto</span>
               </label>
               {onTriggerPreview && (
                 <button
