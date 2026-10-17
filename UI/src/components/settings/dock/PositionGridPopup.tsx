@@ -65,7 +65,6 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
   onClose,
   selectedId,
   onSelect,
-  theme = 'cyan',
   items = WATERMARK_GRID_ITEMS,
   showGridSelector = true,
 }) => {
@@ -102,57 +101,46 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
 
   if (!isOpen) return null
 
-  // Warna aksen tema
-  const activeGridClass =
-    theme === 'emerald'
-      ? 'bg-emerald-950/70 border-2 border-emerald-400 text-emerald-200 shadow-[0_0_16px_rgba(52,211,153,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)]'
-      : theme === 'amber'
-      ? 'bg-amber-950/70 border-2 border-amber-400 text-amber-200 shadow-[0_0_16px_rgba(251,191,36,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)]'
-      : 'bg-gradient-to-br from-[#041c38] to-[#082b54] border-2 border-cyan-400 text-cyan-200 shadow-[0_0_16px_rgba(6,182,212,0.65),inset_0_1px_2px_rgba(255,255,255,0.7)]'
-
-  const activeRowClass =
-    theme === 'emerald'
-      ? 'bg-emerald-950/70 border border-emerald-500/60 text-emerald-200 shadow-[0_0_10px_rgba(52,211,153,0.35)]'
-      : theme === 'amber'
-      ? 'bg-amber-950/70 border border-amber-500/60 text-amber-200 shadow-[0_0_10px_rgba(251,191,36,0.35)]'
-      : 'bg-gradient-to-r from-[#041c38] to-[#082b54] border border-cyan-400/70 text-cyan-100 shadow-[0_0_14px_rgba(6,182,212,0.5),inset_0_1px_2px_rgba(255,255,255,0.5)]'
-
-  const activeNumberClass =
-    theme === 'emerald'
-      ? 'text-emerald-400 font-bold drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-      : theme === 'amber'
-      ? 'text-amber-400 font-bold drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]'
-      : 'text-cyan-400 font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]'
-
-  const hintColorClass =
-    theme === 'emerald'
-      ? 'text-emerald-400'
-      : theme === 'amber'
-      ? 'text-amber-400'
-      : 'text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]'
-
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[26px] bg-[#020717]/90 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden"
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none"
     >
+      {/* ========================================================================= */}
+      {/* GLOSSY GLASS BUBBLE ORBS: BOLA KACA BENING REALISTIS DI LATAR BELAKANG    */}
+      {/* ========================================================================= */}
+      {/* Orb 1: Bola Kaca Besar di Kanan Bawah */}
+      <div className="absolute -bottom-8 -right-4 w-36 h-36 rounded-full bg-gradient-to-br from-cyan-400/15 via-blue-500/5 to-transparent border border-cyan-300/35 blur-[0.3px] shadow-[inset_0_4px_10px_rgba(255,255,255,0.5),inset_0_-4px_10px_rgba(0,0,0,0.7),0_0_25px_rgba(6,182,212,0.2)] pointer-events-none">
+        <div className="absolute top-2 inset-x-5 h-4 rounded-full bg-white/25 blur-[1px]" />
+      </div>
+
+      {/* Orb 2: Bola Kaca Sedang di Tengah Kanan */}
+      <div className="absolute top-1/3 -right-6 w-24 h-24 rounded-full bg-gradient-to-br from-sky-400/15 via-cyan-600/5 to-transparent border border-cyan-400/35 blur-[0.3px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.6),inset_0_-3px_8px_rgba(0,0,0,0.7),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none">
+        <div className="absolute top-1.5 inset-x-3 h-3 rounded-full bg-white/30 blur-[0.8px]" />
+      </div>
+
+      {/* Orb 3: Bola Kaca di Kiri Tengah Belakang List */}
+      <div className="absolute bottom-16 -left-6 w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-600/10 border border-cyan-400/25 blur-[0.4px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.45),inset_0_-3px_8px_rgba(0,0,0,0.6),0_0_18px_rgba(6,182,212,0.15)] pointer-events-none">
+        <div className="absolute top-2 inset-x-4 h-3.5 rounded-full bg-white/20 blur-[1px]" />
+      </div>
+
       {/* Specular Highlight Glare di Atas Popup */}
-      <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
+      <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
 
       {/* 1. Header Visual Grid Selector */}
       {showGridSelector && (
         <>
-          <div className="flex items-center justify-between pb-2.5">
-            <span className="text-[10px] font-bold tracking-wider uppercase text-slate-300">
+          <div className="relative flex items-center justify-between pb-2.5 z-10">
+            <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
               Visual Grid Selector
             </span>
-            <span className={`text-[10px] font-semibold ${hintColorClass}`}>
+            <span className="text-[11px] font-semibold text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
               Klik titik kotak
             </span>
           </div>
 
           {/* 2. Grid Visual Kotak 3x3 */}
-          <div className="grid grid-cols-3 gap-2 pb-3 mb-3 border-b border-cyan-500/20">
+          <div className="relative grid grid-cols-3 gap-2 pb-3 mb-3 border-b border-cyan-500/25 z-10">
             {items.slice(0, 9).map(item => {
               const isSelected = item.id === selectedId
               return (
@@ -163,17 +151,41 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
                     onSelect(item.id)
                     onClose()
                   }}
-                  className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-xl text-center border transition-all cursor-pointer active:scale-95 ${
+                  className={`relative flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl text-center transition-all cursor-pointer active:scale-95 overflow-hidden group ${
                     isSelected
-                      ? activeGridClass
-                      : 'bg-[#030918]/70 border-cyan-500/20 hover:bg-[#071630]/80 hover:border-cyan-400/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] text-slate-300 hover:text-white'
+                      ? 'border-2 border-cyan-300 bg-gradient-to-b from-[#0e5fa8]/90 via-[#073f73]/90 to-[#022144]/95 shadow-[0_0_20px_rgba(6,182,212,0.85),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-2px_4px_rgba(0,0,0,0.7)]'
+                      : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-b from-[#06152e]/70 via-[#030d22]/80 to-[#020717]/90 hover:from-[#0b264e]/80 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.25),0_2px_8px_rgba(0,0,0,0.5)] text-slate-300 hover:text-white'
                   }`}
                   title={item.fullLabel}
                 >
-                  <div className={`mb-1 ${isSelected ? 'drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]' : 'text-slate-400'}`}>
+                  {/* Specular gloss highlight melengkung di atas tombol */}
+                  <div
+                    className={`absolute top-0.5 inset-x-2 rounded-full pointer-events-none ${
+                      isSelected
+                        ? 'h-2 bg-white/40 blur-[0.5px]'
+                        : 'h-1.5 bg-white/20 blur-[0.5px]'
+                    }`}
+                  />
+
+                  {/* Icon */}
+                  <div
+                    className={`mb-1 transition-transform group-hover:scale-105 [&>svg]:w-4 [&>svg]:h-4 ${
+                      isSelected
+                        ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
+                        : 'text-cyan-300/80 group-hover:text-cyan-200'
+                    }`}
+                  >
                     {item.icon}
                   </div>
-                  <span className="text-[11px] font-medium leading-tight">
+
+                  {/* Label */}
+                  <span
+                    className={`text-[11px] leading-tight truncate px-1 ${
+                      isSelected
+                        ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'
+                        : 'font-medium text-slate-300 group-hover:text-white'
+                    }`}
+                  >
                     {item.shortLabel}
                   </span>
                 </button>
@@ -183,8 +195,8 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
         </>
       )}
 
-      {/* 3. Daftar Pilihan Vertikal dengan Nomor Urut */}
-      <div className="max-h-48 sm:max-h-56 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+      {/* 3. Daftar Pilihan Vertikal Kapsul dengan Nomor Urut */}
+      <div className="relative max-h-48 sm:max-h-56 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar z-10">
         {items.map((item, index) => {
           const isSelected = item.id === selectedId
           const itemNumber = index + 1
@@ -196,23 +208,63 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
                 onSelect(item.id)
                 onClose()
               }}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer active:scale-[0.98] ${
+              className={`relative w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-left transition-all cursor-pointer active:scale-[0.99] overflow-hidden group ${
                 isSelected
-                  ? activeRowClass
-                  : 'bg-transparent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 text-slate-300 hover:text-white'
+                  ? 'border-2 border-cyan-300 bg-gradient-to-r from-[#009fd9] via-[#007ebb] to-[#01649f] shadow-[0_0_24px_rgba(6,182,212,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-2px_4px_rgba(0,0,0,0.5)]'
+                  : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-r from-[#06152e]/70 via-[#030d22]/75 to-[#051733]/70 hover:from-[#092244]/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_2px_8px_rgba(0,0,0,0.6)] text-slate-300 hover:text-white'
               }`}
             >
+              {/* Highlight specular melintang horizontal di atas */}
+              <div
+                className={`absolute top-0 inset-x-3 h-[1px] pointer-events-none ${
+                  isSelected ? 'bg-white/80 shadow-[0_0_4px_#fff]' : 'bg-white/20'
+                }`}
+              />
+
+              {/* Rim light cyan tipis di bawah untuk baris tidak aktif */}
+              {!isSelected && (
+                <div className="absolute bottom-0 inset-x-4 h-[1px] bg-cyan-400/20 pointer-events-none" />
+              )}
+
+              {/* Sisi Kiri: Icon + Label Teks */}
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className={`shrink-0 ${isSelected ? 'text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]' : 'text-slate-400'}`}>
+                <span
+                  className={`shrink-0 [&>svg]:w-4 [&>svg]:h-4 ${
+                    isSelected
+                      ? 'text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]'
+                      : 'text-cyan-400 drop-shadow-[0_0_4px_rgba(6,182,212,0.6)] group-hover:text-cyan-300'
+                  }`}
+                >
                   {item.icon}
                 </span>
-                <span className={`text-xs truncate ${isSelected ? 'font-bold text-white' : 'font-medium'}`}>
+                <span
+                  className={`text-xs truncate ${
+                    isSelected
+                      ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'
+                      : 'font-medium text-slate-200 group-hover:text-white'
+                  }`}
+                >
                   {item.fullLabel}
                 </span>
               </div>
-              <span className={`text-xs font-mono shrink-0 ml-2 ${isSelected ? activeNumberClass : 'text-slate-500'}`}>
-                {itemNumber}
-              </span>
+
+              {/* Sisi Kanan: Nomor Urut & Indikator Bar Vertikal Menyala */}
+              <div className="flex items-center shrink-0 ml-2">
+                <span
+                  className={`text-xs font-mono font-bold ${
+                    isSelected
+                      ? 'text-cyan-100 drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]'
+                      : 'text-cyan-500/80 group-hover:text-cyan-400'
+                  }`}
+                >
+                  {itemNumber}
+                </span>
+
+                {/* Indikator Bar Vertikal Cyan Menyala Saat Terpilih */}
+                {isSelected && (
+                  <div className="h-5 w-1 rounded-full bg-cyan-200 shadow-[0_0_8px_#fff,0_0_12px_#22d3ee] ml-2" />
+                )}
+              </div>
             </button>
           )
         })}

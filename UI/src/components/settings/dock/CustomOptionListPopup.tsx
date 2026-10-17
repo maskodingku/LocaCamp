@@ -25,7 +25,6 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
   onSelect,
   title,
   items,
-  theme = 'cyan',
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
 
@@ -59,38 +58,47 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
 
   if (!isOpen) return null
 
-  const activeRowClass =
-    theme === 'emerald'
-      ? 'bg-emerald-950/70 border border-emerald-500/60 text-emerald-200 shadow-[0_0_10px_rgba(52,211,153,0.35)]'
-      : theme === 'amber'
-      ? 'bg-amber-950/70 border border-amber-500/60 text-amber-200 shadow-[0_0_10px_rgba(251,191,36,0.35)]'
-      : 'bg-gradient-to-r from-[#041c38] to-[#082b54] border border-cyan-400/70 text-cyan-100 shadow-[0_0_14px_rgba(6,182,212,0.5),inset_0_1px_2px_rgba(255,255,255,0.5)]'
-
-  const activeNumberClass =
-    theme === 'emerald'
-      ? 'text-emerald-400 font-bold drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]'
-      : theme === 'amber'
-      ? 'text-amber-400 font-bold drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]'
-      : 'text-cyan-400 font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]'
-
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[26px] bg-[#020717]/90 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden"
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none"
     >
-      {/* Specular Highlight Glare di Atas Popup */}
-      <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
-
-      <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-cyan-500/20">
-        <span className="text-[10px] font-bold tracking-wider uppercase text-slate-300">
-          {title}
-        </span>
-        <span className="text-[10px] text-cyan-400 font-medium font-mono drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]">
-          {items.length} Pilihan
-        </span>
+      {/* ========================================================================= */}
+      {/* GLOSSY GLASS BUBBLE ORBS: BOLA KACA BENING REALISTIS DI LATAR BELAKANG    */}
+      {/* ========================================================================= */}
+      {/* Orb 1: Bola Kaca Besar di Kanan Bawah */}
+      <div className="absolute -bottom-8 -right-4 w-36 h-36 rounded-full bg-gradient-to-br from-cyan-400/15 via-blue-500/5 to-transparent border border-cyan-300/35 blur-[0.3px] shadow-[inset_0_4px_10px_rgba(255,255,255,0.5),inset_0_-4px_10px_rgba(0,0,0,0.7),0_0_25px_rgba(6,182,212,0.2)] pointer-events-none">
+        <div className="absolute top-2 inset-x-5 h-4 rounded-full bg-white/25 blur-[1px]" />
       </div>
 
-      <div className="max-h-52 overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+      {/* Orb 2: Bola Kaca Sedang di Tengah Kanan */}
+      <div className="absolute top-1/4 -right-6 w-24 h-24 rounded-full bg-gradient-to-br from-sky-400/15 via-cyan-600/5 to-transparent border border-cyan-400/35 blur-[0.3px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.6),inset_0_-3px_8px_rgba(0,0,0,0.7),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none">
+        <div className="absolute top-1.5 inset-x-3 h-3 rounded-full bg-white/30 blur-[0.8px]" />
+      </div>
+
+      {/* Orb 3: Bola Kaca di Kiri Tengah */}
+      <div className="absolute bottom-10 -left-6 w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-600/10 border border-cyan-400/25 blur-[0.4px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.45),inset_0_-3px_8px_rgba(0,0,0,0.6),0_0_18px_rgba(6,182,212,0.15)] pointer-events-none">
+        <div className="absolute top-2 inset-x-4 h-3.5 rounded-full bg-white/20 blur-[1px]" />
+      </div>
+
+      {/* Specular Highlight Glare di Atas Popup */}
+      <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
+
+      {/* Header HUD: Judul Uppercase + Badge Jumlah Pilihan Neon Cyan */}
+      <div className="relative flex items-center justify-between pb-2.5 mb-2.5 border-b border-cyan-500/25 z-10">
+        <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+          {title}
+        </span>
+        <div className="px-2.5 py-0.5 rounded-full bg-[#030917]/80 border border-cyan-500/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_8px_rgba(6,182,212,0.3)] flex items-center gap-1 font-mono text-[10px]">
+          <span className="text-cyan-400 font-bold drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+            {items.length}
+          </span>
+          <span className="text-slate-400">Pilihan</span>
+        </div>
+      </div>
+
+      {/* Daftar Pilihan Vertikal Kapsul */}
+      <div className="relative max-h-52 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar z-10">
         {items.map((item, index) => {
           const isSelected = item.id === selectedId
           const itemNumber = index + 1
@@ -103,26 +111,72 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
                 onClose()
               }}
               style={item.stylePreview}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer active:scale-[0.98] ${
+              className={`relative w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-left transition-all cursor-pointer active:scale-[0.99] overflow-hidden group ${
                 isSelected
-                  ? activeRowClass
-                  : 'bg-transparent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 text-slate-300 hover:text-white'
+                  ? 'border-2 border-cyan-300 bg-gradient-to-r from-[#009fd9] via-[#007ebb] to-[#01649f] shadow-[0_0_24px_rgba(6,182,212,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-2px_4px_rgba(0,0,0,0.5)]'
+                  : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-r from-[#06152e]/70 via-[#030d22]/75 to-[#051733]/70 hover:from-[#092244]/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_2px_8px_rgba(0,0,0,0.6)] text-slate-300 hover:text-white'
               }`}
             >
-              <div className="flex items-center gap-2 min-w-0">
-                {isSelected && <Check className="w-3.5 h-3.5 shrink-0" />}
-                <span className={`text-xs truncate ${isSelected ? 'font-bold' : 'font-medium'}`}>
+              {/* Highlight specular melintang horizontal di atas */}
+              <div
+                className={`absolute top-0 inset-x-3 h-[1px] pointer-events-none ${
+                  isSelected ? 'bg-white/80 shadow-[0_0_4px_#fff]' : 'bg-white/20'
+                }`}
+              />
+
+              {/* Rim light cyan tipis di bawah untuk baris tidak aktif */}
+              {!isSelected && (
+                <div className="absolute bottom-0 inset-x-4 h-[1px] bg-cyan-400/20 pointer-events-none" />
+              )}
+
+              {/* Sisi Kiri: Check Icon / Preview + Label Teks */}
+              <div className="flex items-center gap-2.5 min-w-0">
+                {isSelected ? (
+                  <div className="w-5 h-5 rounded-md bg-white/20 border border-white/50 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.6)]">
+                    <Check className="w-3.5 h-3.5 text-white stroke-[3] drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" />
+                  </div>
+                ) : (
+                  <div className="w-5 h-5 rounded-md bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center shrink-0 group-hover:border-cyan-400/60">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:bg-cyan-400 transition-colors" />
+                  </div>
+                )}
+                <span
+                  className={`text-xs truncate ${
+                    isSelected
+                      ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'
+                      : 'font-medium text-slate-200 group-hover:text-white'
+                  }`}
+                >
                   {item.label}
                 </span>
                 {item.sublabel && (
-                  <span className="text-[10px] text-slate-500 truncate">
+                  <span
+                    className={`text-[10px] truncate ${
+                      isSelected ? 'text-cyan-100/90' : 'text-slate-400'
+                    }`}
+                  >
                     ({item.sublabel})
                   </span>
                 )}
               </div>
-              <span className={`text-xs font-mono shrink-0 ml-2 ${isSelected ? activeNumberClass : 'text-slate-500'}`}>
-                {itemNumber}
-              </span>
+
+              {/* Sisi Kanan: Nomor Urut & Indikator Bar Vertikal Menyala */}
+              <div className="flex items-center shrink-0 ml-2">
+                <span
+                  className={`text-xs font-mono font-bold ${
+                    isSelected
+                      ? 'text-cyan-100 drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]'
+                      : 'text-cyan-500/80 group-hover:text-cyan-400'
+                  }`}
+                >
+                  {itemNumber}
+                </span>
+
+                {/* Indikator Bar Vertikal Cyan Menyala Saat Terpilih */}
+                {isSelected && (
+                  <div className="h-5 w-1 rounded-full bg-cyan-200 shadow-[0_0_8px_#fff,0_0_12px_#22d3ee] ml-2" />
+                )}
+              </div>
             </button>
           )
         })}
