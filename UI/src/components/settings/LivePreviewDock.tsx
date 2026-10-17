@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import type {
   ProfileConfig,
   WatermarkConfig,
@@ -122,7 +122,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
       ? 'text-amber-400'
       : 'text-cyan-400'
 
-  // Navigasi beralih antar input field dalam section
+  // Tombol panah [<] dan [>] untuk berpindah ke input sebelum/selanjutnya di dalam section
   const handlePrevInput = () => {
     const prev = (currentInputIndex - 1 + sectionInputs.length) % sectionInputs.length
     setIsPopupOpen(false)
@@ -135,7 +135,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
     onChangeActiveInput(sectionInputs[next].id)
   }
 
-  // --- Logika Opsi Dropdown untuk Tombol Stepper [<] dan [>] ---
+  // --- Opsi Pilihan Dropdown Saat Ini ---
   // 1. Watermark Position
   const watermarkPosIndex = WATERMARK_GRID_ITEMS.findIndex(i => i.id === watermark.position)
   const currentWatermarkItem = WATERMARK_GRID_ITEMS[watermarkPosIndex >= 0 ? watermarkPosIndex : 0]
@@ -160,100 +160,6 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
   const geotagSizeIndex = GEOTAG_SIZE_OPTIONS.findIndex(s => s.id === (geotagConfig.fontSize || 'medium'))
   const currentGeotagSize = GEOTAG_SIZE_OPTIONS[geotagSizeIndex >= 0 ? geotagSizeIndex : 1]
 
-  // Handler stepper opsi [<] dan [>]
-  const handlePrevStep = () => {
-    if (activeInput === 'watermark_position') {
-      const prev = (watermarkPosIndex - 1 + WATERMARK_GRID_ITEMS.length) % WATERMARK_GRID_ITEMS.length
-      onChangeWatermark({ ...watermark, position: WATERMARK_GRID_ITEMS[prev].id as WatermarkPosition })
-    } else if (activeInput === 'profile_position') {
-      const prev = (profilePosIndex - 1 + PROFILE_GRID_ITEMS.length) % PROFILE_GRID_ITEMS.length
-      onChangeProfile({ ...profile, position: PROFILE_GRID_ITEMS[prev].id as ProfilePosition })
-    } else if (activeInput === 'geotag_position') {
-      const prev = (geotagPosIndex - 1 + GEOTAG_GRID_ITEMS.length) % GEOTAG_GRID_ITEMS.length
-      onChangeGeotagConfig({ ...geotagConfig, position: GEOTAG_GRID_ITEMS[prev].id as any })
-    } else if (activeInput === 'profile_font') {
-      const prev = (fontIndex - 1 + FONT_OPTIONS.length) % FONT_OPTIONS.length
-      onChangeProfile({ ...profile, fontFamily: FONT_OPTIONS[prev].id })
-    } else if (activeInput === 'profile_weight') {
-      const prev = (weightIndex - 1 + PROFILE_WEIGHTS_OPTIONS.length) % PROFILE_WEIGHTS_OPTIONS.length
-      onChangeProfile({ ...profile, fontWeight: PROFILE_WEIGHTS_OPTIONS[prev].id as ProfileFontWeight })
-    } else if (activeInput === 'geotag_size') {
-      const prev = (geotagSizeIndex - 1 + GEOTAG_SIZE_OPTIONS.length) % GEOTAG_SIZE_OPTIONS.length
-      onChangeGeotagConfig({ ...geotagConfig, fontSize: GEOTAG_SIZE_OPTIONS[prev].id as any })
-    } else if (activeInput === 'watermark_size') {
-      onChangeWatermark({ ...watermark, sizePercent: Math.max(8, watermark.sizePercent - 2) })
-    } else if (activeInput === 'watermark_opacity') {
-      onChangeWatermark({ ...watermark, opacity: Math.max(0.15, Number((watermark.opacity - 0.05).toFixed(2))) })
-    } else if (activeInput === 'profile_size') {
-      onChangeProfile({ ...profile, fontSize: Math.max(10, (profile.fontSize || 13) - 1) })
-    } else {
-      handlePrevInput()
-    }
-  }
-
-  const handleNextStep = () => {
-    if (activeInput === 'watermark_position') {
-      const next = (watermarkPosIndex + 1) % WATERMARK_GRID_ITEMS.length
-      onChangeWatermark({ ...watermark, position: WATERMARK_GRID_ITEMS[next].id as WatermarkPosition })
-    } else if (activeInput === 'profile_position') {
-      const next = (profilePosIndex + 1) % PROFILE_GRID_ITEMS.length
-      onChangeProfile({ ...profile, position: PROFILE_GRID_ITEMS[next].id as ProfilePosition })
-    } else if (activeInput === 'geotag_position') {
-      const next = (geotagPosIndex + 1) % GEOTAG_GRID_ITEMS.length
-      onChangeGeotagConfig({ ...geotagConfig, position: GEOTAG_GRID_ITEMS[next].id as any })
-    } else if (activeInput === 'profile_font') {
-      const next = (fontIndex + 1) % FONT_OPTIONS.length
-      onChangeProfile({ ...profile, fontFamily: FONT_OPTIONS[next].id })
-    } else if (activeInput === 'profile_weight') {
-      const next = (weightIndex + 1) % PROFILE_WEIGHTS_OPTIONS.length
-      onChangeProfile({ ...profile, fontWeight: PROFILE_WEIGHTS_OPTIONS[next].id as ProfileFontWeight })
-    } else if (activeInput === 'geotag_size') {
-      const next = (geotagSizeIndex + 1) % GEOTAG_SIZE_OPTIONS.length
-      onChangeGeotagConfig({ ...geotagConfig, fontSize: GEOTAG_SIZE_OPTIONS[next].id as any })
-    } else if (activeInput === 'watermark_size') {
-      onChangeWatermark({ ...watermark, sizePercent: Math.min(45, watermark.sizePercent + 2) })
-    } else if (activeInput === 'watermark_opacity') {
-      onChangeWatermark({ ...watermark, opacity: Math.min(1.0, Number((watermark.opacity + 0.05).toFixed(2))) })
-    } else if (activeInput === 'profile_size') {
-      onChangeProfile({ ...profile, fontSize: Math.min(22, (profile.fontSize || 13) + 1) })
-    } else {
-      handleNextInput()
-    }
-  }
-
-  // Teks nomor urut pill di kanan atas header (misal "3 / 9")
-  let badgeLeft = `${currentInputIndex + 1}`
-  let badgeRight = `${sectionInputs.length}`
-
-  if (activeInput === 'watermark_position') {
-    badgeLeft = `${(watermarkPosIndex >= 0 ? watermarkPosIndex : 0) + 1}`
-    badgeRight = `${WATERMARK_GRID_ITEMS.length}`
-  } else if (activeInput === 'profile_position') {
-    badgeLeft = `${(profilePosIndex >= 0 ? profilePosIndex : 0) + 1}`
-    badgeRight = `${PROFILE_GRID_ITEMS.length}`
-  } else if (activeInput === 'geotag_position') {
-    badgeLeft = `${(geotagPosIndex >= 0 ? geotagPosIndex : 0) + 1}`
-    badgeRight = `${GEOTAG_GRID_ITEMS.length}`
-  } else if (activeInput === 'profile_font') {
-    badgeLeft = `${(fontIndex >= 0 ? fontIndex : 0) + 1}`
-    badgeRight = `${FONT_OPTIONS.length}`
-  } else if (activeInput === 'profile_weight') {
-    badgeLeft = `${(weightIndex >= 0 ? weightIndex : 0) + 1}`
-    badgeRight = `${PROFILE_WEIGHTS_OPTIONS.length}`
-  } else if (activeInput === 'geotag_size') {
-    badgeLeft = `${(geotagSizeIndex >= 0 ? geotagSizeIndex : 0) + 1}`
-    badgeRight = `${GEOTAG_SIZE_OPTIONS.length}`
-  } else if (activeInput === 'watermark_size') {
-    badgeLeft = `${watermark.sizePercent}%`
-    badgeRight = 'maks 45%'
-  } else if (activeInput === 'watermark_opacity') {
-    badgeLeft = `${Math.round(watermark.opacity * 100)}%`
-    badgeRight = '100%'
-  } else if (activeInput === 'profile_size') {
-    badgeLeft = `${profile.fontSize || 13}px`
-    badgeRight = '22px'
-  }
-
   return (
     <aside
       aria-label="Live Preview Controls"
@@ -265,40 +171,19 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
         {/* 1. Header: Dot Warna + Judul Input + Badge Nomor Urut */}
         {/* ======================================================== */}
         <div className="flex items-center justify-between px-1 pb-2">
-          {/* Sisi Kiri: Dot Warna & Judul Input + Tombol Pindah Field */}
+          {/* Sisi Kiri: Dot Warna & Judul Input */}
           <div className="flex items-center gap-2 min-w-0">
             <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${themeDotColor}`} />
             <span className="text-xs sm:text-sm font-semibold text-white tracking-wide truncate">
               {currentMeta.title}
             </span>
-            {/* Navigasi ganti field input dalam section */}
-            {sectionInputs.length > 1 && (
-              <div className="flex items-center bg-slate-800/60 rounded-md border border-slate-700/40 ml-1">
-                <button
-                  type="button"
-                  onClick={handlePrevInput}
-                  className="p-0.5 hover:bg-slate-700 text-slate-400 hover:text-white rounded-l transition-colors"
-                  title="Field input sebelumnya"
-                >
-                  <ChevronUp className="w-3 h-3" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextInput}
-                  className="p-0.5 hover:bg-slate-700 text-slate-400 hover:text-white rounded-r transition-colors"
-                  title="Field input berikutnya"
-                >
-                  <ChevronDown className="w-3 h-3" />
-                </button>
-              </div>
-            )}
           </div>
 
-          {/* Sisi Kanan: Pill Badge Urutan "3 / 9" */}
+          {/* Sisi Kanan: Pill Badge Urutan Input (misal "1 / 3") */}
           <div className="shrink-0 px-2.5 py-0.5 rounded-full bg-slate-900/90 border border-slate-700/60 flex items-center gap-1 text-[11px] font-mono shadow-inner">
-            <span className={`font-bold ${themeTextColor}`}>{badgeLeft}</span>
+            <span className={`font-bold ${themeTextColor}`}>{currentInputIndex + 1}</span>
             <span className="text-slate-400">/</span>
-            <span className="text-slate-400">{badgeRight}</span>
+            <span className="text-slate-400">{sectionInputs.length}</span>
           </div>
         </div>
 
@@ -309,17 +194,17 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
           {/* Kapsul Kontrol Terpadu [ < ] [ Isi / Dropdown ] [ > ] */}
           <div className="flex-1 min-w-0 flex items-stretch bg-slate-900/80 border border-slate-800/90 rounded-xl p-1 gap-1 shadow-inner">
             
-            {/* Tombol Panah Kiri [<] */}
+            {/* Tombol Panah Kiri [<] : Back ke input sebelumnya */}
             <button
               type="button"
-              onClick={handlePrevStep}
+              onClick={handlePrevInput}
               className="px-2.5 sm:px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all flex items-center justify-center shrink-0 cursor-pointer"
-              title="Pilihan Sebelumnya"
+              title="Input Sebelumnya"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            {/* Bagian Tengah: Selector Dropdown atau Input Slider / Teks */}
+            {/* Bagian Tengah: Selector Dropdown Picker atau Input Slider / Teks */}
             <div className="flex-1 min-w-0 flex items-center">
               {/* A. Dropdown Posisi Watermark */}
               {activeInput === 'watermark_position' && (
@@ -501,12 +386,12 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               )}
             </div>
 
-            {/* Tombol Panah Kanan [>] */}
+            {/* Tombol Panah Kanan [>] : Next ke input selanjutnya */}
             <button
               type="button"
-              onClick={handleNextStep}
+              onClick={handleNextInput}
               className="px-2.5 sm:px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all flex items-center justify-center shrink-0 cursor-pointer"
-              title="Pilihan Selanjutnya"
+              title="Input Selanjutnya"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
