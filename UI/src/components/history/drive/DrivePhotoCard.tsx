@@ -119,27 +119,30 @@ export const DrivePhotoCard: React.FC<DrivePhotoCardProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-1.5 pt-1 border-t border-zinc-800/80">
+        <div className="flex items-center gap-2 pt-2 border-t border-zinc-800/80">
           <button
             type="button"
             onClick={handleDownload}
             disabled={isDownloading}
-            className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            className={`h-9.5 flex-1 flex items-center justify-center gap-1.5 px-3 rounded-xl font-black text-xs transition-all active:scale-95 cursor-pointer relative overflow-hidden group shadow-[0_2px_10px_rgba(34,211,238,0.25)] ${
               downloadSuccess
-                ? 'bg-emerald-500 text-black'
-                : 'bg-zinc-800 hover:bg-zinc-700 text-white'
+                ? 'bg-gradient-to-r from-emerald-400 to-teal-500 text-black'
+                : 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black'
             }`}
+            title="Unduh File dari Google Drive"
           >
+            {/* Highlight Glare */}
+            <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
             {isDownloading ? (
-              <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-black" />
             ) : downloadSuccess ? (
               <>
-                <Check className="w-3.5 h-3.5" />
-                <span>Tersimpan</span>
+                <Check className="w-3.5 h-3.5 stroke-[3] shrink-0" />
+                <span>Tersimpan!</span>
               </>
             ) : (
               <>
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-3.5 h-3.5 stroke-[2.5] shrink-0" />
                 <span>Unduh</span>
               </>
             )}
@@ -148,10 +151,10 @@ export const DrivePhotoCard: React.FC<DrivePhotoCardProps> = ({
           <button
             type="button"
             onClick={() => onDeleteRequest(file)}
-            className="p-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-colors cursor-pointer"
+            className="w-9.5 h-9.5 rounded-xl border border-rose-500/30 bg-gradient-to-b from-[#3a0b12]/90 via-[#25080e]/95 to-[#160408]/95 hover:border-rose-400/60 text-rose-300 hover:text-white shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer"
             title="Hapus dari Google Drive"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <Trash2 className="w-4 h-4 text-rose-400 drop-shadow-[0_0_3px_rgba(244,63,94,0.7)]" />
           </button>
         </div>
       </div>
