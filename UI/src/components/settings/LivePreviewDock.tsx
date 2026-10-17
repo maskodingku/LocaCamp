@@ -503,17 +503,22 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* G. Slider: Ukuran Watermark */}
               {activeInput === 'watermark_size' && (
-                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Skala</span>
-                  <input
-                    type="range"
-                    min={8}
-                    max={45}
-                    value={watermark.sizePercent}
-                    onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
-                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                  />
-                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    Skala
+                  </span>
+                  <div className="flex-1 min-w-0 flex items-center">
+                    <input
+                      type="range"
+                      min={8}
+                      max={45}
+                      value={watermark.sizePercent}
+                      onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
+                      className="hud-slider cursor-pointer"
+                    />
+                  </div>
+                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {watermark.sizePercent}%
                   </span>
                 </div>
@@ -521,18 +526,23 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* H. Slider: Transparansi Watermark */}
               {activeInput === 'watermark_opacity' && (
-                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Kepekatan</span>
-                  <input
-                    type="range"
-                    min={0.15}
-                    max={1.0}
-                    step={0.05}
-                    value={watermark.opacity}
-                    onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
-                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                  />
-                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    Kepekatan
+                  </span>
+                  <div className="flex-1 min-w-0 flex items-center">
+                    <input
+                      type="range"
+                      min={0.15}
+                      max={1.0}
+                      step={0.05}
+                      value={watermark.opacity}
+                      onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
+                      className="hud-slider cursor-pointer"
+                    />
+                  </div>
+                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {Math.round(watermark.opacity * 100)}%
                   </span>
                 </div>
@@ -540,17 +550,22 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* I. Slider: Ukuran Teks Profil */}
               {activeInput === 'profile_size' && (
-                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Ukuran</span>
-                  <input
-                    type="range"
-                    min={10}
-                    max={22}
-                    value={profile.fontSize || 13}
-                    onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
-                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                  />
-                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    Ukuran
+                  </span>
+                  <div className="flex-1 min-w-0 flex items-center">
+                    <input
+                      type="range"
+                      min={10}
+                      max={22}
+                      value={profile.fontSize || 13}
+                      onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
+                      className="hud-slider cursor-pointer"
+                    />
+                  </div>
+                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {profile.fontSize || 13}px
                   </span>
                 </div>
@@ -558,26 +573,28 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* J. Input Teks: Jabatan Profil */}
               {activeInput === 'profile_job' && (
-                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
                   <input
                     type="text"
                     value={profile.jobTitle}
                     onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
                     placeholder="Ketik Jabatan..."
-                    className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
+                    className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                   />
                 </div>
               )}
 
               {/* K. Input Teks: Nama Lengkap Profil */}
               {activeInput === 'profile_name' && (
-                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
                   <input
                     type="text"
                     value={profile.name}
                     onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
                     placeholder="Ketik Nama Lengkap..."
-                    className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
+                    className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                   />
                 </div>
               )}
