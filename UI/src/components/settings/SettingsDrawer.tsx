@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   X,
   Sparkles,
@@ -76,44 +76,39 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   const [activeSlider, setActiveSlider] = useState<string | null>(null)
   const [activePreviewInput, setActivePreviewInput] = useState<string | null>(null)
 
+  // Handler terpadu untuk set active slider sekaligus sinkronisasi mode preview seketika
+  const handleSetActiveSlider = useCallback((id: string | null) => {
+    setActiveSlider(id)
+    onPreviewModeChange?.(Boolean(activePreviewInput || id))
+  }, [activePreviewInput, onPreviewModeChange])
+
   // Notifikasi perubahan mode preview ke parent (App.tsx)
   useEffect(() => {
-    onPreviewModeChange?.(Boolean(activePreviewInput))
-  }, [activePreviewInput, onPreviewModeChange])
+    onPreviewModeChange?.(Boolean(activePreviewInput || activeSlider))
+  }, [activePreviewInput, activeSlider, onPreviewModeChange])
 
   // Reset mode preview jika modal pengaturan ditutup
   useEffect(() => {
     if (!isOpen) {
       setActivePreviewInput(null)
+      setActiveSlider(null)
       onPreviewModeChange?.(false)
     }
   }, [isOpen, onPreviewModeChange])
 
-  // Listener tombol Escape keyboard untuk menutup mode preview
+  // Listener tombol Escape keyboard untuk menutup mode preview atau slider mengambang
   useEffect(() => {
-    if (!activePreviewInput) return
+    if (!activePreviewInput && !activeSlider) return
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setActivePreviewInput(null)
+      if (e.key === 'Escape') {
+        setActivePreviewInput(null)
+        setActiveSlider(null)
+        onPreviewModeChange?.(false)
+      }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [activePreviewInput])
-
-  // Global listener untuk deteksi saat slider dilepas di mana saja
-  useEffect(() => {
-    if (!activeSlider) return
-    const handleRelease = () => setActiveSlider(null)
-    window.addEventListener('pointerup', handleRelease)
-    window.addEventListener('pointercancel', handleRelease)
-    window.addEventListener('touchend', handleRelease)
-    window.addEventListener('mouseup', handleRelease)
-    return () => {
-      window.removeEventListener('pointerup', handleRelease)
-      window.removeEventListener('pointercancel', handleRelease)
-      window.removeEventListener('touchend', handleRelease)
-      window.removeEventListener('mouseup', handleRelease)
-    }
-  }, [activeSlider])
+  }, [activePreviewInput, activeSlider, onPreviewModeChange])
 
   if (!isOpen) return null
 
@@ -143,6 +138,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
               : 'bg-black/80 backdrop-blur-md animate-in fade-in z-50'
         }`}
+        onClick={() => {
+          if (activeSlider) {
+            handleSetActiveSlider(null)
+          }
+        }}
       >
         {/* Main Modal Cyber Glassmorphism Container */}
         <div
@@ -261,7 +261,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   profile={profile}
                   onChangeProfile={onChangeProfile}
                   activeSlider={activeSlider}
-                  setActiveSlider={setActiveSlider}
+                  setActiveSlider={handleSetActiveSlider}
                   onTriggerPreview={id => setActivePreviewInput(id)}
                 />
               ) : activeTab === 'geotag' ? (
@@ -278,7 +278,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   cameraQualityConfig={cameraQualityConfig}
                   onChangeCameraQualityConfig={onChangeCameraQualityConfig}
                   activeSlider={activeSlider}
-                  setActiveSlider={setActiveSlider}
+                  setActiveSlider={handleSetActiveSlider}
                 />
               ) : activeTab === 'drive' ? (
                 <GoogleDriveTab

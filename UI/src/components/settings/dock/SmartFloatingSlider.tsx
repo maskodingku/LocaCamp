@@ -49,35 +49,98 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
   const isCurrentActive = activeSlider === id
   const isOtherActive = activeSlider !== null && !isCurrentActive
 
-  // Deteksi posisi cerdas: Atas atau Bawah
-  const [smartPlacement, setSmartPlacement] = useState<'top' | 'bottom'>('bottom')
+  // Label yang mudah dipahami pengguna untuk status target cerdas
+  const targetLabelMap: Record<string, string> = {
+    profile: 'Profil',
+    watermark: 'Watermark',
+    geotag: 'Geotag',
+    none: 'Kamera',
+  }
+  const targetName = targetLabelMap[targetType] || 'Target'
+
+  // Deteksi posisi cerdas: Atas atau Bawah.
+  // Untuk profil dan geotag yang secara default di bawah layar, inisialisasi awal ke 'top'
+  // agar langsung berada di atas dan tidak pernah menabrak target saat render awal
+  const [smartPlacement, setSmartPlacement] = useState<'top' | 'bottom'>(() => {
+    if (targetType === 'profile' || targetType === 'geotag') return 'top'
+    return 'bottom'
+  })
 
   const updatePosition = useCallback(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined') return false
     if (targetType === 'none') {
-      // Default untuk finetuning kamera: di bawah agar nyaman dijangkau jempol
       setSmartPlacement('bottom')
-      return
+      return true
     }
 
     const targetEl = document.querySelector(`[data-preview-target="${targetType}"]`) as HTMLElement | null
     if (targetEl) {
       const rect = targetEl.getBoundingClientRect()
-      const targetCenterY = rect.top + rect.height / 2
-      // Jika target berada di area tengah/bawah layar (> 42%), posisikan slider mengambang di ATAS
-      // Jika target berada di area atas layar (<= 42%), posisikan slider mengambang di BAWAH
-      const newPlacement = targetCenterY > window.innerHeight * 0.42 ? 'top' : 'bottom'
-      setSmartPlacement(newPlacement)
-    } else {
-      setSmartPlacement('bottom')
+      if (rect.width > 0 && rect.height > 0) {
+        const targetCenterY = rect.top + rect.height / 2
+        // Jika target berada di area tengah hingga bawah layar (> 42%), posisikan slider mengambang di ATAS
+        // Jika target berada di area atas layar (<= 42%), posisikan slider mengambang di BAWAH
+        const newPlacement = targetCenterY > window.innerHeight * 0.42 ? 'top' : 'bottom'
+        setSmartPlacement(newPlacement)
+
+        // Tandai elemen target agar mendapatkan efek visual glow aktif
+        targetEl.setAttribute('data-target-active', 'true')
+        return true
+      }
     }
+    return false
   }, [targetType])
 
   useEffect(() => {
-    if (isCurrentActive) {
+    if (!isCurrentActive) {
+      const activeEl = document.querySelector('[data-target-active="true"]')
+      if (activeEl) activeEl.removeAttribute('data-target-active')
+      return
+    }
+
+    // 1. Eksekusi deteksi segera
+    updatePosition()
+
+    // 2. Siklus sinkronisasi multi-frame rAF & timer untuk menunggu render parent React & layouting
+    const rafId1 = requestAnimationFrame(() => {
       updatePosition()
-      window.addEventListener('resize', updatePosition)
-      return () => window.removeEventListener('resize', updatePosition)
+      requestAnimationFrame(() => {
+        updatePosition()
+      })
+    })
+
+    const t1 = setTimeout(() => updatePosition(), 60)
+    const t2 = setTimeout(() => updatePosition(), 150)
+    const t3 = setTimeout(() => updatePosition(), 300)
+    const t4 = setTimeout(() => updatePosition(), 600)
+
+    // 3. MutationObserver untuk mendeteksi saat node target baru disisipkan ke DOM
+    let observer: MutationObserver | null = null
+    if (typeof MutationObserver !== 'undefined') {
+      observer = new MutationObserver(() => {
+        const success = updatePosition()
+        if (success && observer) {
+          observer.disconnect()
+        }
+      })
+      observer.observe(document.body, { childList: true, subtree: true })
+    }
+
+    window.addEventListener('resize', updatePosition)
+    window.addEventListener('scroll', updatePosition, true)
+
+    return () => {
+      cancelAnimationFrame(rafId1)
+      clearTimeout(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
+      clearTimeout(t4)
+      if (observer) observer.disconnect()
+      window.removeEventListener('resize', updatePosition)
+      window.removeEventListener('scroll', updatePosition, true)
+
+      const activeEl = document.querySelector('[data-target-active="true"]')
+      if (activeEl) activeEl.removeAttribute('data-target-active')
     }
   }, [isCurrentActive, updatePosition])
 
@@ -147,34 +210,31 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
         typeof document !== 'undefined' &&
         createPortal(
           <div
-            className={`fixed inset-x-3 sm:inset-x-6 max-w-sm sm:max-w-md mx-auto z-[250] pointer-events-auto transition-all duration-200 select-none ${
+            className={`fixed inset-x-3 sm:inset-x-6 max-w-sm sm:max-w-md mx-auto z-[250] pointer-events-auto transition-all duration-300 select-none ${
               smartPlacement === 'top'
-                ? 'top-[max(1rem,env(safe-area-inset-top))] animate-in slide-in-from-top-4'
-                : 'bottom-[max(1.5rem,env(safe-area-inset-bottom))] animate-in slide-in-from-bottom-4'
+                ? 'top-[max(0.75rem,env(safe-area-inset-top))] animate-in slide-in-from-top-4'
+                : 'bottom-[max(1.25rem,env(safe-area-inset-bottom))] animate-in slide-in-from-bottom-4'
             }`}
             onClick={e => e.stopPropagation()}
           >
             {/* Kapsul Kaca Cyber HUD Mengambang Cerdas */}
-            <div className="p-3.5 sm:p-4 rounded-3xl bg-[#020717]/95 border-2 border-cyan-400/80 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_2px_3px_rgba(255,255,255,0.9),0_0_20px_rgba(34,211,238,0.3)] text-white relative overflow-hidden backdrop-blur-md">
+            <div className="p-3 sm:p-4 rounded-3xl bg-[#020717]/95 border-2 border-cyan-400/80 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_2px_3px_rgba(255,255,255,0.9),0_0_20px_rgba(34,211,238,0.35)] text-white relative overflow-hidden backdrop-blur-md">
               {/* Specular Glare Highlight */}
               <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-10" />
 
-              {/* Header Kontrol Cerdas */}
-              <div className="flex items-center justify-between mb-2">
+              {/* Baris Atas: Ikon + Label Judul Utuh (Anti-Clipping) + Badge Nilai + Tombol Selesai */}
+              <div className="flex items-center justify-between gap-2 mb-2">
                 <div className="flex items-center gap-2 min-w-0">
-                  {Icon ? (
-                    <Icon className={`w-4 h-4 shrink-0 ${iconColorClass} drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]`} />
-                  ) : (
-                    <Sparkles className="w-4 h-4 shrink-0 text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]" />
-                  )}
-                  <span className="text-xs font-black uppercase tracking-wider text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)]">
+                  <div className="w-6 h-6 rounded-lg bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.3)]">
+                    {Icon ? (
+                      <Icon className={`w-3.5 h-3.5 ${iconColorClass} drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]`} />
+                    ) : (
+                      <Sparkles className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]" />
+                    )}
+                  </div>
+                  <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-white whitespace-nowrap drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)]">
                     {label}
                   </span>
-                  {targetType !== 'none' && (
-                    <span className="px-2 py-0.5 rounded-full text-[9.5px] font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 shrink-0 font-mono flex items-center gap-1 shadow-sm">
-                      <span>{smartPlacement === 'top' ? '↑ Posisi Atas' : '↓ Posisi Bawah'}</span>
-                    </span>
-                  )}
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
@@ -184,10 +244,11 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
                   <button
                     type="button"
                     onClick={() => setActiveSlider(null)}
-                    className="w-6 h-6 rounded-full bg-cyan-400 text-black flex items-center justify-center font-black cursor-pointer shadow-md active:scale-90 transition-transform ml-0.5"
-                    title="Selesai"
+                    className="px-2.5 py-1 rounded-full bg-cyan-400 hover:bg-cyan-300 active:scale-90 text-black font-black text-xs flex items-center gap-1 cursor-pointer shadow-[0_2px_10px_rgba(34,211,238,0.5)] transition-all"
+                    title="Simpan & Selesai Mengatur"
                   >
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <span>Selesai</span>
                   </button>
                 </div>
               </div>
@@ -207,10 +268,19 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
                 />
               </div>
 
-              {/* Status Hint */}
-              <div className="flex items-center justify-between text-[10px] text-slate-300 mt-1.5 px-1 font-medium">
-                <span className="text-cyan-300/90 font-bold">🎯 Otomatis menghindari target</span>
-                <span>Lepas sentuhan untuk selesai</span>
+              {/* Baris Status Cerdas Bawah: Menghindari Target + Indikator Posisi Cerdas */}
+              <div className="flex items-center justify-between text-[10px] sm:text-[10.5px] text-slate-300 mt-2 px-1 font-medium">
+                <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_#22d3ee] shrink-0" />
+                  <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+                    {targetType !== 'none'
+                      ? `Menghindari ${targetName} • Posisi ${smartPlacement === 'top' ? 'Atas' : 'Bawah'}`
+                      : 'Presisi Sentuhan Layar'}
+                  </span>
+                </div>
+                <span className="text-slate-300/80 text-[9.5px] sm:text-[10px] shrink-0">
+                  Ketuk <strong className="text-cyan-300 font-bold">Selesai</strong> untuk kembali
+                </span>
               </div>
             </div>
           </div>,
