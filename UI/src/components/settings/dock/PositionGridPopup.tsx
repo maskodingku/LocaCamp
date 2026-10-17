@@ -87,9 +87,14 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside)
-    document.addEventListener('keydown', handleKeyDown)
+    // Beri jeda 50ms agar klik tombol trigger tidak langsung memicu penutupan
+    const timer = setTimeout(() => {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keydown', handleKeyDown)
+    }, 50)
+
     return () => {
+      clearTimeout(timer)
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('keydown', handleKeyDown)
     }

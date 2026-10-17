@@ -202,315 +202,9 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
       aria-label="Live Preview Controls"
       className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-full sm:max-w-[460px] z-[130] pointer-events-auto select-none"
     >
-      {/* ========================================================================= */}
-      {/* AMBIENT GLOSSY GLASS BUBBLE ORBS (LATAR BELAKANG BOLA KACA SINEMATIK) */}
-      {/* ========================================================================= */}
-      <div className="absolute -top-7 -left-7 w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400/25 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_25px_rgba(6,182,212,0.35)] pointer-events-none" />
-      <div className="absolute -top-12 -right-8 w-28 h-28 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_6px_rgba(255,255,255,0.65),0_0_35px_rgba(14,165,233,0.3)] pointer-events-none" />
-      <div className="absolute -bottom-7 -left-5 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_0_20px_rgba(6,182,212,0.25)] pointer-events-none" />
-      <div className="absolute -bottom-9 -right-7 w-24 h-24 rounded-full bg-gradient-to-br from-blue-500/25 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.7),0_0_30px_rgba(59,130,246,0.35)] pointer-events-none" />
-
-      {/* ========================================================================= */}
-      {/* LEMPENGAN UTAMA: BLACK GLASS HUD WITH NEON CYAN RIM LIGHTING */}
-      {/* ========================================================================= */}
-      <div className="relative rounded-[28px] p-3 sm:p-3.5 bg-[#020717]/80 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_50px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in slide-in-from-bottom-3 duration-200 overflow-hidden">
-        
-        {/* Specular Glare Highlight Border Atas Kaca */}
-        <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
-        
-        {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
-        <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
-        <div className="absolute top-2 right-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
-        
+      <div className="relative w-full">
         {/* ========================================================================= */}
-        {/* 1. HEADER: GLOSSY GLASS BUBBLE ORB + JUDUL + PILL BADGE 1/3 */}
-        {/* ========================================================================= */}
-        <div className="flex items-center justify-between px-1 pb-2.5">
-          {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks */}
-          <div className="flex items-center gap-2.5 min-w-0">
-            {/* Glossy Glass Bubble Orb */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_16px_rgba(6,182,212,0.6),inset_0_2px_4px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden">
-              {/* Highlight lengkung atas orb */}
-              <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/40 blur-[0.5px]" />
-              {currentMeta.section === 'watermark' && <GlossyDropletIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />}
-              {currentMeta.section === 'profile' && <GlossyUserIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
-              {currentMeta.section === 'geotag' && <GlossyMapPinIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
-            </div>
-
-            {/* Pembatas Garis Vertikal Tipis */}
-            <div className="h-5 w-[1px] bg-cyan-400/30 shrink-0" />
-
-            {/* Teks Judul Dua Nada */}
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="text-slate-300 text-xs sm:text-sm font-normal tracking-wide">
-                {titleFirst}
-              </span>
-              <span className="text-white text-xs sm:text-sm font-bold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
-                {titleRest}
-              </span>
-            </div>
-          </div>
-
-          {/* Kanan: Pill Badge Urutan Input (contoh "1 / 3") */}
-          <div className="shrink-0 px-3.5 py-1 rounded-full bg-[#030917]/80 border border-cyan-500/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.2)] flex items-center gap-1.5 font-mono text-xs">
-            <span className="text-cyan-400 font-bold text-sm drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
-              {currentInputIndex + 1}
-            </span>
-            <span className="text-slate-400 font-medium">/</span>
-            <span className="text-slate-300 font-medium">{sectionInputs.length}</span>
-          </div>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 2. BARIS KONTROL: [ < ] [ SELECTOR (ELECTRIC BLUE) ] [ > ] [ ✕ (ROSE) ] */}
-        {/* ========================================================================= */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
-          
-          {/* Tombol Back [<] : Kapsul Black Glass dengan Cyan Rim Lighting */}
-          <button
-            type="button"
-            onClick={handlePrevInput}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
-            title="Input Sebelumnya"
-          >
-            {/* Highlight kaca atas */}
-            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
-            <ChevronLeft className="w-5 h-5 stroke-[2.5] group-hover:-translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
-          </button>
-
-          {/* Tombol Tengah: Dropdown Selector / Range Slider / Input Teks */}
-          <div className="flex-1 min-w-0">
-            {/* A. Dropdown Posisi Watermark (Electric Blue Glow & Neon Cyan Rim) */}
-            {activeInput === 'watermark_position' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                {/* Specular Glare Line Border Atas */}
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                
-                {/* Optic Flare Glow Spots */}
-                <div className="absolute -top-1 left-5 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
-                <div className="absolute -bottom-1 right-10 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
-
-                {/* Sisi Kiri: Kotak Rounded Icon + Divider + Label */}
-                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
-                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {currentWatermarkItem.icon}
-                    </span>
-                  </div>
-                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    {currentWatermarkItem.fullLabel}
-                  </span>
-                </div>
-
-                {/* Sisi Kanan: Chevron Down Neon Cyan Tebal */}
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* B. Dropdown Posisi Profil */}
-            {activeInput === 'profile_position' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
-                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {currentProfilePosItem.icon}
-                    </span>
-                  </div>
-                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    {currentProfilePosItem.fullLabel}
-                  </span>
-                </div>
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* C. Dropdown Posisi Geotag */}
-            {activeInput === 'geotag_position' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
-                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {currentGeotagPosItem.icon}
-                    </span>
-                  </div>
-                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    {currentGeotagPosItem.fullLabel}
-                  </span>
-                </div>
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* D. Dropdown Font Profil */}
-            {activeInput === 'profile_font' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" style={{ fontFamily: currentFont.fontStyle }}>
-                  {currentFont.label}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* E. Dropdown Ketebalan Teks Profil */}
-            {activeInput === 'profile_weight' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                  {currentWeight.label}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* F. Dropdown Ukuran Tulisan Geotag */}
-            {activeInput === 'geotag_size' && (
-              <button
-                type="button"
-                onClick={() => setIsPopupOpen(!isPopupOpen)}
-                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
-                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                  {currentGeotagSize.label}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
-              </button>
-            )}
-
-            {/* G. Slider: Ukuran Watermark */}
-            {activeInput === 'watermark_size' && (
-              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Skala</span>
-                <input
-                  type="range"
-                  min={8}
-                  max={45}
-                  value={watermark.sizePercent}
-                  onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
-                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                />
-                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
-                  {watermark.sizePercent}%
-                </span>
-              </div>
-            )}
-
-            {/* H. Slider: Transparansi Watermark */}
-            {activeInput === 'watermark_opacity' && (
-              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Kepekatan</span>
-                <input
-                  type="range"
-                  min={0.15}
-                  max={1.0}
-                  step={0.05}
-                  value={watermark.opacity}
-                  onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
-                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                />
-                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
-                  {Math.round(watermark.opacity * 100)}%
-                </span>
-              </div>
-            )}
-
-            {/* I. Slider: Ukuran Teks Profil */}
-            {activeInput === 'profile_size' && (
-              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
-                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Ukuran</span>
-                <input
-                  type="range"
-                  min={10}
-                  max={22}
-                  value={profile.fontSize || 13}
-                  onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
-                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
-                />
-                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
-                  {profile.fontSize || 13}px
-                </span>
-              </div>
-            )}
-
-            {/* J. Input Teks: Jabatan Profil */}
-            {activeInput === 'profile_job' && (
-              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
-                <input
-                  type="text"
-                  value={profile.jobTitle}
-                  onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
-                  placeholder="Ketik Jabatan..."
-                  className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
-                />
-              </div>
-            )}
-
-            {/* K. Input Teks: Nama Lengkap Profil */}
-            {activeInput === 'profile_name' && (
-              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
-                <input
-                  type="text"
-                  value={profile.name}
-                  onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
-                  placeholder="Ketik Nama Lengkap..."
-                  className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Tombol Next [>] : Kapsul Black Glass dengan Cyan Rim Lighting */}
-          <button
-            type="button"
-            onClick={handleNextInput}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
-            title="Input Selanjutnya"
-          >
-            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
-            <ChevronRight className="w-5 h-5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
-          </button>
-
-          {/* Tombol Tutup Mandiri [ ✕ ] : Neon Crimson/Rose Rim Lighting Menyala */}
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-b from-[#2e0915]/90 to-[#120207]/95 border-2 border-rose-500/80 shadow-[0_0_20px_rgba(244,63,94,0.65),inset_0_1.5px_2px_rgba(255,255,255,0.7),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 relative overflow-hidden group"
-            title="Tutup Mode Preview"
-          >
-            {/* Specular highlight atas */}
-            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
-            <X className="w-5 h-5 text-rose-400 group-hover:text-rose-300 stroke-[2.5] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_8px_rgba(244,63,94,0.85)]" />
-          </button>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* 3. POPUP CUSTOM: VISUAL GRID SELECTOR 3X3 & LIST (BLACK GLASS HUD THEME) */}
+        {/* POPUP CUSTOM: DI LUAR CONTAINER OVERFLOW-HIDDEN AGAR MENGAMBANG SEMPURNA  */}
         {/* ========================================================================= */}
         {activeInput === 'watermark_position' && (
           <PositionGridPopup
@@ -587,6 +281,332 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             items={GEOTAG_SIZE_OPTIONS}
           />
         )}
+
+        {/* ========================================================================= */}
+        {/* AMBIENT GLOSSY GLASS BUBBLE ORBS (LATAR BELAKANG BOLA KACA SINEMATIK) */}
+        {/* ========================================================================= */}
+        <div className="absolute -top-7 -left-7 w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400/25 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_25px_rgba(6,182,212,0.35)] pointer-events-none" />
+        <div className="absolute -top-12 -right-8 w-28 h-28 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_6px_rgba(255,255,255,0.65),0_0_35px_rgba(14,165,233,0.3)] pointer-events-none" />
+        <div className="absolute -bottom-7 -left-5 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_0_20px_rgba(6,182,212,0.25)] pointer-events-none" />
+        <div className="absolute -bottom-9 -right-7 w-24 h-24 rounded-full bg-gradient-to-br from-blue-500/25 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.7),0_0_30px_rgba(59,130,246,0.35)] pointer-events-none" />
+
+        {/* ========================================================================= */}
+        {/* LEMPENGAN UTAMA: BLACK GLASS HUD WITH NEON CYAN RIM LIGHTING */}
+        {/* ========================================================================= */}
+        <div className="relative rounded-[28px] p-3 sm:p-3.5 bg-[#020717]/80 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_50px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in slide-in-from-bottom-3 duration-200 overflow-hidden">
+          
+          {/* Specular Glare Highlight Border Atas Kaca */}
+          <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
+          
+          {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
+          <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
+          <div className="absolute top-2 right-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
+          
+          {/* ========================================================================= */}
+          {/* 1. HEADER: GLOSSY GLASS BUBBLE ORB + JUDUL + PILL BADGE 1/3 */}
+          {/* ========================================================================= */}
+          <div className="flex items-center justify-between px-1 pb-2.5">
+            {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Glossy Glass Bubble Orb */}
+              <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_16px_rgba(6,182,212,0.6),inset_0_2px_4px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden">
+                {/* Highlight lengkung atas orb */}
+                <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/40 blur-[0.5px]" />
+                {currentMeta.section === 'watermark' && <GlossyDropletIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />}
+                {currentMeta.section === 'profile' && <GlossyUserIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
+                {currentMeta.section === 'geotag' && <GlossyMapPinIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
+              </div>
+
+              {/* Pembatas Garis Vertikal Tipis */}
+              <div className="h-5 w-[1px] bg-cyan-400/30 shrink-0" />
+
+              {/* Teks Judul Dua Nada */}
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-slate-300 text-xs sm:text-sm font-normal tracking-wide">
+                  {titleFirst}
+                </span>
+                <span className="text-white text-xs sm:text-sm font-bold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                  {titleRest}
+                </span>
+              </div>
+            </div>
+
+            {/* Kanan: Pill Badge Urutan Input (contoh "1 / 3") */}
+            <div className="shrink-0 px-3.5 py-1 rounded-full bg-[#030917]/80 border border-cyan-500/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.2)] flex items-center gap-1.5 font-mono text-xs">
+              <span className="text-cyan-400 font-bold text-sm drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
+                {currentInputIndex + 1}
+              </span>
+              <span className="text-slate-400 font-medium">/</span>
+              <span className="text-slate-300 font-medium">{sectionInputs.length}</span>
+            </div>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* 2. BARIS KONTROL: [ < ] [ SELECTOR (ELECTRIC BLUE) ] [ > ] [ ✕ (ROSE) ] */}
+          {/* ========================================================================= */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            
+            {/* Tombol Back [<] : Kapsul Black Glass dengan Cyan Rim Lighting */}
+            <button
+              type="button"
+              onClick={handlePrevInput}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+              title="Input Sebelumnya"
+            >
+              {/* Highlight kaca atas */}
+              <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+              <ChevronLeft className="w-5 h-5 stroke-[2.5] group-hover:-translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
+            </button>
+
+            {/* Tombol Tengah: Dropdown Selector / Range Slider / Input Teks */}
+            <div className="flex-1 min-w-0">
+              {/* A. Dropdown Posisi Watermark (Electric Blue Glow & Neon Cyan Rim) */}
+              {activeInput === 'watermark_position' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  {/* Specular Glare Line Border Atas */}
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  
+                  {/* Optic Flare Glow Spots */}
+                  <div className="absolute -top-1 left-5 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
+                  <div className="absolute -bottom-1 right-10 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
+
+                  {/* Sisi Kiri: Kotak Rounded Icon + Divider + Label */}
+                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                      <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        {currentWatermarkItem.icon}
+                      </span>
+                    </div>
+                    <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentWatermarkItem.fullLabel}
+                    </span>
+                  </div>
+
+                  {/* Sisi Kanan: Chevron Down Neon Cyan Tebal */}
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* B. Dropdown Posisi Profil */}
+              {activeInput === 'profile_position' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                      <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        {currentProfilePosItem.icon}
+                      </span>
+                    </div>
+                    <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentProfilePosItem.fullLabel}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* C. Dropdown Posisi Geotag */}
+              {activeInput === 'geotag_position' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                      <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                        {currentGeotagPosItem.icon}
+                      </span>
+                    </div>
+                    <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentGeotagPosItem.fullLabel}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* D. Dropdown Font Profil */}
+              {activeInput === 'profile_font' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" style={{ fontFamily: currentFont.fontStyle }}>
+                    {currentFont.label}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* E. Dropdown Ketebalan Teks Profil */}
+              {activeInput === 'profile_weight' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {currentWeight.label}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* F. Dropdown Ukuran Tulisan Geotag */}
+              {activeInput === 'geotag_size' && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {currentGeotagSize.label}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* G. Slider: Ukuran Watermark */}
+              {activeInput === 'watermark_size' && (
+                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Skala</span>
+                  <input
+                    type="range"
+                    min={8}
+                    max={45}
+                    value={watermark.sizePercent}
+                    onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
+                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                  />
+                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                    {watermark.sizePercent}%
+                  </span>
+                </div>
+              )}
+
+              {/* H. Slider: Transparansi Watermark */}
+              {activeInput === 'watermark_opacity' && (
+                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Kepekatan</span>
+                  <input
+                    type="range"
+                    min={0.15}
+                    max={1.0}
+                    step={0.05}
+                    value={watermark.opacity}
+                    onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
+                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                  />
+                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                    {Math.round(watermark.opacity * 100)}%
+                  </span>
+                </div>
+              )}
+
+              {/* I. Slider: Ukuran Teks Profil */}
+              {activeInput === 'profile_size' && (
+                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                  <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Ukuran</span>
+                  <input
+                    type="range"
+                    min={10}
+                    max={22}
+                    value={profile.fontSize || 13}
+                    onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
+                    className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                  />
+                  <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                    {profile.fontSize || 13}px
+                  </span>
+                </div>
+              )}
+
+              {/* J. Input Teks: Jabatan Profil */}
+              {activeInput === 'profile_job' && (
+                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
+                  <input
+                    type="text"
+                    value={profile.jobTitle}
+                    onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
+                    placeholder="Ketik Jabatan..."
+                    className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
+                  />
+                </div>
+              )}
+
+              {/* K. Input Teks: Nama Lengkap Profil */}
+              {activeInput === 'profile_name' && (
+                <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
+                  <input
+                    type="text"
+                    value={profile.name}
+                    onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
+                    placeholder="Ketik Nama Lengkap..."
+                    className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Tombol Next [>] : Kapsul Black Glass dengan Cyan Rim Lighting */}
+            <button
+              type="button"
+              onClick={handleNextInput}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+              title="Input Selanjutnya"
+            >
+              <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+              <ChevronRight className="w-5 h-5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
+            </button>
+
+            {/* Tombol Tutup Mandiri [ ✕ ] : Neon Crimson/Rose Rim Lighting Menyala */}
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-b from-[#2e0915]/90 to-[#120207]/95 border-2 border-rose-500/80 shadow-[0_0_20px_rgba(244,63,94,0.65),inset_0_1.5px_2px_rgba(255,255,255,0.7),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 relative overflow-hidden group"
+              title="Tutup Mode Preview"
+            >
+              {/* Specular highlight atas */}
+              <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+              <X className="w-5 h-5 text-rose-400 group-hover:text-rose-300 stroke-[2.5] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_8px_rgba(244,63,94,0.85)]" />
+            </button>
+          </div>
+        </div>
       </div>
     </aside>
   )
