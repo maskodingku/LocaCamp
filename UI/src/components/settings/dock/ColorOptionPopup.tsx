@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { Check, Palette, Pipette } from 'lucide-react'
+import { Check, Palette } from 'lucide-react'
+import { HexColorPicker } from 'react-colorful'
 
 export interface ColorPresetItem {
   id: string
@@ -51,7 +52,6 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   presets,
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
-  const colorInputRef = useRef<HTMLInputElement>(null)
 
   // Cek apakah warna saat ini cocok dengan salah satu preset
   const isCurrentPreset = presets.some(p => p.id === selectedColor)
@@ -100,16 +100,10 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
 
   if (!isOpen) return null
 
-  // Handler saat bagian atas diklik / color picker diubah
+  // Handler saat warna di HexColorPicker digeser / diubah
   const handleCustomColorChange = (newHex: string) => {
     setCustomHex(newHex)
     onSelect(newHex) // Otomatis mengaplikasikan dan memilih kustom
-  }
-
-  const handleTopAreaClick = () => {
-    // Saat user klik bagian select atas, otomatis terpilih custom dan buka picker native
-    onSelect(customHex)
-    colorInputRef.current?.click()
   }
 
   // Opsi Kustom sedang aktif jika selectedColor tidak cocok dengan preset manapun, atau sama persis dengan customHex
@@ -118,7 +112,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/94 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none"
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none max-h-[82vh] flex flex-col"
     >
       {/* ========================================================================= */}
       {/* GLOSSY GLASS BUBBLE ORBS: AMBIENT BACKGROUND HUD                          */}
@@ -139,7 +133,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       {/* ========================================================================= */}
       {/* HEADER UTAMA: JUDUL + BADGE TOTAL PILIHAN                                 */}
       {/* ========================================================================= */}
-      <div className="relative flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/25 z-10">
+      <div className="relative flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/25 z-10 shrink-0">
         <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
           {title}
         </span>
@@ -151,81 +145,72 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER KUSTOM                         */}
-      {/* ========================================================================= */}
-      <div className="relative z-10 mb-2.5">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/80 mb-1 flex items-center gap-1.5 px-1">
-          <Palette className="w-3 h-3 text-cyan-400" />
-          <span>Pilih / Select Warna Kustom:</span>
-        </div>
-
-        <div
-          onClick={handleTopAreaClick}
-          className={`relative w-full p-2 rounded-2xl border-2 transition-all cursor-pointer overflow-hidden flex items-center justify-between group active:scale-[0.99] ${
-            isCustomSelected
-              ? 'border-cyan-300 bg-gradient-to-r from-[#01224a]/90 via-[#033b7a]/80 to-[#01224a]/90 shadow-[0_0_20px_rgba(6,182,212,0.7),inset_0_1.5px_2px_rgba(255,255,255,0.8)]'
-              : 'border-cyan-500/40 hover:border-cyan-400/70 bg-[#040e24]/80 hover:bg-[#06173a]/90 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]'
-          }`}
-          title="Klik untuk memilih warna kustom dari palet"
-        >
-          {/* Highlight Specular */}
-          <div className="absolute top-0 inset-x-4 h-[1px] bg-white/70 shadow-[0_0_4px_#fff]" />
-
-          {/* Sisi Kiri: Swatch Kotak Interaktif + Input Color Hidden */}
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div
-              className="w-8 h-8 rounded-xl border-2 border-white/80 shadow-[0_0_12px_rgba(6,182,212,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform"
-              style={{ backgroundColor: customHex }}
-            >
-              <input
-                ref={colorInputRef}
-                type="color"
-                value={customHex}
-                onChange={e => handleCustomColorChange(e.target.value)}
-                onClick={e => e.stopPropagation()}
-                className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-                title="Pilih warna"
+      {/* Konten Scrollable Pembungkus Keseluruhan */}
+      <div className="overflow-y-auto custom-scrollbar space-y-2.5 pr-0.5 z-10">
+        {/* ========================================================================= */}
+        {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER REACT-COLORFUL HUD             */}
+        {/* ========================================================================= */}
+        <div className="relative p-2.5 rounded-2xl bg-[#030d22]/85 border border-cyan-400/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.6)]">
+          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Palette className="w-3 h-3 text-cyan-400" />
+              <span>Select Warna Kustom:</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div
+                className="w-3.5 h-3.5 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
+                style={{ backgroundColor: customHex }}
               />
-              <Pipette className="w-3.5 h-3.5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] pointer-events-none" />
-            </div>
-
-            {/* Display Hex Code & Petunjuk */}
-            <div className="min-w-0 flex flex-col">
-              <span className="font-mono text-xs font-bold text-white tracking-wider flex items-center gap-1 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              <span className="font-mono text-cyan-200 font-bold">
                 {customHex.toUpperCase()}
-                {isCustomSelected && (
-                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-cyan-400/30 border border-cyan-300 text-cyan-200">
-                    Aktif
-                  </span>
-                )}
-              </span>
-              <span className="text-[10px] text-cyan-200/70 truncate">
-                Klik swatch untuk buka palet warna
               </span>
             </div>
           </div>
 
-          {/* Sisi Kanan: Badge Tombol Trigger */}
-          <div className="shrink-0 ml-2">
-            <div className="px-2.5 py-1 rounded-xl bg-gradient-to-r from-cyan-500/30 to-blue-600/30 border border-cyan-400/50 shadow-[0_0_8px_rgba(6,182,212,0.4)] text-[10px] font-mono font-bold text-cyan-200 group-hover:text-white group-hover:border-cyan-300 transition-all flex items-center gap-1">
-              <span>Palet</span>
-              <span className="text-cyan-400">🎨</span>
+          {/* Modul react-colorful dengan class .hud-color-picker */}
+          <div className="hud-color-picker w-full">
+            <HexColorPicker
+              color={customHex}
+              onChange={handleCustomColorChange}
+            />
+          </div>
+
+          {/* Baris Input Manual HEX + Preview Cepat */}
+          <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-cyan-500/25">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-[10px] font-mono font-bold text-slate-300">HEX:</span>
+              <input
+                type="text"
+                value={customHex.toUpperCase()}
+                onChange={(e) => {
+                  const val = e.target.value.trim()
+                  const formatted = val.startsWith('#') ? val : `#${val}`
+                  setCustomHex(formatted)
+                  if (/^#[0-9A-Fa-f]{6}$/.test(formatted)) {
+                    onSelect(formatted)
+                  }
+                }}
+                className="w-24 bg-[#010714] border border-cyan-500/40 focus:border-cyan-300 px-2 py-0.5 rounded-lg text-xs font-mono font-bold text-white tracking-wider outline-none focus:ring-1 focus:ring-cyan-400"
+                placeholder="#00E5FF"
+                maxLength={7}
+              />
             </div>
+            <span className="text-[10px] text-cyan-200/70 font-mono">
+              {isCustomSelected ? '● Kustom Aktif' : 'Geser untuk memilih'}
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* ========================================================================= */}
-      {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM                        */}
-      {/* ========================================================================= */}
-      <div className="relative z-10">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between">
-          <span>Daftar Pilihan Preset:</span>
-          <span className="text-slate-500 text-[9px]">(Termasuk Kustom)</span>
-        </div>
+        {/* ========================================================================= */}
+        {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM                        */}
+        {/* ========================================================================= */}
+        <div>
+          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between">
+            <span>Daftar Pilihan Preset:</span>
+            <span className="text-slate-500 text-[9px]">(Termasuk Kustom)</span>
+          </div>
 
-        <div className="max-h-44 sm:max-h-48 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
+          <div className="max-h-36 sm:max-h-40 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
           {/* A. Preset-preset standar */}
           {presets.map((item, index) => {
             const isSelected = !isCustomSelected && item.id === selectedColor
@@ -379,5 +364,6 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         </div>
       </div>
     </div>
+  </div>
   )
 }
