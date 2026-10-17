@@ -1,5 +1,5 @@
 import React from 'react'
-import { User, Briefcase, Type, MapPin, Check, Eye, Square, Palette, Paintbrush } from 'lucide-react'
+import { User, Briefcase, Type, MapPin, Check, Eye, Frame, Palette, Paintbrush } from 'lucide-react'
 import type { ProfileConfig, ProfilePosition, ProfileFontWeight } from '../../../types/camera'
 
 interface ProfileSectionProps {
@@ -29,46 +29,46 @@ export const getFontFamilyStyle = (fontId?: string): string => {
 }
 
 export const PROFILE_BG_PRESETS = [
-  { id: 'rgba(9, 9, 11, 0.78)', label: 'Hitam Kaca (Default)', preview: 'rgba(9, 9, 11, 0.78)' },
-  { id: 'transparent', label: 'Transparan', preview: 'transparent' },
-  { id: '#09090b', label: 'Hitam Pekat', preview: '#09090b' },
-  { id: 'rgba(15, 23, 42, 0.85)', label: 'Biru Navy', preview: 'rgba(15, 23, 42, 0.85)' },
-  { id: 'rgba(8, 47, 73, 0.85)', label: 'Cyber Cyan', preview: 'rgba(8, 47, 73, 0.85)' },
-  { id: 'rgba(6, 78, 59, 0.85)', label: 'Emerald Hijau', preview: 'rgba(6, 78, 59, 0.85)' },
-  { id: 'rgba(120, 53, 15, 0.85)', label: 'Amber Emas', preview: 'rgba(120, 53, 15, 0.85)' },
-  { id: 'rgba(255, 255, 255, 0.2)', label: 'Putih Kaca', preview: 'rgba(255, 255, 255, 0.2)' },
-  { id: '#ffffff', label: 'Putih Pekat', preview: '#ffffff' },
+  { id: 'rgba(9, 9, 11, 0.78)', label: 'Hitam Kaca (Default)', shortLabel: 'Kaca', preview: 'rgba(9, 9, 11, 0.78)' },
+  { id: 'transparent', label: 'Transparan', shortLabel: 'Bening', preview: 'transparent' },
+  { id: '#09090b', label: 'Hitam Pekat', shortLabel: 'Hitam', preview: '#09090b' },
+  { id: 'rgba(15, 23, 42, 0.85)', label: 'Biru Navy', shortLabel: 'Navy', preview: 'rgba(15, 23, 42, 0.85)' },
+  { id: 'rgba(8, 47, 73, 0.85)', label: 'Cyber Cyan', shortLabel: 'Cyan', preview: 'rgba(8, 47, 73, 0.85)' },
+  { id: 'rgba(6, 78, 59, 0.85)', label: 'Emerald Hijau', shortLabel: 'Emerald', preview: 'rgba(6, 78, 59, 0.85)' },
+  { id: 'rgba(120, 53, 15, 0.85)', label: 'Amber Emas', shortLabel: 'Amber', preview: 'rgba(120, 53, 15, 0.85)' },
+  { id: 'rgba(255, 255, 255, 0.2)', label: 'Putih Kaca', shortLabel: 'P-Kaca', preview: 'rgba(255, 255, 255, 0.2)' },
+  { id: '#ffffff', label: 'Putih Pekat', shortLabel: 'Putih', preview: '#ffffff' },
 ]
 
 export const PROFILE_TEXT_PRESETS = [
-  { id: '#ffffff', label: 'Putih (Default)', preview: '#ffffff' },
-  { id: '#22d3ee', label: 'Cyan Neon', preview: '#22d3ee' },
-  { id: '#34d399', label: 'Emerald Hijau', preview: '#34d399' },
-  { id: '#fbbf24', label: 'Amber Emas', preview: '#fbbf24' },
-  { id: '#38bdf8', label: 'Biru Langit', preview: '#38bdf8' },
-  { id: '#f43f5e', label: 'Rose Merah', preview: '#f43f5e' },
-  { id: '#facc15', label: 'Kuning', preview: '#facc15' },
-  { id: '#09090b', label: 'Hitam Gelap', preview: '#09090b' },
+  { id: '#ffffff', label: 'Putih (Default)', shortLabel: 'Putih', preview: '#ffffff' },
+  { id: '#22d3ee', label: 'Cyan Neon', shortLabel: 'Cyan', preview: '#22d3ee' },
+  { id: '#34d399', label: 'Emerald Hijau', shortLabel: 'Emerald', preview: '#34d399' },
+  { id: '#fbbf24', label: 'Amber Emas', shortLabel: 'Amber', preview: '#fbbf24' },
+  { id: '#38bdf8', label: 'Biru Langit', shortLabel: 'Biru', preview: '#38bdf8' },
+  { id: '#f43f5e', label: 'Rose Merah', shortLabel: 'Rose', preview: '#f43f5e' },
+  { id: '#facc15', label: 'Kuning', shortLabel: 'Kuning', preview: '#facc15' },
+  { id: '#94a3b8', label: 'Abu-Abu', shortLabel: 'Abu', preview: '#94a3b8' },
+  { id: '#09090b', label: 'Hitam Gelap', shortLabel: 'Hitam', preview: '#09090b' },
 ]
 
 const FONT_WEIGHTS: { id: ProfileFontWeight; label: string; weight: number }[] = [
   { id: 'normal', label: 'Normal', weight: 400 },
   { id: 'medium', label: 'Sedang', weight: 500 },
-  { id: 'semibold', label: 'Semi Bold', weight: 600 },
+  { id: 'semibold', label: 'Semibold', weight: 600 },
   { id: 'bold', label: 'Tebal', weight: 700 },
 ]
 
-const PROFILE_POSITIONS: { id: ProfilePosition; label: string }[] = [
-  { id: 'above-geotag', label: '★ Di Atas Geotag' },
-  { id: 'top-left', label: '↖ Atas Kiri' },
-  { id: 'top-center', label: '↑ Atas Tengah' },
-  { id: 'top-right', label: '↗ Atas Kanan' },
-  { id: 'center-left', label: '← Center Kiri' },
-  { id: 'center', label: '✛ Center' },
-  { id: 'center-right', label: '→ Center Kanan' },
-  { id: 'bottom-left', label: '↙ Bawah Kiri' },
-  { id: 'bottom-center', label: '↓ Bawah Tengah' },
-  { id: 'bottom-right', label: '↘ Bawah Kanan' },
+const CAMERA_GRID_POSITIONS: { id: ProfilePosition; label: string; icon: string }[] = [
+  { id: 'top-left', label: 'Atas Kiri', icon: '↖' },
+  { id: 'top-center', label: 'Atas Tengah', icon: '↑' },
+  { id: 'top-right', label: 'Atas Kanan', icon: '↗' },
+  { id: 'center-left', label: 'Tengah Kiri', icon: '←' },
+  { id: 'center', label: 'Tengah', icon: '•' },
+  { id: 'center-right', label: 'Tengah Kanan', icon: '→' },
+  { id: 'bottom-left', label: 'Bawah Kiri', icon: '↙' },
+  { id: 'bottom-center', label: 'Bawah Tengah', icon: '↓' },
+  { id: 'bottom-right', label: 'Bawah Kanan', icon: '↘' },
 ]
 
 export const ProfileSection: React.FC<ProfileSectionProps> = ({
@@ -78,6 +78,14 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   setActiveSlider,
   onTriggerPreview,
 }) => {
+  const currentBg = profile.backgroundColor || 'rgba(9, 9, 11, 0.78)'
+  const isCustomBg = !PROFILE_BG_PRESETS.some(p => p.id === currentBg)
+
+  const currentText = profile.textColor || '#ffffff'
+  const isCustomText = !PROFILE_TEXT_PRESETS.some(p => p.id === currentText)
+
+  const isAboveGeotag = (profile.position || 'above-geotag') === 'above-geotag'
+
   return (
     <div
       className={`relative rounded-2xl transition-all duration-150 ${
@@ -96,16 +104,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }
       }
     >
-
       {/* Header Section dengan Switch On/Off */}
       <div
         className={`items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
           activeSlider ? 'hidden' : 'flex'
         }`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0">
           <div
-            className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
               profile.enabled
                 ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                 : 'bg-zinc-800 text-zinc-400 border border-zinc-700/50'
@@ -113,23 +120,23 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           >
             <User className="w-5 h-5" />
           </div>
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-semibold text-white">Profil Pengguna</h3>
+              <h3 className="text-sm font-semibold text-white truncate">Profil Pengguna</h3>
               {profile.enabled && (
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
                   Aktif
                 </span>
               )}
             </div>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-400 truncate">
               Cantumkan nama &amp; jabatan survei pada foto
             </p>
           </div>
         </div>
 
         {/* Toggle Switch */}
-        <label className="relative inline-flex items-center cursor-pointer">
+        <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-2">
           <input
             type="checkbox"
             checked={profile.enabled}
@@ -154,6 +161,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
+            {/* Input Jabatan */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
@@ -182,10 +190,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   })
                 }
                 placeholder="Contoh: Surveyor Lapangan / Pengawas"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
               />
             </div>
 
+            {/* Input Nama Lengkap */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
@@ -214,7 +223,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   })
                 }
                 placeholder="Contoh: Ahmad Fauzi, S.T."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
               />
             </div>
           </div>
@@ -251,7 +260,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     fontFamily: e.target.value,
                   })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all appearance-none cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all appearance-none cursor-pointer pr-10 shadow-inner"
               >
                 {FONT_OPTIONS.map(font => (
                   <option
@@ -294,30 +303,56 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 p-2 bg-zinc-900/60 rounded-2xl border border-zinc-800">
-              {PROFILE_POSITIONS.map(pos => {
-                const active = (profile.position || 'above-geotag') === pos.id
-                return (
-                  <button
-                    key={pos.id}
-                    type="button"
-                    onClick={() =>
-                      onChangeProfile({
-                        ...profile,
-                        position: pos.id,
-                      })
-                    }
-                    className={`py-2 px-2.5 rounded-lg text-xs font-medium transition-all text-left flex items-center justify-between ${
-                      active
-                        ? 'bg-white text-zinc-950 font-semibold shadow-md'
-                        : 'bg-zinc-800/60 text-zinc-300 hover:bg-zinc-700/60'
-                    }`}
-                  >
-                    <span className="truncate">{pos.label}</span>
-                    {active && <Check className="w-3.5 h-3.5 shrink-0" />}
-                  </button>
-                )
-              })}
+
+            <div className="space-y-2 p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+              {/* Opsi Utama: Di Atas Geotag */}
+              <button
+                type="button"
+                onClick={() => onChangeProfile({ ...profile, position: 'above-geotag' })}
+                className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border ${
+                  isAboveGeotag
+                    ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-md ring-1 ring-emerald-400/40'
+                    : 'bg-zinc-800/60 border-zinc-700/60 text-zinc-300 hover:bg-zinc-700/60 hover:border-zinc-600'
+                }`}
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-amber-400 text-sm">★</span>
+                  <span className="truncate">Di Atas Geotag</span>
+                  <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shrink-0">
+                    Rekomendasi
+                  </span>
+                </div>
+                {isAboveGeotag && <Check className="w-4 h-4 text-emerald-400 shrink-0 ml-1" />}
+              </button>
+
+              <div className="flex items-center gap-2 pt-1 pb-0.5">
+                <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+                  Atau 9 Posisi Sudut Kamera:
+                </span>
+                <div className="flex-1 h-px bg-zinc-800" />
+              </div>
+
+              {/* 9-Grid Posisi Sudut Kamera */}
+              <div className="grid grid-cols-3 gap-1.5">
+                {CAMERA_GRID_POSITIONS.map(pos => {
+                  const active = profile.position === pos.id
+                  return (
+                    <button
+                      key={pos.id}
+                      type="button"
+                      onClick={() => onChangeProfile({ ...profile, position: pos.id })}
+                      className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${
+                        active
+                          ? 'bg-white text-zinc-950 font-bold shadow-md'
+                          : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white'
+                      }`}
+                    >
+                      <span className="text-zinc-400 font-bold shrink-0">{pos.icon}</span>
+                      <span className="truncate">{pos.label}</span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </div>
 
@@ -356,7 +391,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                         fontWeight: fw.id,
                       })
                     }
-                    className={`py-1.5 px-2 rounded-lg text-xs transition-all text-center ${
+                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all text-center whitespace-nowrap ${
                       active
                         ? 'bg-emerald-500 text-black font-bold shadow-md'
                         : 'text-zinc-400 hover:text-zinc-200'
@@ -371,22 +406,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Garis Tepi (Border) */}
           <div
-            className={`p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between transition-opacity duration-150 ${
+            className={`p-3 sm:p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-3 transition-opacity duration-150 ${
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
-            <div className="flex items-center gap-2.5">
-              <Square className="w-4 h-4 text-zinc-400" />
-              <div>
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-zinc-800/80 flex items-center justify-center shrink-0 text-emerald-400 border border-zinc-700/60">
+                <Frame className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-200">
                     Garis Tepi (Border)
                   </span>
                   {onTriggerPreview && (
                     <button
                       type="button"
                       onClick={() => onTriggerPreview?.('profile_border')}
-                      className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[10px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                       title="Lihat Pratinjau Langsung di Kamera"
                     >
                       <Eye className="w-3 h-3" />
@@ -394,13 +431,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     </button>
                   )}
                 </div>
-                <p className="text-[11px] text-zinc-400">
-                  {profile.showBorder !== false ? 'Garis tepi aktif' : 'Garis tepi dihilangkan (borderless)'}
+                <p className="text-[11px] text-zinc-400 truncate">
+                  {profile.showBorder !== false
+                    ? 'Garis tepi aktif melingkari badge'
+                    : 'Mode tanpa garis tepi (borderless)'}
                 </p>
               </div>
             </div>
 
-            <label className="relative inline-flex items-center cursor-pointer">
+            <label className="relative inline-flex items-center cursor-pointer shrink-0">
               <input
                 type="checkbox"
                 checked={profile.showBorder !== false}
@@ -439,10 +478,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800 space-y-2">
-              <div className="flex flex-wrap items-center gap-1.5">
+            <div className="p-2 sm:p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+              <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_BG_PRESETS.map(preset => {
-                  const active = (profile.backgroundColor || 'rgba(9, 9, 11, 0.78)') === preset.id
+                  const active = currentBg === preset.id
                   return (
                     <button
                       key={preset.id}
@@ -453,46 +492,69 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                           backgroundColor: preset.id,
                         })
                       }
-                      className={`h-7 px-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 border ${
+                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
-                          ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/50'
-                          : 'border-zinc-700/80 bg-zinc-800/80 text-zinc-300 hover:border-zinc-500'
+                          ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
+                          : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
                       }`}
                       title={preset.label}
                     >
                       <span
-                        className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0"
+                        className="w-4 h-4 rounded-full border border-white/20 shrink-0 flex items-center justify-center relative shadow-sm"
                         style={{
-                          backgroundColor: preset.preview === 'transparent' ? 'transparent' : preset.preview,
-                          backgroundImage: preset.preview === 'transparent' ? 'linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555), linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555)' : undefined,
+                          backgroundColor:
+                            preset.preview === 'transparent' ? 'transparent' : preset.preview,
+                          backgroundImage:
+                            preset.preview === 'transparent'
+                              ? 'linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555), linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555)'
+                              : undefined,
                           backgroundSize: '4px 4px',
                           backgroundPosition: '0 0, 2px 2px',
                         }}
-                      />
-                      <span>{preset.label.split(' ')[0]}</span>
+                      >
+                        {active && <Check className="w-2.5 h-2.5 text-white drop-shadow" />}
+                      </span>
+                      <span className="text-[9.5px] font-medium leading-none mt-1 truncate max-w-full">
+                        {preset.shortLabel}
+                      </span>
                     </button>
                   )
                 })}
-              </div>
 
-              {/* Custom Color Input */}
-              <div className="flex items-center gap-2 pt-1.5 border-t border-zinc-800/60">
-                <span className="text-[11px] text-zinc-400">Warna Bebas:</span>
-                <input
-                  type="color"
-                  value={
-                    profile.backgroundColor?.startsWith('#')
-                      ? profile.backgroundColor
-                      : '#09090b'
-                  }
-                  onChange={e =>
-                    onChangeProfile({
-                      ...profile,
-                      backgroundColor: e.target.value,
-                    })
-                  }
-                  className="w-7 h-7 rounded-lg bg-transparent border border-zinc-700 cursor-pointer p-0.5"
-                />
+                {/* Swatch 10: Custom Color */}
+                <label
+                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
+                    isCustomBg
+                      ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
+                      : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                  }`}
+                  title="Pilih Warna Bebas Kustom"
+                >
+                  <span
+                    className="w-4 h-4 rounded-full border border-white/20 shrink-0 flex items-center justify-center relative shadow-sm overflow-hidden"
+                    style={{
+                      background: isCustomBg
+                        ? currentBg
+                        : 'conic-gradient(from 180deg at 50% 50%, #f43f5e 0deg, #facc15 60deg, #34d399 120deg, #22d3ee 180deg, #38bdf8 240deg, #a855f7 300deg, #f43f5e 360deg)',
+                    }}
+                  >
+                    {isCustomBg && <Check className="w-2.5 h-2.5 text-white drop-shadow" />}
+                  </span>
+                  <span className="text-[9.5px] font-medium leading-none mt-1 truncate max-w-full">
+                    Bebas
+                  </span>
+                  <input
+                    type="color"
+                    value={currentBg.startsWith('#') ? currentBg : '#09090b'}
+                    onChange={e =>
+                      onChangeProfile({
+                        ...profile,
+                        backgroundColor: e.target.value,
+                      })
+                    }
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  />
+                </label>
               </div>
             </div>
           </div>
@@ -520,10 +582,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800 space-y-2">
-              <div className="flex flex-wrap items-center gap-1.5">
+            <div className="p-2 sm:p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+              <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_TEXT_PRESETS.map(preset => {
-                  const active = (profile.textColor || '#ffffff') === preset.id
+                  const active = currentText === preset.id
                   return (
                     <button
                       key={preset.id}
@@ -534,41 +596,66 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                           textColor: preset.id,
                         })
                       }
-                      className={`h-7 px-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 border ${
+                      className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
-                          ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/50'
-                          : 'border-zinc-700/80 bg-zinc-800/80 text-zinc-300 hover:border-zinc-500'
+                          ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
+                          : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
                       }`}
                       title={preset.label}
                     >
                       <span
-                        className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0"
+                        className="w-4 h-4 rounded-full border border-white/20 shrink-0 flex items-center justify-center relative shadow-sm"
                         style={{ backgroundColor: preset.preview }}
-                      />
-                      <span>{preset.label.split(' ')[0]}</span>
+                      >
+                        {active && (
+                          <Check
+                            className={`w-2.5 h-2.5 ${
+                              preset.id === '#ffffff' ? 'text-black' : 'text-white'
+                            } drop-shadow`}
+                          />
+                        )}
+                      </span>
+                      <span className="text-[9.5px] font-medium leading-none mt-1 truncate max-w-full">
+                        {preset.shortLabel}
+                      </span>
                     </button>
                   )
                 })}
-              </div>
 
-              {/* Custom Color Input */}
-              <div className="flex items-center gap-2 pt-1.5 border-t border-zinc-800/60">
-                <span className="text-[11px] text-zinc-400">Warna Bebas:</span>
-                <input
-                  type="color"
-                  value={
-                    profile.textColor?.startsWith('#')
-                      ? profile.textColor
-                      : '#ffffff'
-                  }
-                  onChange={e =>
-                    onChangeProfile({
-                      ...profile,
-                      textColor: e.target.value,
-                    })
-                  }
-                  className="w-7 h-7 rounded-lg bg-transparent border border-zinc-700 cursor-pointer p-0.5"
-                />
+                {/* Swatch 10: Custom Color */}
+                <label
+                  className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
+                    isCustomText
+                      ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
+                      : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                  }`}
+                  title="Pilih Warna Teks Bebas Kustom"
+                >
+                  <span
+                    className="w-4 h-4 rounded-full border border-white/20 shrink-0 flex items-center justify-center relative shadow-sm overflow-hidden"
+                    style={{
+                      background: isCustomText
+                        ? currentText
+                        : 'conic-gradient(from 180deg at 50% 50%, #f43f5e 0deg, #facc15 60deg, #34d399 120deg, #22d3ee 180deg, #38bdf8 240deg, #a855f7 300deg, #f43f5e 360deg)',
+                    }}
+                  >
+                    {isCustomText && <Check className="w-2.5 h-2.5 text-white drop-shadow" />}
+                  </span>
+                  <span className="text-[9.5px] font-medium leading-none mt-1 truncate max-w-full">
+                    Bebas
+                  </span>
+                  <input
+                    type="color"
+                    value={currentText.startsWith('#') ? currentText : '#ffffff'}
+                    onChange={e =>
+                      onChangeProfile({
+                        ...profile,
+                        textColor: e.target.value,
+                      })
+                    }
+                    className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                  />
+                </label>
               </div>
             </div>
           </div>
@@ -583,18 +670,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 : ''
             }`}
           >
-            <div className="flex items-center justify-between text-xs font-semibold text-zinc-400 mb-1.5">
-              <div className="flex items-center gap-2">
-                <span className={activeSlider === 'profile_size' ? 'text-white font-bold' : ''}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2 min-w-0">
+                <span
+                  className={`text-xs font-semibold uppercase tracking-wider ${
+                    activeSlider === 'profile_size' ? 'text-white font-bold' : 'text-zinc-300'
+                  }`}
+                >
                   Ukuran Teks Profil
                 </span>
-                <span className="text-zinc-200 font-mono">{profile.fontSize || 13} px</span>
+                <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-zinc-800 text-emerald-400 border border-zinc-700/80 shrink-0">
+                  {profile.fontSize || 13} px
+                </span>
               </div>
               {onTriggerPreview && activeSlider !== 'profile_size' && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_size')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -620,49 +713,56 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   fontSize: Number(e.target.value),
                 })
               }
-              className="w-full accent-emerald-400 h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+              className="w-full accent-emerald-400 h-2 bg-zinc-800/80 rounded-lg cursor-pointer"
             />
           </div>
 
           {/* Mini Preview Profil */}
           <div
-            className={`p-3 rounded-xl bg-zinc-950/80 border border-zinc-800 transition-opacity duration-150 ${
+            className={`p-3 rounded-2xl bg-zinc-950/80 border border-zinc-800 transition-opacity duration-150 space-y-2 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <p className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider mb-1.5">
-              Pratinjau Tampilan Teks
-            </p>
-            <div
-              style={{
-                fontFamily: getFontFamilyStyle(profile.fontFamily),
-                fontWeight:
-                  profile.fontWeight === 'bold'
-                    ? 700
-                    : profile.fontWeight === 'semibold'
-                    ? 600
-                    : profile.fontWeight === 'medium'
-                    ? 500
-                    : 400,
-                fontSize: `${profile.fontSize || 13}px`,
-                backgroundColor: profile.backgroundColor || 'rgba(9, 9, 11, 0.78)',
-                color: profile.textColor || '#ffffff',
-              }}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md transition-all ${
-                profile.showBorder !== false ? 'border border-white/20' : 'border-0'
-              }`}
-            >
-              <User
-                className="w-3.5 h-3.5 shrink-0"
-                style={{
-                  color: (profile.textColor || '#ffffff') === '#ffffff' ? '#34d399' : profile.textColor,
-                }}
-              />
-              <span>
-                {profile.name || profile.jobTitle
-                  ? [profile.name, profile.jobTitle].filter(Boolean).join(' • ')
-                  : 'Nama • Jabatan'}
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">
+                Pratinjau Tampilan Teks
+              </p>
+              <span className="text-[10px] text-zinc-500 font-mono">
+                {profile.fontSize || 13}px • {profile.fontWeight || 'medium'}
               </span>
+            </div>
+            <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800/60 flex items-center justify-center overflow-x-auto min-h-[52px]">
+              <div
+                style={{
+                  fontFamily: getFontFamilyStyle(profile.fontFamily),
+                  fontWeight:
+                    profile.fontWeight === 'bold'
+                      ? 700
+                      : profile.fontWeight === 'semibold'
+                      ? 600
+                      : profile.fontWeight === 'medium'
+                      ? 500
+                      : 400,
+                  fontSize: `${profile.fontSize || 13}px`,
+                  backgroundColor: currentBg,
+                  color: currentText,
+                }}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md transition-all shrink-0 max-w-full ${
+                  profile.showBorder !== false ? 'border border-white/20' : 'border-0'
+                }`}
+              >
+                <User
+                  className="w-3.5 h-3.5 shrink-0"
+                  style={{
+                    color: currentText === '#ffffff' ? '#34d399' : currentText,
+                  }}
+                />
+                <span className="truncate">
+                  {profile.name || profile.jobTitle
+                    ? [profile.name, profile.jobTitle].filter(Boolean).join(' • ')
+                    : 'Nama • Jabatan'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

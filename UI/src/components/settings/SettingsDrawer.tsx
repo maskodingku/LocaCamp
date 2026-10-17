@@ -233,7 +233,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           className={`transition-all duration-150 ${
             activeSlider
               ? 'p-4 sm:p-6 overflow-visible'
-              : 'flex-1 overflow-y-auto p-6 space-y-6'
+              : 'flex-1 overflow-y-auto p-3.5 sm:p-6 space-y-4 sm:space-y-6'
           }`}
         >
           {activeTab === 'watermark' ? (
