@@ -9,6 +9,7 @@ import {
   X,
   Loader2,
   FileImage,
+  Maximize2,
 } from 'lucide-react'
 import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
@@ -197,11 +198,19 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                   </div>
                   <span>{dateFormatted} • {timeFormatted}</span>
                 </div>
-                <div className="flex items-center gap-2 text-emerald-200/90 font-mono text-[11px] pt-1.5 border-t border-cyan-500/20">
-                  <div className="w-4 h-4 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.3)]">
-                    <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+                <div className="flex items-center justify-between gap-2 text-emerald-200/90 font-mono text-[11px] pt-1.5 border-t border-cyan-500/20">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-4 h-4 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.3)]">
+                      <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+                    </div>
+                    <span>{fileSizeFormatted}</span>
                   </div>
-                  <span>{fileSizeFormatted} • {photo.width}×{photo.height} px</span>
+                  <div className="flex items-center gap-1.5 text-cyan-300/90">
+                    <div className="w-4 h-4 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
+                      <Maximize2 className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+                    </div>
+                    <span>{photo.width}×{photo.height}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -324,41 +333,59 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </div>
           </div>
 
-          {/* Photo Details Banner - Cyber Glassmorphism HUD Strip */}
-          <div className="shrink-0 px-3.5 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border-t border-cyan-500/20 space-y-2 text-xs relative overflow-hidden backdrop-blur-xl">
+          {/* Photo Details Banner - Cyber Glassmorphism HUD Strip (70% Kiri, 30% Kanan) */}
+          <div className="shrink-0 px-3.5 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border-t border-cyan-500/20 text-xs relative overflow-hidden backdrop-blur-xl">
             {/* Top Specular Line */}
             <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/35 to-transparent pointer-events-none" />
 
-            {/* Baris 1: Lokasi Alamat */}
-            <div className="flex items-center gap-2 min-w-0 w-full">
-              <div className="w-5 h-5 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.3)]">
-                <MapPin className="w-3 h-3 text-rose-400 drop-shadow-[0_0_3px_rgba(244,63,94,0.8)]" />
-              </div>
-              <span className="truncate text-xs font-semibold text-slate-100 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                {photo.location.address || `${photo.location.latitude?.toFixed(4)}, ${photo.location.longitude?.toFixed(4)}`}
-              </span>
-            </div>
-
-            {/* Baris 2: Waktu (Kiri) & Ukuran/Resolusi File (Kanan) */}
-            <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
-              {/* Tanggal & Waktu */}
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="w-4.5 h-4.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.3)]">
-                  <Calendar className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+            <div className="flex items-center justify-between gap-2">
+              {/* Kolom Kiri: Lokasi & Waktu Jepret (70% Lebar) */}
+              <div className="w-[70%] min-w-0 pr-1 space-y-1.5">
+                {/* Baris 1: Alamat Lokasi */}
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <div className="w-4.5 h-4.5 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(244,63,94,0.3)]">
+                    <MapPin className="w-2.5 h-2.5 text-rose-400 drop-shadow-[0_0_2px_rgba(244,63,94,0.8)]" />
+                  </div>
+                  <span className="truncate text-[11px] sm:text-xs font-semibold text-slate-100 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {photo.location.address || `${photo.location.latitude?.toFixed(4)}, ${photo.location.longitude?.toFixed(4)}`}
+                  </span>
                 </div>
-                <span className="font-mono text-[11px] font-bold text-cyan-200/90 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                  {dateFormatted} {timeFormatted}
-                </span>
+
+                {/* Baris 2: Waktu Jepret */}
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <div className="w-4.5 h-4.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
+                    <Calendar className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]" />
+                  </div>
+                  <span className="font-mono text-[10.5px] sm:text-[11px] font-bold text-cyan-200/90 tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {dateFormatted} {timeFormatted}
+                  </span>
+                </div>
               </div>
 
-              {/* Ukuran File & Resolusi Dimensi */}
-              <div className="flex items-center gap-1.5 shrink-0">
-                <div className="w-4.5 h-4.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.3)]">
-                  <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+              {/* Pembatas Vertikal Cyber Line */}
+              <div className="w-[1px] self-stretch bg-gradient-to-b from-transparent via-cyan-400/40 to-transparent shrink-0" />
+
+              {/* Kolom Kanan: Ukuran Size File & Resolusi Gambar (30% Lebar) */}
+              <div className="w-[30%] min-w-0 pl-1 space-y-1.5 flex flex-col justify-center shrink-0">
+                {/* Baris 1: Ukuran Size File */}
+                <div className="flex items-center gap-1.5 justify-start min-w-0">
+                  <div className="w-4.5 h-4.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.3)]">
+                    <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_2px_rgba(52,211,153,0.8)]" />
+                  </div>
+                  <span className="font-mono text-[10.5px] sm:text-[11px] font-bold text-emerald-200/90 tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {fileSizeFormatted}
+                  </span>
                 </div>
-                <span className="font-mono text-[11px] font-bold text-emerald-200/90 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                  {fileSizeFormatted} • {photo.width}×{photo.height}
-                </span>
+
+                {/* Baris 2: Resolusi Gambar */}
+                <div className="flex items-center gap-1.5 justify-start min-w-0">
+                  <div className="w-4.5 h-4.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
+                    <Maximize2 className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]" />
+                  </div>
+                  <span className="font-mono text-[10.5px] sm:text-[11px] font-bold text-cyan-200/90 tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {photo.width}×{photo.height}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
