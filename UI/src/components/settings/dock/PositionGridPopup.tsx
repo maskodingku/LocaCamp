@@ -106,6 +106,62 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
 
   if (!isOpen) return null
 
+  const specialGridItems = items.filter(item => item.id === 'above-geotag')
+  const directionalGridItems = items.filter(item => item.id !== 'above-geotag')
+  const hasSpecialItems = specialGridItems.length > 0
+
+  // Helper render tombol kotak box seragam dengan aksen glassmorphism futuristik
+  const renderBoxButton = (item: PositionGridItem) => {
+    const isSelected = item.id === selectedId
+    return (
+      <button
+        key={item.id}
+        type="button"
+        onClick={() => {
+          onSelect(item.id)
+          onClose()
+        }}
+        className={`relative flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl text-center transition-all cursor-pointer active:scale-95 overflow-hidden group ${
+          isSelected
+            ? 'border-2 border-cyan-300 bg-gradient-to-b from-[#0e5fa8]/90 via-[#073f73]/90 to-[#022144]/95 shadow-[0_0_20px_rgba(6,182,212,0.85),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-2px_4px_rgba(0,0,0,0.7)]'
+            : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-b from-[#06152e]/70 via-[#030d22]/80 to-[#020717]/90 hover:from-[#0b264e]/80 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.25),0_2px_8px_rgba(0,0,0,0.5)] text-slate-300 hover:text-white'
+        }`}
+        title={item.fullLabel}
+      >
+        {/* Specular gloss highlight melengkung di atas tombol */}
+        <div
+          className={`absolute top-0.5 inset-x-2 rounded-full pointer-events-none ${
+            isSelected
+              ? 'h-2 bg-white/40 blur-[0.5px]'
+              : 'h-1.5 bg-white/20 blur-[0.5px]'
+          }`}
+        />
+
+        {/* Icon */}
+        <div
+          className={`mb-1 transition-transform group-hover:scale-105 [&>svg]:w-4 [&>svg]:h-4 ${
+            isSelected
+              ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
+              : 'text-cyan-300/80 group-hover:text-cyan-200'
+          }`}
+        >
+          {item.icon}
+        </div>
+
+        {/* Label */}
+        <span
+          className={`text-[10.5px] sm:text-[11px] leading-tight text-center px-0.5 ${
+            isSelected
+              ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'
+              : 'font-medium text-slate-300 group-hover:text-white'
+          }`}
+        >
+          {item.shortLabel}
+        </span>
+      </button>
+    )
+  }
+
   return (
     <div
       ref={popupRef}
@@ -135,7 +191,7 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
       {/* 1. Header Visual Grid Selector */}
       {showGridSelector && (
         <>
-          <div className="relative flex items-center justify-between pb-2.5 z-10">
+          <div className="relative flex items-center justify-between pb-2 z-10">
             <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
               Visual Grid Selector
             </span>
@@ -144,61 +200,40 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
             </span>
           </div>
 
-          {/* 2. Grid Visual Kotak 3x3 */}
-          <div className="relative grid grid-cols-3 gap-2 pb-3 mb-3 border-b border-cyan-500/25 z-10">
-            {items.slice(0, 9).map(item => {
-              const isSelected = item.id === selectedId
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => {
-                    onSelect(item.id)
-                    onClose()
-                  }}
-                  className={`relative flex flex-col items-center justify-center py-2.5 px-1 rounded-2xl text-center transition-all cursor-pointer active:scale-95 overflow-hidden group ${
-                    isSelected
-                      ? 'border-2 border-cyan-300 bg-gradient-to-b from-[#0e5fa8]/90 via-[#073f73]/90 to-[#022144]/95 shadow-[0_0_20px_rgba(6,182,212,0.85),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-2px_4px_rgba(0,0,0,0.7)]'
-                      : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-b from-[#06152e]/70 via-[#030d22]/80 to-[#020717]/90 hover:from-[#0b264e]/80 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.25),0_2px_8px_rgba(0,0,0,0.5)] text-slate-300 hover:text-white'
-                  }`}
-                  title={item.fullLabel}
-                >
-                  {/* Specular gloss highlight melengkung di atas tombol */}
-                  <div
-                    className={`absolute top-0.5 inset-x-2 rounded-full pointer-events-none ${
-                      isSelected
-                        ? 'h-2 bg-white/40 blur-[0.5px]'
-                        : 'h-1.5 bg-white/20 blur-[0.5px]'
-                    }`}
-                  />
+          {/* JIKA ADA DEFAULT SPECIAL ITEM (above-geotag): PISAHKAN JADI 2 BAGIAN DENGAN BENTUK KOTAK BOX IDENTIK */}
+          {hasSpecialItems ? (
+            <div className="relative z-10 space-y-2.5 pb-3 mb-3 border-b border-cyan-500/25">
+              {/* BAGIAN 1 (ATAS): KHUSUS UNTUK GEOTAG DEFAULT BERBENTUK KOTAK BOX */}
+              <div>
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+                  <span>1. Posisi Geotag:</span>
+                  <span className="text-cyan-400/80 font-normal text-[9px]">(Default)</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {specialGridItems.map(item => renderBoxButton(item))}
+                </div>
+              </div>
 
-                  {/* Icon */}
-                  <div
-                    className={`mb-1 transition-transform group-hover:scale-105 [&>svg]:w-4 [&>svg]:h-4 ${
-                      isSelected
-                        ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-                        : 'text-cyan-300/80 group-hover:text-cyan-200'
-                    }`}
-                  >
-                    {item.icon}
-                  </div>
-
-                  {/* Label */}
-                  <span
-                    className={`text-[11px] leading-tight truncate px-1 ${
-                      isSelected
-                        ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'
-                        : 'font-medium text-slate-300 group-hover:text-white'
-                    }`}
-                  >
-                    {item.shortLabel}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
+              {/* BAGIAN 2 (BAWAH): BOX SESUAI ARAHNYA (3 KOLOM X 2 BARIS) */}
+              <div>
+                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+                  <span>2. Box Sesuai Arah Layar:</span>
+                  <span className="text-slate-400 font-normal text-[9px]">(6 Titik)</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  {directionalGridItems.map(item => renderBoxButton(item))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* JIKA TIDAK ADA SPECIAL ITEM (Watermark 3x3 / Geotag 2x2): RENDER GRID BIASA */
+            <div className={`relative grid ${items.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'} gap-2 pb-3 mb-3 border-b border-cyan-500/25 z-10`}>
+              {items.slice(0, 9).map(item => renderBoxButton(item))}
+            </div>
+          )}
         </>
       )}
+
 
       {/* 3. Daftar Pilihan Vertikal Kapsul dengan Nomor Urut */}
       <div className="relative max-h-48 sm:max-h-56 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar z-10">

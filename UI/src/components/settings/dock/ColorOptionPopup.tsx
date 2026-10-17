@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { Check, Palette } from 'lucide-react'
+import { Check, Palette, Sliders } from 'lucide-react'
 import { HexColorPicker } from 'react-colorful'
 
 export interface ColorPresetItem {
@@ -43,6 +43,76 @@ export const normalizeToHex = (colorStr?: string): string => {
   return '#09090b'
 }
 
+// Helper untuk mengonversi string warna ke objek { r, g, b, a } (a: 0 - 1)
+export const parseColorToRgba = (colorStr?: string): { r: number; g: number; b: number; a: number } => {
+  if (!colorStr) return { r: 9, g: 9, b: 11, a: 0.78 }
+  const trimmed = colorStr.trim().toLowerCase()
+  if (trimmed === 'transparent') {
+    return { r: 0, g: 0, b: 0, a: 0 }
+  }
+  if (trimmed.startsWith('rgba')) {
+    const match = trimmed.match(/rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)/)
+    if (match) {
+      return {
+        r: Math.min(255, Math.max(0, parseInt(match[1], 10))),
+        g: Math.min(255, Math.max(0, parseInt(match[2], 10))),
+        b: Math.min(255, Math.max(0, parseInt(match[3], 10))),
+        a: Math.min(1, Math.max(0, parseFloat(match[4]))),
+      }
+    }
+  }
+  if (trimmed.startsWith('rgb')) {
+    const match = trimmed.match(/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/)
+    if (match) {
+      return {
+        r: Math.min(255, Math.max(0, parseInt(match[1], 10))),
+        g: Math.min(255, Math.max(0, parseInt(match[2], 10))),
+        b: Math.min(255, Math.max(0, parseInt(match[3], 10))),
+        a: 1,
+      }
+    }
+  }
+  if (trimmed.startsWith('#')) {
+    if (trimmed.length === 4) {
+      return {
+        r: parseInt(trimmed[1] + trimmed[1], 16),
+        g: parseInt(trimmed[2] + trimmed[2], 16),
+        b: parseInt(trimmed[3] + trimmed[3], 16),
+        a: 1,
+      }
+    }
+    if (trimmed.length === 7) {
+      return {
+        r: parseInt(trimmed.slice(1, 3), 16),
+        g: parseInt(trimmed.slice(3, 5), 16),
+        b: parseInt(trimmed.slice(5, 7), 16),
+        a: 1,
+      }
+    }
+    if (trimmed.length === 9) {
+      return {
+        r: parseInt(trimmed.slice(1, 3), 16),
+        g: parseInt(trimmed.slice(3, 5), 16),
+        b: parseInt(trimmed.slice(5, 7), 16),
+        a: Math.round((parseInt(trimmed.slice(7, 9), 16) / 255) * 100) / 100,
+      }
+    }
+  }
+  return { r: 9, g: 9, b: 11, a: 1 }
+}
+
+// Helper untuk menggabungkan hex (#rrggbb) dengan alpha (0 - 100)
+export const combineHexAndAlpha = (hex: string, alphaPercent: number): string => {
+  if (alphaPercent <= 0) return 'transparent'
+  const normalizedHex = normalizeToHex(hex)
+  if (alphaPercent >= 100) return normalizedHex
+  const r = parseInt(normalizedHex.slice(1, 3), 16)
+  const g = parseInt(normalizedHex.slice(3, 5), 16)
+  const b = parseInt(normalizedHex.slice(5, 7), 16)
+  const a = Number((alphaPercent / 100).toFixed(2))
+  return `rgba(${r}, ${g}, ${b}, ${a})`
+}
+
 export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   isOpen,
   onClose,
@@ -54,7 +124,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   const popupRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
   const [isDragging, setIsDragging] = useState(false)
-  const [activeDragPart, setActiveDragPart] = useState<'saturation' | 'hue' | null>(null)
+  const [activeDragPart, setActiveDragPart] = useState<'saturation' | 'hue' | 'alpha' | null>(null)
   const throttleTimerRef = useRef<number | null>(null)
   const lastEmittedColorRef = useRef<string>('')
 
@@ -66,11 +136,19 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
     return isCurrentPreset ? '#00e5ff' : normalizeToHex(selectedColor)
   })
 
+  // State transparansi lokal (0 - 100)
+  const [alphaPercent, setAlphaPercent] = useState<number>(() => {
+    const parsed = parseColorToRgba(selectedColor)
+    return Math.round(parsed.a * 100)
+  })
+
   // Sinkronisasi saat selectedColor berubah dari luar jika itu bukan preset
   // KRITIKAL: Jangan pernah timpa nilai lokal saat pengguna sedang aktif dragging (isDraggingRef.current === true)
   useEffect(() => {
     if (isDraggingRef.current) return
-    if (!isCurrentPreset && selectedColor) {
+    const parsed = parseColorToRgba(selectedColor)
+    setAlphaPercent(Math.round(parsed.a * 100))
+    if (!isCurrentPreset && selectedColor && selectedColor.toLowerCase() !== 'transparent') {
       const normalized = normalizeToHex(selectedColor)
       setCustomHex(prev => (prev.toLowerCase() === normalized.toLowerCase() ? prev : normalized))
     }
@@ -137,14 +215,15 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       setIsDragging(true)
     }
     setCustomHex(newHex)
+    const combined = combineHexAndAlpha(newHex, alphaPercent)
 
     // Throttling live preview ke parent setiap 80ms:
     // Menghasilkan live update visual di watermark kamera tanpa membebani main thread render cycle
     if (!throttleTimerRef.current) {
       throttleTimerRef.current = window.setTimeout(() => {
         throttleTimerRef.current = null
-        lastEmittedColorRef.current = newHex
-        onSelect(newHex)
+        lastEmittedColorRef.current = combined
+        onSelect(combined)
       }, 80)
     }
   }
@@ -159,12 +238,46 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       throttleTimerRef.current = null
     }
     setCustomHex(finalHex)
-    lastEmittedColorRef.current = finalHex
-    onSelect(finalHex) // Komit warna akhir secara pasti
+    const combined = combineHexAndAlpha(finalHex, alphaPercent)
+    lastEmittedColorRef.current = combined
+    onSelect(combined) // Komit warna akhir secara pasti
   }
 
-  // Opsi Kustom sedang aktif jika selectedColor tidak cocok dengan preset manapun, atau sama persis dengan customHex
-  const isCustomSelected = !isCurrentPreset || selectedColor.toLowerCase() === customHex.toLowerCase()
+  // Handler saat slider transparansi digeser
+  const handleAlphaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = Number(e.target.value)
+    setAlphaPercent(val)
+    const combined = combineHexAndAlpha(customHex, val)
+
+    if (!throttleTimerRef.current) {
+      throttleTimerRef.current = window.setTimeout(() => {
+        throttleTimerRef.current = null
+        lastEmittedColorRef.current = combined
+        onSelect(combined)
+      }, 80)
+    }
+  }
+
+  // Handler saat slider transparansi dilepas
+  const handleAlphaChangeEnd = () => {
+    isDraggingRef.current = false
+    setIsDragging(false)
+    setActiveDragPart(null)
+    if (throttleTimerRef.current) {
+      clearTimeout(throttleTimerRef.current)
+      throttleTimerRef.current = null
+    }
+    const combined = combineHexAndAlpha(customHex, alphaPercent)
+    lastEmittedColorRef.current = combined
+    onSelect(combined)
+  }
+
+  // Opsi Kustom sedang aktif jika selectedColor tidak cocok dengan preset manapun, atau sama persis dengan customHex / combined
+  const currentCombined = combineHexAndAlpha(customHex, alphaPercent).toLowerCase()
+  const isCustomSelected =
+    !isCurrentPreset ||
+    selectedColor.toLowerCase() === customHex.toLowerCase() ||
+    selectedColor.toLowerCase() === currentCombined
 
   return (
     <div
@@ -234,10 +347,10 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
           <div className="flex items-center gap-1.5">
             <div
               className="w-3.5 h-3.5 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
-              style={{ backgroundColor: customHex }}
+              style={{ backgroundColor: combineHexAndAlpha(customHex, alphaPercent) }}
             />
             <span className="font-mono text-cyan-200 font-bold">
-              {customHex.toUpperCase()}
+              {customHex.toUpperCase()}{alphaPercent < 100 ? ` (${alphaPercent}%)` : ''}
             </span>
           </div>
         </div>
@@ -249,6 +362,8 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
               ? 'is-dragging-hue drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
               : activeDragPart === 'saturation'
               ? 'is-dragging-saturation drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
+              : activeDragPart === 'alpha'
+              ? 'is-dragging-alpha'
               : isDragging
               ? 'drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
               : ''
@@ -415,12 +530,13 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
           <button
             type="button"
             onClick={() => {
-              onSelect(customHex)
+              const finalColor = combineHexAndAlpha(customHex, alphaPercent)
+              onSelect(finalColor)
               onClose()
             }}
             className={`relative w-full flex items-center justify-between px-3 py-2 rounded-2xl text-left transition-all cursor-pointer active:scale-[0.99] overflow-hidden group ${
               isCustomSelected
-                ? 'border-2 border-cyan-300 bg-gradient-to-r from-[#009fd9] via-[#007ebb] to-[#01649f] shadow-[0_0_24px_rgba(6,182,212,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-2px_4px_rgba(0,0,0,0.5)]'
+                ? 'border-2 border-cyan-300 bg-gradient-to-r from-[#009fd9] via-[#007ebb] to-[#01649f] shadow-[0_0_24px_rgba(6,182,212,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.85),inset_0_-2px_4px_rgba(0,0,0,0.5)]'
                 : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-r from-[#06152e]/70 via-[#030d22]/75 to-[#051733]/70 hover:from-[#092244]/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_2px_8px_rgba(0,0,0,0.6)] text-slate-300 hover:text-white'
             }`}
           >
@@ -446,7 +562,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
               {/* Swatch Lingkaran Warna Kustom */}
               <div
                 className="w-4 h-4 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
-                style={{ backgroundColor: customHex }}
+                style={{ backgroundColor: combineHexAndAlpha(customHex, alphaPercent) }}
               />
 
               <div className="flex items-center gap-1.5 min-w-0">
@@ -464,7 +580,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
                     isCustomSelected ? 'text-cyan-100/90 font-bold' : 'text-cyan-400/70'
                   }`}
                 >
-                  ({customHex.toUpperCase()})
+                  ({combineHexAndAlpha(customHex, alphaPercent).toUpperCase()})
                 </span>
               </div>
             </div>
@@ -485,6 +601,75 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
               )}
             </div>
           </button>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 3. BAGIAN PALING BAWAH: SLIDER TINGKAT TRANSPARANSI (OPASITAS WARNA)       */}
+      {/* ========================================================================= */}
+      <div
+        className={`relative z-10 pt-2.5 mt-2 border-t border-cyan-500/25 shrink-0 transition-opacity duration-150 ${
+          isDragging && activeDragPart !== 'alpha' ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
+        <div className="flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider mb-1.5 px-0.5">
+          <div className="flex items-center gap-1.5 text-cyan-300">
+            <Sliders className="w-3 h-3 text-cyan-400" />
+            <span>Tingkat Transparansi:</span>
+          </div>
+          <div className="px-2 py-0.5 rounded-full bg-[#030917]/90 border border-cyan-500/40 shadow-[0_0_8px_rgba(6,182,212,0.3)] flex items-center gap-1 text-[10px]">
+            <span className="text-cyan-300 font-bold">{alphaPercent}%</span>
+            <span className="text-slate-400 font-normal">
+              {alphaPercent === 0 ? '(Bening)' : alphaPercent === 100 ? '(Pekat)' : ''}
+            </span>
+          </div>
+        </div>
+
+        {/* Slider Bar Transparansi dengan Checkerboard Background */}
+        <div className="relative flex items-center w-full h-5">
+          {/* Latar Checkerboard Grid Transparan */}
+          <div
+            className="absolute inset-0 rounded-full border border-white/30 overflow-hidden shadow-[inset_0_1px_3px_rgba(0,0,0,0.6)]"
+            style={{
+              backgroundImage: 'repeating-conic-gradient(#334155 0% 25%, #0f172a 0% 50%) 50% / 8px 8px',
+            }}
+          >
+            {/* Lapisan Gradien dari Transparan ke Warna Hex Aktif */}
+            <div
+              className="w-full h-full"
+              style={{
+                background: `linear-gradient(to right, transparent, ${customHex})`,
+              }}
+            />
+          </div>
+
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={1}
+            value={alphaPercent}
+            onPointerDown={() => {
+              isDraggingRef.current = true
+              setIsDragging(true)
+              setActiveDragPart('alpha')
+            }}
+            onTouchStart={() => {
+              isDraggingRef.current = true
+              setIsDragging(true)
+              setActiveDragPart('alpha')
+            }}
+            onMouseDown={() => {
+              isDraggingRef.current = true
+              setIsDragging(true)
+              setActiveDragPart('alpha')
+            }}
+            onPointerUp={handleAlphaChangeEnd}
+            onTouchEnd={handleAlphaChangeEnd}
+            onMouseUp={handleAlphaChangeEnd}
+            onChange={handleAlphaChange}
+            className="hud-alpha-slider relative z-10 w-full h-5 bg-transparent appearance-none cursor-ew-resize focus:outline-none"
+          />
         </div>
       </div>
     </div>

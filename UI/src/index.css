@@ -230,3 +230,40 @@
   pointer-events: none !important;
 }
 
+.hud-color-picker.is-dragging-alpha {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Styling Slider Transparansi HUD */
+.hud-alpha-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #22d3ee;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.95), 0 0 3px #fff, inset 0 0 3px rgba(0, 0, 0, 0.6);
+  cursor: ew-resize;
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+.hud-alpha-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid #22d3ee;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.95), 0 0 3px #fff, inset 0 0 3px rgba(0, 0, 0, 0.6);
+  cursor: ew-resize;
+}
+
+.hud-alpha-slider:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 1), 0 0 5px #fff;
+}
+
+
