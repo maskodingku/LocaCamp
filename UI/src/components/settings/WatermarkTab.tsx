@@ -67,38 +67,38 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
       {/* SECTION 2: WATERMARK LOGO */}
       <div
-        className={`relative rounded-[22px] border border-cyan-400/35 transition-all duration-150 overflow-hidden mt-3.5 sm:mt-4 ${
+        className={`relative rounded-[22px] border border-white/20 transition-all duration-150 overflow-hidden mt-3.5 sm:mt-4 ${
           activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white'
+            : 'bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white'
         }`}
       >
         {/* 3D Glass Ambient Bubbles di Sudut Card */}
         <div
-          className="absolute -top-3 -right-3 w-20 h-20 rounded-full border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.25)] pointer-events-none"
+          className="absolute -top-3 -right-3 w-20 h-20 rounded-full border border-white/30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.4)] pointer-events-none"
           style={{
-            background: 'radial-gradient(circle at 35% 25%, rgba(56,189,248,0.22) 0%, rgba(6,182,212,0.08) 50%, transparent 100%)',
+            background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.25) 0%, rgba(56,189,248,0.12) 50%, transparent 100%)',
           }}
         />
         <div
-          className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-sky-400/25 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.65),0_0_15px_rgba(14,165,233,0.2)] pointer-events-none"
+          className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-white/25 shadow-[inset_0_2px_4px_rgba(255,255,255,0.85),0_4px_12px_rgba(0,0,0,0.4)] pointer-events-none"
           style={{
-            background: 'radial-gradient(circle at 35% 25%, rgba(34,211,238,0.18) 0%, transparent 100%)',
+            background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.2) 0%, rgba(34,211,238,0.1) 60%, transparent 100%)',
           }}
         />
 
         {/* Specular Glare Highlight Border Atas Kaca */}
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
 
         {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
-        <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
-        <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
+        <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_1px_3px_rgba(0,0,0,0.5)] z-20" />
+        <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_1px_3px_rgba(0,0,0,0.5)] z-20" />
 
         {/* Header Section Watermark Logo */}
         <div
-          className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/40 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
+          className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/60 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
@@ -108,19 +108,19 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               size="md"
               variant="cyan"
             />
-            <div className="h-4.5 w-[1.5px] bg-cyan-400/40 shrink-0" />
+            <div className="h-4.5 w-[1.5px] bg-white/30 shrink-0" />
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="text-slate-200 text-[13.5px] sm:text-sm font-medium tracking-wide">
+              <span className="text-slate-100 text-[13.5px] sm:text-sm font-semibold tracking-wide">
                 Watermark
               </span>
-              <span className="text-white text-[13.5px] sm:text-sm font-extrabold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              <span className="text-white text-[13.5px] sm:text-sm font-black tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                 Logo
               </span>
             </div>
           </div>
 
           {watermark.imageUrl && (
-            <span className="px-2.5 py-0.5 rounded-full bg-[#030917]/90 border border-cyan-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.4)] text-[10.5px] font-mono font-bold text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] shrink-0">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#020e1f] border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] text-[10.5px] font-mono font-black text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] shrink-0">
               TERPASANG
             </span>
           )}
@@ -135,7 +135,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                 <CyberGlassOrb icon={Upload} size="xs" variant="cyan" />
                 <span>Logo Watermark</span>
               </label>
@@ -143,11 +143,11 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('watermark_position')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                   <span>Preview</span>
                 </button>
               )}
@@ -155,9 +155,9 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
             {watermark.imageUrl ? (
               /* Card Saat Logo Sudah Terpasang */
-              <div className="p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25 flex items-center justify-between gap-3 shadow-inner">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/70 backdrop-blur-md border border-white/20 flex items-center justify-between gap-3 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-12 rounded-xl bg-[#020717]/50 border border-cyan-400/40 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.25)]">
+                  <div className="w-12 h-12 rounded-xl bg-[#020717]/80 border border-white/30 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                     <img
                       src={watermark.imageUrl}
                       alt="Logo Aktif"
@@ -166,14 +166,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-bold text-white truncate">Logo Terpasang</p>
-                    <p className="text-[11px] text-slate-400 truncate">Siap dicetak pada hasil foto</p>
+                    <p className="text-[11px] text-slate-200 font-medium truncate">Siap dicetak pada hasil foto</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <label className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-cyan-400/60 bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 text-xs font-bold text-cyan-200 hover:text-white cursor-pointer transition-all active:scale-95 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1px_rgba(255,255,255,0.6)] relative overflow-hidden">
-                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/60 pointer-events-none" />
-                    <RefreshCw className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                  <label className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-white/35 bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 text-xs font-bold text-white hover:border-white/60 cursor-pointer transition-all active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] relative overflow-hidden">
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                    <RefreshCw className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                     <span>Ganti</span>
                     <input
                       type="file"
@@ -185,25 +185,25 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   <button
                     type="button"
                     onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-                    className="w-8.5 h-8.5 rounded-full bg-gradient-to-b from-[#3d0818]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_0_14px_rgba(244,63,94,0.7),inset_0_1px_1.5px_rgba(255,255,255,0.7)] flex items-center justify-center cursor-pointer active:scale-90 transition-all text-rose-300 hover:text-white relative overflow-hidden"
+                    className="w-8.5 h-8.5 rounded-full bg-gradient-to-b from-[#3d0818]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] flex items-center justify-center cursor-pointer active:scale-90 transition-all text-white relative overflow-hidden"
                     title="Hapus Logo"
                   >
                     <div className="absolute top-0.5 inset-x-1.5 h-1.5 rounded-full bg-white/40 blur-[0.5px] pointer-events-none" />
-                    <Trash2 className="w-4 h-4 drop-shadow-[0_0_6px_rgba(244,63,94,0.9)]" />
+                    <Trash2 className="w-4 h-4 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                   </button>
                 </div>
               </div>
             ) : (
               /* Dropzone Saat Belum Ada Logo */
-              <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-cyan-400/40 hover:border-cyan-300 bg-[#020b18]/40 hover:bg-[#03152e]/50 backdrop-blur-md cursor-pointer transition-all group shadow-inner">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_14px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8)] flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
-                  <Upload className="w-5 h-5 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+              <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-white/30 hover:border-white/60 bg-[#020b18]/50 hover:bg-[#03152e]/60 backdrop-blur-md cursor-pointer transition-all group shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-white/50 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform">
+                  <Upload className="w-5 h-5 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                 </div>
                 <div className="text-center">
-                  <span className="text-xs font-bold text-slate-200 block group-hover:text-cyan-300 transition-colors">
+                  <span className="text-xs font-bold text-white block group-hover:text-cyan-200 transition-colors">
                     Pilih Logo (PNG / JPG / SVG)
                   </span>
-                  <span className="text-[11px] text-slate-400 mt-0.5 block">
+                  <span className="text-[11px] text-slate-200 font-medium mt-0.5 block">
                     Disarankan format PNG transparan agar rapi pada foto
                   </span>
                 </div>
@@ -225,7 +225,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               }`}
             >
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
                   <CyberGlassOrb icon={Sparkles} size="xs" variant="cyan" />
                   <span>Posisi Watermark di Foto</span>
                 </label>
@@ -233,16 +233,16 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   <button
                     type="button"
                     onClick={() => onTriggerPreview?.('watermark_position')}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
-                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
-                    <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                    <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                     <span>Preview</span>
                   </button>
                 )}
               </div>
-              <div className="grid grid-cols-3 gap-1.5 p-3 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-cyan-500/25">
+              <div className="grid grid-cols-3 gap-1.5 p-3 bg-[#020b18]/70 backdrop-blur-md rounded-2xl border border-white/20 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
                 {WATERMARK_GRID_POSITIONS.map(pos => {
                   const active = watermark.position === pos.id
                   return (
@@ -252,13 +252,13 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                       onClick={() =>
                         onChangeWatermark({ ...watermark, position: pos.id })
                       }
-                      className={`py-2 px-1 rounded-xl text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate relative overflow-hidden border ${
+                      className={`py-2 px-1 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1 truncate relative overflow-hidden border ${
                         active
-                          ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
-                          : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                          ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
+                          : 'bg-[#020717]/60 text-slate-200 hover:text-white border-white/10 hover:border-white/30'
                       }`}
                     >
-                      <span className={`font-bold shrink-0 ${active ? 'text-[#020b18]' : 'text-cyan-400'}`}>
+                      <span className={`font-black shrink-0 ${active ? 'text-black' : 'text-cyan-300'}`}>
                         {pos.icon}
                       </span>
                       <span className="truncate">{pos.label}</span>
@@ -276,7 +276,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               <div
                 className={`transition-all duration-150 ${
                   activeSlider === 'watermark_size'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)] relative z-50'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
                     : activeSlider !== null
                     ? 'hidden'
                     : ''
@@ -285,13 +285,13 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span
-                      className={`text-xs font-semibold uppercase tracking-wider ${
-                        activeSlider === 'watermark_size' ? 'text-white font-bold' : 'text-slate-300'
+                      className={`text-xs uppercase tracking-wider ${
+                        activeSlider === 'watermark_size' ? 'text-white font-black' : 'text-white font-bold'
                       }`}
                     >
                       Ukuran Watermark
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#030917]/90 text-cyan-300 border border-cyan-400/50 shadow-[0_0_8px_rgba(6,182,212,0.4)] shrink-0">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0">
                       {watermark.sizePercent}% lebar
                     </span>
                   </div>
@@ -299,19 +299,19 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     <button
                       type="button"
                       onClick={() => onTriggerPreview?.('watermark_size')}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
                       title="Lihat Pratinjau Langsung di Kamera"
                     >
-                      <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
-                      <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                      <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                      <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                       <span>Preview</span>
                     </button>
                   )}
                 </div>
 
                 {/* Slider Capsule Track */}
-                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_2px_rgba(255,255,255,0.7),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_4px_#fff] pointer-events-none" />
+                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
+                  <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
                   <div className="flex-1 min-w-0 flex items-center">
                     <input
                       type="range"
@@ -333,7 +333,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                       className="hud-slider cursor-pointer w-full"
                     />
                   </div>
-                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.9)]">
+                  <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                     {watermark.sizePercent}%
                   </span>
                 </div>
@@ -343,7 +343,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               <div
                 className={`transition-all duration-150 ${
                   activeSlider === 'watermark_opacity'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)] relative z-50'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
                     : activeSlider !== null
                     ? 'hidden'
                     : ''
@@ -352,13 +352,13 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 min-w-0">
                     <span
-                      className={`text-xs font-semibold uppercase tracking-wider ${
-                        activeSlider === 'watermark_opacity' ? 'text-white font-bold' : 'text-slate-300'
+                      className={`text-xs uppercase tracking-wider ${
+                        activeSlider === 'watermark_opacity' ? 'text-white font-black' : 'text-white font-bold'
                       }`}
                     >
                       Transparansi (Opacity)
                     </span>
-                    <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#030917]/90 text-cyan-300 border border-cyan-400/50 shadow-[0_0_8px_rgba(6,182,212,0.4)] shrink-0">
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0">
                       {Math.round(watermark.opacity * 100)}%
                     </span>
                   </div>
@@ -366,19 +366,19 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     <button
                       type="button"
                       onClick={() => onTriggerPreview?.('watermark_opacity')}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
                       title="Lihat Pratinjau Langsung di Kamera"
                     >
-                      <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
-                      <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                      <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                      <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
                       <span>Preview</span>
                     </button>
                   )}
                 </div>
 
                 {/* Slider Capsule Track */}
-                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_2px_rgba(255,255,255,0.7),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_4px_#fff] pointer-events-none" />
+                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
+                  <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
                   <div className="flex-1 min-w-0 flex items-center">
                     <input
                       type="range"
@@ -401,7 +401,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                       className="hud-slider cursor-pointer w-full"
                     />
                   </div>
-                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.9)]">
+                  <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
                     {Math.round(watermark.opacity * 100)}%
                   </span>
                 </div>
