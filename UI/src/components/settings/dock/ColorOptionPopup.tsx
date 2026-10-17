@@ -353,7 +353,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
                 type="button"
                 onClick={() => {
                   setIsSmartPickerOpen(true)
-                  setSmartPickerPart('all')
+                  setSmartPickerPart('saturation')
                 }}
                 className="px-2 py-0.5 rounded-full border border-cyan-400/60 bg-cyan-950/70 hover:bg-cyan-800 text-cyan-300 hover:text-white text-[9px] font-mono transition-all flex items-center gap-1 shadow-[0_0_8px_rgba(6,182,212,0.3)] active:scale-95"
                 title="Buka Pick Warna di Area Bebas Target"
@@ -376,23 +376,38 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
           {/* Modul react-colorful dengan class .hud-color-picker */}
           <div
             className="hud-color-picker w-full"
-            onPointerDown={() => {
+            onPointerDown={(e) => {
               isDraggingRef.current = true
               setIsDragging(true)
               setIsSmartPickerOpen(true)
-              setSmartPickerPart('all')
+              const target = e.target as HTMLElement
+              if (target?.closest?.('.react-colorful__hue')) {
+                setSmartPickerPart('hue')
+              } else {
+                setSmartPickerPart('saturation')
+              }
             }}
-            onTouchStart={() => {
+            onTouchStart={(e) => {
               isDraggingRef.current = true
               setIsDragging(true)
               setIsSmartPickerOpen(true)
-              setSmartPickerPart('all')
+              const target = e.target as HTMLElement
+              if (target?.closest?.('.react-colorful__hue')) {
+                setSmartPickerPart('hue')
+              } else {
+                setSmartPickerPart('saturation')
+              }
             }}
-            onMouseDown={() => {
+            onMouseDown={(e) => {
               isDraggingRef.current = true
               setIsDragging(true)
               setIsSmartPickerOpen(true)
-              setSmartPickerPart('all')
+              const target = e.target as HTMLElement
+              if (target?.closest?.('.react-colorful__hue')) {
+                setSmartPickerPart('hue')
+              } else {
+                setSmartPickerPart('saturation')
+              }
             }}
           >
             <HexColorPicker
