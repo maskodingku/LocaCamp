@@ -66,6 +66,7 @@ export default function App() {
 
   // UI Flow States (Modal, Drawer, Review, History, Quick Presets)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [isLivePreviewOpen, setIsLivePreviewOpen] = useState(false)
   const [isHistoryOpen, setIsHistoryOpen] = useState(false)
   const [isPresetBarOpen, setIsPresetBarOpen] = useState(false)
   const [historyCount, setHistoryCount] = useState(0)
@@ -303,6 +304,7 @@ export default function App() {
             isPresetBarOpen={isPresetBarOpen}
             onTogglePresetBar={() => setIsPresetBarOpen(prev => !prev)}
             onClosePresetBar={() => setIsPresetBarOpen(false)}
+            isLivePreviewOpen={isLivePreviewOpen}
           />
         </div>
 
@@ -357,6 +359,7 @@ export default function App() {
         sensorInfo={camera.sensorInfo}
         onResetSettings={handleResetSettings}
         drive={drive}
+        onPreviewModeChange={setIsLivePreviewOpen}
       />
 
       {/* Capture Review & Download Modal */}

@@ -10,6 +10,7 @@ import type {
 import { formatTimeWithTimezone } from './timezone'
 import { getCameraFilterString } from './cameraFilters'
 import { generateMiniMapCanvas } from './miniMapGenerator'
+import { getFontFamilyStyle } from '../components/settings/watermark/ProfileSection'
 
 export interface CompositeOptions {
   video: HTMLVideoElement
@@ -439,9 +440,9 @@ async function drawProfileBadge(
       ? '500'
       : '400'
 
-  const fontFamily = profile.fontFamily || 'Inter'
+  const fontStyle = getFontFamilyStyle(profile.fontFamily)
   ctx.save()
-  ctx.font = `${fontWeight} ${fontSize}px "${fontFamily}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+  ctx.font = `${fontWeight} ${fontSize}px ${fontStyle}`
 
   const textMetrics = ctx.measureText(text)
   const textWidth = textMetrics.width
@@ -512,7 +513,7 @@ async function drawProfileBadge(
   ctx.fill()
 
   // Gambar Teks
-  ctx.font = `${fontWeight} ${fontSize}px "${fontFamily}", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+  ctx.font = `${fontWeight} ${fontSize}px ${fontStyle}`
   ctx.fillStyle = '#ffffff'
   ctx.textBaseline = 'middle'
   ctx.fillText(text, x + padX + iconSpacing, y + badgeHeight / 2)

@@ -48,6 +48,7 @@ interface CameraViewportProps {
   isPresetBarOpen?: boolean
   onTogglePresetBar?: () => void
   onClosePresetBar?: () => void
+  isLivePreviewOpen?: boolean
 }
 
 export const CameraViewport: React.FC<CameraViewportProps> = ({
@@ -73,6 +74,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
   isPresetBarOpen = false,
   onTogglePresetBar,
   onClosePresetBar,
+  isLivePreviewOpen = false,
 }) => {
   const { canInstall, installApp } = usePWAInstall()
 
@@ -180,7 +182,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       <div
         onClick={e => e.stopPropagation()}
         className={`absolute top-0 inset-x-0 p-4 pt-6 md:p-5 flex items-center justify-between z-20 bg-transparent transition-all duration-300 ease-in-out ${
-          isTopBarVisible
+          isTopBarVisible && !isLivePreviewOpen
             ? 'opacity-100 translate-y-0 pointer-events-auto'
             : 'opacity-0 -translate-y-8 pointer-events-none'
         }`}
@@ -296,16 +298,18 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
             profile={profile}
             onRefresh={onRefreshLocation}
             isLandscape={isLandscape}
+            forceShowProfile={isLivePreviewOpen}
           />
           {/* Jika posisi profil dipilih selain Di Atas Geotag */}
           {profile &&
-            profile.enabled &&
+            (profile.enabled || isLivePreviewOpen) &&
             profile.position &&
             profile.position !== 'above-geotag' && (
               <ProfileBadge
                 profile={profile}
                 isLandscape={isLandscape}
                 standalonePosition={true}
+                forceShow={isLivePreviewOpen}
               />
             )}
         </>

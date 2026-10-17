@@ -41,6 +41,7 @@ interface SettingsDrawerProps {
   sensorInfo?: SensorCapabilitiesInfo | null
   onResetSettings?: () => void
   drive: ReturnType<typeof useGoogleDrive>
+  onPreviewModeChange?: (isActive: boolean) => void
 }
 
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
@@ -59,17 +60,24 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   sensorInfo,
   onResetSettings,
   drive,
+  onPreviewModeChange,
 }) => {
   const [activeTab, setActiveTab] = useState<'watermark' | 'geotag' | 'camera' | 'drive' | 'about'>('watermark')
   const [activeSlider, setActiveSlider] = useState<string | null>(null)
   const [activePreviewInput, setActivePreviewInput] = useState<string | null>(null)
 
+  // Notifikasi perubahan mode preview ke parent (App.tsx)
+  useEffect(() => {
+    onPreviewModeChange?.(Boolean(activePreviewInput))
+  }, [activePreviewInput, onPreviewModeChange])
+
   // Reset mode preview jika modal pengaturan ditutup
   useEffect(() => {
     if (!isOpen) {
       setActivePreviewInput(null)
+      onPreviewModeChange?.(false)
     }
-  }, [isOpen])
+  }, [isOpen, onPreviewModeChange])
 
   // Listener tombol Escape keyboard untuk menutup mode preview
   useEffect(() => {

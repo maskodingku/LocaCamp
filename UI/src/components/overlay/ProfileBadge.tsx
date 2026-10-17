@@ -1,12 +1,14 @@
 import React from 'react'
 import { User } from 'lucide-react'
 import type { ProfileConfig } from '../../types/camera'
+import { getFontFamilyStyle } from '../settings/watermark/ProfileSection'
 
 interface ProfileBadgeProps {
   profile: ProfileConfig
   isLandscape?: boolean
   className?: string
   standalonePosition?: boolean
+  forceShow?: boolean
 }
 
 export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
@@ -14,8 +16,9 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
   isLandscape = false,
   className = '',
   standalonePosition = false,
+  forceShow = false,
 }) => {
-  if (!profile.enabled) {
+  if (!profile.enabled && !forceShow) {
     return null
   }
 
@@ -50,7 +53,7 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
   return (
     <div
       style={{
-        fontFamily: profile.fontFamily || 'Inter, sans-serif',
+        fontFamily: getFontFamilyStyle(profile.fontFamily),
         fontWeight: fontWeightValue,
         fontSize: `${effectiveFontSize}px`,
       }}

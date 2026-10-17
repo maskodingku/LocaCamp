@@ -21,6 +21,13 @@ export const FONT_OPTIONS = [
   { id: 'Georgia', label: 'Georgia (Serif)', fontStyle: 'Georgia, serif' },
 ]
 
+export const getFontFamilyStyle = (fontId?: string): string => {
+  const found = FONT_OPTIONS.find(f => f.id === fontId)
+  if (found) return found.fontStyle
+  if (fontId) return `"${fontId}", sans-serif`
+  return 'Inter, sans-serif'
+}
+
 const FONT_WEIGHTS: { id: ProfileFontWeight; label: string; weight: number }[] = [
   { id: 'normal', label: 'Normal', weight: 400 },
   { id: 'medium', label: 'Sedang', weight: 500 },

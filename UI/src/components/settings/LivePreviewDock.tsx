@@ -223,7 +223,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             selectedId={profile.position || 'above-geotag'}
-            onSelect={id => onChangeProfile({ ...profile, position: id as ProfilePosition })}
+            onSelect={id => onChangeProfile({ ...profile, position: id as ProfilePosition, enabled: true })}
             theme="cyan"
             items={PROFILE_GRID_ITEMS}
             showGridSelector={true}
@@ -247,7 +247,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             selectedId={profile.fontFamily}
-            onSelect={id => onChangeProfile({ ...profile, fontFamily: id })}
+            onSelect={id => onChangeProfile({ ...profile, fontFamily: id, enabled: true })}
             title="PILIH JENIS FONT PROFIL"
             theme="cyan"
             items={FONT_OPTIONS.map(f => ({
@@ -263,7 +263,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             selectedId={profile.fontWeight || 'medium'}
-            onSelect={id => onChangeProfile({ ...profile, fontWeight: id as ProfileFontWeight })}
+            onSelect={id => onChangeProfile({ ...profile, fontWeight: id as ProfileFontWeight, enabled: true })}
             title="PILIH KETEBALAN TEKS"
             theme="cyan"
             items={PROFILE_WEIGHTS_OPTIONS}
@@ -283,18 +283,16 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
         )}
 
         {/* ========================================================================= */}
-        {/* AMBIENT GLOSSY GLASS BUBBLE ORBS (LATAR BELAKANG BOLA KACA SINEMATIK MINI)*/}
-        {/* ========================================================================= */}
-        <div className="absolute -top-5 -left-5 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400/25 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_20px_rgba(6,182,212,0.35)] pointer-events-none" />
-        <div className="absolute -top-8 -right-6 w-20 h-20 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.65),0_0_25px_rgba(14,165,233,0.3)] pointer-events-none" />
-        <div className="absolute -bottom-5 -left-4 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_3px_rgba(255,255,255,0.6),0_0_15px_rgba(6,182,212,0.25)] pointer-events-none" />
-        <div className="absolute -bottom-6 -right-5 w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/25 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_22px_rgba(59,130,246,0.35)] pointer-events-none" />
-
-        {/* ========================================================================= */}
         {/* LEMPENGAN UTAMA: BLACK GLASS HUD MINI WITH NEON CYAN RIM LIGHTING */}
         {/* ========================================================================= */}
         <div className="relative rounded-[22px] p-2 sm:p-2.5 bg-[#020717]/85 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_30px_rgba(6,182,212,0.35),0_15px_40px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in slide-in-from-bottom-2 duration-200 overflow-hidden">
           
+          {/* AMBIENT GLOSSY GLASS BUBBLE ORBS (TERISOLASI DI DALAM DOCK AGAR TIDAK MELUAP KE KAMERA) */}
+          <div className="absolute -top-3 -left-3 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.3)] pointer-events-none" />
+          <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.65),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none" />
+          <div className="absolute -bottom-4 -left-3 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_3px_rgba(255,255,255,0.6),0_0_12px_rgba(6,182,212,0.2)] pointer-events-none" />
+          <div className="absolute -bottom-4 -right-3 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_18px_rgba(59,130,246,0.3)] pointer-events-none" />
+
           {/* Specular Glare Highlight Border Atas Kaca */}
           <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
           
@@ -554,7 +552,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                       min={10}
                       max={22}
                       value={profile.fontSize || 13}
-                      onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
+                      onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value), enabled: true })}
                       className="hud-slider cursor-pointer"
                     />
                   </div>
@@ -571,7 +569,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   <input
                     type="text"
                     value={profile.jobTitle}
-                    onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
+                    onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value, enabled: true })}
                     placeholder="Ketik Jabatan..."
                     className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                   />
@@ -585,7 +583,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   <input
                     type="text"
                     value={profile.name}
-                    onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
+                    onChange={e => onChangeProfile({ ...profile, name: e.target.value, enabled: true })}
                     placeholder="Ketik Nama Lengkap..."
                     className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                   />

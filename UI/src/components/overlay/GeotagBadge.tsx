@@ -11,6 +11,7 @@ interface GeotagBadgeProps {
   profile?: ProfileConfig
   onRefresh?: () => void
   isLandscape?: boolean
+  forceShowProfile?: boolean
 }
 
 export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
@@ -19,6 +20,7 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
   profile,
   onRefresh,
   isLandscape = false,
+  forceShowProfile = false,
 }) => {
   const [mapUrl, setMapUrl] = React.useState<string | null>(null)
 
@@ -153,7 +155,7 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
 
   const showProfileAbove = Boolean(
     profile &&
-      profile.enabled &&
+      (profile.enabled || forceShowProfile) &&
       (profile.position === 'above-geotag' || !profile.position)
   )
 
@@ -178,6 +180,7 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
           profile={profile}
           isLandscape={isLandscape}
           className={config.position.includes('right') ? 'self-end' : 'self-start'}
+          forceShow={forceShowProfile}
         />
       )}
 
