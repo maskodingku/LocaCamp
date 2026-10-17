@@ -162,13 +162,6 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           }
           onClick={e => e.stopPropagation()}
         >
-          {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Halus Kristal Optik) */}
-          <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
-
-          {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Halus) */}
-          <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-          <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-
           {/* Header Bar */}
           <div
             className={`items-center justify-between px-3 sm:px-6 pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-4 pb-2.5 shrink-0 transition-opacity duration-150 relative z-20 ${

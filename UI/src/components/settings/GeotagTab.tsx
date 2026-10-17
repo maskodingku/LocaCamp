@@ -61,27 +61,6 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
       {/* CARD HUD CYBER GLASS GEOTAG */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white overflow-hidden">
         
-        {/* 3D Glass Ambient Bubbles di Sudut Card */}
-        <div
-          className="absolute -top-3 -right-3 w-20 h-20 rounded-full border border-white/30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.4)] pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.25) 0%, rgba(56,189,248,0.12) 50%, transparent 100%)',
-          }}
-        />
-        <div
-          className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-white/25 shadow-[inset_0_2px_4px_rgba(255,255,255,0.85),0_4px_12px_rgba(0,0,0,0.4)] pointer-events-none"
-          style={{
-            background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.2) 0%, rgba(34,211,238,0.1) 60%, transparent 100%)',
-          }}
-        />
-
-        {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Halus Kristal Optik) */}
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
-
-        {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
-        <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-        <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-
         {/* Header Section Geotag */}
         <div className="w-full flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/90 rounded-t-[21px] relative z-10">
           <div className="flex items-center gap-2.5 min-w-0">

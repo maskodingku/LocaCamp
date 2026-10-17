@@ -99,27 +99,6 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           : 'bg-[#03152e]/90 shadow-[0_20px_45px_rgba(0,0,0,0.65),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)] text-white'
       }`}
     >
-      {/* 3D Glass Ambient Bubbles di Sudut Card */}
-      <div
-        className="absolute -top-3 -right-3 w-20 h-20 rounded-full border border-white/30 blur-[0.3px] shadow-[inset_0_2px_3.5px_rgba(255,255,255,0.85)] pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.2) 0%, rgba(56,189,248,0.08) 50%, transparent 100%)',
-        }}
-      />
-      <div
-        className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-white/25 blur-[0.3px] shadow-[inset_0_2px_3.5px_rgba(255,255,255,0.8)] pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 35% 25%, rgba(255,255,255,0.18) 0%, transparent 100%)',
-        }}
-      />
-
-      {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Halus Kristal Optik) */}
-      <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
-
-      {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Halus) */}
-      <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-      <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-
       {/* Header Section dengan Switch On/Off */}
       <div
         className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/90 rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
