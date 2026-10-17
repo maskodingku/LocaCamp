@@ -72,7 +72,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white'
+            : 'bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white'
         }`}
       >
         {/* 3D Glass Ambient Bubbles di Sudut Card */}
@@ -98,7 +98,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
         {/* Header Section Watermark Logo */}
         <div
-          className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/60 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
+          className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/90 rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
@@ -155,7 +155,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
             {watermark.imageUrl ? (
               /* Card Saat Logo Sudah Terpasang */
-              <div className="p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/70 backdrop-blur-md border border-white/20 flex items-center justify-between gap-3 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/85 border border-white/20 flex items-center justify-between gap-3 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-12 h-12 rounded-xl bg-[#020717]/80 border border-white/30 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
                     <img
@@ -195,7 +195,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               </div>
             ) : (
               /* Dropzone Saat Belum Ada Logo */
-              <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-white/30 hover:border-white/60 bg-[#020b18]/50 hover:bg-[#03152e]/60 backdrop-blur-md cursor-pointer transition-all group shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
+              <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-white/30 hover:border-white/60 bg-[#020b18]/75 hover:bg-[#03152e]/85 cursor-pointer transition-all group shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-white/50 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform">
                   <Upload className="w-5 h-5 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]" />
                 </div>
@@ -242,7 +242,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   </button>
                 )}
               </div>
-              <div className="grid grid-cols-3 gap-1.5 p-3 bg-[#020b18]/70 backdrop-blur-md rounded-2xl border border-white/20 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
+              <div className="grid grid-cols-3 gap-1.5 p-3 bg-[#020b18]/85 rounded-2xl border border-white/20 shadow-[0_4px_14px_rgba(0,0,0,0.5)]">
                 {WATERMARK_GRID_POSITIONS.map(pos => {
                   const active = watermark.position === pos.id
                   return (
@@ -276,7 +276,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               <div
                 className={`transition-all duration-150 ${
                   activeSlider === 'watermark_size'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
                     : activeSlider !== null
                     ? 'hidden'
                     : ''
@@ -343,7 +343,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               <div
                 className={`transition-all duration-150 ${
                   activeSlider === 'watermark_opacity'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
                     : activeSlider !== null
                     ? 'hidden'
                     : ''

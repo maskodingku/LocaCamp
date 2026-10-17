@@ -246,11 +246,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
           {/* Inner Content Viewport Area */}
           <div
-            className={`relative flex-1 mx-0 sm:mx-4 mb-1 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150 z-10`}
+            className="relative flex-1 mx-0 sm:mx-4 mb-1 sm:mb-3 overflow-hidden flex flex-col z-10"
           >
             {/* Scrollable Tab Content Container */}
             <div
-              className={`relative z-10 flex-1 overflow-y-auto px-1 sm:px-4 py-2.5 sm:py-3 space-y-3.5 sm:space-y-4 no-scrollbar transition-all duration-150 ${
+              className={`relative z-10 flex-1 overflow-y-auto px-1 sm:px-4 py-2.5 sm:py-3 space-y-3.5 sm:space-y-4 no-scrollbar overscroll-contain [transform:translateZ(0)] [contain:content] [-webkit-overflow-scrolling:touch] ${
                 activeSlider ? 'p-0 overflow-visible' : ''
               }`}
             >

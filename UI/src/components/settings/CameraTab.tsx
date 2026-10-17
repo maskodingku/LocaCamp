@@ -122,7 +122,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
     <div className="space-y-4 animate-in fade-in duration-200">
       {/* 1. Sensor Hardware Detection Card */}
       <div
-        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -170,7 +170,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 2. Efek Visual & Filter Warna */}
       <div
-        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -252,7 +252,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         <div
           className={`space-y-1 transition-all duration-150 ${
             activeSlider === 'camera_brightness'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
               : activeSlider !== null
               ? 'opacity-0 pointer-events-none'
               : ''
@@ -301,7 +301,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         <div
           className={`space-y-1 transition-all duration-150 ${
             activeSlider === 'camera_contrast'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
               : activeSlider !== null
               ? 'opacity-0 pointer-events-none'
               : ''
@@ -350,7 +350,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         <div
           className={`space-y-1 transition-all duration-150 ${
             activeSlider === 'camera_saturation'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
               : activeSlider !== null
               ? 'opacity-0 pointer-events-none'
               : ''
@@ -398,7 +398,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 4. Target Resolusi Sensor */}
       <div
-        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -467,7 +467,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 5. Kompresi JPEG & Denoise */}
       <div
-        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 space-y-4 ${
+        className={`relative rounded-[22px] border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 space-y-4 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >

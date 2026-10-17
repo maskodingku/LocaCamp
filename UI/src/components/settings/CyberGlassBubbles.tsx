@@ -7,7 +7,7 @@ import React from 'react'
  */
 export const CyberGlassBubbles: React.FC = () => {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden z-0 select-none">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden z-0 select-none [transform:translateZ(0)] will-change-transform">
       {/* 1. Bola Kaca 3D Utama - Kiri Atas */}
       <div
         className="absolute top-8 left-4 w-28 h-28 rounded-full border border-white/40 shadow-[0_12px_28px_rgba(0,0,0,0.5),inset_0_2.5px_4px_rgba(255,255,255,0.9),inset_0_-1.5px_3px_rgba(0,0,0,0.5)]"

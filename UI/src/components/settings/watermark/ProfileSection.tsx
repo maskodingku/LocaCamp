@@ -95,7 +95,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
           : activeSlider
           ? 'hidden'
-          : 'bg-[#03152e]/35 backdrop-blur-xl shadow-[0_20px_45px_rgba(0,0,0,0.65),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)] text-white'
+          : 'bg-[#03152e]/90 shadow-[0_20px_45px_rgba(0,0,0,0.65),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)] text-white'
       }`}
     >
       {/* 3D Glass Ambient Bubbles di Sudut Card */}
@@ -121,7 +121,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
       {/* Header Section dengan Switch On/Off */}
       <div
-        className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/45 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
+        className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-white/15 bg-[#020b18]/90 rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
           activeSlider ? 'hidden' : 'flex'
         }`}
       >
@@ -322,7 +322,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               )}
             </div>
 
-            <div className="space-y-2 p-3 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-white/15">
+            <div className="space-y-2 p-3 bg-[#020b18]/85 rounded-2xl border border-white/15">
               {/* Opsi Utama: Di Atas Geotag */}
               <button
                 type="button"
@@ -402,7 +402,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020b18]/45 backdrop-blur-md rounded-full border border-white/15">
+            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020b18]/85 rounded-full border border-white/15">
               {FONT_WEIGHTS.map(fw => {
                 const active = (profile.fontWeight || 'medium') === fw.id
                 return (
@@ -430,7 +430,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Garis Tepi (Border Profil) */}
           <div
-            className={`p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/45 backdrop-blur-md border border-white/15 flex items-center justify-between gap-3 transition-opacity duration-150 ${
+            className={`p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/85 border border-white/15 flex items-center justify-between gap-3 transition-opacity duration-150 ${
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
@@ -511,7 +511,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2.5 sm:p-3 bg-[#020b18]/70 backdrop-blur-md rounded-2xl border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.25)]">
+            <div className="p-2.5 sm:p-3 bg-[#020b18]/85 rounded-2xl border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.25)]">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_BG_PRESETS.map(preset => {
                   const active = currentBg === preset.id
@@ -614,7 +614,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2.5 sm:p-3 bg-[#020b18]/70 backdrop-blur-md rounded-2xl border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.25)]">
+            <div className="p-2.5 sm:p-3 bg-[#020b18]/85 rounded-2xl border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.25)]">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_TEXT_PRESETS.map(preset => {
                   const active = currentText === preset.id
@@ -696,7 +696,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div
             className={`transition-all duration-150 ${
               activeSlider === 'profile_size'
-                ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
+                ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
                 : activeSlider !== null
                 ? 'hidden'
                 : ''
@@ -762,7 +762,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Mini Preview Profil (Clean HUD Glass Box) */}
           <div
-            className={`p-3 rounded-2xl bg-[#020b18]/70 backdrop-blur-md border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5)] transition-opacity duration-150 space-y-2 ${
+            className={`p-3 rounded-2xl bg-[#020b18]/85 border border-white/20 shadow-[0_4px_16px_rgba(0,0,0,0.5)] transition-opacity duration-150 space-y-2 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
@@ -774,7 +774,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 {profile.fontSize || 13}px • {profile.fontWeight || 'medium'}
               </span>
             </div>
-            <div className="p-3 rounded-xl bg-[#020717]/70 backdrop-blur-md border border-white/25 flex items-center justify-center overflow-x-auto min-h-[52px] shadow-inner relative">
+            <div className="p-3 rounded-xl bg-[#020717]/85 border border-white/25 flex items-center justify-center overflow-x-auto min-h-[52px] shadow-inner relative">
               <div
                 style={{
                   fontFamily: getFontFamilyStyle(profile.fontFamily),
