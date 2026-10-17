@@ -157,7 +157,6 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'profile_job' && (
                 <input
                   type="text"
-                  autoFocus
                   value={profile.jobTitle}
                   onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
                   placeholder="Ketik Jabatan / Posisi..."
@@ -169,7 +168,6 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'profile_name' && (
                 <input
                   type="text"
-                  autoFocus
                   value={profile.name}
                   onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
                   placeholder="Ketik Nama Lengkap..."
