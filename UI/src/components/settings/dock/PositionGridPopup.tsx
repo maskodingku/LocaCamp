@@ -38,6 +38,9 @@ export const PROFILE_GRID_ITEMS: PositionGridItem[] = [
   { id: 'top-left', shortLabel: 'Kiri', fullLabel: 'Atas Kiri', icon: <ArrowUpLeft className="w-4 h-4" /> },
   { id: 'top-center', shortLabel: 'Tengah', fullLabel: 'Atas Tengah', icon: <ArrowUp className="w-4 h-4" /> },
   { id: 'top-right', shortLabel: 'Kanan', fullLabel: 'Atas Kanan', icon: <ArrowUpRight className="w-4 h-4" /> },
+  { id: 'center-left', shortLabel: 'Center Kiri', fullLabel: 'Center Kiri', icon: <ArrowLeft className="w-4 h-4" /> },
+  { id: 'center', shortLabel: 'Center', fullLabel: 'Center / Tengah', icon: <Crosshair className="w-4 h-4" /> },
+  { id: 'center-right', shortLabel: 'Center Kanan', fullLabel: 'Center Kanan', icon: <ArrowRight className="w-4 h-4" /> },
   { id: 'bottom-left', shortLabel: 'Bawah Kiri', fullLabel: 'Bawah Kiri', icon: <ArrowDownLeft className="w-4 h-4" /> },
   { id: 'bottom-center', shortLabel: 'Bawah', fullLabel: 'Bawah Tengah', icon: <ArrowDown className="w-4 h-4" /> },
   { id: 'bottom-right', shortLabel: 'Bawah Kanan', fullLabel: 'Bawah Kanan', icon: <ArrowDownRight className="w-4 h-4" /> },
@@ -66,7 +69,7 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
   selectedId,
   onSelect,
   items = WATERMARK_GRID_ITEMS,
-  showGridSelector = true,
+  showGridSelector: _showGridSelector = true,
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
 
@@ -189,126 +192,46 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
       <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
 
       {/* 1. Header Visual Grid Selector */}
-      {showGridSelector && (
-        <>
-          <div className="relative flex items-center justify-between pb-2 z-10">
-            <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-              Visual Grid Selector
-            </span>
-            <span className="text-[11px] font-semibold text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
-              Klik titik kotak
-            </span>
+      <div className="relative flex items-center justify-between pb-2.5 z-10">
+        <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+          Visual Grid Selector
+        </span>
+        <span className="text-[11px] font-semibold text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
+          Klik titik kotak
+        </span>
+      </div>
+
+      {/* JIKA ADA DEFAULT SPECIAL ITEM (above-geotag): PISAHKAN JADI 2 BAGIAN DENGAN BENTUK KOTAK BOX IDENTIK */}
+      {hasSpecialItems ? (
+        <div className="relative z-10 space-y-3">
+          {/* BAGIAN 1 (ATAS): KHUSUS UNTUK GEOTAG DEFAULT BERBENTUK KOTAK BOX */}
+          <div>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+              <span>1. Posisi Geotag:</span>
+              <span className="text-cyan-400/80 font-normal text-[9px]">(Default)</span>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {specialGridItems.map(item => renderBoxButton(item))}
+            </div>
           </div>
 
-          {/* JIKA ADA DEFAULT SPECIAL ITEM (above-geotag): PISAHKAN JADI 2 BAGIAN DENGAN BENTUK KOTAK BOX IDENTIK */}
-          {hasSpecialItems ? (
-            <div className="relative z-10 space-y-2.5 pb-3 mb-3 border-b border-cyan-500/25">
-              {/* BAGIAN 1 (ATAS): KHUSUS UNTUK GEOTAG DEFAULT BERBENTUK KOTAK BOX */}
-              <div>
-                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
-                  <span>1. Posisi Geotag:</span>
-                  <span className="text-cyan-400/80 font-normal text-[9px]">(Default)</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {specialGridItems.map(item => renderBoxButton(item))}
-                </div>
-              </div>
-
-              {/* BAGIAN 2 (BAWAH): BOX SESUAI ARAHNYA (3 KOLOM X 2 BARIS) */}
-              <div>
-                <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
-                  <span>2. Box Sesuai Arah Layar:</span>
-                  <span className="text-slate-400 font-normal text-[9px]">(6 Titik)</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2">
-                  {directionalGridItems.map(item => renderBoxButton(item))}
-                </div>
-              </div>
+          {/* BAGIAN 2 (BAWAH): BOX SESUAI ARAHNYA (3 KOLOM X 2 BARIS) */}
+          <div>
+            <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+              <span>2. Box Sesuai Arah Layar:</span>
+              <span className="text-slate-400 font-normal text-[9px]">(9 Titik)</span>
             </div>
-          ) : (
-            /* JIKA TIDAK ADA SPECIAL ITEM (Watermark 3x3 / Geotag 2x2): RENDER GRID BIASA */
-            <div className={`relative grid ${items.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'} gap-2 pb-3 mb-3 border-b border-cyan-500/25 z-10`}>
-              {items.slice(0, 9).map(item => renderBoxButton(item))}
+            <div className="grid grid-cols-3 gap-2">
+              {directionalGridItems.map(item => renderBoxButton(item))}
             </div>
-          )}
-        </>
+          </div>
+        </div>
+      ) : (
+        /* JIKA TIDAK ADA SPECIAL ITEM (Watermark 3x3 / Geotag 2x2): RENDER GRID BIASA */
+        <div className={`relative grid ${items.length <= 4 ? 'grid-cols-2' : 'grid-cols-3'} gap-2 z-10`}>
+          {items.slice(0, 9).map(item => renderBoxButton(item))}
+        </div>
       )}
-
-
-      {/* 3. Daftar Pilihan Vertikal Kapsul dengan Nomor Urut */}
-      <div className="relative max-h-48 sm:max-h-56 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar z-10">
-        {items.map((item, index) => {
-          const isSelected = item.id === selectedId
-          const itemNumber = index + 1
-          return (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => {
-                onSelect(item.id)
-                onClose()
-              }}
-              className={`relative w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-left transition-all cursor-pointer active:scale-[0.99] overflow-hidden group ${
-                isSelected
-                  ? 'border-2 border-cyan-300 bg-gradient-to-r from-[#009fd9] via-[#007ebb] to-[#01649f] shadow-[0_0_24px_rgba(6,182,212,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-2px_4px_rgba(0,0,0,0.5)]'
-                  : 'border border-cyan-500/30 hover:border-cyan-400/60 bg-gradient-to-r from-[#06152e]/70 via-[#030d22]/75 to-[#051733]/70 hover:from-[#092244]/80 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2),0_2px_8px_rgba(0,0,0,0.6)] text-slate-300 hover:text-white'
-              }`}
-            >
-              {/* Highlight specular melintang horizontal di atas */}
-              <div
-                className={`absolute top-0 inset-x-3 h-[1px] pointer-events-none ${
-                  isSelected ? 'bg-white/80 shadow-[0_0_4px_#fff]' : 'bg-white/20'
-                }`}
-              />
-
-              {/* Rim light cyan tipis di bawah untuk baris tidak aktif */}
-              {!isSelected && (
-                <div className="absolute bottom-0 inset-x-4 h-[1px] bg-cyan-400/20 pointer-events-none" />
-              )}
-
-              {/* Sisi Kiri: Icon + Label Teks */}
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span
-                  className={`shrink-0 [&>svg]:w-4 [&>svg]:h-4 ${
-                    isSelected
-                      ? 'text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]'
-                      : 'text-cyan-400 drop-shadow-[0_0_4px_rgba(6,182,212,0.6)] group-hover:text-cyan-300'
-                  }`}
-                >
-                  {item.icon}
-                </span>
-                <span
-                  className={`text-xs truncate ${
-                    isSelected
-                      ? 'font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]'
-                      : 'font-medium text-slate-200 group-hover:text-white'
-                  }`}
-                >
-                  {item.fullLabel}
-                </span>
-              </div>
-
-              {/* Sisi Kanan: Nomor Urut & Indikator Bar Vertikal Menyala */}
-              <div className="flex items-center shrink-0 ml-2">
-                <span
-                  className={`text-xs font-mono font-bold ${
-                    isSelected
-                      ? 'text-cyan-100 drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]'
-                      : 'text-cyan-500/80 group-hover:text-cyan-400'
-                  }`}
-                >
-                  {itemNumber}
-                </span>
-
-                {/* Indikator Bar Vertikal Cyan Menyala Saat Terpilih */}
-                {isSelected && (
-                  <div className="h-5 w-1 rounded-full bg-cyan-200 shadow-[0_0_8px_#fff,0_0_12px_#22d3ee] ml-2" />
-                )}
-              </div>
-            </button>
-          )
-        })}
-      </div>
     </div>
   )
 }

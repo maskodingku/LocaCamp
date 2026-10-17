@@ -482,6 +482,15 @@ async function drawProfileBadge(
     } else if (targetPos === 'top-right') {
       x = canvasWidth - badgeWidth - padding
       y = padding
+    } else if (targetPos === 'center-left') {
+      x = padding
+      y = (canvasHeight - badgeHeight) / 2
+    } else if (targetPos === 'center') {
+      x = (canvasWidth - badgeWidth) / 2
+      y = (canvasHeight - badgeHeight) / 2
+    } else if (targetPos === 'center-right') {
+      x = canvasWidth - badgeWidth - padding
+      y = (canvasHeight - badgeHeight) / 2
     } else if (targetPos === 'bottom-left') {
       x = padding
       y = canvasHeight - badgeHeight - padding
