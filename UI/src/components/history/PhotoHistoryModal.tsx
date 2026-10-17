@@ -20,6 +20,7 @@ import { ConfirmDeleteModal, ConfirmClearAllModal } from './HistoryConfirmModals
 import { HistoryLocalTab } from './local/HistoryLocalTab'
 import { HistoryDriveTab } from './drive/HistoryDriveTab'
 import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
+import { PullToRefresh } from '../common/PullToRefresh'
 
 interface PhotoHistoryModalProps {
   isOpen: boolean
@@ -213,87 +214,91 @@ export const PhotoHistoryModal: React.FC<PhotoHistoryModalProps> = ({
         className="w-full max-w-4xl h-[100dvh] sm:h-[88vh] bg-zinc-950 border-0 sm:border border-zinc-800 rounded-none sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col text-white my-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ================= MODAL HEADER (ALWAYS SINGLE-ROW HORIZONTAL) ================= */}
-        <div className="shrink-0 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-3.5 pb-2.5 sm:px-6 border-b border-zinc-800/80 bg-zinc-950 flex items-center justify-between gap-2">
-          {/* Sisi Kiri: Segmented Control Tab Switcher (Responsive & Shrink-Safe) */}
-          <div className="flex items-center gap-0.5 sm:gap-1 p-1 bg-zinc-900/90 border border-zinc-800 rounded-2xl min-w-0 shrink">
-            <button
-              type="button"
-              onClick={() => setActiveTab('local')}
-              className={`px-2 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer min-w-0 ${
-                activeTab === 'local'
-                  ? 'bg-zinc-800 text-white shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
-              title="Memori Browser"
-            >
-              <HardDrive className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-              <span className="truncate">Memori</span>
-              <span className="hidden min-[430px]:inline">Browser</span>
-              <span className="text-[10px] px-1.5 py-0.2 bg-zinc-950/80 rounded-full font-mono text-zinc-300 shrink-0">
-                {photos.length}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab('drive')}
-              className={`px-2 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer min-w-0 ${
-                activeTab === 'drive'
-                  ? 'bg-zinc-800 text-white shadow-sm'
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
-              title="Google Drive"
-            >
-              <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
-              <span className="hidden min-[380px]:inline">Google</span>
-              <span>Drive</span>
-              {isDriveConnected && (
-                <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400 shrink-0" />
-              )}
-            </button>
-          </div>
-
-          {/* Sisi Kanan: Aksi Cepat & Tombol Tutup (Tetap Utuh & Terkunci di Layar) */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 z-10">
-            {activeTab === 'local' && photos.length > 0 && (
+        <PullToRefresh
+          disabled={Boolean(selectedPhoto) || isClearingAll || Boolean(deleteConfirmId)}
+        >
+          {/* ================= MODAL HEADER (ALWAYS SINGLE-ROW HORIZONTAL) ================= */}
+          <div className="shrink-0 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:pt-3.5 pb-2.5 sm:px-6 border-b border-zinc-800/80 bg-zinc-950 flex items-center justify-between gap-2">
+            {/* Sisi Kiri: Segmented Control Tab Switcher (Responsive & Shrink-Safe) */}
+            <div className="flex items-center gap-0.5 sm:gap-1 p-1 bg-zinc-900/90 border border-zinc-800 rounded-2xl min-w-0 shrink">
               <button
                 type="button"
-                onClick={() => setIsClearingAll(true)}
-                className="w-8 h-8 sm:w-auto px-2 sm:px-2.5 py-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium flex items-center justify-center gap-1.5 transition-all active:scale-95 shrink-0 cursor-pointer"
-                title="Hapus Semua Riwayat Foto Lokal"
+                onClick={() => setActiveTab('local')}
+                className={`px-2 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer min-w-0 ${
+                  activeTab === 'local'
+                    ? 'bg-zinc-800 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+                title="Memori Browser"
               >
-                <Trash2 className="w-3.5 h-3.5 shrink-0" />
-                <span className="hidden sm:inline">Bersihkan</span>
+                <HardDrive className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="truncate">Memori</span>
+                <span className="hidden min-[430px]:inline">Browser</span>
+                <span className="text-[10px] px-1.5 py-0.2 bg-zinc-950/80 rounded-full font-mono text-zinc-300 shrink-0">
+                  {photos.length}
+                </span>
               </button>
-            )}
 
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800/80 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-all active:scale-95 shrink-0 cursor-pointer"
-              title="Tutup Riwayat"
-            >
-              <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
-            </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('drive')}
+                className={`px-2 sm:px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 sm:gap-1.5 transition-all cursor-pointer min-w-0 ${
+                  activeTab === 'drive'
+                    ? 'bg-zinc-800 text-white shadow-sm'
+                    : 'text-zinc-400 hover:text-zinc-200'
+                }`}
+                title="Google Drive"
+              >
+                <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
+                <span className="hidden min-[380px]:inline">Google</span>
+                <span>Drive</span>
+                {isDriveConnected && (
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400 shrink-0" />
+                )}
+              </button>
+            </div>
+
+            {/* Sisi Kanan: Aksi Cepat & Tombol Tutup (Tetap Utuh & Terkunci di Layar) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 z-10">
+              {activeTab === 'local' && photos.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setIsClearingAll(true)}
+                  className="w-8 h-8 sm:w-auto px-2 sm:px-2.5 py-1.5 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-medium flex items-center justify-center gap-1.5 transition-all active:scale-95 shrink-0 cursor-pointer"
+                  title="Hapus Semua Riwayat Foto Lokal"
+                >
+                  <Trash2 className="w-3.5 h-3.5 shrink-0" />
+                  <span className="hidden sm:inline">Bersihkan</span>
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800/80 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-all active:scale-95 shrink-0 cursor-pointer"
+                title="Tutup Riwayat"
+              >
+                <X className="w-4 h-4 sm:w-4.5 sm:h-4.5 shrink-0" />
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* ================= TAB CONTENT ================= */}
-        {activeTab === 'local' ? (
-          <HistoryLocalTab
-            photos={photos}
-            isLoading={isLoading}
-            onDownload={handleDownload}
-            onDeleteRequest={(id) => setDeleteConfirmId(id)}
-            onSelectPhoto={(p) => setSelectedPhoto(p)}
-            downloadSuccessId={downloadSuccessId}
-            isDriveConnected={isDriveConnected}
-            driveQueue={driveQueue}
-          />
-        ) : (
-          <HistoryDriveTab drive={drive} />
-        )}
+          {/* ================= TAB CONTENT ================= */}
+          {activeTab === 'local' ? (
+            <HistoryLocalTab
+              photos={photos}
+              isLoading={isLoading}
+              onDownload={handleDownload}
+              onDeleteRequest={(id) => setDeleteConfirmId(id)}
+              onSelectPhoto={(p) => setSelectedPhoto(p)}
+              downloadSuccessId={downloadSuccessId}
+              isDriveConnected={isDriveConnected}
+              driveQueue={driveQueue}
+            />
+          ) : (
+            <HistoryDriveTab drive={drive} />
+          )}
+        </PullToRefresh>
       </div>
 
       {/* ================= MODAL OVERLAYS (DETAIL & CONFIRM) ================= */}

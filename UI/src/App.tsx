@@ -98,6 +98,14 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
 
+  // Auto-reopen riwayat foto jika reload dipicu oleh gesture pull-to-refresh pada modal history
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('locacamp_open_history') === 'true') {
+      sessionStorage.removeItem('locacamp_open_history')
+      setIsHistoryOpen(true)
+    }
+  }, [])
+
   const handleNavigate = useCallback((path: string) => {
     const normalized = normalizePath(path)
     window.history.pushState({}, '', path)
