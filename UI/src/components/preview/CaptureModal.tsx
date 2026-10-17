@@ -160,141 +160,148 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             <ZoomablePhotoViewer src={photo.dataUrl} alt="Captured Geotag" />
           </div>
 
-          {/* Kolom Kanan: Side Control Panel & Info Geotag */}
-          <div className="w-64 sm:w-72 md:w-80 shrink-0 h-full bg-zinc-950 border-l border-zinc-800 flex flex-col justify-between p-3.5 sm:p-4 overflow-y-auto">
-            {/* Header Samping */}
-            <div className="flex items-center justify-between pb-3 border-b border-zinc-800/80">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                <h3 className="text-xs sm:text-sm font-semibold text-white">Hasil Foto Geotag</h3>
+          {/* Kolom Kanan: Side Control Panel & Info Geotag (Dirampingkan & Diminimalkan) */}
+          <div className="w-56 sm:w-60 md:w-64 shrink-0 h-full bg-zinc-950 border-l border-zinc-800/90 flex flex-col overflow-hidden">
+            {/* Header Samping Ringkas */}
+            <div className="shrink-0 flex items-center justify-between px-3 py-2 border-b border-zinc-800/80 bg-zinc-900/50">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <h3 className="text-xs font-semibold text-white tracking-tight">Hasil Foto Geotag</h3>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="p-1 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
+                className="p-1 rounded-lg hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
                 title="Tutup"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Kartu Informasi Geotag - Cyber Glass HUD */}
-            <div className="my-auto py-2.5 space-y-2">
-              <div className="p-3 rounded-2xl bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border border-cyan-500/20 space-y-2 text-xs text-zinc-300 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.15)]">
-                <div className="flex items-start gap-2">
-                  <div className="w-5 h-5 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.3)] mt-0.5">
-                    <MapPin className="w-3 h-3 text-rose-400 drop-shadow-[0_0_3px_rgba(244,63,94,0.8)]" />
+            {/* Konten Samping (Rapi, Terpusat, & Tanpa Celah Kosong Berlebih) */}
+            <div className="flex-1 flex flex-col justify-center p-2.5 sm:p-3 overflow-y-auto space-y-2">
+              {/* Kartu Informasi Geotag - Cyber Glass HUD Ramping */}
+              <div className="p-2.5 rounded-xl bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border border-cyan-500/25 space-y-1.5 text-[11px] text-zinc-300 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.15)]">
+                {/* Baris 1: Alamat Lokasi */}
+                <div className="flex items-start gap-1.5">
+                  <div className="w-4 h-4 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(244,63,94,0.3)] mt-0.5">
+                    <MapPin className="w-2.5 h-2.5 text-rose-400 drop-shadow-[0_0_2px_rgba(244,63,94,0.8)]" />
                   </div>
-                  <p className="line-clamp-3 leading-snug font-medium text-slate-100">
+                  <p className="line-clamp-2 leading-tight font-medium text-slate-100">
                     {photo.location.address || `${photo.location.latitude?.toFixed(4)}, ${photo.location.longitude?.toFixed(4)}`}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 text-cyan-200/90 font-mono text-[11px] pt-1.5 border-t border-cyan-500/20">
-                  <div className="w-4 h-4 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
-                    <Calendar className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+
+                {/* Baris 2: Waktu Jepret */}
+                <div className="flex items-center gap-1.5 text-cyan-200/90 font-mono text-[10px] pt-1 border-t border-cyan-500/20">
+                  <div className="w-3.5 h-3.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_4px_rgba(34,211,238,0.3)]">
+                    <Calendar className="w-2 h-2 text-cyan-300 drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]" />
                   </div>
-                  <span>{dateFormatted} • {timeFormatted}</span>
+                  <span className="truncate">{dateFormatted} • {timeFormatted}</span>
                 </div>
-                <div className="flex items-center justify-between gap-2 text-emerald-200/90 font-mono text-[11px] pt-1.5 border-t border-cyan-500/20">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.3)]">
-                      <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+
+                {/* Baris 3: Ukuran File & Resolusi */}
+                <div className="flex items-center justify-between gap-1.5 font-mono text-[10px] pt-1 border-t border-cyan-500/20">
+                  <div className="flex items-center gap-1 text-emerald-200/90">
+                    <div className="w-3.5 h-3.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_4px_rgba(52,211,153,0.3)]">
+                      <FileImage className="w-2 h-2 text-emerald-400 drop-shadow-[0_0_2px_rgba(52,211,153,0.8)]" />
                     </div>
                     <span>{fileSizeFormatted}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-cyan-300/90">
-                    <div className="w-4 h-4 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
-                      <Maximize2 className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+                  <div className="flex items-center gap-1 text-cyan-300/90">
+                    <div className="w-3.5 h-3.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_4px_rgba(34,211,238,0.3)]">
+                      <Maximize2 className="w-2 h-2 text-cyan-300 drop-shadow-[0_0_2px_rgba(34,211,238,0.8)]" />
                     </div>
                     <span>{photo.width}×{photo.height}</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Banner Progres Upload Google Drive (Keren dengan persentase & animasi) */}
-            {(isUploadingDrive || isAutoUploadingDrive || Boolean(driveResult?.webViewLink) || Boolean(driveError)) && (
-              <div className="py-1">
-                <DriveUploadProgressBanner
-                  isUploading={isUploadingDrive || isAutoUploadingDrive}
-                  progress={uploadProgress}
-                  driveResult={driveResult}
-                  driveError={driveError}
-                  onRetry={handleDriveUpload}
-                />
-              </div>
-            )}
+              {/* Banner Progres Upload Google Drive (Kondisional) */}
+              {(isUploadingDrive || isAutoUploadingDrive || Boolean(driveResult?.webViewLink) || Boolean(driveError)) && (
+                <div>
+                  <DriveUploadProgressBanner
+                    isUploading={isUploadingDrive || isAutoUploadingDrive}
+                    progress={uploadProgress}
+                    driveResult={driveResult}
+                    driveError={driveError}
+                    onRetry={handleDriveUpload}
+                  />
+                </div>
+              )}
 
-            {/* Tombol Aksi: Unduh HD, Ambil Ulang, Drive, Share */}
-            <div className="space-y-2 pt-2 border-t border-cyan-500/20">
-              <button
-                type="button"
-                onClick={handleDownload}
-                className="w-full h-11 sm:h-12 flex items-center justify-center gap-2 px-4 rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-black text-xs sm:text-sm shadow-[0_4px_16px_rgba(34,211,238,0.45),inset_0_1.5px_2px_rgba(255,255,255,0.95)] active:scale-95 transition-all whitespace-nowrap cursor-pointer relative overflow-hidden group"
-              >
-                <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
-                {downloaded ? (
-                  <>
-                    <Check className="w-4 h-4 text-black stroke-[3] shrink-0" />
-                    <span>Tersimpan!</span>
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4 text-black stroke-[2.5] shrink-0" />
-                    <span>Unduh HD</span>
-                  </>
-                )}
-              </button>
-
-              <div className="flex items-center gap-2">
+              {/* Tombol Aksi: Unduh HD, Ambil Ulang, Drive, Share (Compact & Rapi) */}
+              <div className="space-y-1.5 pt-1.5 border-t border-cyan-500/20">
+                {/* Tombol Unduh HD Utama */}
                 <button
                   type="button"
-                  onClick={onRetake}
-                  className="flex-1 h-11 flex items-center justify-center gap-1.5 px-3 rounded-2xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-100 hover:text-white font-bold text-xs shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.4)] active:scale-95 transition-all whitespace-nowrap cursor-pointer"
+                  onClick={handleDownload}
+                  className="w-full h-10 flex items-center justify-center gap-1.5 px-3 rounded-xl bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-black font-black text-xs shadow-[0_3px_12px_rgba(34,211,238,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.95)] active:scale-95 transition-all whitespace-nowrap cursor-pointer relative overflow-hidden group"
                 >
-                  <RotateCcw className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_4px_rgba(34,211,238,0.7)] shrink-0" />
-                  <span>Ambil Ulang</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+                  {downloaded ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-black stroke-[3] shrink-0" />
+                      <span>Tersimpan!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-3.5 h-3.5 text-black stroke-[2.5] shrink-0" />
+                      <span>Unduh HD</span>
+                    </>
+                  )}
                 </button>
 
-                {Boolean(driveResult || photo.uploadedToDrive) ? (
-                  <div
-                    className="w-11 h-11 rounded-2xl border border-emerald-500/40 bg-gradient-to-b from-emerald-950/60 to-[#020e1a]/95 text-emerald-300 transition-all shrink-0 flex items-center justify-center cursor-default select-none shadow-[0_4px_12px_rgba(0,0,0,0.5)]"
-                    title="Foto ini sudah tersimpan di Google Drive"
-                  >
-                    <div className="relative flex items-center justify-center">
-                      <GoogleDriveIcon className="w-4 h-4 shrink-0" />
-                      <div className="absolute -bottom-1 -right-1.5 w-3.5 h-3.5 rounded-full bg-emerald-500 text-black flex items-center justify-center shadow-sm">
-                        <Check className="w-2.5 h-2.5 stroke-[3]" />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
+                {/* Baris Tombol Aksi Pendukung */}
+                <div className="flex items-center gap-1.5">
                   <button
                     type="button"
-                    onClick={handleDriveUpload}
-                    disabled={isUploadingDrive || isAutoUploadingDrive}
-                    className="w-11 h-11 rounded-2xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-200 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.4)] flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
-                    title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
+                    onClick={onRetake}
+                    className="flex-1 h-9 flex items-center justify-center gap-1 px-2 rounded-xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-100 hover:text-white font-bold text-[11px] shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] active:scale-95 transition-all whitespace-nowrap cursor-pointer"
                   >
-                    {isUploadingDrive || isAutoUploadingDrive ? (
-                      <div className="flex flex-col items-center justify-center font-mono text-emerald-400 font-bold text-[9px]">
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-400" />
-                        <span>{uploadProgress}%</span>
-                      </div>
-                    ) : (
-                      <GoogleDriveIcon className="w-4 h-4 shrink-0" />
-                    )}
+                    <RotateCcw className="w-3 h-3 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.7)] shrink-0" />
+                    <span>Ambil Ulang</span>
                   </button>
-                )}
 
-                <button
-                  type="button"
-                  onClick={handleShare}
-                  className="w-11 h-11 rounded-2xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-200 hover:text-white shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.4)] flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer"
-                  title="Bagikan Foto"
-                >
-                  {shared ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
-                </button>
+                  {Boolean(driveResult || photo.uploadedToDrive) ? (
+                    <div
+                      className="w-9 h-9 rounded-xl border border-emerald-500/40 bg-gradient-to-b from-emerald-950/60 to-[#020e1a]/95 text-emerald-300 transition-all shrink-0 flex items-center justify-center cursor-default select-none shadow-[0_2px_8px_rgba(0,0,0,0.5)]"
+                      title="Foto ini sudah tersimpan di Google Drive"
+                    >
+                      <div className="relative flex items-center justify-center">
+                        <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
+                        <div className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 text-black flex items-center justify-center shadow-sm">
+                          <Check className="w-2 h-2 stroke-[3]" />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleDriveUpload}
+                      disabled={isUploadingDrive || isAutoUploadingDrive}
+                      className="w-9 h-9 rounded-xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-200 hover:text-white shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer disabled:opacity-50"
+                      title={isDriveConnected ? 'Upload ke Google Drive' : 'Kaitkan Akun Google Drive'}
+                    >
+                      {isUploadingDrive || isAutoUploadingDrive ? (
+                        <div className="flex flex-col items-center justify-center font-mono text-emerald-400 font-bold text-[8px]">
+                          <Loader2 className="w-3 h-3 animate-spin text-emerald-400" />
+                        </div>
+                      ) : (
+                        <GoogleDriveIcon className="w-3.5 h-3.5 shrink-0" />
+                      )}
+                    </button>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={handleShare}
+                    className="w-9 h-9 rounded-xl bg-gradient-to-b from-[#092244]/90 via-[#04152d]/95 to-[#020a16]/95 border border-white/20 hover:border-cyan-400/50 text-slate-200 hover:text-white shadow-[0_2px_8px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer"
+                    title="Bagikan Foto"
+                  >
+                    {shared ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
