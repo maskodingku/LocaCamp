@@ -49,14 +49,6 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
   const isCurrentActive = activeSlider === id
   const isOtherActive = activeSlider !== null && !isCurrentActive
 
-  // Label yang mudah dipahami pengguna untuk status target cerdas
-  const targetLabelMap: Record<string, string> = {
-    profile: 'Profil',
-    watermark: 'Watermark',
-    geotag: 'Geotag',
-    none: 'Kamera',
-  }
-  const targetName = targetLabelMap[targetType] || 'Target'
 
   // Deteksi posisi cerdas: Atas atau Bawah.
   // Untuk profil dan geotag yang secara default di bawah layar, inisialisasi awal ke 'top'
@@ -202,52 +194,52 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
         typeof document !== 'undefined' &&
         createPortal(
           <div
-            className={`fixed inset-x-3 sm:inset-x-6 max-w-sm sm:max-w-md mx-auto z-[250] pointer-events-auto transition-all duration-300 select-none ${
+            className={`fixed inset-x-3 max-w-[310px] sm:max-w-[340px] mx-auto z-[250] pointer-events-auto transition-all duration-300 select-none ${
               smartPlacement === 'top'
                 ? 'top-[max(0.75rem,env(safe-area-inset-top))] animate-in slide-in-from-top-4'
                 : 'bottom-[max(1.25rem,env(safe-area-inset-bottom))] animate-in slide-in-from-bottom-4'
             }`}
             onClick={e => e.stopPropagation()}
           >
-            {/* Kapsul Kaca Cyber HUD Mengambang Cerdas */}
-            <div className="p-3 sm:p-4 rounded-3xl bg-[#020717]/95 border-2 border-cyan-400/80 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_2px_3px_rgba(255,255,255,0.9),0_0_20px_rgba(34,211,238,0.35)] text-white relative overflow-hidden backdrop-blur-md">
+            {/* Kapsul Mini Cyber HUD Mengambang Cerdas */}
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-[#020717]/95 border border-cyan-400/80 shadow-[0_12px_36px_rgba(0,0,0,0.9),inset_0_1px_1.5px_rgba(255,255,255,0.7),0_0_16px_rgba(34,211,238,0.25)] text-white relative overflow-hidden backdrop-blur-xl">
               {/* Specular Glare Highlight */}
-              <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-10" />
+              <div className="pointer-events-none absolute top-0 left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-10" />
 
-              {/* Baris Atas: Ikon + Label Judul Utuh (Anti-Clipping) + Badge Nilai + Tombol Selesai */}
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="w-6 h-6 rounded-lg bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.3)]">
+              {/* Baris Atas: Ikon Mini + Judul (flex-1 truncate) + Badge Nilai + Tombol Selesai */}
+              <div className="flex items-center justify-between gap-1.5 mb-2">
+                <div className="flex items-center gap-1.5 min-w-0 flex-1 mr-1">
+                  <div className="w-5 h-5 rounded-md bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(34,211,238,0.3)]">
                     {Icon ? (
-                      <Icon className={`w-3.5 h-3.5 ${iconColorClass} drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]`} />
+                      <Icon className={`w-3 h-3 ${iconColorClass} drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]`} />
                     ) : (
-                      <Sparkles className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]" />
+                      <Sparkles className="w-3 h-3 text-cyan-300 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
                     )}
                   </div>
-                  <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-white whitespace-nowrap drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)]">
+                  <span className="text-[11.5px] sm:text-xs font-black uppercase tracking-wider text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)]">
                     {label}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/40 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.6)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
+                  <span className="px-2 py-0.5 rounded-full text-[10.5px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-cyan-500/40 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                     {valueDisplay}
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveSlider(null)}
-                    className="px-2.5 py-1 rounded-full bg-cyan-400 hover:bg-cyan-300 active:scale-90 text-black font-black text-xs flex items-center gap-1 cursor-pointer shadow-[0_2px_10px_rgba(34,211,238,0.5)] transition-all"
+                    className="px-2.5 py-0.5 rounded-full bg-cyan-400 hover:bg-cyan-300 active:scale-90 text-black font-black text-[11px] flex items-center gap-1 cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.5)] transition-all shrink-0"
                     title="Simpan & Selesai Mengatur"
                   >
-                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <Check className="w-3 h-3 stroke-[3]" />
                     <span>Selesai</span>
                   </button>
                 </div>
               </div>
 
-              {/* Track Slider Cerdas Responsif */}
-              <div className="relative w-full h-11 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/40 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] px-4 flex items-center gap-3 overflow-hidden">
-                <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+              {/* Track Slider Mini Cerdas Presisi */}
+              <div className="relative w-full h-8 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_3px_10px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.7)] px-3 flex items-center overflow-hidden">
+                <div className="absolute top-0 inset-x-4 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
                 <input
                   type="range"
                   min={min}
@@ -258,21 +250,6 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
                   className="hud-slider cursor-pointer w-full"
                   autoFocus
                 />
-              </div>
-
-              {/* Baris Status Cerdas Bawah: Menghindari Target + Indikator Posisi Cerdas */}
-              <div className="flex items-center justify-between text-[10px] sm:text-[10.5px] text-slate-300 mt-2 px-1 font-medium">
-                <div className="flex items-center gap-1.5 text-cyan-300 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_6px_#22d3ee] shrink-0" />
-                  <span className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
-                    {targetType !== 'none'
-                      ? `Menghindari ${targetName} • Posisi ${smartPlacement === 'top' ? 'Atas' : 'Bawah'}`
-                      : 'Presisi Sentuhan Layar'}
-                  </span>
-                </div>
-                <span className="text-slate-300/80 text-[9.5px] sm:text-[10px] shrink-0">
-                  Ketuk <strong className="text-cyan-300 font-bold">Selesai</strong> untuk kembali
-                </span>
               </div>
             </div>
           </div>,
