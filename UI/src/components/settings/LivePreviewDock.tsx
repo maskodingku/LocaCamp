@@ -503,11 +503,8 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* G. Slider: Ukuran Watermark */}
               {activeInput === 'watermark_size' && (
-                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
                   <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    Skala
-                  </span>
                   <div className="flex-1 min-w-0 flex items-center">
                     <input
                       type="range"
@@ -518,7 +515,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                       className="hud-slider cursor-pointer"
                     />
                   </div>
-                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
+                  <span className="font-mono text-cyan-300 font-bold text-xs sm:text-sm shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {watermark.sizePercent}%
                   </span>
                 </div>
@@ -526,11 +523,8 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* H. Slider: Transparansi Watermark */}
               {activeInput === 'watermark_opacity' && (
-                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
                   <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    Kepekatan
-                  </span>
                   <div className="flex-1 min-w-0 flex items-center">
                     <input
                       type="range"
@@ -542,7 +536,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                       className="hud-slider cursor-pointer"
                     />
                   </div>
-                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
+                  <span className="font-mono text-cyan-300 font-bold text-xs sm:text-sm shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {Math.round(watermark.opacity * 100)}%
                   </span>
                 </div>
@@ -550,11 +544,8 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* I. Slider: Ukuran Teks Profil */}
               {activeInput === 'profile_size' && (
-                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-3 sm:px-3.5 flex items-center gap-2 sm:gap-2.5 overflow-hidden">
+                <div className="relative w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
                   <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff] pointer-events-none" />
-                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                    Ukuran
-                  </span>
                   <div className="flex-1 min-w-0 flex items-center">
                     <input
                       type="range"
@@ -565,7 +556,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                       className="hud-slider cursor-pointer"
                     />
                   </div>
-                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
+                  <span className="font-mono text-cyan-300 font-bold text-xs sm:text-sm shrink-0 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]">
                     {profile.fontSize || 13}px
                   </span>
                 </div>
