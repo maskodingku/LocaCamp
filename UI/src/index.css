@@ -217,3 +217,16 @@
   cursor: grabbing;
 }
 
+/* Mode Drag Spesifik: Sembunyikan bagian slider yang tidak sedang disentuh */
+.hud-color-picker.is-dragging-hue .react-colorful__saturation {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.hud-color-picker.is-dragging-saturation .react-colorful__hue {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+

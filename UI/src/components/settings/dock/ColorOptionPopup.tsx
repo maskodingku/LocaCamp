@@ -54,6 +54,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   const popupRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [activeDragPart, setActiveDragPart] = useState<'saturation' | 'hue' | null>(null)
   const throttleTimerRef = useRef<number | null>(null)
   const lastEmittedColorRef = useRef<string>('')
 
@@ -81,6 +82,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       if (isDraggingRef.current) {
         isDraggingRef.current = false
         setIsDragging(false)
+        setActiveDragPart(null)
       }
     }
     window.addEventListener('pointerup', handleRelease)
@@ -151,6 +153,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   const handleCustomColorChangeEnd = (finalHex: string) => {
     isDraggingRef.current = false
     setIsDragging(false)
+    setActiveDragPart(null)
     if (throttleTimerRef.current) {
       clearTimeout(throttleTimerRef.current)
       throttleTimerRef.current = null
@@ -242,15 +245,43 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         {/* Modul react-colorful dengan class .hud-color-picker (Tampil Bersih Mengambang Saat Dragging) */}
         <div
           className={`hud-color-picker w-full transition-all duration-150 ${
-            isDragging ? 'drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]' : ''
+            activeDragPart === 'hue'
+              ? 'is-dragging-hue drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
+              : activeDragPart === 'saturation'
+              ? 'is-dragging-saturation drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
+              : isDragging
+              ? 'drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]'
+              : ''
           }`}
-          onPointerDown={() => {
+          onPointerDown={(e) => {
             isDraggingRef.current = true
             setIsDragging(true)
+            const target = e.target as HTMLElement
+            if (target?.closest?.('.react-colorful__hue')) {
+              setActiveDragPart('hue')
+            } else if (target?.closest?.('.react-colorful__saturation')) {
+              setActiveDragPart('saturation')
+            }
           }}
-          onTouchStart={() => {
+          onTouchStart={(e) => {
             isDraggingRef.current = true
             setIsDragging(true)
+            const target = e.target as HTMLElement
+            if (target?.closest?.('.react-colorful__hue')) {
+              setActiveDragPart('hue')
+            } else if (target?.closest?.('.react-colorful__saturation')) {
+              setActiveDragPart('saturation')
+            }
+          }}
+          onMouseDown={(e) => {
+            isDraggingRef.current = true
+            setIsDragging(true)
+            const target = e.target as HTMLElement
+            if (target?.closest?.('.react-colorful__hue')) {
+              setActiveDragPart('hue')
+            } else if (target?.closest?.('.react-colorful__saturation')) {
+              setActiveDragPart('saturation')
+            }
           }}
         >
           <HexColorPicker
