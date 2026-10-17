@@ -306,7 +306,9 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       {/* Popup Kontrol Utama: Tetap pada ukuran & posisi aslinya di atas dock tanpa menciut */}
       <div
         ref={popupRef}
-        className="absolute bottom-full mb-3 left-0 right-0 z-[140] select-none flex flex-col p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150"
+        className={`absolute bottom-full mb-3 left-0 right-0 z-[140] select-none flex flex-col p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-150 ${
+          isSmartPickerOpen ? 'hidden pointer-events-none' : ''
+        }`}
       >
         {/* ========================================================================= */}
         {/* GLOSSY GLASS BUBBLE ORBS & SPECULAR GLARE                                 */}
@@ -350,18 +352,14 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
               <button
                 type="button"
                 onClick={() => {
-                  setIsSmartPickerOpen(prev => !prev)
+                  setIsSmartPickerOpen(true)
                   setSmartPickerPart('all')
                 }}
-                className={`px-2 py-0.5 rounded-full border text-[9px] font-mono transition-all flex items-center gap-1 ${
-                  isSmartPickerOpen
-                    ? 'bg-cyan-500 text-black border-cyan-300 font-bold shadow-[0_0_8px_#22d3ee]'
-                    : 'bg-cyan-950/60 text-cyan-300 border-cyan-500/40 hover:bg-cyan-900/60'
-                }`}
-                title="Buka / Tutup Area Pick Cerdas di Luar Target"
+                className="px-2 py-0.5 rounded-full border border-cyan-400/60 bg-cyan-950/70 hover:bg-cyan-800 text-cyan-300 hover:text-white text-[9px] font-mono transition-all flex items-center gap-1 shadow-[0_0_8px_rgba(6,182,212,0.3)] active:scale-95"
+                title="Buka Pick Warna di Area Bebas Target"
               >
-                <span>Area Bebas</span>
-                <span className={`w-1.5 h-1.5 rounded-full ${isSmartPickerOpen ? 'bg-black animate-ping' : 'bg-cyan-400'}`} />
+                <span>Pick Cerdas</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
               </button>
               <div className="flex items-center gap-1.5">
                 <div
