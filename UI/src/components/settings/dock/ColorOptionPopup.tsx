@@ -302,15 +302,26 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       {/* Floating Smart Picker: Muncul secara cerdas di luar area target saat pick diaktifkan */}
       <FloatingSmartPicker
         isOpen={isSmartPickerOpen}
-        onClose={() => setIsSmartPickerOpen(false)}
+        onClose={() => {
+          isDraggingRef.current = false
+          setIsDragging(false)
+          setIsSmartPickerOpen(false)
+          const finalColor = combineHexAndAlpha(customHex, alphaPercent)
+          lastEmittedColorRef.current = finalColor
+          onSelect(finalColor)
+        }}
         activePart={smartPickerPart}
         customHex={customHex}
         onChangeHex={(newHex) => {
-          handleCustomColorChange(newHex)
-          handleCustomColorChangeEnd(newHex)
+          isDraggingRef.current = true
+          setCustomHex(newHex)
+          const combined = combineHexAndAlpha(newHex, alphaPercent)
+          lastEmittedColorRef.current = combined
+          onSelect(combined)
         }}
         alphaPercent={alphaPercent}
         onChangeAlpha={(newAlpha) => {
+          isDraggingRef.current = true
           setAlphaPercent(newAlpha)
           const combined = combineHexAndAlpha(customHex, newAlpha)
           lastEmittedColorRef.current = combined
