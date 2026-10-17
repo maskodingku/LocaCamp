@@ -14,6 +14,7 @@ const MIME_TYPES = {
   '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.webmanifest': 'application/manifest+json; charset=utf-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
@@ -42,7 +43,19 @@ const server = http.createServer((req, res) => {
   }
 
   const ext = path.extname(filePath).toLowerCase()
+  const filename = path.basename(filePath).toLowerCase()
   const contentType = MIME_TYPES[ext] || 'application/octet-stream'
+
+  // Header Cache-Control: sw.js, html, dan manifest WAJIB no-cache agar update terdeteksi instan
+  let cacheControl = 'public, max-age=31536000, immutable'
+  if (
+    ext === '.html' ||
+    filename === 'sw.js' ||
+    ext === '.webmanifest' ||
+    filename === 'manifest.json'
+  ) {
+    cacheControl = 'no-cache, no-store, must-revalidate'
+  }
 
   fs.readFile(filePath, (err, content) => {
     if (err) {
@@ -53,7 +66,7 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(200, {
       'Content-Type': contentType,
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=31536000, immutable',
+      'Cache-Control': cacheControl,
     })
     res.end(content)
   })
