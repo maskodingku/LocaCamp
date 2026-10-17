@@ -216,15 +216,17 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </div>
 
             {/* Banner Progres Upload Google Drive (Keren dengan persentase & animasi) */}
-            <div className="py-1">
-              <DriveUploadProgressBanner
-                isUploading={isUploadingDrive || isAutoUploadingDrive}
-                progress={uploadProgress}
-                driveResult={driveResult}
-                driveError={driveError}
-                onRetry={handleDriveUpload}
-              />
-            </div>
+            {(isUploadingDrive || isAutoUploadingDrive || Boolean(driveResult?.webViewLink) || Boolean(driveError)) && (
+              <div className="py-1">
+                <DriveUploadProgressBanner
+                  isUploading={isUploadingDrive || isAutoUploadingDrive}
+                  progress={uploadProgress}
+                  driveResult={driveResult}
+                  driveError={driveError}
+                  onRetry={handleDriveUpload}
+                />
+              </div>
+            )}
 
             {/* Tombol Aksi: Unduh HD, Ambil Ulang, Drive, Share */}
             <div className="space-y-2 pt-2 border-t border-cyan-500/20">
@@ -391,18 +393,20 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
           </div>
 
           {/* Banner Progres Upload Google Drive (Keren dengan persentase & animasi) */}
-          <div className="shrink-0 px-3.5 sm:px-5 py-2 bg-[#020b18]/95 border-t border-cyan-500/15">
-            <DriveUploadProgressBanner
-              isUploading={isUploadingDrive || isAutoUploadingDrive}
-              progress={uploadProgress}
-              driveResult={driveResult}
-              driveError={driveError}
-              onRetry={handleDriveUpload}
-            />
-          </div>
+          {(isUploadingDrive || isAutoUploadingDrive || Boolean(driveResult?.webViewLink) || Boolean(driveError)) && (
+            <div className="shrink-0 px-3.5 sm:px-5 py-2 bg-[#020b18]/95 border-t border-cyan-500/15">
+              <DriveUploadProgressBanner
+                isUploading={isUploadingDrive || isAutoUploadingDrive}
+                progress={uploadProgress}
+                driveResult={driveResult}
+                driveError={driveError}
+                onRetry={handleDriveUpload}
+              />
+            </div>
+          )}
 
-          {/* Action Buttons - Unified Cyber Glassmorphism Toolbar */}
-          <div className="shrink-0 p-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-4 bg-[#010814] border-t border-cyan-500/20 flex items-center gap-2 sm:gap-2.5">
+          {/* Action Buttons - Unified Cyber Glassmorphism Toolbar (Dempet Langsung dengan Garis Tunggal) */}
+          <div className="shrink-0 p-3 pb-[max(1rem,env(safe-area-inset-bottom))] sm:p-4 bg-gradient-to-b from-[#020d1c]/95 to-[#01060f]/98 border-t border-cyan-500/20 flex items-center gap-2 sm:gap-2.5">
             {/* Tombol Ambil Ulang */}
             <button
               type="button"
