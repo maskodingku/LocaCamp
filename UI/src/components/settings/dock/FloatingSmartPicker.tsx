@@ -295,6 +295,7 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
 
   return (
     <div
+      data-smart-picker="true"
       className={`${positionClasses} select-none p-3.5 rounded-[26px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.8),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in zoom-in-95 duration-150 overflow-hidden touch-none`}
     >
       {/* Specular Highlight Glare di Atas Box */}
@@ -333,8 +334,14 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
           {onClose && (
             <button
               type="button"
-              onClick={onClose}
-              className="w-6 h-6 rounded-full bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-400/60 flex items-center justify-center text-cyan-300 hover:text-white transition-all shadow-[0_0_8px_rgba(6,182,212,0.4)] active:scale-90"
+              onPointerDown={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                onClose()
+              }}
+              className="w-6 h-6 rounded-full bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-400/60 flex items-center justify-center text-cyan-300 hover:text-white transition-all shadow-[0_0_8px_rgba(6,182,212,0.4)] active:scale-90 cursor-pointer"
               title="Selesai"
             >
               <Check className="w-3.5 h-3.5 stroke-[3]" />

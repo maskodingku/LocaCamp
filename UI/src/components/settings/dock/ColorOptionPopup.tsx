@@ -180,11 +180,23 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
     }
   }, [])
 
+  // Reset status pick cerdas setiap kali modal dropdown utama ditutup
+  useEffect(() => {
+    if (!isOpen) {
+      setIsSmartPickerOpen(false)
+    }
+  }, [isOpen])
+
   useEffect(() => {
     if (!isOpen) return
 
     const handleClickOutside = (e: MouseEvent) => {
-      if ((e.target as HTMLElement)?.closest?.('[data-dropdown-trigger="true"]')) {
+      const target = e.target as HTMLElement
+      if (target?.closest?.('[data-dropdown-trigger="true"]')) {
+        return
+      }
+      // PENTING: Jangan tutup popup utama jika interaksi atau klik terjadi di dalam FloatingSmartPicker!
+      if (target?.closest?.('[data-smart-picker="true"]')) {
         return
       }
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
@@ -194,7 +206,11 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose()
+        if (isSmartPickerOpen) {
+          setIsSmartPickerOpen(false)
+        } else {
+          onClose()
+        }
       }
     }
 
@@ -208,7 +224,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       document.removeEventListener('mousedown', handleClickOutside)
       document.removeEventListener('keydown', handleKeyDown)
     }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, isSmartPickerOpen])
 
   if (!isOpen) return null
 
