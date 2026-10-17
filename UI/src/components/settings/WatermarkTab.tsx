@@ -66,21 +66,20 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
       {/* SECTION 2: WATERMARK LOGO */}
       <div
-        className={`relative rounded-[22px] sm:rounded-[26px] border border-cyan-400/60 transition-all duration-150 overflow-hidden mt-4 sm:mt-5 ${
+        className={`relative rounded-[22px] sm:rounded-[26px] border border-cyan-400/25 border-t-cyan-300/40 transition-all duration-150 overflow-hidden mt-4 sm:mt-5 ${
           activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'bg-[#031d28]/75 backdrop-blur-md shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)]'
+            : 'bg-gradient-to-b from-[#042433]/70 via-[#021822]/65 to-[#010e16]/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(6,182,212,0.08),inset_0_1px_1px_rgba(255,255,255,0.12)]'
         }`}
       >
-        {/* Specular Glint Top-Left */}
-        <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80 z-20" />
-        <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff] z-20" />
+        {/* Specular Glare Highlight Border Atas Kaca */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent z-20" />
 
         {/* Header Section Watermark Logo (LEKAT KE KIRI, KANAN, DAN ATAS BOX LUAR) */}
         <div
-          className={`w-full items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 border-b border-cyan-500/30 bg-black/35 backdrop-blur-sm rounded-t-[21px] sm:rounded-t-[25px] transition-opacity duration-150 ${
+          className={`w-full items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 border-b border-cyan-500/15 bg-black/25 backdrop-blur-md rounded-t-[21px] sm:rounded-t-[25px] transition-opacity duration-150 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >

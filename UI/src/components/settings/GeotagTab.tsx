@@ -57,10 +57,9 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <div className="rounded-[22px] sm:rounded-[26px] border border-cyan-400/60 bg-[#031d28]/75 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)] space-y-4 relative overflow-hidden">
-        {/* Specular Glint Top-Left */}
-        <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80" />
-        <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff]" />
+      <div className="rounded-[22px] sm:rounded-[26px] border border-cyan-400/25 border-t-cyan-300/40 bg-gradient-to-b from-[#042433]/70 via-[#021822]/65 to-[#010e16]/80 backdrop-blur-xl p-4 sm:p-5 shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(6,182,212,0.08),inset_0_1px_1px_rgba(255,255,255,0.12)] space-y-4 relative overflow-hidden">
+        {/* Specular Glare Highlight Border Atas Kaca */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent z-20" />
 
         <div className="flex items-center justify-between mb-2">
         <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
