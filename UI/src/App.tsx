@@ -141,13 +141,19 @@ export default function App() {
   // Camera Visual Effect & Finetune State (dimuat dari localStorage saat start, default 'vivid')
   const [cameraEffect, setCameraEffect] = useState<CameraEffectConfig>(() => loadStoredCameraEffect())
 
-  // Simpan otomatis ke localStorage setiap kali ada perubahan konfigurasi
+  // Simpan otomatis ke localStorage dengan debounce 300ms agar I/O storage tidak membebani main thread saat slider/picker digeser
   useEffect(() => {
-    saveStoredWatermark(watermark)
+    const timer = setTimeout(() => {
+      saveStoredWatermark(watermark)
+    }, 300)
+    return () => clearTimeout(timer)
   }, [watermark])
 
   useEffect(() => {
-    saveStoredProfile(profile)
+    const timer = setTimeout(() => {
+      saveStoredProfile(profile)
+    }, 300)
+    return () => clearTimeout(timer)
   }, [profile])
 
   // Caching Logo Amerta ke browser storage (localStorage) saat aplikasi dibuka

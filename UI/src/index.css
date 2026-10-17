@@ -145,44 +145,75 @@
 }
 
 /* Custom Dark Futuristic Glassmorphism Styling for react-colorful */
+.hud-color-picker,
+.hud-color-picker * {
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
 .hud-color-picker .react-colorful {
   width: 100% !important;
   height: 140px !important;
-  border-radius: 18px;
-  background: transparent;
-  gap: 10px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
+  border-radius: 0 !important;
+  background: transparent !important;
+  gap: 12px;
+  overflow: visible !important;
 }
 
 .hud-color-picker .react-colorful__saturation {
-  border-radius: 14px;
-  border: 1.5px solid rgba(34, 211, 238, 0.45);
+  border-radius: 12px !important;
+  border: 2px solid rgba(34, 211, 238, 0.55) !important;
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 15px rgba(6, 182, 212, 0.25);
-  touch-action: none;
+  cursor: crosshair;
+  touch-action: none !important;
 }
 
-.hud-color-picker .react-colorful__hue {
-  height: 14px !important;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+.hud-color-picker .react-colorful__hue,
+.hud-color-picker .react-colorful__last-control {
+  height: 16px !important;
+  border-radius: 9999px !important;
+  -webkit-border-radius: 9999px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
-  touch-action: none;
+  cursor: ew-resize;
+  touch-action: none !important;
 }
 
-/* Pointer wajib transition: none agar meluncur instan dan tidak bergetar saat digeser */
+.hud-color-picker .react-colorful__hue .react-colorful__interactive {
+  border-radius: 9999px !important;
+  -webkit-border-radius: 9999px !important;
+  outline: none !important;
+  touch-action: none !important;
+}
+
+.hud-color-picker .react-colorful__interactive {
+  outline: none !important;
+  touch-action: none !important;
+}
+
+/* Pointer wajib transform -50%, -50% dan transition: none agar meluncur instan tanpa getaran */
 .hud-color-picker .react-colorful__pointer {
   width: 22px !important;
   height: 22px !important;
   border-radius: 50% !important;
   border: 2.5px solid #ffffff !important;
   box-shadow: 0 0 12px rgba(34, 211, 238, 0.95), 0 0 4px #fff, inset 0 0 3px rgba(0, 0, 0, 0.6) !important;
+  transform: translate(-50%, -50%) !important;
   transition: none !important;
+  animation: none !important;
+  will-change: transform;
   cursor: grab;
 }
 
+/* Matikan scale(1.1) bawaan react-colorful saat interactive focus agar pointer tidak berkedip/bergetar */
+.hud-color-picker .react-colorful__interactive:focus .react-colorful__pointer,
+.hud-color-picker .react-colorful__pointer:focus,
 .hud-color-picker .react-colorful__pointer:active {
+  transform: translate(-50%, -50%) !important;
+  transition: none !important;
+  animation: none !important;
   cursor: grabbing;
 }
 

@@ -52,6 +52,9 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   presets,
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
+  const isDraggingRef = useRef(false)
+  const throttleTimerRef = useRef<number | null>(null)
+  const lastEmittedColorRef = useRef<string>('')
 
   // Cek apakah warna saat ini cocok dengan salah satu preset
   const isCurrentPreset = presets.some(p => p.id === selectedColor)
@@ -62,12 +65,34 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   })
 
   // Sinkronisasi saat selectedColor berubah dari luar jika itu bukan preset
+  // KRITIKAL: Jangan pernah timpa nilai lokal saat pengguna sedang aktif dragging (isDraggingRef.current === true)
   useEffect(() => {
+    if (isDraggingRef.current) return
     if (!isCurrentPreset && selectedColor) {
       const normalized = normalizeToHex(selectedColor)
       setCustomHex(prev => (prev.toLowerCase() === normalized.toLowerCase() ? prev : normalized))
     }
   }, [selectedColor, isCurrentPreset])
+
+  // Listener global pointerup / touchend untuk memastikan status drag selalu ter-reset jika jari kursor terangkat di luar elemen
+  useEffect(() => {
+    const handleRelease = () => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false
+      }
+    }
+    window.addEventListener('pointerup', handleRelease)
+    window.addEventListener('pointercancel', handleRelease)
+    window.addEventListener('touchend', handleRelease)
+    window.addEventListener('mouseup', handleRelease)
+    return () => {
+      window.removeEventListener('pointerup', handleRelease)
+      window.removeEventListener('pointercancel', handleRelease)
+      window.removeEventListener('touchend', handleRelease)
+      window.removeEventListener('mouseup', handleRelease)
+      if (throttleTimerRef.current) clearTimeout(throttleTimerRef.current)
+    }
+  }, [])
 
   useEffect(() => {
     if (!isOpen) return
@@ -103,8 +128,30 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
 
   // Handler saat warna di HexColorPicker digeser / diubah
   const handleCustomColorChange = (newHex: string) => {
+    isDraggingRef.current = true
     setCustomHex(newHex)
-    onSelect(newHex) // Otomatis mengaplikasikan dan memilih kustom
+
+    // Throttling live preview ke parent setiap 80ms:
+    // Menghasilkan live update visual di watermark kamera tanpa membebani main thread render cycle
+    if (!throttleTimerRef.current) {
+      throttleTimerRef.current = window.setTimeout(() => {
+        throttleTimerRef.current = null
+        lastEmittedColorRef.current = newHex
+        onSelect(newHex)
+      }, 80)
+    }
+  }
+
+  // Handler saat interaksi warna selesai dilepas (touchend / mouseup)
+  const handleCustomColorChangeEnd = (finalHex: string) => {
+    isDraggingRef.current = false
+    if (throttleTimerRef.current) {
+      clearTimeout(throttleTimerRef.current)
+      throttleTimerRef.current = null
+    }
+    setCustomHex(finalHex)
+    lastEmittedColorRef.current = finalHex
+    onSelect(finalHex) // Komit warna akhir secara pasti
   }
 
   // Opsi Kustom sedang aktif jika selectedColor tidak cocok dengan preset manapun, atau sama persis dengan customHex
@@ -113,7 +160,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none max-h-[82vh] flex flex-col"
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in duration-150 overflow-hidden select-none flex flex-col"
     >
       {/* ========================================================================= */}
       {/* GLOSSY GLASS BUBBLE ORBS: AMBIENT BACKGROUND HUD                          */}
@@ -132,7 +179,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
 
       {/* ========================================================================= */}
-      {/* HEADER UTAMA: JUDUL + BADGE TOTAL PILIHAN                                 */}
+      {/* HEADER UTAMA: JUDUL + BADGE TOTAL PILIHAN (STATIS)                        */}
       {/* ========================================================================= */}
       <div className="relative flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/25 z-10 shrink-0">
         <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
@@ -146,72 +193,75 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         </div>
       </div>
 
-      {/* Konten Scrollable Pembungkus Keseluruhan */}
-      <div className="overflow-y-auto custom-scrollbar space-y-2.5 pr-0.5 z-10">
-        {/* ========================================================================= */}
-        {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER REACT-COLORFUL HUD             */}
-        {/* ========================================================================= */}
-        <div className="relative p-2.5 rounded-2xl bg-[#030d22]/85 border border-cyan-400/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.6)]">
-          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
-            <div className="flex items-center gap-1.5">
-              <Palette className="w-3 h-3 text-cyan-400" />
-              <span>Select Warna Kustom:</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div
-                className="w-3.5 h-3.5 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
-                style={{ backgroundColor: customHex }}
-              />
-              <span className="font-mono text-cyan-200 font-bold">
-                {customHex.toUpperCase()}
-              </span>
-            </div>
+      {/* ========================================================================= */}
+      {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER (STATIS, 100% NON-SCROLLABLE)  */}
+      {/* ========================================================================= */}
+      <div className="relative p-2.5 rounded-2xl bg-[#030d22]/90 border border-cyan-400/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.6)] shrink-0 z-10 mb-2.5">
+        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <Palette className="w-3 h-3 text-cyan-400" />
+            <span>Select Warna Kustom:</span>
           </div>
-
-          {/* Modul react-colorful dengan class .hud-color-picker */}
-          <div className="hud-color-picker w-full">
-            <HexColorPicker
-              color={customHex}
-              onChange={handleCustomColorChange}
+          <div className="flex items-center gap-1.5">
+            <div
+              className="w-3.5 h-3.5 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
+              style={{ backgroundColor: customHex }}
             />
-          </div>
-
-          {/* Baris Input Manual HEX + Preview Cepat */}
-          <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-cyan-500/25">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="text-[10px] font-mono font-bold text-slate-300">HEX:</span>
-              <input
-                type="text"
-                value={customHex.toUpperCase()}
-                onChange={(e) => {
-                  const val = e.target.value.trim()
-                  const formatted = val.startsWith('#') ? val : `#${val}`
-                  setCustomHex(formatted)
-                  if (/^#[0-9A-Fa-f]{6}$/.test(formatted)) {
-                    onSelect(formatted)
-                  }
-                }}
-                className="w-24 bg-[#010714] border border-cyan-500/40 focus:border-cyan-300 px-2 py-0.5 rounded-lg text-xs font-mono font-bold text-white tracking-wider outline-none focus:ring-1 focus:ring-cyan-400"
-                placeholder="#00E5FF"
-                maxLength={7}
-              />
-            </div>
-            <span className="text-[10px] text-cyan-200/70 font-mono">
-              {isCustomSelected ? '● Kustom Aktif' : 'Geser untuk memilih'}
+            <span className="font-mono text-cyan-200 font-bold">
+              {customHex.toUpperCase()}
             </span>
           </div>
         </div>
 
-        {/* ========================================================================= */}
-        {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM                        */}
-        {/* ========================================================================= */}
-        <div>
-          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between">
-            <span>Daftar Pilihan Preset:</span>
-            <span className="text-slate-500 text-[9px]">(Termasuk Kustom)</span>
-          </div>
+        {/* Modul react-colorful dengan class .hud-color-picker */}
+        <div
+          className="hud-color-picker w-full"
+          onPointerDown={() => { isDraggingRef.current = true }}
+          onTouchStart={() => { isDraggingRef.current = true }}
+        >
+          <HexColorPicker
+            color={customHex}
+            onChange={handleCustomColorChange}
+            onChangeEnd={handleCustomColorChangeEnd}
+          />
+        </div>
 
-          <div className="max-h-36 sm:max-h-40 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
+        {/* Baris Input Manual HEX + Preview Cepat */}
+        <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-cyan-500/25">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="text-[10px] font-mono font-bold text-slate-300">HEX:</span>
+            <input
+              type="text"
+              value={customHex.toUpperCase()}
+              onChange={(e) => {
+                const val = e.target.value.trim()
+                const formatted = val.startsWith('#') ? val : `#${val}`
+                setCustomHex(formatted)
+                if (/^#[0-9A-Fa-f]{6}$/.test(formatted)) {
+                  onSelect(formatted)
+                }
+              }}
+              className="w-24 bg-[#010714] border border-cyan-500/40 focus:border-cyan-300 px-2 py-0.5 rounded-lg text-xs font-mono font-bold text-white tracking-wider outline-none focus:ring-1 focus:ring-cyan-400"
+              placeholder="#00E5FF"
+              maxLength={7}
+            />
+          </div>
+          <span className="text-[10px] text-cyan-200/70 font-mono">
+            {isCustomSelected ? '● Kustom Aktif' : 'Geser untuk memilih'}
+          </span>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM (SCROLLABLE MANDIRI)    */}
+      {/* ========================================================================= */}
+      <div className="relative z-10 flex-1 min-h-0 flex flex-col">
+        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between shrink-0">
+          <span>Daftar Pilihan Preset:</span>
+          <span className="text-slate-500 text-[9px]">(Termasuk Kustom)</span>
+        </div>
+
+        <div className="max-h-32 sm:max-h-36 overflow-y-auto space-y-1.5 pr-1 custom-scrollbar">
           {/* A. Preset-preset standar */}
           {presets.map((item, index) => {
             const isSelected = !isCustomSelected && item.id === selectedColor
@@ -365,6 +415,5 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         </div>
       </div>
     </div>
-  </div>
   )
 }

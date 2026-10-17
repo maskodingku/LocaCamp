@@ -696,7 +696,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
                   }}
-                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-[transform,opacity] relative overflow-hidden group"
                 >
                   <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
                   <div className="flex items-center gap-2 min-w-0">
@@ -727,7 +727,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
                   }}
-                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-[transform,opacity] relative overflow-hidden group"
                 >
                   <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
                   <div className="flex items-center gap-2 min-w-0">
