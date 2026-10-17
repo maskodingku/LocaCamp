@@ -53,6 +53,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
   const isDraggingRef = useRef(false)
+  const [isDragging, setIsDragging] = useState(false)
   const throttleTimerRef = useRef<number | null>(null)
   const lastEmittedColorRef = useRef<string>('')
 
@@ -79,6 +80,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
     const handleRelease = () => {
       if (isDraggingRef.current) {
         isDraggingRef.current = false
+        setIsDragging(false)
       }
     }
     window.addEventListener('pointerup', handleRelease)
@@ -129,6 +131,9 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   // Handler saat warna di HexColorPicker digeser / diubah
   const handleCustomColorChange = (newHex: string) => {
     isDraggingRef.current = true
+    if (!isDragging) {
+      setIsDragging(true)
+    }
     setCustomHex(newHex)
 
     // Throttling live preview ke parent setiap 80ms:
@@ -145,6 +150,7 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   // Handler saat interaksi warna selesai dilepas (touchend / mouseup)
   const handleCustomColorChangeEnd = (finalHex: string) => {
     isDraggingRef.current = false
+    setIsDragging(false)
     if (throttleTimerRef.current) {
       clearTimeout(throttleTimerRef.current)
       throttleTimerRef.current = null
@@ -160,28 +166,38 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3 sm:p-3.5 rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in duration-150 overflow-hidden select-none flex flex-col"
+      className={`absolute bottom-full mb-3 left-0 right-0 z-[140] select-none flex flex-col p-3 sm:p-3.5 transition-all duration-150 ${
+        isDragging
+          ? 'bg-transparent border-transparent shadow-none backdrop-blur-none pointer-events-auto'
+          : 'rounded-[28px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-hidden animate-in fade-in duration-150'
+      }`}
     >
       {/* ========================================================================= */}
-      {/* GLOSSY GLASS BUBBLE ORBS: AMBIENT BACKGROUND HUD                          */}
+      {/* GLOSSY GLASS BUBBLE ORBS & SPECULAR GLARE (HANYA MUNCUL SAAT IDLE)        */}
       {/* ========================================================================= */}
-      <div className="absolute -bottom-8 -right-4 w-36 h-36 rounded-full bg-gradient-to-br from-cyan-400/15 via-blue-500/5 to-transparent border border-cyan-300/35 blur-[0.3px] shadow-[inset_0_4px_10px_rgba(255,255,255,0.5),inset_0_-4px_10px_rgba(0,0,0,0.7),0_0_25px_rgba(6,182,212,0.2)] pointer-events-none">
-        <div className="absolute top-2 inset-x-5 h-4 rounded-full bg-white/25 blur-[1px]" />
-      </div>
-      <div className="absolute top-1/4 -right-6 w-24 h-24 rounded-full bg-gradient-to-br from-sky-400/15 via-cyan-600/5 to-transparent border border-cyan-400/35 blur-[0.3px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.6),inset_0_-3px_8px_rgba(0,0,0,0.7),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none">
-        <div className="absolute top-1.5 inset-x-3 h-3 rounded-full bg-white/30 blur-[0.8px]" />
-      </div>
-      <div className="absolute bottom-10 -left-6 w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-600/10 border border-cyan-400/25 blur-[0.4px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.45),inset_0_-3px_8px_rgba(0,0,0,0.6),0_0_18px_rgba(6,182,212,0.15)] pointer-events-none">
-        <div className="absolute top-2 inset-x-4 h-3.5 rounded-full bg-white/20 blur-[1px]" />
-      </div>
+      {!isDragging && (
+        <>
+          <div className="absolute -bottom-8 -right-4 w-36 h-36 rounded-full bg-gradient-to-br from-cyan-400/15 via-blue-500/5 to-transparent border border-cyan-300/35 blur-[0.3px] shadow-[inset_0_4px_10px_rgba(255,255,255,0.5),inset_0_-4px_10px_rgba(0,0,0,0.7),0_0_25px_rgba(6,182,212,0.2)] pointer-events-none">
+            <div className="absolute top-2 inset-x-5 h-4 rounded-full bg-white/25 blur-[1px]" />
+          </div>
+          <div className="absolute top-1/4 -right-6 w-24 h-24 rounded-full bg-gradient-to-br from-sky-400/15 via-cyan-600/5 to-transparent border border-cyan-400/35 blur-[0.3px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.6),inset_0_-3px_8px_rgba(0,0,0,0.7),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none">
+            <div className="absolute top-1.5 inset-x-3 h-3 rounded-full bg-white/30 blur-[0.8px]" />
+          </div>
+          <div className="absolute bottom-10 -left-6 w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-600/10 border border-cyan-400/25 blur-[0.4px] shadow-[inset_0_3px_8px_rgba(255,255,255,0.45),inset_0_-3px_8px_rgba(0,0,0,0.6),0_0_18px_rgba(6,182,212,0.15)] pointer-events-none">
+            <div className="absolute top-2 inset-x-4 h-3.5 rounded-full bg-white/20 blur-[1px]" />
+          </div>
 
-      {/* Specular Highlight Glare di Atas Popup */}
-      <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
+          {/* Specular Highlight Glare di Atas Popup */}
+          <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
+        </>
+      )}
 
-      {/* ========================================================================= */}
-      {/* HEADER UTAMA: JUDUL + BADGE TOTAL PILIHAN (STATIS)                        */}
-      {/* ========================================================================= */}
-      <div className="relative flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/25 z-10 shrink-0">
+      {/* HEADER UTAMA: JUDUL + BADGE TOTAL PILIHAN (Transparan Total Saat Dragging) */}
+      <div
+        className={`relative flex items-center justify-between pb-2 mb-2 border-b z-10 shrink-0 transition-opacity duration-150 ${
+          isDragging ? 'opacity-0 pointer-events-none border-transparent' : 'border-cyan-500/25'
+        }`}
+      >
         <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
           {title}
         </span>
@@ -194,10 +210,20 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER (STATIS, 100% NON-SCROLLABLE)  */}
+      {/* 1. BAGIAN ATAS: AREA SELECT / COLOR PICKER (HANYA AREA INI YANG TAMPIL)    */}
       {/* ========================================================================= */}
-      <div className="relative p-2.5 rounded-2xl bg-[#030d22]/90 border border-cyan-400/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.6)] shrink-0 z-10 mb-2.5">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between">
+      <div
+        className={`relative p-2.5 rounded-2xl transition-all duration-150 shrink-0 z-10 ${
+          isDragging
+            ? 'bg-transparent border-transparent shadow-none'
+            : 'bg-[#030d22]/90 border border-cyan-400/40 shadow-[inset_0_1px_2px_rgba(255,255,255,0.25),0_4px_12px_rgba(0,0,0,0.6)] mb-2.5'
+        }`}
+      >
+        <div
+          className={`text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/90 mb-1.5 flex items-center justify-between transition-opacity duration-150 ${
+            isDragging ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
           <div className="flex items-center gap-1.5">
             <Palette className="w-3 h-3 text-cyan-400" />
             <span>Select Warna Kustom:</span>
@@ -213,11 +239,19 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
           </div>
         </div>
 
-        {/* Modul react-colorful dengan class .hud-color-picker */}
+        {/* Modul react-colorful dengan class .hud-color-picker (Tampil Bersih Mengambang Saat Dragging) */}
         <div
-          className="hud-color-picker w-full"
-          onPointerDown={() => { isDraggingRef.current = true }}
-          onTouchStart={() => { isDraggingRef.current = true }}
+          className={`hud-color-picker w-full transition-all duration-150 ${
+            isDragging ? 'drop-shadow-[0_12px_36px_rgba(0,0,0,0.95)]' : ''
+          }`}
+          onPointerDown={() => {
+            isDraggingRef.current = true
+            setIsDragging(true)
+          }}
+          onTouchStart={() => {
+            isDraggingRef.current = true
+            setIsDragging(true)
+          }}
         >
           <HexColorPicker
             color={customHex}
@@ -226,8 +260,12 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
           />
         </div>
 
-        {/* Baris Input Manual HEX + Preview Cepat */}
-        <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-cyan-500/25">
+        {/* Baris Input Manual HEX + Preview Cepat (Transparan Saat Dragging) */}
+        <div
+          className={`flex items-center justify-between gap-2 mt-2 pt-2 border-t border-cyan-500/25 transition-opacity duration-150 ${
+            isDragging ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
           <div className="flex items-center gap-1.5 min-w-0">
             <span className="text-[10px] font-mono font-bold text-slate-300">HEX:</span>
             <input
@@ -253,10 +291,14 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM (SCROLLABLE MANDIRI)    */}
+      {/* 2. BAGIAN BAWAH: DAFTAR PRESET WARNA + ITEM KUSTOM (Transparan Saat Drag)  */}
       {/* ========================================================================= */}
-      <div className="relative z-10 flex-1 min-h-0 flex flex-col">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between shrink-0">
+      <div
+        className={`relative z-10 flex-1 min-h-0 flex flex-col transition-opacity duration-150 ${
+          isDragging ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
+          <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1 px-1 flex items-center justify-between shrink-0">
           <span>Daftar Pilihan Preset:</span>
           <span className="text-slate-500 text-[9px]">(Termasuk Kustom)</span>
         </div>
