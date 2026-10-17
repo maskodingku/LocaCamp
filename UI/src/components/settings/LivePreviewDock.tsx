@@ -654,24 +654,29 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   {/* Specular Highlight Glare di Atas Track */}
                   <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_6px_#fff] pointer-events-none" />
 
-                  {/* Rel Track Latar Belakang dengan Label Halus di Kedua Ujung */}
-                  <div className="absolute inset-x-3 inset-y-0 flex items-center justify-between pointer-events-none px-2 font-mono text-[11px] font-extrabold tracking-wider">
-                    <span
-                      className={`transition-opacity duration-300 ${
-                        isBorderOn ? 'text-slate-500/50 opacity-40' : 'text-slate-300/80 opacity-90'
-                      }`}
-                    >
-                      OFF
-                    </span>
-                    <span
-                      className={`transition-opacity duration-300 ${
-                        isBorderOn
-                          ? 'text-cyan-300/90 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] opacity-100'
-                          : 'text-slate-500/50 opacity-40'
-                      }`}
-                    >
-                      ON
-                    </span>
+                  {/* Rel Track Latar Belakang dengan Label Standby di Kedua Sisi */}
+                  <div className="absolute inset-0 flex items-center pointer-events-none font-mono text-[11px] font-black tracking-wider">
+                    {/* Sisi Kiri: Label OFF (terlihat redup saat Knob berada di kanan / status ON) */}
+                    <div className="w-1/2 flex items-center justify-center">
+                      <span
+                        className={`transition-opacity duration-300 ${
+                          isBorderOn ? 'text-white/45 opacity-100' : 'opacity-0'
+                        }`}
+                      >
+                        OFF
+                      </span>
+                    </div>
+
+                    {/* Sisi Kanan: Label ON (terlihat redup saat Knob berada di kiri / status OFF) */}
+                    <div className="w-1/2 flex items-center justify-center">
+                      <span
+                        className={`transition-opacity duration-300 ${
+                          isBorderOn ? 'opacity-0' : 'text-cyan-200/50 opacity-100'
+                        }`}
+                      >
+                        ON
+                      </span>
+                    </div>
                   </div>
 
                   {/* Sliding Knob (Thumb Slider Berpindah Kiri <-> Kanan) */}

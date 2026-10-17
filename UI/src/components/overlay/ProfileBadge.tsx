@@ -67,9 +67,11 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
         fontSize: `${effectiveFontSize}px`,
         backgroundColor: bgColor,
         color: textColor,
+        border: showBorder ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
+        outline: 'none',
       }}
       className={`${bgColor === 'transparent' ? 'bg-transparent' : 'glass-panel'} rounded-xl px-3 py-1.5 shadow-xl backdrop-blur-xl ${
-        showBorder ? 'border border-white/15' : 'border-0'
+        showBorder ? 'border border-white/15' : '!border-0 !border-none !border-transparent'
       } inline-flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200 select-none ${positionClass} ${className}`}
     >
       <User
