@@ -56,7 +56,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
   return (
     <>
-      {/* Section 1: Profil Pengguna (Paling Atas) */}
+      {/* SECTION 1: PROFIL PENGGUNA (PALING ATAS) */}
       <ProfileSection
         profile={profile}
         onChangeProfile={onChangeProfile}
@@ -67,284 +67,339 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
       {/* SECTION 2: WATERMARK LOGO */}
       <div
-        className={`relative rounded-[22px] sm:rounded-[26px] border border-cyan-400/25 border-t-cyan-300/40 transition-all duration-150 overflow-hidden mt-4 sm:mt-5 ${
+        className={`relative rounded-[22px] border border-cyan-400/50 transition-all duration-150 overflow-hidden mt-3.5 sm:mt-4 ${
           activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'bg-gradient-to-b from-[#042433]/70 via-[#021822]/65 to-[#010e16]/80 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5),0_0_15px_rgba(6,182,212,0.08),inset_0_1px_1px_rgba(255,255,255,0.12)]'
+            : 'bg-[#020717]/85 backdrop-blur-2xl shadow-[0_0_30px_rgba(6,182,212,0.35),0_15px_40px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white'
         }`}
       >
-        {/* Specular Glare Highlight Border Atas Kaca */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/40 to-transparent z-20" />
+        {/* AMBIENT GLOSSY GLASS BUBBLE ORBS */}
+        <div className="absolute -top-3 -left-3 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.3)] pointer-events-none" />
+        <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.65),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none" />
+        <div className="absolute -bottom-4 -left-3 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_3px_rgba(255,255,255,0.6),0_0_12px_rgba(6,182,212,0.2)] pointer-events-none" />
+        <div className="absolute -bottom-4 -right-3 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_18px_rgba(59,130,246,0.3)] pointer-events-none" />
 
-        {/* Header Section Watermark Logo (LEKAT KE KIRI, KANAN, DAN ATAS BOX LUAR) */}
+        {/* Specular Glare Highlight Border Atas Kaca */}
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+
+        {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
+        <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
+        <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
+
+        {/* Header Section Watermark Logo */}
         <div
-          className={`w-full items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 border-b border-cyan-500/15 bg-black/25 backdrop-blur-md rounded-t-[21px] sm:rounded-t-[25px] transition-opacity duration-150 ${
+          className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#030d22]/60 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
-          <CyberGlassOrb
-            icon={Sparkles}
-            size="md"
-            variant="cyan"
-          />
-          <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-white truncate">Watermark Logo</h3>
-            <p className="text-xs text-zinc-400 truncate">
-              Unggah logo resmi, sesuaikan posisi, ukuran &amp; transparansi
-            </p>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <CyberGlassOrb
+              icon={Sparkles}
+              size="md"
+              variant="cyan"
+            />
+            <div className="h-4.5 w-[1.5px] bg-cyan-400/40 shrink-0" />
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-slate-200 text-[13.5px] sm:text-sm font-medium tracking-wide">
+                Watermark
+              </span>
+              <span className="text-white text-[13.5px] sm:text-sm font-extrabold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+                Logo
+              </span>
+            </div>
           </div>
+
+          {watermark.imageUrl && (
+            <span className="px-2.5 py-0.5 rounded-full bg-[#030917]/90 border border-cyan-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.4)] text-[10.5px] font-mono font-bold text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] shrink-0">
+              TERPASANG
+            </span>
+          )}
         </div>
 
         {/* Body Konten Watermark */}
-        <div className={`p-4 sm:p-5 pt-3.5 sm:pt-4 space-y-4 ${activeSlider ? 'space-y-0 p-0' : ''}`}>
+        <div className={`p-3.5 sm:p-4 pt-3 sm:pt-3.5 space-y-3.5 ${activeSlider ? 'space-y-0 p-0' : ''}`}>
           {/* Upload & Preview Logo Aktif */}
           <div
             className={`transition-opacity duration-150 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-          <div className="flex items-center justify-between mb-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-              <CyberGlassOrb icon={Upload} size="xs" variant="cyan" />
-              <span>Logo Watermark</span>
-            </label>
-            {onTriggerPreview && (
-              <button
-                type="button"
-                onClick={() => onTriggerPreview?.('watermark_position')}
-                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
-                title="Lihat Pratinjau Langsung di Kamera"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span>Preview</span>
-              </button>
-            )}
-          </div>
-
-          {watermark.imageUrl ? (
-            /* Card Saat Logo Sudah Terpasang */
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-black/25 border border-cyan-500/20 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-12 h-12 rounded-xl bg-black/50 border border-cyan-800/40 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-inner">
-                  <img
-                    src={watermark.imageUrl}
-                    alt="Logo Aktif"
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-white truncate">Logo Terpasang</p>
-                  <p className="text-[11px] text-zinc-400 truncate">Siap dicetak pada hasil foto</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <label className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-cyan-800/60 bg-black/40 hover:bg-black/60 text-xs font-medium text-zinc-200 cursor-pointer transition-all active:scale-95 shadow-sm">
-                  <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
-                  <span>Ganti</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileUpload}
-                  />
-                </label>
-                <button
-                  type="button"
-                  onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-                  className="p-2 rounded-xl border border-rose-500/25 bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 transition-all active:scale-95 shadow-sm"
-                  title="Hapus Logo"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ) : (
-            /* Dropzone Saat Belum Ada Logo */
-            <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-cyan-500/35 hover:border-cyan-400 bg-black/20 hover:bg-black/35 cursor-pointer transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform shadow-sm">
-                <Upload className="w-5 h-5" />
-              </div>
-              <div className="text-center">
-                <span className="text-xs font-semibold text-zinc-200 block group-hover:text-cyan-300 transition-colors">
-                  Pilih Logo (PNG / JPG / SVG)
-                </span>
-                <span className="text-[11px] text-zinc-400 mt-0.5 block">
-                  Disarankan format PNG transparan agar rapi pada foto
-                </span>
-              </div>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileUpload}
-              />
-            </label>
-          )}
-        </div>
-
-        {/* Position Selector (9-Grid) */}
-        {watermark.imageUrl && (
-          <div
-            className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'
-              }`}
-          >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-                <CyberGlassOrb icon={Sparkles} size="xs" variant="cyan" />
-                <span>Posisi Watermark di Foto</span>
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <CyberGlassOrb icon={Upload} size="xs" variant="cyan" />
+                <span>Logo Watermark</span>
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('watermark_position')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <Eye className="w-3.5 h-3.5" />
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
                   <span>Preview</span>
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-1.5 p-2 bg-black/25 rounded-2xl border border-cyan-500/20">
-              {WATERMARK_GRID_POSITIONS.map(pos => {
-                const active = watermark.position === pos.id
-                return (
-                  <button
-                    key={pos.id}
-                    type="button"
-                    onClick={() =>
-                      onChangeWatermark({ ...watermark, position: pos.id })
-                    }
-                    className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${active
-                        ? 'bg-cyan-400 text-black font-black shadow-[0_0_12px_rgba(34,211,238,0.7)]'
-                        : 'bg-black/30 text-zinc-300 hover:bg-black/50 hover:text-white border border-cyan-950/40'
-                      }`}
-                  >
-                    <span className="text-cyan-400 font-bold shrink-0">{pos.icon}</span>
-                    <span className="truncate">{pos.label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        )}
 
-        {/* Sliders: Size and Opacity */}
-        {watermark.imageUrl && (
-          <div className={`space-y-4 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
-            {/* Ukuran Watermark Slider */}
-            <div
-              className={`transition-all duration-150 ${activeSlider === 'watermark_size'
-                  ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
-                  : activeSlider !== null
-                    ? 'hidden'
-                    : ''
-                }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span
-                    className={`text-xs font-semibold uppercase tracking-wider ${activeSlider === 'watermark_size' ? 'text-white font-bold' : 'text-zinc-300'
-                      }`}
+            {watermark.imageUrl ? (
+              /* Card Saat Logo Sudah Terpasang */
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-[#030d22]/60 border border-cyan-500/25 flex items-center justify-between gap-3 shadow-inner">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-12 h-12 rounded-xl bg-[#020717] border border-cyan-400/50 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.25)]">
+                    <img
+                      src={watermark.imageUrl}
+                      alt="Logo Aktif"
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold text-white truncate">Logo Terpasang</p>
+                    <p className="text-[11px] text-slate-400 truncate">Siap dicetak pada hasil foto</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <label className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-cyan-400/80 bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 text-xs font-bold text-cyan-200 hover:text-white cursor-pointer transition-all active:scale-95 shadow-[0_0_10px_rgba(6,182,212,0.35),inset_0_1px_1px_rgba(255,255,255,0.6)] relative overflow-hidden">
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/60 pointer-events-none" />
+                    <RefreshCw className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                    <span>Ganti</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileUpload}
+                    />
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
+                    className="w-8.5 h-8.5 rounded-full bg-gradient-to-b from-[#3d0818]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_0_14px_rgba(244,63,94,0.7),inset_0_1px_1.5px_rgba(255,255,255,0.7)] flex items-center justify-center cursor-pointer active:scale-90 transition-all text-rose-300 hover:text-white relative overflow-hidden"
+                    title="Hapus Logo"
                   >
-                    Ukuran Watermark
+                    <div className="absolute top-0.5 inset-x-1.5 h-1.5 rounded-full bg-white/40 blur-[0.5px] pointer-events-none" />
+                    <Trash2 className="w-4 h-4 drop-shadow-[0_0_6px_rgba(244,63,94,0.9)]" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* Dropzone Saat Belum Ada Logo */
+              <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-cyan-400/40 hover:border-cyan-300 bg-[#030d22]/40 hover:bg-[#03152e]/60 cursor-pointer transition-all group shadow-inner">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_14px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8)] flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform">
+                  <Upload className="w-5 h-5 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" />
+                </div>
+                <div className="text-center">
+                  <span className="text-xs font-bold text-slate-200 block group-hover:text-cyan-300 transition-colors">
+                    Pilih Logo (PNG / JPG / SVG)
                   </span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 shrink-0">
-                    {watermark.sizePercent}% lebar
+                  <span className="text-[11px] text-slate-400 mt-0.5 block">
+                    Disarankan format PNG transparan agar rapi pada foto
                   </span>
                 </div>
-                {onTriggerPreview && activeSlider !== 'watermark_size' && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+              </label>
+            )}
+          </div>
+
+          {/* Position Selector (9-Grid) */}
+          {watermark.imageUrl && (
+            <div
+              className={`transition-opacity duration-150 ${
+                activeSlider ? 'hidden' : 'block'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                  <CyberGlassOrb icon={Sparkles} size="xs" variant="cyan" />
+                  <span>Posisi Watermark di Foto</span>
+                </label>
+                {onTriggerPreview && (
                   <button
                     type="button"
-                    onClick={() => onTriggerPreview?.('watermark_size')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+                    onClick={() => onTriggerPreview?.('watermark_position')}
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
-                    <Eye className="w-3.5 h-3.5" />
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
+                    <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
                     <span>Preview</span>
                   </button>
                 )}
               </div>
-              <input
-                type="range"
-                min={8}
-                max={45}
-                value={watermark.sizePercent}
-                onPointerDown={() => setActiveSlider('watermark_size')}
-                onTouchStart={() => setActiveSlider('watermark_size')}
-                onMouseDown={() => setActiveSlider('watermark_size')}
-                onPointerUp={() => setActiveSlider(null)}
-                onTouchEnd={() => setActiveSlider(null)}
-                onMouseUp={() => setActiveSlider(null)}
-                onChange={e =>
-                  onChangeWatermark({
-                    ...watermark,
-                    sizePercent: Number(e.target.value),
-                  })
-                }
-                className="w-full accent-cyan-400 h-2 bg-black/40 rounded-lg cursor-pointer"
-              />
+              <div className="grid grid-cols-3 gap-1.5 p-3 bg-[#030d22]/60 rounded-2xl border border-cyan-500/25">
+                {WATERMARK_GRID_POSITIONS.map(pos => {
+                  const active = watermark.position === pos.id
+                  return (
+                    <button
+                      key={pos.id}
+                      type="button"
+                      onClick={() =>
+                        onChangeWatermark({ ...watermark, position: pos.id })
+                      }
+                      className={`py-2 px-1 rounded-xl text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate relative overflow-hidden border ${
+                        active
+                          ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200/90 shadow-[0_0_14px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
+                          : 'bg-[#020717]/60 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                      }`}
+                    >
+                      <span className={`font-bold shrink-0 ${active ? 'text-[#020b18]' : 'text-cyan-400'}`}>
+                        {pos.icon}
+                      </span>
+                      <span className="truncate">{pos.label}</span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
+          )}
 
-            {/* Opacity Slider */}
-            <div
-              className={`transition-all duration-150 ${activeSlider === 'watermark_opacity'
-                  ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
-                  : activeSlider !== null
+          {/* Sliders: Size and Opacity */}
+          {watermark.imageUrl && (
+            <div className={`space-y-3.5 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
+              {/* Ukuran Watermark Slider (Electric Blue Capsule Slider) */}
+              <div
+                className={`transition-all duration-150 ${
+                  activeSlider === 'watermark_size'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.7)] relative z-50'
+                    : activeSlider !== null
                     ? 'hidden'
                     : ''
                 }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2 min-w-0">
-                  <span
-                    className={`text-xs font-semibold uppercase tracking-wider ${activeSlider === 'watermark_opacity' ? 'text-white font-bold' : 'text-zinc-300'
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className={`text-xs font-semibold uppercase tracking-wider ${
+                        activeSlider === 'watermark_size' ? 'text-white font-bold' : 'text-slate-300'
                       }`}
-                  >
-                    Transparansi (Opacity)
+                    >
+                      Ukuran Watermark
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#030917]/90 text-cyan-300 border border-cyan-400/50 shadow-[0_0_8px_rgba(6,182,212,0.4)] shrink-0">
+                      {watermark.sizePercent}% lebar
+                    </span>
+                  </div>
+                  {onTriggerPreview && activeSlider !== 'watermark_size' && (
+                    <button
+                      type="button"
+                      onClick={() => onTriggerPreview?.('watermark_size')}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
+                      title="Lihat Pratinjau Langsung di Kamera"
+                    >
+                      <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                      <span>Preview</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Slider Capsule Track */}
+                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff] pointer-events-none" />
+                  <div className="flex-1 min-w-0 flex items-center">
+                    <input
+                      type="range"
+                      min={8}
+                      max={45}
+                      value={watermark.sizePercent}
+                      onPointerDown={() => setActiveSlider('watermark_size')}
+                      onTouchStart={() => setActiveSlider('watermark_size')}
+                      onMouseDown={() => setActiveSlider('watermark_size')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
+                      onChange={e =>
+                        onChangeWatermark({
+                          ...watermark,
+                          sizePercent: Number(e.target.value),
+                        })
+                      }
+                      className="hud-slider cursor-pointer w-full"
+                    />
+                  </div>
+                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.9)]">
+                    {watermark.sizePercent}%
                   </span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 shrink-0">
+                </div>
+              </div>
+
+              {/* Opacity Slider (Electric Blue Capsule Slider) */}
+              <div
+                className={`transition-all duration-150 ${
+                  activeSlider === 'watermark_opacity'
+                    ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.7)] relative z-50'
+                    : activeSlider !== null
+                    ? 'hidden'
+                    : ''
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span
+                      className={`text-xs font-semibold uppercase tracking-wider ${
+                        activeSlider === 'watermark_opacity' ? 'text-white font-bold' : 'text-slate-300'
+                      }`}
+                    >
+                      Transparansi (Opacity)
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-[#030917]/90 text-cyan-300 border border-cyan-400/50 shadow-[0_0_8px_rgba(6,182,212,0.4)] shrink-0">
+                      {Math.round(watermark.opacity * 100)}%
+                    </span>
+                  </div>
+                  {onTriggerPreview && activeSlider !== 'watermark_opacity' && (
+                    <button
+                      type="button"
+                      onClick={() => onTriggerPreview?.('watermark_opacity')}
+                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
+                      title="Lihat Pratinjau Langsung di Kamera"
+                    >
+                      <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
+                      <Eye className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_4px_rgba(34,211,238,0.8)]" />
+                      <span>Preview</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Slider Capsule Track */}
+                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff] pointer-events-none" />
+                  <div className="flex-1 min-w-0 flex items-center">
+                    <input
+                      type="range"
+                      min={0.15}
+                      max={1.0}
+                      step={0.05}
+                      value={watermark.opacity}
+                      onPointerDown={() => setActiveSlider('watermark_opacity')}
+                      onTouchStart={() => setActiveSlider('watermark_opacity')}
+                      onMouseDown={() => setActiveSlider('watermark_opacity')}
+                      onPointerUp={() => setActiveSlider(null)}
+                      onTouchEnd={() => setActiveSlider(null)}
+                      onMouseUp={() => setActiveSlider(null)}
+                      onChange={e =>
+                        onChangeWatermark({
+                          ...watermark,
+                          opacity: Number(e.target.value),
+                        })
+                      }
+                      className="hud-slider cursor-pointer w-full"
+                    />
+                  </div>
+                  <span className="font-mono text-cyan-300 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.9)]">
                     {Math.round(watermark.opacity * 100)}%
                   </span>
                 </div>
-                {onTriggerPreview && activeSlider !== 'watermark_opacity' && (
-                  <button
-                    type="button"
-                    onClick={() => onTriggerPreview?.('watermark_opacity')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
-                    title="Lihat Pratinjau Langsung di Kamera"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Preview</span>
-                  </button>
-                )}
               </div>
-              <input
-                type="range"
-                min={0.15}
-                max={1.0}
-                step={0.05}
-                value={watermark.opacity}
-                onPointerDown={() => setActiveSlider('watermark_opacity')}
-                onTouchStart={() => setActiveSlider('watermark_opacity')}
-                onMouseDown={() => setActiveSlider('watermark_opacity')}
-                onPointerUp={() => setActiveSlider(null)}
-                onTouchEnd={() => setActiveSlider(null)}
-                onMouseUp={() => setActiveSlider(null)}
-                onChange={e =>
-                  onChangeWatermark({
-                    ...watermark,
-                    opacity: Number(e.target.value),
-                  })
-                }
-                className="w-full accent-cyan-400 h-2 bg-black/40 rounded-lg cursor-pointer"
-              />
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </>
