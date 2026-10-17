@@ -290,26 +290,26 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
   const combinedColor = combineHexAndAlpha(customHex, alphaPercent)
   const isTop = smartPlacement === 'top'
   const positionClasses = isTop
-    ? 'fixed top-3 left-3 right-3 sm:left-auto sm:right-6 sm:w-full sm:max-w-[360px] z-[160]'
-    : 'fixed bottom-28 left-3 right-3 sm:left-auto sm:right-6 sm:w-full sm:max-w-[360px] z-[160]'
+    ? 'fixed top-2.5 left-2.5 right-2.5 sm:left-auto sm:right-6 sm:w-full sm:max-w-[300px] z-[160]'
+    : 'fixed bottom-24 left-2.5 right-2.5 sm:left-auto sm:right-6 sm:w-full sm:max-w-[300px] z-[160]'
 
   return (
     <div
       data-smart-picker="true"
-      className={`${positionClasses} select-none p-3.5 rounded-[26px] bg-[#020717]/95 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.8),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in zoom-in-95 duration-150 overflow-hidden touch-none`}
+      className={`${positionClasses} select-none p-2 sm:p-2.5 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400/90 shadow-[0_0_20px_rgba(6,182,212,0.6),0_12px_40px_rgba(0,0,0,0.9),inset_0_1px_1.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in zoom-in-95 duration-150 overflow-hidden touch-none`}
     >
       {/* Specular Highlight Glare di Atas Box */}
-      <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_8px_#22d3ee]" />
+      <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-cyan-100 to-transparent pointer-events-none shadow-[0_0_6px_#22d3ee]" />
 
       {/* Header Info Live Cerdas */}
-      <div className="flex items-center justify-between pb-2 mb-2 border-b border-cyan-500/25">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-cyan-500/25">
+        <div className="flex items-center gap-1.5 min-w-0">
           {activePart === 'alpha' ? (
-            <Sliders className="w-3.5 h-3.5 text-cyan-400" />
+            <Sliders className="w-3 h-3 text-cyan-400 shrink-0" />
           ) : (
-            <Palette className="w-3.5 h-3.5 text-cyan-400" />
+            <Palette className="w-3 h-3 text-cyan-400 shrink-0" />
           )}
-          <span className="text-xs font-bold tracking-wider uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+          <span className="text-[10px] font-bold tracking-wide uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
             {activePart === 'saturation'
               ? 'Warna & Kecerahan'
               : activePart === 'hue'
@@ -318,14 +318,14 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 shrink-0">
           {/* Live Swatch Badge */}
-          <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#030917]/90 border border-cyan-500/40 shadow-[0_0_8px_rgba(6,182,212,0.4)]">
+          <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#030917]/90 border border-cyan-500/40 shadow-[0_0_6px_rgba(6,182,212,0.3)]">
             <div
-              className="w-3.5 h-3.5 rounded-full border border-white/60 shadow-[0_0_6px_rgba(255,255,255,0.5)] shrink-0"
+              className="w-2.5 h-2.5 rounded-full border border-white/60 shadow-[0_0_4px_rgba(255,255,255,0.5)] shrink-0"
               style={{ backgroundColor: combinedColor }}
             />
-            <span className="font-mono text-[10px] text-cyan-200 font-bold">
+            <span className="font-mono text-[9px] text-cyan-200 font-bold">
               {customHex.toUpperCase()}{alphaPercent < 100 ? ` (${alphaPercent}%)` : ''}
             </span>
           </div>
@@ -341,10 +341,10 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
                 e.preventDefault()
                 onClose()
               }}
-              className="w-6 h-6 rounded-full bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-400/60 flex items-center justify-center text-cyan-300 hover:text-white transition-all shadow-[0_0_8px_rgba(6,182,212,0.4)] active:scale-90 cursor-pointer"
+              className="w-5 h-5 rounded-full bg-cyan-950/80 hover:bg-cyan-800 border border-cyan-400/60 flex items-center justify-center text-cyan-300 hover:text-white transition-all shadow-[0_0_6px_rgba(6,182,212,0.4)] active:scale-90 cursor-pointer"
               title="Selesai"
             >
-              <Check className="w-3.5 h-3.5 stroke-[3]" />
+              <Check className="w-3 h-3 stroke-[3]" />
             </button>
           )}
         </div>
@@ -352,11 +352,11 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
 
       {/* 1. HANYA KOTAK SATURASI JIKA YANG DITEKAN ADALAH SATURASI */}
       {activePart === 'saturation' && (
-        <div className="space-y-2 mb-1">
+        <div className="mb-1">
           <div
             ref={saturationBoxRef}
             onPointerDown={handleSaturationStart}
-            className="relative w-full h-32 rounded-xl border border-cyan-400/60 overflow-hidden shadow-[inset_0_2px_6px_rgba(0,0,0,0.7)] cursor-crosshair active:ring-2 active:ring-cyan-300 transition-shadow"
+            className="relative w-full h-24 rounded-lg border border-cyan-400/60 overflow-hidden shadow-[inset_0_2px_6px_rgba(0,0,0,0.7)] cursor-crosshair active:ring-2 active:ring-cyan-300 transition-shadow"
             style={{ backgroundColor: `hsl(${currentHsv.h}, 100%, 50%)` }}
           >
             {/* Gradien Saturasi Horizontal (Putih ke Transparan) */}
@@ -371,7 +371,7 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
             />
             {/* Pointer Ring Glowing yang Menunjukkan Titik Koordinat Saat Ini */}
             <div
-              className="absolute w-5 h-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_0_12px_#22d3ee,inset_0_0_4px_#fff] pointer-events-none transition-transform"
+              className="absolute w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white shadow-[0_0_10px_#22d3ee,inset_0_0_3px_#fff] pointer-events-none transition-transform"
               style={{
                 left: `${currentHsv.s}%`,
                 top: `${100 - currentHsv.v}%`,
@@ -385,11 +385,11 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
 
       {/* 2. HANYA SLIDER HUE JIKA YANG DITEKAN ADALAH HUE */}
       {activePart === 'hue' && (
-        <div className="space-y-1 mb-1">
+        <div className="mb-1">
           <div
             ref={hueSliderRef}
             onPointerDown={handleHueStart}
-            className="relative w-full h-7 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
+            className="relative w-full h-5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
             style={{
               background:
                 'linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)',
@@ -397,7 +397,7 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
           >
             {/* Knob Glowing Slider Hue */}
             <div
-              className="absolute top-0 bottom-0 w-7 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_12px_#22d3ee] pointer-events-none transition-transform"
+              className="absolute top-0 bottom-0 w-5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
               style={{
                 left: `${(currentHsv.h / 360) * 100}%`,
                 transform: isInteracting && activeControlRef.current === 'hue' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
@@ -409,11 +409,11 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
 
       {/* 3. HANYA SLIDER TRANSPARANSI JIKA YANG DITEKAN ADALAH ALPHA */}
       {activePart === 'alpha' && (
-        <div className="space-y-1 mb-1">
+        <div className="mb-1">
           <div
             ref={alphaSliderRef}
             onPointerDown={handleAlphaStart}
-            className="relative w-full h-7 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_12px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
+            className="relative w-full h-5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
             style={{
               backgroundImage:
                 'repeating-conic-gradient(#334155 0% 25%, #0f172a 0% 50%) 50% / 8px 8px',
@@ -427,7 +427,7 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
             />
             {/* Knob Glowing Slider Alpha */}
             <div
-              className="absolute top-0 bottom-0 w-7 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_12px_#22d3ee] pointer-events-none transition-transform"
+              className="absolute top-0 bottom-0 w-5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
               style={{
                 left: `${alphaPercent}%`,
                 transform: isInteracting && activeControlRef.current === 'alpha' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
@@ -438,8 +438,8 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
       )}
 
       {/* Keterangan Interaktif Mandiri */}
-      <div className="text-[9px] text-cyan-300/80 font-mono text-center mt-1 flex items-center justify-center gap-1.5">
-        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block animate-pulse" />
+      <div className="text-[8px] text-cyan-300/80 font-mono text-center mt-1 flex items-center justify-center gap-1">
+        <span className="w-1 h-1 rounded-full bg-cyan-400 inline-block animate-pulse" />
         <span>Sentuh langsung area pick untuk mengatur warna</span>
       </div>
     </div>
