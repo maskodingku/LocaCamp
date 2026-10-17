@@ -15,6 +15,7 @@ import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
 import { DriveUploadProgressBanner } from './DriveUploadProgressBanner'
 import { GoogleDriveIcon } from '../settings/gdrive/GoogleDriveIcon'
+import { ZoomablePhotoViewer } from './ZoomablePhotoViewer'
 
 interface CaptureModalProps {
   photo: CapturedPhoto | null
@@ -54,6 +55,17 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
       setDriveResult(lastDriveResult)
     }
   }, [lastDriveResult])
+
+  // Menghitung ukuran file dari dataUrl base64 (wajib di atas sebelum conditional return sesuai Rules of Hooks)
+  const fileSizeFormatted = useMemo(() => {
+    if (!photo?.dataUrl) return ''
+    const base64Data = photo.dataUrl.split(',')[1] || ''
+    const padding = base64Data.endsWith('==') ? 2 : base64Data.endsWith('=') ? 1 : 0
+    const bytes = Math.round((base64Data.length * 3) / 4 - padding)
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+  }, [photo?.dataUrl])
 
   const handleDriveUpload = async () => {
     if (!photo) return
@@ -133,16 +145,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   })
   const timeFormatted = formatTimeWithTimezone(photo.timestamp, photo.location.longitude)
 
-  // Menghitung ukuran file dari dataUrl base64
-  const fileSizeFormatted = useMemo(() => {
-    if (!photo.dataUrl) return ''
-    const base64Data = photo.dataUrl.split(',')[1] || ''
-    const padding = base64Data.endsWith('==') ? 2 : base64Data.endsWith('=') ? 1 : 0
-    const bytes = Math.round((base64Data.length * 3) / 4 - padding)
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
-  }, [photo.dataUrl])
+
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
@@ -152,15 +155,9 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
           className="relative w-[96vw] max-w-5xl h-[94dvh] my-auto bg-zinc-950 border border-zinc-800 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-row overflow-hidden text-white animate-in zoom-in-95 duration-200"
           onClick={e => e.stopPropagation()}
         >
-          {/* Kolom Kiri: Foto Utama Mengisi 100% Tinggi Layar */}
+          {/* Kolom Kiri: Foto Utama Mengisi 100% Tinggi Layar dengan Zoom & Pan */}
           <div className="relative flex-1 h-full min-w-0 bg-black/95 overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-4">
-              <img
-                src={photo.dataUrl}
-                alt="Captured Geotag"
-                className="max-w-full max-h-full w-auto h-auto object-contain rounded-xl shadow-2xl select-none"
-              />
-            </div>
+            <ZoomablePhotoViewer src={photo.dataUrl} alt="Captured Geotag" />
           </div>
 
           {/* Kolom Kanan: Side Control Panel & Info Geotag */}
@@ -324,15 +321,9 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </button>
           </div>
 
-          {/* Photo Container */}
+          {/* Photo Container dengan Zoom & Pan */}
           <div className="relative flex-1 min-h-0 w-full bg-black/95 overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-3">
-              <img
-                src={photo.dataUrl}
-                alt="Captured Geotag"
-                className="max-w-full max-h-full w-auto h-auto object-contain rounded-lg sm:rounded-xl shadow-2xl select-none"
-              />
-            </div>
+            <ZoomablePhotoViewer src={photo.dataUrl} alt="Captured Geotag" />
           </div>
 
           {/* Photo Details Banner - Cyber Glassmorphism HUD Strip (70% Kiri, 30% Kanan) */}

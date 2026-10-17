@@ -375,35 +375,37 @@ export default function App() {
       />
 
       {/* Capture Review & Download Modal */}
-      <CaptureModal
-        photo={currentPhoto}
-        onClose={() => setCurrentPhoto(null)}
-        onRetake={() => setCurrentPhoto(null)}
-        isLandscape={orientation.isLandscape}
-        onUploadToDrive={async (dataUrl) => {
-          const filename = currentPhoto ? `LocaCamp_${currentPhoto.id}.jpg` : undefined
-          const res = await drive.uploadPhoto(dataUrl, filename)
-          if (res && res.fileId && currentPhoto) {
-            await markPhotoAsUploadedToDrive(currentPhoto.id, res.fileId)
-            setCurrentPhoto((prev) =>
-              prev ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId } : null
-            )
-            refreshHistoryCount()
+      {currentPhoto && (
+        <CaptureModal
+          photo={currentPhoto}
+          onClose={() => setCurrentPhoto(null)}
+          onRetake={() => setCurrentPhoto(null)}
+          isLandscape={orientation.isLandscape}
+          onUploadToDrive={async (dataUrl) => {
+            const filename = currentPhoto ? `LocaCamp_${currentPhoto.id}.jpg` : undefined
+            const res = await drive.uploadPhoto(dataUrl, filename)
+            if (res && res.fileId && currentPhoto) {
+              await markPhotoAsUploadedToDrive(currentPhoto.id, res.fileId)
+              setCurrentPhoto((prev) =>
+                prev ? { ...prev, uploadedToDrive: true, driveFileId: res.fileId } : null
+              )
+              refreshHistoryCount()
+            }
+            return res
+          }}
+          isDriveConnected={drive.isConnected}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          lastDriveResult={drive.lastUploadResult}
+          isAutoUploadingDrive={
+            driveQueue.queue.some((it) => it.id === currentPhoto?.id && it.status === 'uploading') ||
+            drive.isUploading
           }
-          return res
-        }}
-        isDriveConnected={drive.isConnected}
-        onOpenSettings={() => setIsSettingsOpen(true)}
-        lastDriveResult={drive.lastUploadResult}
-        isAutoUploadingDrive={
-          driveQueue.queue.some((it) => it.id === currentPhoto?.id && it.status === 'uploading') ||
-          drive.isUploading
-        }
-        uploadProgress={
-          driveQueue.queue.find((it) => it.id === currentPhoto?.id)?.progress ??
-          drive.uploadProgress
-        }
-      />
+          uploadProgress={
+            driveQueue.queue.find((it) => it.id === currentPhoto?.id)?.progress ??
+            drive.uploadProgress
+          }
+        />
+      )}
 
       {/* Photo History Gallery Modal (Client-side IndexedDB & Google Drive) */}
       <PhotoHistoryModal
