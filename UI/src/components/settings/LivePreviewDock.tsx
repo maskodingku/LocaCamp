@@ -378,13 +378,27 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               </div>
             </div>
 
-            {/* Kanan: Pill Badge Urutan Input Mini (contoh "1 / 3") */}
-            <div className="shrink-0 px-2.5 py-0.5 rounded-full bg-[#030917]/80 border border-cyan-500/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_8px_rgba(6,182,212,0.2)] flex items-center gap-1 font-mono text-[10px]">
-              <span className="text-cyan-400 font-bold drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
-                {currentInputIndex + 1}
-              </span>
-              <span className="text-slate-400">/</span>
-              <span className="text-slate-300">{sectionInputs.length}</span>
+            {/* Kanan: Pill Badge Urutan Input Mini + Tombol Close Bulat Merah Glossy */}
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              {/* Badge Urutan Input (contoh "7 / 9") */}
+              <div className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#030917]/90 border border-cyan-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.4)] flex items-center gap-1 font-mono text-[10.5px]">
+                <span className="text-cyan-400 font-bold drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                  {currentInputIndex + 1}
+                </span>
+                <span className="text-slate-400 font-normal">/</span>
+                <span className="text-slate-200 font-semibold">{sectionInputs.length}</span>
+              </div>
+
+              {/* Tombol Tutup Mandiri [ ✕ ] Bulat Merah Glossy di Header Kanan Atas */}
+              <button
+                type="button"
+                onClick={onClose}
+                className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-b from-[#3a0918]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_0_14px_rgba(244,63,94,0.7),inset_0_1.5px_2px_rgba(255,255,255,0.7),inset_0_-1.5px_2px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-90 transition-all shrink-0 relative overflow-hidden group"
+                title="Tutup Mode Preview"
+              >
+                <div className="absolute top-0 inset-x-1 h-1.5 rounded-full bg-white/40 blur-[0.5px] pointer-events-none" />
+                <X className="w-3.5 h-3.5 text-rose-300 stroke-[3] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_6px_rgba(244,63,94,0.9)]" />
+              </button>
             </div>
           </div>
 
@@ -397,7 +411,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             <button
               type="button"
               onClick={handlePrevInput}
-              className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full sm:rounded-xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5),0_0_10px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+              className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5),0_0_10px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
               title="Input Sebelumnya"
             >
               <div className="absolute top-0 inset-x-1.5 h-1.5 rounded-full bg-white/30 blur-[0.5px]" />
@@ -764,22 +778,11 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             <button
               type="button"
               onClick={handleNextInput}
-              className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full sm:rounded-xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5),0_0_10px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+              className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.5),0_0_10px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
               title="Input Selanjutnya"
             >
               <div className="absolute top-0 inset-x-1.5 h-1.5 rounded-full bg-white/30 blur-[0.5px]" />
               <ChevronRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
-            </button>
-
-            {/* Tombol Tutup Mandiri [ ✕ ] Mini */}
-            <button
-              type="button"
-              onClick={onClose}
-              className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-xl bg-gradient-to-b from-[#2e0915]/90 to-[#120207]/95 border-2 border-rose-500/80 shadow-[0_0_16px_rgba(244,63,94,0.65),inset_0_1px_1.5px_rgba(255,255,255,0.7),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 relative overflow-hidden group"
-              title="Tutup Mode Preview"
-            >
-              <div className="absolute top-0 inset-x-1.5 h-1.5 rounded-full bg-white/30 blur-[0.5px]" />
-              <X className="w-4 h-4 text-rose-400 group-hover:text-rose-300 stroke-[2.5] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_6px_rgba(244,63,94,0.85)]" />
             </button>
           </div>
         </div>
