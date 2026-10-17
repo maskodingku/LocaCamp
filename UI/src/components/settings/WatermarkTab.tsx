@@ -72,10 +72,10 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             : 'border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 overflow-hidden shadow-lg space-y-4'
         }`}
       >
-        {/* Garis Aksen Vertikal Glassmorphism di samping kiri border */}
+        {/* Garis Aksen Vertikal Glassmorphism di samping kiri border (Menyatu Lengkung Penuh Atas & Bawah) */}
         <div
-          className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_12px_rgba(6,182,212,0.5)] transition-opacity duration-150 ${
-            activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          className={`absolute -left-1 -top-1 -bottom-1 w-2.5 bg-gradient-to-b from-cyan-400/80 via-sky-300/60 to-cyan-400/80 border-r border-white/25 shadow-[0_0_14px_rgba(34,211,238,0.55),0_0_28px_rgba(6,182,212,0.3)] backdrop-blur-md transition-opacity duration-150 pointer-events-none ${
+            activeSlider ? 'opacity-0' : 'opacity-100'
           }`}
         />
 
