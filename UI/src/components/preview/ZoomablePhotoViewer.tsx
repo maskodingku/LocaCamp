@@ -9,7 +9,6 @@ import {
   ZoomIn,
   ZoomOut,
   RotateCcw,
-  Maximize2,
   Hand,
 } from 'lucide-react'
 
@@ -18,6 +17,27 @@ interface ZoomablePhotoViewerProps {
   alt?: string
   className?: string
 }
+
+/**
+ * Icon Center Crosshair presisi (lingkaran tengah dengan 4 sumbu target)
+ */
+const CenterCrosshairIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <circle cx="12" cy="12" r="3" />
+    <line x1="12" y1="2" x2="12" y2="7" />
+    <line x1="12" y1="17" x2="12" y2="22" />
+    <line x1="2" y1="12" x2="7" y2="12" />
+    <line x1="17" y1="12" x2="22" y2="12" />
+  </svg>
+)
 
 /**
  * Sub-komponen Cyber Glass HUD Controls di dalam TransformWrapper
@@ -69,17 +89,10 @@ const CyberGlassControls: React.FC<{
         <ZoomOut className="w-4 h-4" />
       </button>
 
-      {/* Tombol Center View */}
-      <button
-        type="button"
-        onClick={() => centerView()}
-        title="Posisikan ke Tengah"
-        className="w-8 h-8 rounded-xl bg-white/5 hover:bg-cyan-500/20 active:scale-95 border border-white/10 hover:border-cyan-400/40 text-slate-200 hover:text-cyan-200 flex items-center justify-center transition-all cursor-pointer"
-      >
-        <Maximize2 className="w-3.5 h-3.5" />
-      </button>
+      {/* Divider Vertikal Halus Antara Grup Zoom dan Posisi */}
+      <div className="w-[1px] h-4 bg-white/20 mx-0.5" />
 
-      {/* Tombol Reset Transform */}
+      {/* Tombol Reset Transform (Ukuran 1.0x) */}
       <button
         type="button"
         onClick={() => resetTransform()}
@@ -88,6 +101,16 @@ const CyberGlassControls: React.FC<{
         className="w-8 h-8 rounded-xl bg-white/5 hover:bg-rose-500/20 active:scale-95 border border-white/10 hover:border-rose-400/40 text-slate-200 hover:text-rose-200 disabled:opacity-30 disabled:pointer-events-none flex items-center justify-center transition-all cursor-pointer"
       >
         <RotateCcw className="w-3.5 h-3.5" />
+      </button>
+
+      {/* Tombol Center View (Icon Crosshair Target Sesuai Referensi) */}
+      <button
+        type="button"
+        onClick={() => centerView()}
+        title="Posisikan ke Tengah (Center Focus)"
+        className="w-8 h-8 rounded-xl bg-white/5 hover:bg-cyan-500/20 active:scale-95 border border-white/10 hover:border-cyan-400/40 text-slate-200 hover:text-cyan-200 flex items-center justify-center transition-all cursor-pointer"
+      >
+        <CenterCrosshairIcon className="w-4 h-4" />
       </button>
     </div>
   )
