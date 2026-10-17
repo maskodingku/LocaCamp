@@ -126,25 +126,37 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         </div>
 
         {/* Toggle Switch Cyber Capsule */}
-        <label className="relative inline-flex items-center cursor-pointer shrink-0 ml-2">
-          <input
-            type="checkbox"
-            checked={profile.enabled}
-            onChange={e =>
-              onChangeProfile({
-                ...profile,
-                enabled: e.target.checked,
-              })
-            }
-            className="sr-only peer"
+        <button
+          type="button"
+          role="switch"
+          aria-checked={profile.enabled}
+          onClick={() =>
+            onChangeProfile({
+              ...profile,
+              enabled: !profile.enabled,
+            })
+          }
+          className={`w-11 h-6 rounded-full transition-all duration-300 p-[2px] flex items-center cursor-pointer active:scale-95 relative overflow-hidden shrink-0 ml-2 border ${
+            profile.enabled
+              ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 border-white/80 shadow-[0_0_12px_rgba(34,211,238,0.7),inset_0_1px_1px_rgba(255,255,255,0.7)]'
+              : 'bg-gradient-to-r from-[#03152e] to-[#0a2042] border-white/30 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.3)]'
+          }`}
+          title={profile.enabled ? 'Klik untuk mematikan profil (OFF)' : 'Klik untuk mengaktifkan profil (ON)'}
+        >
+          <div
+            className={`w-5 h-5 bg-white rounded-full shadow-[0_0_6px_#fff] transition-transform duration-300 ease-in-out ${
+              profile.enabled ? 'translate-x-5' : 'translate-x-0'
+            }`}
           />
-          <div className="w-11 h-6 bg-gradient-to-r from-[#03152e] to-[#0a2042] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:shadow-[0_0_6px_#fff] after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-400 peer-checked:via-sky-400 peer-checked:to-blue-500 border border-white/30 peer-checked:border-white/80 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.5)]" />
-        </label>
+        </button>
       </div>
 
-      {/* Konten Saat Profil On */}
-      {profile.enabled && (
-        <div className={`p-3.5 sm:p-4 pt-3 sm:pt-3.5 space-y-3.5 ${activeSlider ? 'space-y-0 p-0' : ''}`}>
+      {/* Konten Profil Pengguna: Tetap dipertahankan di DOM agar nilai input tidak hilang saat switch OFF */}
+      <div
+        className={`p-3.5 sm:p-4 pt-3 sm:pt-3.5 space-y-3.5 transition-all duration-200 ${
+          activeSlider ? 'space-y-0 p-0 hidden' : profile.enabled ? 'block' : 'hidden'
+        }`}
+      >
           {/* Input Jabatan & Nama */}
           <div
             className={`space-y-3 transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
@@ -174,7 +186,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
                 <input
                   type="text"
-                  value={profile.jobTitle}
+                  value={profile.jobTitle || ''}
                   onChange={e =>
                     onChangeProfile({
                       ...profile,
@@ -212,7 +224,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
                 <input
                   type="text"
-                  value={profile.name}
+                  value={profile.name || ''}
                   onChange={e =>
                     onChangeProfile({
                       ...profile,
@@ -735,11 +747,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     ? [profile.name, profile.jobTitle].filter(Boolean).join(' • ')
                     : 'Nama • Jabatan'}
                 </span>
-              </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }

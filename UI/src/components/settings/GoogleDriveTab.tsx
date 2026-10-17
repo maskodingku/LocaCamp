@@ -39,10 +39,14 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
     await connect(target)
   }
 
-  const handleSaveCustomClientId = () => {
-    if (inputClientId.trim()) {
-      updateConfig({ clientId: inputClientId.trim() })
-    }
+  const handleSaveCustomClientId = (targetValue?: string) => {
+    const val = targetValue !== undefined ? targetValue : inputClientId
+    updateConfig({ clientId: val.trim() || undefined })
+  }
+
+  const handleClientIdChange = (val: string) => {
+    setInputClientId(val)
+    updateConfig({ clientId: val.trim() || undefined })
   }
 
   return (
@@ -147,7 +151,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
           {/* Pengaturan Lanjutan */}
           <GoogleDriveAdvancedSettings
             inputClientId={inputClientId}
-            setInputClientId={setInputClientId}
+            setInputClientId={handleClientIdChange}
             onSaveClientId={handleSaveCustomClientId}
           />
         </div>

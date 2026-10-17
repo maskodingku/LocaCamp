@@ -631,7 +631,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff] pointer-events-none" />
                   <input
                     type="text"
-                    value={profile.jobTitle}
+                    value={profile.jobTitle || ''}
                     onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value, enabled: true })}
                     placeholder="Ketik Jabatan..."
                     className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
@@ -645,7 +645,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff] pointer-events-none" />
                   <input
                     type="text"
-                    value={profile.name}
+                    value={profile.name || ''}
                     onChange={e => onChangeProfile({ ...profile, name: e.target.value, enabled: true })}
                     placeholder="Ketik Nama Lengkap..."
                     className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"

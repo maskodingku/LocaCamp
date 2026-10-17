@@ -147,19 +147,13 @@ export default function App() {
   // Camera Visual Effect & Finetune State (dimuat dari localStorage saat start, default 'vivid')
   const [cameraEffect, setCameraEffect] = useState<CameraEffectConfig>(() => loadStoredCameraEffect())
 
-  // Simpan otomatis ke localStorage dengan debounce 300ms agar I/O storage tidak membebani main thread saat slider/picker digeser
+  // Simpan otomatis ke localStorage secara instan seketika tanpa delay agar ketikan input dan picker tidak hilang
   useEffect(() => {
-    const timer = setTimeout(() => {
-      saveStoredWatermark(watermark)
-    }, 300)
-    return () => clearTimeout(timer)
+    saveStoredWatermark(watermark)
   }, [watermark])
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      saveStoredProfile(profile)
-    }, 300)
-    return () => clearTimeout(timer)
+    saveStoredProfile(profile)
   }, [profile])
 
   // Caching Logo Amerta ke browser storage (localStorage) saat aplikasi dibuka
@@ -212,6 +206,18 @@ export default function App() {
   useEffect(() => {
     refreshHistoryCount()
   }, [refreshHistoryCount])
+
+  // Handler perubahan profil pengguna: langsung update state & commit ke localStorage secara sinkron
+  const handleProfileChange = useCallback((newProfile: ProfileConfig) => {
+    setProfile(newProfile)
+    saveStoredProfile(newProfile)
+  }, [])
+
+  // Handler perubahan watermark: langsung update state & commit ke localStorage secara sinkron
+  const handleWatermarkChange = useCallback((newWatermark: WatermarkConfig) => {
+    setWatermark(newWatermark)
+    saveStoredWatermark(newWatermark)
+  }, [])
 
   // Reset semua pengaturan ke setelan awal pabrikan
   const handleResetSettings = useCallback(() => {
@@ -357,9 +363,9 @@ export default function App() {
         isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         watermark={watermark}
-        onChangeWatermark={setWatermark}
+        onChangeWatermark={handleWatermarkChange}
         profile={profile}
-        onChangeProfile={setProfile}
+        onChangeProfile={handleProfileChange}
         geotagConfig={geotagConfig}
         onChangeGeotagConfig={setGeotagConfig}
         cameraQualityConfig={cameraQualityConfig}
