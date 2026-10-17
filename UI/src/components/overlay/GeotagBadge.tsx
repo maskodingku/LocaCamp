@@ -161,6 +161,8 @@ export const GeotagBadge: React.FC<GeotagBadgeProps> = ({
 
   return (
     <div
+      data-preview-target="geotag"
+      id="preview-target-geotag"
       onClick={e => e.stopPropagation()}
       className={`absolute z-20 pointer-events-auto flex flex-col gap-1.5 ${
         config.position.includes('right') ? 'items-end' : 'items-start'

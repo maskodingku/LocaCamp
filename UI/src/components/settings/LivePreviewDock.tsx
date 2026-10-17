@@ -234,6 +234,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             theme="cyan"
             items={WATERMARK_GRID_ITEMS}
             showGridSelector={true}
+            targetType="watermark"
           />
         )}
 
@@ -246,6 +247,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             theme="cyan"
             items={PROFILE_GRID_ITEMS}
             showGridSelector={true}
+            targetType="profile"
           />
         )}
 
@@ -258,6 +260,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             theme="cyan"
             items={GEOTAG_GRID_ITEMS}
             showGridSelector={true}
+            targetType="geotag"
           />
         )}
 
@@ -269,6 +272,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             onSelect={id => onChangeProfile({ ...profile, fontFamily: id, enabled: true })}
             title="PILIH JENIS FONT PROFIL"
             theme="cyan"
+            targetType="profile"
             items={FONT_OPTIONS.map(f => ({
               id: f.id,
               label: f.label,
@@ -285,6 +289,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             onSelect={id => onChangeProfile({ ...profile, fontWeight: id as ProfileFontWeight, enabled: true })}
             title="PILIH KETEBALAN TEKS"
             theme="cyan"
+            targetType="profile"
             items={PROFILE_WEIGHTS_OPTIONS}
           />
         )}
@@ -297,6 +302,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             onSelect={id => onChangeProfile({ ...profile, backgroundColor: id, enabled: true })}
             title="PILIH WARNA BACKGROUND"
             presets={PROFILE_BG_PRESETS}
+            targetType="profile"
           />
         )}
 
@@ -308,6 +314,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             onSelect={id => onChangeProfile({ ...profile, textColor: id, enabled: true })}
             title="PILIH WARNA TEKS PROFIL"
             presets={PROFILE_TEXT_PRESETS}
+            targetType="profile"
           />
         )}
 
@@ -319,6 +326,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             onSelect={id => onChangeGeotagConfig({ ...geotagConfig, fontSize: id as any })}
             title="PILIH UKURAN TEKS GEOTAG"
             theme="cyan"
+            targetType="geotag"
             items={GEOTAG_SIZE_OPTIONS}
           />
         )}

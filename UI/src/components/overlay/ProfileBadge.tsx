@@ -59,6 +59,8 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
 
   return (
     <div
+      data-preview-target="profile"
+      id="preview-target-profile"
       style={{
         fontFamily: getFontFamilyStyle(profile.fontFamily),
         fontWeight: fontWeightValue,

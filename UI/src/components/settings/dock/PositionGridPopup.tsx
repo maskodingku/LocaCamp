@@ -11,6 +11,7 @@ import {
   Crosshair,
   Star,
 } from 'lucide-react'
+import { useSmartPopupPosition, PreviewTargetType } from '../../../hooks/useSmartPopupPosition'
 
 export interface PositionGridItem {
   id: string
@@ -61,6 +62,7 @@ interface PositionGridPopupProps {
   theme?: 'cyan' | 'emerald' | 'amber'
   items?: PositionGridItem[]
   showGridSelector?: boolean
+  targetType?: PreviewTargetType
 }
 
 export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
@@ -70,8 +72,16 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
   onSelect,
   items = WATERMARK_GRID_ITEMS,
   showGridSelector: _showGridSelector = true,
+  targetType = 'profile',
 }) => {
   const popupRef = useRef<HTMLDivElement>(null)
+
+  // Algoritma cerdas penghindaran tabrakan posisi popup
+  const { containerClasses, containerStyle, isFlipped } = useSmartPopupPosition({
+    targetType,
+    isOpen,
+    popupRef,
+  })
 
   // Klik di luar popup untuk menutup
   useEffect(() => {
@@ -168,7 +178,10 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden select-none"
+      style={containerStyle}
+      className={`${containerClasses} p-3.5 sm:p-4 rounded-[28px] bg-[#020717]/92 backdrop-blur-2xl border-2 border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.65),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2.5px_rgba(255,255,255,0.7)] text-white overflow-y-auto custom-scrollbar animate-in fade-in ${
+        isFlipped ? 'slide-in-from-top-2' : 'slide-in-from-bottom-2'
+      } duration-150 select-none`}
     >
       {/* ========================================================================= */}
       {/* GLOSSY GLASS BUBBLE ORBS: BOLA KACA BENING REALISTIS DI LATAR BELAKANG    */}

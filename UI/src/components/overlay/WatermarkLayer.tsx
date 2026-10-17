@@ -32,6 +32,8 @@ export const WatermarkLayer: React.FC<WatermarkLayerProps> = ({
 
   return (
     <div
+      data-preview-target="watermark"
+      id="preview-target-watermark"
       className={`absolute z-10 pointer-events-none flex ${positionClasses} transition-all duration-300 ease-out`}
       style={{
         width: `${effectiveWidthPercent}%`,
