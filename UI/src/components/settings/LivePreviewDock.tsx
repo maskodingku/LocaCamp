@@ -16,6 +16,7 @@ import {
   GEOTAG_GRID_ITEMS,
 } from './dock/PositionGridPopup'
 import { CustomOptionListPopup, type OptionListItem } from './dock/CustomOptionListPopup'
+import { ColorOptionPopup } from './dock/ColorOptionPopup'
 
 interface LivePreviewDockProps {
   activeInput: string
@@ -198,12 +199,14 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
   // 7. Profile Background Color
   const currentBgColor = profile.backgroundColor || 'rgba(9, 9, 11, 0.78)'
   const currentBgPreset = PROFILE_BG_PRESETS.find(p => p.id === currentBgColor)
-  const currentBgLabel = currentBgPreset?.label || 'Kustom'
+  // Jika warna adalah kustom, tampilkan kode warnanya (misal: #00E5FF) di area tools
+  const currentBgLabel = currentBgPreset ? currentBgPreset.label : currentBgColor.toUpperCase()
 
   // 8. Profile Text Color
   const currentTextColor = profile.textColor || '#ffffff'
   const currentTextPreset = PROFILE_TEXT_PRESETS.find(p => p.id === currentTextColor)
-  const currentTextLabel = currentTextPreset?.label || 'Kustom'
+  // Jika warna adalah kustom, tampilkan kode warnanya (misal: #00E5FF) di area tools
+  const currentTextLabel = currentTextPreset ? currentTextPreset.label : currentTextColor.toUpperCase()
 
   // 9. Profile Border
   const isBorderOn = profile.showBorder !== false
@@ -287,34 +290,24 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
         )}
 
         {activeInput === 'profile_bg_color' && (
-          <CustomOptionListPopup
+          <ColorOptionPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
-            selectedId={currentBgColor}
+            selectedColor={currentBgColor}
             onSelect={id => onChangeProfile({ ...profile, backgroundColor: id, enabled: true })}
             title="PILIH WARNA BACKGROUND"
-            theme="cyan"
-            items={PROFILE_BG_PRESETS.map(p => ({
-              id: p.id,
-              label: p.label,
-              colorDot: p.preview,
-            }))}
+            presets={PROFILE_BG_PRESETS}
           />
         )}
 
         {activeInput === 'profile_text_color' && (
-          <CustomOptionListPopup
+          <ColorOptionPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
-            selectedId={currentTextColor}
+            selectedColor={currentTextColor}
             onSelect={id => onChangeProfile({ ...profile, textColor: id, enabled: true })}
             title="PILIH WARNA TEKS PROFIL"
-            theme="cyan"
-            items={PROFILE_TEXT_PRESETS.map(p => ({
-              id: p.id,
-              label: p.label,
-              colorDot: p.preview,
-            }))}
+            presets={PROFILE_TEXT_PRESETS}
           />
         )}
 
