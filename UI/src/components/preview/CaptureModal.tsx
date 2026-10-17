@@ -148,22 +148,26 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
 
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
+    <div
+      className={`fixed inset-0 z-50 overflow-hidden overscroll-contain flex items-center justify-center select-none ${
+        isLandscape ? 'p-0 bg-black' : 'p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl'
+      } animate-in fade-in`}
+    >
       {isLandscape ? (
-        /* ================= MODE LANDSCAPE (SIDE PANEL LAYOUT - FOTO MAKSIMAL) ================= */
+        /* ================= MODE LANDSCAPE (FULLSCREEN EDGE-TO-EDGE FOTO MAKSIMAL) ================= */
         <div
-          className="relative w-[96vw] max-w-5xl h-[94dvh] my-auto bg-zinc-950 border border-zinc-800 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-row overflow-hidden text-white animate-in zoom-in-95 duration-200"
+          className="relative w-full h-[100dvh] bg-black border-0 rounded-none flex flex-row overflow-hidden text-white animate-in fade-in duration-150 pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
           onClick={e => e.stopPropagation()}
         >
-          {/* Kolom Kiri: Foto Utama Mengisi 100% Tinggi Layar dengan Zoom & Pan */}
-          <div className="relative flex-1 h-full min-w-0 bg-black/95 overflow-hidden">
+          {/* Kolom Kiri: Foto Utama Mengisi Penuh 100% Layar Kiri, Atas, dan Bawah */}
+          <div className="relative flex-1 h-full min-w-0 bg-black overflow-hidden">
             <ZoomablePhotoViewer src={photo.dataUrl} alt="Captured Geotag" />
           </div>
 
           {/* Kolom Kanan: Side Control Panel & Info Geotag (Ramping & Docked Cyber Panel) */}
           <div className="w-48 sm:w-52 md:w-56 shrink-0 h-full bg-gradient-to-b from-[#03152e]/95 via-[#041935]/95 to-[#020c1a]/98 border-l border-cyan-500/25 flex flex-col justify-between overflow-hidden shadow-2xl">
             {/* Header Samping Ringkas */}
-            <div className="shrink-0 flex items-center justify-between px-2.5 py-2 border-b border-cyan-500/20 bg-black/40 backdrop-blur-md">
+            <div className="shrink-0 flex items-center justify-between px-2.5 py-2 pt-[max(0.5rem,env(safe-area-inset-top))] border-b border-cyan-500/20 bg-black/40 backdrop-blur-md">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <h3 className="text-[11px] sm:text-xs font-semibold text-white tracking-tight">Hasil Foto Geotag</h3>
@@ -245,7 +249,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
             </div>
 
             {/* Bottom Action Dock: Tombol Aksi Menempel Rapi di Dasar Panel */}
-            <div className="shrink-0 p-2 sm:p-2.5 border-t border-cyan-500/25 bg-black/60 backdrop-blur-md space-y-1.5">
+            <div className="shrink-0 p-2 sm:p-2.5 pb-[max(0.5rem,env(safe-area-inset-bottom))] border-t border-cyan-500/25 bg-black/60 backdrop-blur-md space-y-1.5">
               {/* Tombol Unduh HD Utama */}
               <button
                 type="button"
