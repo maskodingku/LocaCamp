@@ -52,15 +52,17 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
           : activeSlider
           ? 'hidden'
-          : 'border border-zinc-800/80 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 shadow-lg overflow-hidden space-y-4'
+          : 'border border-zinc-800/80 border-l-[3px] border-l-emerald-400 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 shadow-lg space-y-4'
       }`}
+      style={
+        activeSlider
+          ? undefined
+          : {
+              boxShadow:
+                'inset 6px 0 16px -4px rgba(16, 185, 129, 0.25), 0 0 16px rgba(52, 211, 153, 0.15), 0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+            }
+      }
     >
-      {/* Garis Aksen Vertikal Glassmorphism di samping kiri border (Menyatu Lengkung Penuh Atas & Bawah) */}
-      <div
-        className={`absolute -left-1 -top-1 -bottom-1 w-2.5 bg-gradient-to-b from-emerald-400/80 via-teal-300/60 to-emerald-400/80 border-r border-white/25 shadow-[0_0_14px_rgba(52,211,153,0.55),0_0_28px_rgba(16,185,129,0.3)] backdrop-blur-md transition-opacity duration-150 pointer-events-none ${
-          activeSlider ? 'opacity-0' : 'opacity-100'
-        }`}
-      />
 
       {/* Header Section dengan Switch On/Off */}
       <div
