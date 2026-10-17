@@ -216,7 +216,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* 5. Ketebalan Teks Profil */}
               {activeInput === 'profile_weight' && (
-                <div className="grid grid-cols-4 gap-1 w-full py-0.5">
+                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full">
                   {PROFILE_WEIGHTS.map(fw => {
                     const active = (profile.fontWeight || 'medium') === fw.id
                     return (
@@ -224,10 +224,10 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                         key={fw.id}
                         type="button"
                         onClick={() => onChangeProfile({ ...profile, fontWeight: fw.id })}
-                        className={`py-1 px-1.5 rounded-lg text-xs transition-all text-center ${
+                        className={`shrink-0 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                           active
                             ? 'bg-emerald-500 text-black font-bold shadow-md'
-                            : 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200'
+                            : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
                         }`}
                       >
                         {fw.label}
@@ -341,7 +341,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
               {/* 11. Ukuran Tulisan Geotag */}
               {activeInput === 'geotag_size' && (
-                <div className="grid grid-cols-4 gap-1 w-full py-0.5">
+                <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full">
                   {GEOTAG_SIZE_OPTIONS.map(item => {
                     const active = (geotagConfig.fontSize || 'medium') === item.id
                     return (
@@ -349,10 +349,10 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                         key={item.id}
                         type="button"
                         onClick={() => onChangeGeotagConfig({ ...geotagConfig, fontSize: item.id })}
-                        className={`py-1 px-1.5 rounded-lg text-xs transition-all text-center ${
+                        className={`shrink-0 px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                           active
                             ? 'bg-amber-400 text-black font-bold shadow-md'
-                            : 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200'
+                            : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
                         }`}
                       >
                         {item.label}
