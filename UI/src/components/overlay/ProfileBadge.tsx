@@ -50,16 +50,27 @@ export const ProfileBadge: React.FC<ProfileBadgeProps> = ({
     positionClass = `absolute z-20 pointer-events-auto ${posMap[pos] || 'bottom-24 right-3'}`
   }
 
+  const showBorder = profile.showBorder !== false
+  const bgColor = profile.backgroundColor || 'rgba(9, 9, 11, 0.78)'
+  const textColor = profile.textColor || '#ffffff'
+
   return (
     <div
       style={{
         fontFamily: getFontFamilyStyle(profile.fontFamily),
         fontWeight: fontWeightValue,
         fontSize: `${effectiveFontSize}px`,
+        backgroundColor: bgColor,
+        color: textColor,
       }}
-      className={`glass-panel rounded-xl px-3 py-1.5 shadow-xl backdrop-blur-xl border border-white/15 text-white inline-flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200 select-none ${positionClass} ${className}`}
+      className={`${bgColor === 'transparent' ? 'bg-transparent' : 'glass-panel'} rounded-xl px-3 py-1.5 shadow-xl backdrop-blur-xl ${
+        showBorder ? 'border border-white/15' : 'border-0'
+      } inline-flex items-center gap-1.5 animate-in fade-in zoom-in-95 duration-200 select-none ${positionClass} ${className}`}
     >
-      <User className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+      <User
+        className="w-3.5 h-3.5 shrink-0"
+        style={{ color: textColor === '#ffffff' ? '#34d399' : textColor }}
+      />
       <span className="truncate">{displayText}</span>
     </div>
   )

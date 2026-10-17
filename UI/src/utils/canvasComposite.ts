@@ -496,25 +496,32 @@ async function drawProfileBadge(
   }
 
   // Gambar badge glassmorphism
-  ctx.fillStyle = 'rgba(9, 9, 11, 0.78)'
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)'
-  ctx.lineWidth = 1.2 * baseScale
+  const bgColor = profile.backgroundColor || 'rgba(9, 9, 11, 0.78)'
+  const showBorder = profile.showBorder !== false
+  const textColor = profile.textColor || '#ffffff'
 
   roundRect(ctx, x, y, badgeWidth, badgeHeight, borderRadius)
-  ctx.fill()
-  ctx.stroke()
+  if (bgColor !== 'transparent') {
+    ctx.fillStyle = bgColor
+    ctx.fill()
+  }
+  if (showBorder) {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.16)'
+    ctx.lineWidth = 1.2 * baseScale
+    ctx.stroke()
+  }
 
-  // Gambar Bullet / Dot Hijau Emerald Elegan
+  // Gambar Bullet / Dot Elegan
   const dotX = x + padX + 3.5 * baseScale
   const dotY = y + badgeHeight / 2
   ctx.beginPath()
   ctx.arc(dotX, dotY, 3.2 * baseScale, 0, Math.PI * 2)
-  ctx.fillStyle = '#10b981'
+  ctx.fillStyle = textColor === '#ffffff' ? '#10b981' : textColor
   ctx.fill()
 
   // Gambar Teks
   ctx.font = `${fontWeight} ${fontSize}px ${fontStyle}`
-  ctx.fillStyle = '#ffffff'
+  ctx.fillStyle = textColor
   ctx.textBaseline = 'middle'
   ctx.fillText(text, x + padX + iconSpacing, y + badgeHeight / 2)
 

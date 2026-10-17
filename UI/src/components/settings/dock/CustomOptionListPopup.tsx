@@ -6,6 +6,7 @@ export interface OptionListItem {
   label: string
   sublabel?: string
   stylePreview?: React.CSSProperties
+  colorDot?: string
 }
 
 interface CustomOptionListPopupProps {
@@ -144,6 +145,15 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
                   <div className="w-5 h-5 rounded-md bg-cyan-950/40 border border-cyan-500/30 flex items-center justify-center shrink-0 group-hover:border-cyan-400/60">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:bg-cyan-400 transition-colors" />
                   </div>
+                )}
+                {item.colorDot && (
+                  <div
+                    className="w-4 h-4 rounded-full border border-white/40 shadow-[0_0_6px_rgba(255,255,255,0.4)] shrink-0"
+                    style={{
+                      backgroundColor: item.colorDot === 'transparent' ? 'rgba(255,255,255,0.1)' : item.colorDot,
+                      backgroundImage: item.colorDot === 'transparent' ? 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 8px 8px' : undefined,
+                    }}
+                  />
                 )}
                 <span
                   className={`text-xs truncate ${

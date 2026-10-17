@@ -1,5 +1,5 @@
 import React from 'react'
-import { User, Briefcase, Type, MapPin, Check, Eye } from 'lucide-react'
+import { User, Briefcase, Type, MapPin, Check, Eye, Square, Palette, Paintbrush } from 'lucide-react'
 import type { ProfileConfig, ProfilePosition, ProfileFontWeight } from '../../../types/camera'
 
 interface ProfileSectionProps {
@@ -27,6 +27,29 @@ export const getFontFamilyStyle = (fontId?: string): string => {
   if (fontId) return `"${fontId}", sans-serif`
   return 'Inter, sans-serif'
 }
+
+export const PROFILE_BG_PRESETS = [
+  { id: 'rgba(9, 9, 11, 0.78)', label: 'Hitam Kaca (Default)', preview: 'rgba(9, 9, 11, 0.78)' },
+  { id: 'transparent', label: 'Transparan', preview: 'transparent' },
+  { id: '#09090b', label: 'Hitam Pekat', preview: '#09090b' },
+  { id: 'rgba(15, 23, 42, 0.85)', label: 'Biru Navy', preview: 'rgba(15, 23, 42, 0.85)' },
+  { id: 'rgba(8, 47, 73, 0.85)', label: 'Cyber Cyan', preview: 'rgba(8, 47, 73, 0.85)' },
+  { id: 'rgba(6, 78, 59, 0.85)', label: 'Emerald Hijau', preview: 'rgba(6, 78, 59, 0.85)' },
+  { id: 'rgba(120, 53, 15, 0.85)', label: 'Amber Emas', preview: 'rgba(120, 53, 15, 0.85)' },
+  { id: 'rgba(255, 255, 255, 0.2)', label: 'Putih Kaca', preview: 'rgba(255, 255, 255, 0.2)' },
+  { id: '#ffffff', label: 'Putih Pekat', preview: '#ffffff' },
+]
+
+export const PROFILE_TEXT_PRESETS = [
+  { id: '#ffffff', label: 'Putih (Default)', preview: '#ffffff' },
+  { id: '#22d3ee', label: 'Cyan Neon', preview: '#22d3ee' },
+  { id: '#34d399', label: 'Emerald Hijau', preview: '#34d399' },
+  { id: '#fbbf24', label: 'Amber Emas', preview: '#fbbf24' },
+  { id: '#38bdf8', label: 'Biru Langit', preview: '#38bdf8' },
+  { id: '#f43f5e', label: 'Rose Merah', preview: '#f43f5e' },
+  { id: '#facc15', label: 'Kuning', preview: '#facc15' },
+  { id: '#09090b', label: 'Hitam Gelap', preview: '#09090b' },
+]
 
 const FONT_WEIGHTS: { id: ProfileFontWeight; label: string; weight: number }[] = [
   { id: 'normal', label: 'Normal', weight: 400 },
@@ -343,6 +366,210 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             </div>
           </div>
 
+          {/* Pengaturan Garis Tepi (Border) */}
+          <div
+            className={`p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between transition-opacity duration-150 ${
+              activeSlider ? 'hidden' : 'flex'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <Square className="w-4 h-4 text-zinc-400" />
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                    Garis Tepi (Border)
+                  </span>
+                  {onTriggerPreview && (
+                    <button
+                      type="button"
+                      onClick={() => onTriggerPreview?.('profile_border')}
+                      className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[10px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                      title="Lihat Pratinjau Langsung di Kamera"
+                    >
+                      <Eye className="w-3 h-3" />
+                      <span>Preview</span>
+                    </button>
+                  )}
+                </div>
+                <p className="text-[11px] text-zinc-400">
+                  {profile.showBorder !== false ? 'Garis tepi aktif' : 'Garis tepi dihilangkan (borderless)'}
+                </p>
+              </div>
+            </div>
+
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={profile.showBorder !== false}
+                onChange={e =>
+                  onChangeProfile({
+                    ...profile,
+                    showBorder: e.target.checked,
+                  })
+                }
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 border border-zinc-700 peer-checked:border-emerald-400 shadow-inner"></div>
+            </label>
+          </div>
+
+          {/* Pengaturan Warna Background */}
+          <div
+            className={`transition-opacity duration-150 ${
+              activeSlider ? 'hidden' : 'block'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Paintbrush className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Warna Background</span>
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={() => onTriggerPreview?.('profile_bg_color')}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
+            <div className="p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800 space-y-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {PROFILE_BG_PRESETS.map(preset => {
+                  const active = (profile.backgroundColor || 'rgba(9, 9, 11, 0.78)') === preset.id
+                  return (
+                    <button
+                      key={preset.id}
+                      type="button"
+                      onClick={() =>
+                        onChangeProfile({
+                          ...profile,
+                          backgroundColor: preset.id,
+                        })
+                      }
+                      className={`h-7 px-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 border ${
+                        active
+                          ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/50'
+                          : 'border-zinc-700/80 bg-zinc-800/80 text-zinc-300 hover:border-zinc-500'
+                      }`}
+                      title={preset.label}
+                    >
+                      <span
+                        className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0"
+                        style={{
+                          backgroundColor: preset.preview === 'transparent' ? 'transparent' : preset.preview,
+                          backgroundImage: preset.preview === 'transparent' ? 'linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555), linear-gradient(45deg, #555 25%, transparent 25%, transparent 75%, #555 75%, #555)' : undefined,
+                          backgroundSize: '4px 4px',
+                          backgroundPosition: '0 0, 2px 2px',
+                        }}
+                      />
+                      <span>{preset.label.split(' ')[0]}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Custom Color Input */}
+              <div className="flex items-center gap-2 pt-1.5 border-t border-zinc-800/60">
+                <span className="text-[11px] text-zinc-400">Warna Bebas:</span>
+                <input
+                  type="color"
+                  value={
+                    profile.backgroundColor?.startsWith('#')
+                      ? profile.backgroundColor
+                      : '#09090b'
+                  }
+                  onChange={e =>
+                    onChangeProfile({
+                      ...profile,
+                      backgroundColor: e.target.value,
+                    })
+                  }
+                  className="w-7 h-7 rounded-lg bg-transparent border border-zinc-700 cursor-pointer p-0.5"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Pengaturan Warna Teks */}
+          <div
+            className={`transition-opacity duration-150 ${
+              activeSlider ? 'hidden' : 'block'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <Palette className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Warna Teks</span>
+              </label>
+              {onTriggerPreview && (
+                <button
+                  type="button"
+                  onClick={() => onTriggerPreview?.('profile_text_color')}
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  title="Lihat Pratinjau Langsung di Kamera"
+                >
+                  <Eye className="w-3.5 h-3.5" />
+                  <span>Preview</span>
+                </button>
+              )}
+            </div>
+            <div className="p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800 space-y-2">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {PROFILE_TEXT_PRESETS.map(preset => {
+                  const active = (profile.textColor || '#ffffff') === preset.id
+                  return (
+                    <button
+                      key={preset.id}
+                      type="button"
+                      onClick={() =>
+                        onChangeProfile({
+                          ...profile,
+                          textColor: preset.id,
+                        })
+                      }
+                      className={`h-7 px-2.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1.5 border ${
+                        active
+                          ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/50'
+                          : 'border-zinc-700/80 bg-zinc-800/80 text-zinc-300 hover:border-zinc-500'
+                      }`}
+                      title={preset.label}
+                    >
+                      <span
+                        className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0"
+                        style={{ backgroundColor: preset.preview }}
+                      />
+                      <span>{preset.label.split(' ')[0]}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Custom Color Input */}
+              <div className="flex items-center gap-2 pt-1.5 border-t border-zinc-800/60">
+                <span className="text-[11px] text-zinc-400">Warna Bebas:</span>
+                <input
+                  type="color"
+                  value={
+                    profile.textColor?.startsWith('#')
+                      ? profile.textColor
+                      : '#ffffff'
+                  }
+                  onChange={e =>
+                    onChangeProfile({
+                      ...profile,
+                      textColor: e.target.value,
+                    })
+                  }
+                  className="w-7 h-7 rounded-lg bg-transparent border border-zinc-700 cursor-pointer p-0.5"
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Slider Ukuran Teks */}
           <div
             className={`transition-all duration-150 ${
@@ -405,7 +632,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             </p>
             <div
               style={{
-                fontFamily: profile.fontFamily,
+                fontFamily: getFontFamilyStyle(profile.fontFamily),
                 fontWeight:
                   profile.fontWeight === 'bold'
                     ? 700
@@ -415,10 +642,19 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     ? 500
                     : 400,
                 fontSize: `${profile.fontSize || 13}px`,
+                backgroundColor: profile.backgroundColor || 'rgba(9, 9, 11, 0.78)',
+                color: profile.textColor || '#ffffff',
               }}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900/90 text-white border border-white/10 shadow-sm"
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-md transition-all ${
+                profile.showBorder !== false ? 'border border-white/20' : 'border-0'
+              }`}
             >
-              <User className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <User
+                className="w-3.5 h-3.5 shrink-0"
+                style={{
+                  color: (profile.textColor || '#ffffff') === '#ffffff' ? '#34d399' : profile.textColor,
+                }}
+              />
               <span>
                 {profile.name || profile.jobTitle
                   ? [profile.name, profile.jobTitle].filter(Boolean).join(' • ')

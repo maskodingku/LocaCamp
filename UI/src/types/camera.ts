@@ -36,6 +36,9 @@ export interface ProfileConfig {
   position: ProfilePosition
   fontWeight: ProfileFontWeight
   fontSize: number // ukuran font default 13
+  showBorder?: boolean // on/off hilangkan border (default: true)
+  backgroundColor?: string // warna latar belakang
+  textColor?: string // warna teks profil
 }
 
 export interface GeoLocationData {

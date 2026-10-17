@@ -25,6 +25,9 @@ export const DEFAULT_PROFILE_CONFIG: ProfileConfig = {
   position: 'above-geotag',
   fontWeight: 'medium',
   fontSize: 13,
+  showBorder: true,
+  backgroundColor: 'rgba(9, 9, 11, 0.78)',
+  textColor: '#ffffff',
 }
 
 export const DEFAULT_GEOTAG_CONFIG: GeotagDisplayConfig = {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ChevronDown, Square, Palette, Paintbrush } from 'lucide-react'
 import type {
   ProfileConfig,
   WatermarkConfig,
@@ -8,7 +8,7 @@ import type {
   ProfilePosition,
   WatermarkPosition,
 } from '../../types/camera'
-import { FONT_OPTIONS } from './watermark/ProfileSection'
+import { FONT_OPTIONS, PROFILE_BG_PRESETS, PROFILE_TEXT_PRESETS } from './watermark/ProfileSection'
 import {
   PositionGridPopup,
   WATERMARK_GRID_ITEMS,
@@ -44,6 +44,9 @@ const ALL_INPUTS: InputMeta[] = [
   { id: 'profile_position', section: 'profile', title: 'Posisi Profil', type: 'dropdown' },
   { id: 'profile_weight', section: 'profile', title: 'Tebal Teks', type: 'dropdown' },
   { id: 'profile_size', section: 'profile', title: 'Ukuran Teks', type: 'slider' },
+  { id: 'profile_border', section: 'profile', title: 'Border Profil', type: 'dropdown' },
+  { id: 'profile_bg_color', section: 'profile', title: 'Warna Background', type: 'dropdown' },
+  { id: 'profile_text_color', section: 'profile', title: 'Warna Teks', type: 'dropdown' },
 
   // Section: Watermark Logo
   { id: 'watermark_position', section: 'watermark', title: 'Posisi Watermark', type: 'dropdown' },
@@ -192,6 +195,19 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
   const geotagSizeIndex = GEOTAG_SIZE_OPTIONS.findIndex(s => s.id === (geotagConfig.fontSize || 'medium'))
   const currentGeotagSize = GEOTAG_SIZE_OPTIONS[geotagSizeIndex >= 0 ? geotagSizeIndex : 1]
 
+  // 7. Profile Background Color
+  const currentBgColor = profile.backgroundColor || 'rgba(9, 9, 11, 0.78)'
+  const currentBgPreset = PROFILE_BG_PRESETS.find(p => p.id === currentBgColor)
+  const currentBgLabel = currentBgPreset?.label || 'Kustom'
+
+  // 8. Profile Text Color
+  const currentTextColor = profile.textColor || '#ffffff'
+  const currentTextPreset = PROFILE_TEXT_PRESETS.find(p => p.id === currentTextColor)
+  const currentTextLabel = currentTextPreset?.label || 'Kustom'
+
+  // 9. Profile Border
+  const isBorderOn = profile.showBorder !== false
+
   // Membagi judul menjadi dua kata untuk tipografi dual-tone (misal: "Posisi" dan "Watermark")
   const titleParts = currentMeta.title.split(' ')
   const titleFirst = titleParts[0]
@@ -267,6 +283,38 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             title="PILIH KETEBALAN TEKS"
             theme="cyan"
             items={PROFILE_WEIGHTS_OPTIONS}
+          />
+        )}
+
+        {activeInput === 'profile_bg_color' && (
+          <CustomOptionListPopup
+            isOpen={isPopupOpen}
+            onClose={() => setIsPopupOpen(false)}
+            selectedId={currentBgColor}
+            onSelect={id => onChangeProfile({ ...profile, backgroundColor: id, enabled: true })}
+            title="PILIH WARNA BACKGROUND"
+            theme="cyan"
+            items={PROFILE_BG_PRESETS.map(p => ({
+              id: p.id,
+              label: p.label,
+              colorDot: p.preview,
+            }))}
+          />
+        )}
+
+        {activeInput === 'profile_text_color' && (
+          <CustomOptionListPopup
+            isOpen={isPopupOpen}
+            onClose={() => setIsPopupOpen(false)}
+            selectedId={currentTextColor}
+            onSelect={id => onChangeProfile({ ...profile, textColor: id, enabled: true })}
+            title="PILIH WARNA TEKS PROFIL"
+            theme="cyan"
+            items={PROFILE_TEXT_PRESETS.map(p => ({
+              id: p.id,
+              label: p.label,
+              colorDot: p.preview,
+            }))}
           />
         )}
 
@@ -588,6 +636,104 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     className="w-full min-w-0 bg-transparent border-none text-white font-medium text-xs placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                   />
                 </div>
+              )}
+
+              {/* L. Toggle On/Off Border Profil */}
+              {activeInput === 'profile_border' && (
+                <button
+                  type="button"
+                  onClick={() => onChangeProfile({ ...profile, showBorder: !isBorderOn, enabled: true })}
+                  className={`w-full h-9 sm:h-9.5 rounded-full border-2 transition-all px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] relative overflow-hidden group ${
+                    isBorderOn
+                      ? 'bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)]'
+                      : 'bg-gradient-to-r from-[#0b1424]/95 via-[#131d2e]/90 to-[#0b1424]/95 border-slate-600/70 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]'
+                  }`}
+                >
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div
+                      className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 p-[1px] transition-all ${
+                        isBorderOn
+                          ? 'bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 shadow-[0_0_8px_rgba(6,182,212,0.6)] text-white'
+                          : 'bg-slate-800 border border-slate-600 text-slate-400'
+                      }`}
+                    >
+                      <Square className="w-3.5 h-3.5 stroke-[2.5]" />
+                    </div>
+                    <div className="h-3.5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {isBorderOn ? 'Border Aktif' : 'Border Tersembunyi'}
+                    </span>
+                  </div>
+                  <div
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all ${
+                      isBorderOn
+                        ? 'bg-cyan-500/30 border border-cyan-300 text-cyan-200 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
+                        : 'bg-slate-700/60 border border-slate-600 text-slate-400'
+                    }`}
+                  >
+                    {isBorderOn ? 'ON' : 'OFF'}
+                  </div>
+                </button>
+              )}
+
+              {/* M. Dropdown Warna Background Profil */}
+              {activeInput === 'profile_bg_color' && (
+                <button
+                  type="button"
+                  data-dropdown-trigger="true"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div
+                      className="w-6 h-6 rounded-md border border-cyan-300/80 shadow-[0_0_8px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0 overflow-hidden"
+                      style={{
+                        backgroundColor: currentBgColor === 'transparent' ? 'rgba(255,255,255,0.1)' : currentBgColor,
+                        backgroundImage: currentBgColor === 'transparent' ? 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 8px 8px' : undefined,
+                      }}
+                    >
+                      <Palette className="w-3.5 h-3.5 text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+                    </div>
+                    <div className="h-3.5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentBgLabel}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_5px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
+              )}
+
+              {/* N. Dropdown Warna Teks Profil */}
+              {activeInput === 'profile_text_color' && (
+                <button
+                  type="button"
+                  data-dropdown-trigger="true"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setIsPopupOpen(prev => !prev)
+                  }}
+                  className="w-full h-9 sm:h-9.5 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] px-2.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
+                  <div className="flex items-center gap-2 min-w-0">
+                    <div
+                      className="w-6 h-6 rounded-md border border-cyan-300/80 shadow-[0_0_8px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0 overflow-hidden"
+                      style={{ backgroundColor: currentTextColor }}
+                    >
+                      <Paintbrush className="w-3.5 h-3.5 text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]" />
+                    </div>
+                    <div className="h-3.5 w-[1px] bg-cyan-400/35 shrink-0" />
+                    <span className="text-white font-semibold text-xs tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentTextLabel}
+                    </span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_5px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+                </button>
               )}
             </div>
 
