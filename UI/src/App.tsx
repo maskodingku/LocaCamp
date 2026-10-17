@@ -282,14 +282,12 @@ export default function App() {
   }
 
   return (
-    <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col items-center justify-between overflow-hidden">
-      {/* Viewport Container (Adaptive desktop/mobile frame) */}
+    <main className="relative w-full h-[100dvh] bg-black text-white flex flex-col overflow-hidden select-none">
+      {/* Viewport Container: Fullscreen Edge-to-Edge ke Seluruh Pinggir Layar (Kiri, Kanan, Atas, Bawah) */}
       <div
         className={`relative w-full h-full ${
-          orientation.isLandscape
-            ? 'flex flex-row md:max-w-5xl md:max-h-[88dvh]'
-            : 'flex flex-col md:max-w-2xl md:max-h-[92dvh]'
-        } md:my-auto md:rounded-3xl md:border md:border-zinc-800 md:shadow-2xl overflow-hidden bg-black transition-all`}
+          orientation.isLandscape ? 'flex flex-row' : 'flex flex-col'
+        } overflow-hidden bg-black`}
       >
         {/* Live Camera Viewport */}
         <div className="relative flex-1 w-full h-full overflow-hidden">

@@ -37,7 +37,7 @@ export const ShutterControls: React.FC<ShutterControlsProps> = ({
   if (isLandscape) {
     return (
       <aside
-        className="h-full w-24 md:w-28 bg-black border-l border-zinc-900/90 py-5 px-2 flex flex-col items-center justify-between z-20 shrink-0 select-none shadow-2xl transition-all"
+        className="h-full w-20 sm:w-24 md:w-28 bg-black/95 border-l border-zinc-900/90 py-5 px-2 flex flex-col items-center justify-between z-20 shrink-0 select-none shadow-2xl transition-all pr-[max(0.5rem,env(safe-area-inset-right))]"
         aria-label="Panel Kontrol Kamera Landscape"
       >
         {/* Top Slot: Photo History Gallery Button */}
