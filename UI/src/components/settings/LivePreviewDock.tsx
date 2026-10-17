@@ -139,20 +139,20 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
         {/* Baris Kontrol Input Melekat & Tombol Tutup */}
         <div className="flex items-stretch gap-2">
-          {/* Segmented Input Group: [ < Back ] [ Input Lebar ] [ Next > ] */}
+          {/* Segmented Input Group: [ < Back (Glass) ] [ Input Lebar ] [ Next > (Glass) ] */}
           <div className="flex-1 min-w-0 flex items-stretch">
-            {/* Tombol Back Melekat di Sisi Kiri Input */}
+            {/* Tombol Back Melekat di Sisi Kiri Input (Efek Glassmorphism Transparan) */}
             <button
               type="button"
               onClick={handlePrev}
-              className="px-2.5 sm:px-3 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-r-0 border-zinc-700/80 rounded-l-xl flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer group"
+              className="px-3 sm:px-3.5 bg-white/[0.08] hover:bg-white/[0.18] active:bg-white/[0.25] backdrop-blur-md text-zinc-100 hover:text-white border border-r-0 border-white/20 hover:border-white/35 rounded-l-xl flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer group shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"
               title="Input Sebelumnya di Section Ini"
             >
-              <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+              <ChevronLeft className="w-4 h-4 text-zinc-200 group-hover:text-white group-hover:-translate-x-0.5 transition-transform" />
             </button>
 
             {/* Wadah Input Tengah Melekat Tanpa Gap */}
-            <div className="flex-1 min-w-0 bg-zinc-900 border-y border-zinc-700/80 flex items-center px-2.5 py-1.5 overflow-x-auto no-scrollbar">
+            <div className="flex-1 min-w-0 bg-zinc-900/80 backdrop-blur-md border-y border-white/20 flex items-center px-2.5 py-1.5 overflow-x-auto no-scrollbar">
               {/* 1. Jabatan Profil */}
               {activeInput === 'profile_job' && (
                 <input
@@ -365,14 +365,14 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               )}
             </div>
 
-            {/* Tombol Next Melekat di Sisi Kanan Input */}
+            {/* Tombol Next Melekat di Sisi Kanan Input (Efek Glassmorphism Transparan) */}
             <button
               type="button"
               onClick={handleNext}
-              className="px-2.5 sm:px-3 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-l-0 border-zinc-700/80 rounded-r-xl flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer group"
+              className="px-3 sm:px-3.5 bg-white/[0.08] hover:bg-white/[0.18] active:bg-white/[0.25] backdrop-blur-md text-zinc-100 hover:text-white border border-l-0 border-white/20 hover:border-white/35 rounded-r-xl flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer group shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"
               title="Input Selanjutnya di Section Ini"
             >
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-4 h-4 text-zinc-200 group-hover:text-white group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
@@ -380,7 +380,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-white border border-white/15 active:scale-95 transition-all text-xs font-semibold cursor-pointer group shadow-sm self-stretch"
+            className="shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] active:bg-white/[0.22] backdrop-blur-md text-white border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] active:scale-95 transition-all text-xs font-semibold cursor-pointer group self-stretch"
             title="Tutup Mode Preview & Kembali ke Pengaturan"
           >
             <X className="w-4 h-4 text-rose-400 group-hover:rotate-90 transition-transform duration-200" />
