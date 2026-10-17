@@ -152,7 +152,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             </button>
 
             {/* Wadah Input Tengah Melekat Tanpa Gap */}
-            <div className="flex-1 min-w-0 bg-zinc-900/80 backdrop-blur-md border-y border-white/20 flex items-center px-2.5 py-1.5 overflow-x-auto no-scrollbar">
+            <div className="flex-1 min-w-0 bg-zinc-900/80 backdrop-blur-md border-y border-white/20 flex items-center px-2.5 py-1.5 overflow-hidden">
               {/* 1. Jabatan Profil */}
               {activeInput === 'profile_job' && (
                 <input

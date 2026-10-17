@@ -65,3 +65,38 @@
 .animate-pulse-ring {
   animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+/* Scrollbar Utilities: Hide Native Scrollbars & Subtle Glass Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.glass-scrollbar::-webkit-scrollbar {
+  height: 3px;
+  width: 3px;
+}
+
+.glass-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+.glass-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.glass-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
