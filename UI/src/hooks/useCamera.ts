@@ -274,23 +274,56 @@ export function useCamera(options: UseCameraOptions = {}) {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      setIsTabVisible(document.visibilityState === 'visible')
+      const isVisible = typeof document !== 'undefined' && document.visibilityState === 'visible'
+      setIsTabVisible(isVisible)
+      if (!isVisible) {
+        // Tab tidak aktif / berpindah tab / diminimalkan: matikan hardware kamera seketika
+        sessionCounterRef.current++
+        stopStream()
+        setIsLoading(false)
+      } else if (enabled) {
+        // Tab kembali aktif dan fitur kamera enabled: nyalakan kembali stream
+        startCamera()
+      }
+    }
+
+    const handlePageHide = () => {
+      // Halaman disembunyikan / aplikasi diminimalkan di browser ponsel
+      setIsTabVisible(false)
+      sessionCounterRef.current++
+      stopStream()
+      setIsLoading(false)
+    }
+
+    const handlePageShow = () => {
+      const isVisible = typeof document !== 'undefined' && document.visibilityState === 'visible'
+      if (isVisible) {
+        setIsTabVisible(true)
+        if (enabled) {
+          startCamera()
+        }
+      }
     }
 
     const handleFocus = () => {
-      // Saat pengguna mengklik atau berpindah ke tab ini, pastikan kamera otomatis aktif
+      // Saat pengguna mengklik atau berpindah kembali ke tab ini
       if (enabled && document.visibilityState === 'visible' && !streamRef.current) {
+        setIsTabVisible(true)
         startCamera()
       }
     }
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('pagehide', handlePageHide)
+    window.addEventListener('pageshow', handlePageShow)
     window.addEventListener('focus', handleFocus)
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('pagehide', handlePageHide)
+      window.removeEventListener('pageshow', handlePageShow)
       window.removeEventListener('focus', handleFocus)
     }
-  }, [enabled, startCamera])
+  }, [enabled, startCamera, stopStream])
 
   // Kamera hanya boleh aktif jika enabled bernilai true dan tab sedang dilihat
   const shouldStream = enabled && isTabVisible

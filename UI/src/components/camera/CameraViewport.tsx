@@ -136,7 +136,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       />
 
       {/* 2. Loading State */}
-      {isLoading && !error && (
+      {isLoading && !error && !isLivePreviewOpen && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-950/90 z-30 text-white gap-3 animate-in fade-in">
           <div className="w-10 h-10 border-2 border-zinc-700 border-t-white rounded-full animate-spin" />
           <p className="text-sm font-medium text-zinc-300">Menghubungkan ke kamera...</p>
@@ -144,7 +144,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       )}
 
       {/* 3. Error / Permission Denied State */}
-      {error && (
+      {error && !isLivePreviewOpen && (
         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 bg-zinc-950/95 z-30 text-center animate-in fade-in duration-200">
           <div
             className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 shadow-lg ${
@@ -286,7 +286,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       </div>
 
       {/* 5. Live Overlays (Watermark + Geotag HUD + Profil) */}
-      {isStreaming && (
+      {(isStreaming || isLivePreviewOpen) && (
         <>
           <WatermarkLayer
             watermark={watermark}
@@ -316,7 +316,7 @@ export const CameraViewport: React.FC<CameraViewportProps> = ({
       )}
 
       {/* Grid viewfinder aesthetic markers */}
-      {isStreaming && (
+      {(isStreaming || isLivePreviewOpen) && (
         <div className="absolute inset-0 pointer-events-none opacity-15">
           <div className="w-full h-full border border-white/40" />
           <div className="absolute inset-x-0 top-1/3 border-b border-white/30" />
