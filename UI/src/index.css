@@ -151,12 +151,16 @@
   border-radius: 18px;
   background: transparent;
   gap: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
 }
 
 .hud-color-picker .react-colorful__saturation {
   border-radius: 14px;
   border: 1.5px solid rgba(34, 211, 238, 0.45);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 0 15px rgba(6, 182, 212, 0.25);
+  touch-action: none;
 }
 
 .hud-color-picker .react-colorful__hue {
@@ -164,20 +168,21 @@
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
+  touch-action: none;
 }
 
+/* Pointer wajib transition: none agar meluncur instan dan tidak bergetar saat digeser */
 .hud-color-picker .react-colorful__pointer {
-  width: 20px !important;
-  height: 20px !important;
+  width: 22px !important;
+  height: 22px !important;
   border-radius: 50% !important;
   border: 2.5px solid #ffffff !important;
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.95), 0 0 4px #fff, inset 0 0 3px rgba(0, 0, 0, 0.6) !important;
-  transform: translate(-10px, -10px) !important;
-  transition: transform 0.05s ease;
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.95), 0 0 4px #fff, inset 0 0 3px rgba(0, 0, 0, 0.6) !important;
+  transition: none !important;
+  cursor: grab;
 }
 
-.hud-color-picker .react-colorful__pointer:hover,
 .hud-color-picker .react-colorful__pointer:active {
-  transform: translate(-10px, -10px) scale(1.15) !important;
+  cursor: grabbing;
 }
 

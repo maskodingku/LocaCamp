@@ -64,7 +64,8 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
   // Sinkronisasi saat selectedColor berubah dari luar jika itu bukan preset
   useEffect(() => {
     if (!isCurrentPreset && selectedColor) {
-      setCustomHex(normalizeToHex(selectedColor))
+      const normalized = normalizeToHex(selectedColor)
+      setCustomHex(prev => (prev.toLowerCase() === normalized.toLowerCase() ? prev : normalized))
     }
   }, [selectedColor, isCurrentPreset])
 
