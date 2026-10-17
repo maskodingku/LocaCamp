@@ -55,7 +55,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
   return (
     <>
-      {/* Section Profil Pengguna (Paling Atas) */}
+      {/* Section 1: Profil Pengguna (Paling Atas) */}
       <ProfileSection
         profile={profile}
         onChangeProfile={onChangeProfile}
@@ -66,29 +66,24 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
       {/* SECTION 2: WATERMARK LOGO */}
       <div
-        className={`relative rounded-2xl transition-all duration-150 ${
+        className={`relative rounded-[22px] sm:rounded-[26px] border border-cyan-400/60 transition-all duration-150 overflow-hidden mt-4 sm:mt-5 ${
           activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
             ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
             : activeSlider
             ? 'hidden'
-            : 'border border-zinc-800/80 border-l-[3px] border-l-cyan-400 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 shadow-lg space-y-4'
+            : 'bg-[#031d28]/75 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)] space-y-4'
         }`}
-        style={
-          activeSlider
-            ? undefined
-            : {
-                boxShadow:
-                  'inset 6px 0 16px -4px rgba(6, 182, 212, 0.25), 0 0 16px rgba(34, 211, 238, 0.15), 0 10px 25px -5px rgba(0, 0, 0, 0.5)',
-              }
-        }
       >
+        {/* Specular Glint Top-Left */}
+        <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80" />
+        <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff]" />
         {/* Header Section Watermark Logo */}
         <div
-          className={`items-center gap-3 p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
+          className={`items-center gap-3 p-3 rounded-2xl bg-black/25 backdrop-blur-sm border border-cyan-500/20 transition-opacity duration-150 ${
             activeSlider ? 'hidden' : 'flex'
           }`}
         >
-          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
             <Sparkles className="w-5 h-5" />
           </div>
           <div className="min-w-0">
@@ -106,14 +101,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
           }`}
         >
           <div className="flex items-center justify-between mb-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
               Logo Watermark
             </label>
             {onTriggerPreview && (
               <button
                 type="button"
                 onClick={() => onTriggerPreview?.('watermark_position')}
-                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                 title="Lihat Pratinjau Langsung di Kamera"
               >
                 <Eye className="w-3.5 h-3.5" />
@@ -124,9 +119,9 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
           {watermark.imageUrl ? (
             /* Card Saat Logo Sudah Terpasang */
-            <div className="p-3 sm:p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-3">
+            <div className="p-3 sm:p-3.5 rounded-2xl bg-black/25 border border-cyan-500/20 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-12 h-12 rounded-xl bg-black/70 border border-zinc-800 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-inner">
+                <div className="w-12 h-12 rounded-xl bg-black/50 border border-cyan-800/40 flex items-center justify-center p-1.5 shrink-0 overflow-hidden shadow-inner">
                   <img
                     src={watermark.imageUrl}
                     alt="Logo Aktif"
@@ -140,7 +135,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <label className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-zinc-700/80 bg-zinc-800/80 hover:bg-zinc-700/80 text-xs font-medium text-zinc-200 cursor-pointer transition-all active:scale-95 shadow-sm">
+                <label className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-cyan-800/60 bg-black/40 hover:bg-black/60 text-xs font-medium text-zinc-200 cursor-pointer transition-all active:scale-95 shadow-sm">
                   <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Ganti</span>
                   <input
@@ -153,7 +148,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onChangeWatermark({ ...watermark, imageUrl: '' })}
-                  className="p-2 rounded-xl border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-all active:scale-95 shadow-sm"
+                  className="p-2 rounded-xl border border-rose-500/25 bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 transition-all active:scale-95 shadow-sm"
                   title="Hapus Logo"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -162,15 +157,15 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             </div>
           ) : (
             /* Dropzone Saat Belum Ada Logo */
-            <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-zinc-700/80 hover:border-cyan-500/50 bg-zinc-900/40 hover:bg-zinc-900/70 cursor-pointer transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform shadow-sm">
+            <label className="flex flex-col items-center justify-center gap-2 p-5 rounded-2xl border-2 border-dashed border-cyan-500/35 hover:border-cyan-400 bg-black/20 hover:bg-black/35 cursor-pointer transition-all group">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:scale-105 transition-transform shadow-sm">
                 <Upload className="w-5 h-5" />
               </div>
               <div className="text-center">
                 <span className="text-xs font-semibold text-zinc-200 block group-hover:text-cyan-300 transition-colors">
                   Pilih Logo (PNG / JPG / SVG)
                 </span>
-                <span className="text-[11px] text-zinc-500 mt-0.5 block">
+                <span className="text-[11px] text-zinc-400 mt-0.5 block">
                   Disarankan format PNG transparan agar rapi pada foto
                 </span>
               </div>
@@ -192,14 +187,14 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
                 Posisi Watermark di Foto
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('watermark_position')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -207,7 +202,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-3 gap-1.5 p-2 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+            <div className="grid grid-cols-3 gap-1.5 p-2 bg-black/25 rounded-2xl border border-cyan-500/20">
               {WATERMARK_GRID_POSITIONS.map(pos => {
                 const active = watermark.position === pos.id
                 return (
@@ -219,11 +214,11 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     }
                     className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${
                       active
-                        ? 'bg-white text-zinc-950 font-bold shadow-md'
-                        : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white'
+                        ? 'bg-cyan-400 text-black font-black shadow-[0_0_12px_rgba(34,211,238,0.7)]'
+                        : 'bg-black/30 text-zinc-300 hover:bg-black/50 hover:text-white border border-cyan-950/40'
                     }`}
                   >
-                    <span className="text-zinc-400 font-bold shrink-0">{pos.icon}</span>
+                    <span className="text-cyan-400 font-bold shrink-0">{pos.icon}</span>
                     <span className="truncate">{pos.label}</span>
                   </button>
                 )
@@ -239,7 +234,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             <div
               className={`transition-all duration-150 ${
                 activeSlider === 'watermark_size'
-                  ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
+                  ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                   : activeSlider !== null
                   ? 'hidden'
                   : ''
@@ -254,7 +249,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   >
                     Ukuran Watermark
                   </span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-zinc-800 text-cyan-300 border border-zinc-700/80 shrink-0">
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 shrink-0">
                     {watermark.sizePercent}% lebar
                   </span>
                 </div>
@@ -262,7 +257,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   <button
                     type="button"
                     onClick={() => onTriggerPreview?.('watermark_size')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -287,7 +282,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     sizePercent: Number(e.target.value),
                   })
                 }
-                className="w-full accent-cyan-400 h-2 bg-zinc-800/80 rounded-lg cursor-pointer"
+                className="w-full accent-cyan-400 h-2 bg-black/40 rounded-lg cursor-pointer"
               />
             </div>
 
@@ -295,7 +290,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             <div
               className={`transition-all duration-150 ${
                 activeSlider === 'watermark_opacity'
-                  ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
+                  ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                   : activeSlider !== null
                   ? 'hidden'
                   : ''
@@ -310,7 +305,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   >
                     Transparansi (Opacity)
                   </span>
-                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-zinc-800 text-cyan-300 border border-zinc-700/80 shrink-0">
+                  <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 shrink-0">
                     {Math.round(watermark.opacity * 100)}%
                   </span>
                 </div>
@@ -318,7 +313,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                   <button
                     type="button"
                     onClick={() => onTriggerPreview?.('watermark_opacity')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -344,7 +339,7 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
                     opacity: Number(e.target.value),
                   })
                 }
-                className="w-full accent-cyan-400 h-2 bg-zinc-800/80 rounded-lg cursor-pointer"
+                className="w-full accent-cyan-400 h-2 bg-black/40 rounded-lg cursor-pointer"
               />
             </div>
           </div>

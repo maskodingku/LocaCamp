@@ -225,15 +225,11 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_8px_rgba(34,211,238,0.9)] mt-2.5 mb-2" />
           </div>
 
-          {/* Inner Glass Viewport (With 3D Bubbles & Specular Flares) */}
+          {/* Inner Content Viewport Area */}
           <div
-            className={`relative flex-1 mx-2 sm:mx-4 mb-2 sm:mb-3 rounded-[20px] sm:rounded-[24px] border border-cyan-400/50 overflow-hidden flex flex-col transition-all duration-150 ${
-              activeSlider
-                ? 'border-transparent bg-transparent shadow-none'
-                : 'shadow-[0_0_20px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.15)]'
-            }`}
+            className={`relative flex-1 mx-2 sm:mx-4 mb-2 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150`}
           >
-            {/* Cyber Liquid Glass Background with 3D Bubbles and Glints */}
+            {/* Cyber Liquid Glass Background with 3D Bubbles */}
             {!activeSlider && <CyberGlassBackground />}
 
             {/* Scrollable Tab Content Container */}

@@ -155,6 +155,10 @@ export const CyberGlassBackground: React.FC = () => {
       {/* Sudut Kanan Atas Viewport */}
       <div className="absolute top-1 right-1 w-3 h-3 bg-cyan-300 rounded-full blur-[2px] opacity-80" />
       <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
+
+      {/* Sudut Kiri Bawah Viewport */}
+      <div className="absolute bottom-1 left-1 w-3 h-3 bg-cyan-300 rounded-full blur-[2px] opacity-80" />
+      <div className="absolute bottom-1.5 left-1.5 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_8px_#fff]" />
     </div>
   )
 }

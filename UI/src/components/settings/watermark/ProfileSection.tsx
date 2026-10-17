@@ -88,25 +88,20 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
   return (
     <div
-      className={`relative rounded-2xl transition-all duration-150 ${
+      className={`relative rounded-[22px] sm:rounded-[26px] border border-cyan-400/60 transition-all duration-150 overflow-hidden ${
         activeSlider === 'profile_size'
           ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
           : activeSlider
           ? 'hidden'
-          : 'border border-zinc-800/80 border-l-[3px] border-l-emerald-400 bg-zinc-900/40 backdrop-blur-md p-4 sm:p-5 shadow-lg space-y-4'
+          : 'bg-[#031d28]/75 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_20px_rgba(6,182,212,0.3),inset_0_0_16px_rgba(6,182,212,0.15)] space-y-4'
       }`}
-      style={
-        activeSlider
-          ? undefined
-          : {
-              boxShadow:
-                'inset 6px 0 16px -4px rgba(16, 185, 129, 0.25), 0 0 16px rgba(52, 211, 153, 0.15), 0 10px 25px -5px rgba(0, 0, 0, 0.5)',
-            }
-      }
     >
+      {/* Specular Glint Top-Left */}
+      <div className="pointer-events-none absolute top-1 left-1 w-2.5 h-2.5 bg-cyan-300 rounded-full blur-[1px] opacity-80" />
+      <div className="pointer-events-none absolute top-1.5 left-1.5 w-1 h-1 bg-white rounded-full shadow-[0_0_6px_#fff]" />
       {/* Header Section dengan Switch On/Off */}
       <div
-        className={`items-center justify-between p-3.5 rounded-2xl bg-zinc-900/70 border border-zinc-800 transition-opacity duration-150 ${
+        className={`items-center justify-between p-3 rounded-2xl bg-black/25 backdrop-blur-sm border border-cyan-500/20 transition-opacity duration-150 ${
           activeSlider ? 'hidden' : 'flex'
         }`}
       >
@@ -114,8 +109,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div
             className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
               profile.enabled
-                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                : 'bg-zinc-800 text-zinc-400 border border-zinc-700/50'
+                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+                : 'bg-black/40 text-zinc-500 border border-zinc-800'
             }`}
           >
             <User className="w-5 h-5" />
@@ -124,7 +119,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-semibold text-white truncate">Profil Pengguna</h3>
               {profile.enabled && (
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shrink-0">
                   Aktif
                 </span>
               )}
@@ -148,7 +143,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }
             className="sr-only peer"
           />
-          <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 border border-zinc-700 peer-checked:border-emerald-400 shadow-inner"></div>
+          <div className="w-11 h-6 bg-zinc-800/80 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 border border-zinc-700/80 peer-checked:border-emerald-400 shadow-inner"></div>
         </label>
       </div>
 
@@ -164,15 +159,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {/* Input Jabatan */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                  <Briefcase className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Jabatan / Posisi</span>
                 </label>
                 {onTriggerPreview && (
                   <button
                     type="button"
                     onClick={() => onTriggerPreview?.('profile_job')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -190,22 +185,22 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   })
                 }
                 placeholder="Contoh: Surveyor Lapangan / Pengawas"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/35 border border-cyan-500/25 focus:border-cyan-400 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all shadow-inner"
               />
             </div>
 
             {/* Input Nama Lengkap */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-zinc-400" />
+                <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                  <User className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Nama Lengkap</span>
                 </label>
                 {onTriggerPreview && (
                   <button
                     type="button"
                     onClick={() => onTriggerPreview?.('profile_name')}
-                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                    className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -223,7 +218,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   })
                 }
                 placeholder="Contoh: Ahmad Fauzi, S.T."
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/35 border border-cyan-500/25 focus:border-cyan-400 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all shadow-inner"
               />
             </div>
           </div>
@@ -235,15 +230,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                <Type className="w-3.5 h-3.5 text-zinc-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                <Type className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Jenis Font Profil</span>
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_font')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -260,19 +255,19 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     fontFamily: e.target.value,
                   })
                 }
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700/80 focus:border-emerald-500 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all appearance-none cursor-pointer pr-10 shadow-inner"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-black/35 border border-cyan-500/25 focus:border-cyan-400 text-sm text-zinc-100 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all appearance-none cursor-pointer pr-10 shadow-inner"
               >
                 {FONT_OPTIONS.map(font => (
                   <option
                     key={font.id}
                     value={font.id}
-                    className="bg-zinc-900 text-zinc-100 py-1"
+                    className="bg-zinc-950 text-zinc-100 py-1"
                   >
                     {font.label}
                   </option>
                 ))}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-zinc-400">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-cyan-400">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
                   <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                 </svg>
@@ -287,15 +282,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Posisi Profil di Foto</span>
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_position')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -304,32 +299,32 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               )}
             </div>
 
-            <div className="space-y-2 p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+            <div className="space-y-2 p-2.5 bg-black/25 rounded-2xl border border-cyan-500/20">
               {/* Opsi Utama: Di Atas Geotag */}
               <button
                 type="button"
                 onClick={() => onChangeProfile({ ...profile, position: 'above-geotag' })}
                 className={`w-full py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border ${
                   isAboveGeotag
-                    ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-md ring-1 ring-emerald-400/40'
-                    : 'bg-zinc-800/60 border-zinc-700/60 text-zinc-300 hover:bg-zinc-700/60 hover:border-zinc-600'
+                    ? 'bg-cyan-500/20 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.4)] ring-1 ring-cyan-400/50'
+                    : 'bg-black/30 border-cyan-950/40 text-zinc-300 hover:bg-black/50 hover:border-cyan-700/50'
                 }`}
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <span className="text-amber-400 text-sm">★</span>
                   <span className="truncate">Di Atas Geotag</span>
-                  <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 shrink-0">
+                  <span className="text-[10px] font-normal px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 shrink-0">
                     Rekomendasi
                   </span>
                 </div>
-                {isAboveGeotag && <Check className="w-4 h-4 text-emerald-400 shrink-0 ml-1" />}
+                {isAboveGeotag && <Check className="w-4 h-4 text-cyan-400 shrink-0 ml-1" />}
               </button>
 
               <div className="flex items-center gap-2 pt-1 pb-0.5">
-                <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+                <span className="text-[10px] font-medium uppercase tracking-wider text-cyan-300/60">
                   Atau 9 Posisi Sudut Kamera:
                 </span>
-                <div className="flex-1 h-px bg-zinc-800" />
+                <div className="flex-1 h-px bg-cyan-950/60" />
               </div>
 
               {/* 9-Grid Posisi Sudut Kamera */}
@@ -343,11 +338,11 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       onClick={() => onChangeProfile({ ...profile, position: pos.id })}
                       className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate ${
                         active
-                          ? 'bg-white text-zinc-950 font-bold shadow-md'
-                          : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white'
+                          ? 'bg-cyan-400 text-black font-black shadow-[0_0_12px_rgba(34,211,238,0.7)]'
+                          : 'bg-black/30 text-zinc-300 hover:bg-black/50 hover:text-white border border-cyan-950/40'
                       }`}
                     >
-                      <span className="text-zinc-400 font-bold shrink-0">{pos.icon}</span>
+                      <span className="text-cyan-400 font-bold shrink-0">{pos.icon}</span>
                       <span className="truncate">{pos.label}</span>
                     </button>
                   )
@@ -363,14 +358,14 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
                 Ketebalan Teks
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_weight')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -378,7 +373,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-4 gap-1.5 p-1.5 bg-zinc-900/60 rounded-xl border border-zinc-800">
+            <div className="grid grid-cols-4 gap-1.5 p-1.5 bg-black/25 rounded-xl border border-cyan-500/20">
               {FONT_WEIGHTS.map(fw => {
                 const active = (profile.fontWeight || 'medium') === fw.id
                 return (
@@ -393,7 +388,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     }
                     className={`py-2 px-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all text-center whitespace-nowrap ${
                       active
-                        ? 'bg-emerald-500 text-black font-bold shadow-md'
+                        ? 'bg-cyan-400 text-black font-black shadow-[0_0_10px_rgba(34,211,238,0.7)]'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -406,12 +401,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Garis Tepi (Border) */}
           <div
-            className={`p-3 sm:p-3.5 rounded-2xl bg-zinc-900/60 border border-zinc-800 flex items-center justify-between gap-3 transition-opacity duration-150 ${
+            className={`p-3 sm:p-3.5 rounded-2xl bg-black/25 border border-cyan-500/20 flex items-center justify-between gap-3 transition-opacity duration-150 ${
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 rounded-lg bg-zinc-800/80 flex items-center justify-center shrink-0 text-emerald-400 border border-zinc-700/60">
+              <div className="w-8 h-8 rounded-lg bg-black/40 flex items-center justify-center shrink-0 text-cyan-400 border border-cyan-800/40">
                 <Frame className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -423,7 +418,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => onTriggerPreview?.('profile_border')}
-                      className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                       title="Lihat Pratinjau Langsung di Kamera"
                     >
                       <Eye className="w-3 h-3" />
@@ -451,7 +446,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 }
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 border border-zinc-700 peer-checked:border-emerald-400 shadow-inner"></div>
+              <div className="w-11 h-6 bg-zinc-800/80 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500 border border-zinc-700/80 peer-checked:border-emerald-400 shadow-inner"></div>
             </label>
           </div>
 
@@ -462,15 +457,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                <Paintbrush className="w-3.5 h-3.5 text-zinc-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                <Paintbrush className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Warna Background</span>
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_bg_color')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -478,7 +473,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2 sm:p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+            <div className="p-2 sm:p-2.5 bg-black/25 rounded-2xl border border-cyan-500/20">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_BG_PRESETS.map(preset => {
                   const active = currentBg === preset.id
@@ -494,8 +489,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       }
                       className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
-                          ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
-                          : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                          ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
+                          : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
                       }`}
                       title={preset.label}
                     >
@@ -525,8 +520,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 <label
                   className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
                     isCustomBg
-                      ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
-                      : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                      ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
+                      : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
                   }`}
                   title="Pilih Warna Bebas Kustom"
                 >
@@ -566,15 +561,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                <Palette className="w-3.5 h-3.5 text-zinc-400" />
+              <label className="text-xs font-semibold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
+                <Palette className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Warna Teks</span>
               </label>
               {onTriggerPreview && (
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_text_color')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -582,7 +577,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2 sm:p-2.5 bg-zinc-900/60 rounded-2xl border border-zinc-800">
+            <div className="p-2 sm:p-2.5 bg-black/25 rounded-2xl border border-cyan-500/20">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_TEXT_PRESETS.map(preset => {
                   const active = currentText === preset.id
@@ -598,8 +593,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       }
                       className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
-                          ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
-                          : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                          ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
+                          : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
                       }`}
                       title={preset.label}
                     >
@@ -626,8 +621,8 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 <label
                   className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
                     isCustomText
-                      ? 'border-emerald-400 bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/40 shadow-sm'
-                      : 'border-zinc-800/80 bg-zinc-900/80 text-zinc-400 hover:border-zinc-700 hover:text-zinc-200'
+                      ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
+                      : 'border-cyan-950/40 bg-black/30 text-zinc-400 hover:border-cyan-800 hover:text-zinc-200'
                   }`}
                   title="Pilih Warna Teks Bebas Kustom"
                 >
@@ -664,7 +659,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
           <div
             className={`transition-all duration-150 ${
               activeSlider === 'profile_size'
-                ? 'p-4 rounded-2xl bg-zinc-950/60 backdrop-blur-md border border-white/20 shadow-2xl relative z-50'
+                ? 'p-4 rounded-2xl bg-zinc-950/80 backdrop-blur-md border border-cyan-400/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] relative z-50'
                 : activeSlider !== null
                 ? 'hidden'
                 : ''
@@ -679,7 +674,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 >
                   Ukuran Teks Profil
                 </span>
-                <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-zinc-800 text-emerald-400 border border-zinc-700/80 shrink-0">
+                <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-bold bg-cyan-950/60 text-cyan-300 border border-cyan-800/60 shrink-0">
                   {profile.fontSize || 13} px
                 </span>
               </div>
@@ -687,7 +682,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('profile_size')}
-                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/25 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
+                  className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 transition-all active:scale-95 cursor-pointer shadow-sm shrink-0"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <Eye className="w-3.5 h-3.5" />
@@ -713,25 +708,25 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   fontSize: Number(e.target.value),
                 })
               }
-              className="w-full accent-emerald-400 h-2 bg-zinc-800/80 rounded-lg cursor-pointer"
+              className="w-full accent-cyan-400 h-2 bg-black/40 rounded-lg cursor-pointer"
             />
           </div>
 
           {/* Mini Preview Profil */}
           <div
-            className={`p-3 rounded-2xl bg-zinc-950/80 border border-zinc-800 transition-opacity duration-150 space-y-2 ${
+            className={`p-3 rounded-2xl bg-black/35 border border-cyan-500/20 transition-opacity duration-150 space-y-2 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">
+              <p className="text-[10px] font-semibold text-cyan-300/80 uppercase tracking-wider">
                 Pratinjau Tampilan Teks
               </p>
-              <span className="text-[10px] text-zinc-500 font-mono">
+              <span className="text-[10px] text-zinc-400 font-mono">
                 {profile.fontSize || 13}px • {profile.fontWeight || 'medium'}
               </span>
             </div>
-            <div className="p-3 rounded-xl bg-zinc-900/60 border border-zinc-800/60 flex items-center justify-center overflow-x-auto min-h-[52px]">
+            <div className="p-3 rounded-xl bg-black/40 border border-cyan-900/40 flex items-center justify-center overflow-x-auto min-h-[52px]">
               <div
                 style={{
                   fontFamily: getFontFamilyStyle(profile.fontFamily),
