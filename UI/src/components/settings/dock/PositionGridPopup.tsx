@@ -100,51 +100,54 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
   // Warna aksen tema
   const activeGridClass =
     theme === 'emerald'
-      ? 'bg-emerald-950/70 border-emerald-400 text-emerald-200 shadow-[0_0_12px_rgba(52,211,153,0.3)]'
+      ? 'bg-emerald-950/70 border-2 border-emerald-400 text-emerald-200 shadow-[0_0_16px_rgba(52,211,153,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)]'
       : theme === 'amber'
-      ? 'bg-amber-950/70 border-amber-400 text-amber-200 shadow-[0_0_12px_rgba(251,191,36,0.3)]'
-      : 'bg-cyan-950/70 border-cyan-400 text-cyan-200 shadow-[0_0_12px_rgba(34,211,238,0.3)]'
+      ? 'bg-amber-950/70 border-2 border-amber-400 text-amber-200 shadow-[0_0_16px_rgba(251,191,36,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)]'
+      : 'bg-gradient-to-br from-[#041c38] to-[#082b54] border-2 border-cyan-400 text-cyan-200 shadow-[0_0_16px_rgba(6,182,212,0.65),inset_0_1px_2px_rgba(255,255,255,0.7)]'
 
   const activeRowClass =
     theme === 'emerald'
-      ? 'bg-emerald-950/60 border border-emerald-500/50 text-emerald-200'
+      ? 'bg-emerald-950/70 border border-emerald-500/60 text-emerald-200 shadow-[0_0_10px_rgba(52,211,153,0.35)]'
       : theme === 'amber'
-      ? 'bg-amber-950/60 border border-amber-500/50 text-amber-200'
-      : 'bg-cyan-950/60 border border-cyan-500/50 text-cyan-200'
+      ? 'bg-amber-950/70 border border-amber-500/60 text-amber-200 shadow-[0_0_10px_rgba(251,191,36,0.35)]'
+      : 'bg-gradient-to-r from-[#041c38] to-[#082b54] border border-cyan-400/70 text-cyan-100 shadow-[0_0_14px_rgba(6,182,212,0.5),inset_0_1px_2px_rgba(255,255,255,0.5)]'
 
   const activeNumberClass =
     theme === 'emerald'
-      ? 'text-emerald-400 font-bold'
+      ? 'text-emerald-400 font-bold drop-shadow-[0_0_6px_rgba(52,211,153,0.8)]'
       : theme === 'amber'
-      ? 'text-amber-400 font-bold'
-      : 'text-cyan-400 font-bold'
+      ? 'text-amber-400 font-bold drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]'
+      : 'text-cyan-400 font-bold drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]'
 
   const hintColorClass =
     theme === 'emerald'
       ? 'text-emerald-400'
       : theme === 'amber'
       ? 'text-amber-400'
-      : 'text-cyan-400'
+      : 'text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]'
 
   return (
     <div
       ref={popupRef}
-      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-2xl bg-[#090d16]/95 backdrop-blur-2xl border border-slate-700/60 shadow-[0_20px_60px_rgba(0,0,0,0.85)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150"
+      className="absolute bottom-full mb-3 left-0 right-0 z-[140] p-3.5 sm:p-4 rounded-[26px] bg-[#020717]/90 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_60px_rgba(0,0,0,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in fade-in slide-in-from-bottom-2 duration-150 overflow-hidden"
     >
+      {/* Specular Highlight Glare di Atas Popup */}
+      <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
+
       {/* 1. Header Visual Grid Selector */}
       {showGridSelector && (
         <>
           <div className="flex items-center justify-between pb-2.5">
-            <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400">
+            <span className="text-[10px] font-bold tracking-wider uppercase text-slate-300">
               Visual Grid Selector
             </span>
-            <span className={`text-[10px] font-medium ${hintColorClass}`}>
+            <span className={`text-[10px] font-semibold ${hintColorClass}`}>
               Klik titik kotak
             </span>
           </div>
 
           {/* 2. Grid Visual Kotak 3x3 */}
-          <div className="grid grid-cols-3 gap-2 pb-3 mb-3 border-b border-slate-800/80">
+          <div className="grid grid-cols-3 gap-2 pb-3 mb-3 border-b border-cyan-500/20">
             {items.slice(0, 9).map(item => {
               const isSelected = item.id === selectedId
               return (
@@ -158,11 +161,11 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
                   className={`flex flex-col items-center justify-center py-2.5 px-1 rounded-xl text-center border transition-all cursor-pointer active:scale-95 ${
                     isSelected
                       ? activeGridClass
-                      : 'bg-slate-900/60 border-slate-800/80 hover:bg-slate-800/60 hover:border-slate-700 text-slate-300 hover:text-white'
+                      : 'bg-[#030918]/70 border-cyan-500/20 hover:bg-[#071630]/80 hover:border-cyan-400/50 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] text-slate-300 hover:text-white'
                   }`}
                   title={item.fullLabel}
                 >
-                  <div className={`mb-1 ${isSelected ? '' : 'text-slate-400'}`}>
+                  <div className={`mb-1 ${isSelected ? 'drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]' : 'text-slate-400'}`}>
                     {item.icon}
                   </div>
                   <span className="text-[11px] font-medium leading-tight">
@@ -191,14 +194,14 @@ export const PositionGridPopup: React.FC<PositionGridPopupProps> = ({
               className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-left transition-all cursor-pointer active:scale-[0.98] ${
                 isSelected
                   ? activeRowClass
-                  : 'bg-transparent hover:bg-white/[0.05] border border-transparent text-slate-300 hover:text-white'
+                  : 'bg-transparent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 text-slate-300 hover:text-white'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className={`shrink-0 ${isSelected ? '' : 'text-slate-400'}`}>
+                <span className={`shrink-0 ${isSelected ? 'text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]' : 'text-slate-400'}`}>
                   {item.icon}
                 </span>
-                <span className={`text-xs truncate ${isSelected ? 'font-bold' : 'font-medium'}`}>
+                <span className={`text-xs truncate ${isSelected ? 'font-bold text-white' : 'font-medium'}`}>
                   {item.fullLabel}
                 </span>
               </div>

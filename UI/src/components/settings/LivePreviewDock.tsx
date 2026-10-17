@@ -38,12 +38,12 @@ interface InputMeta {
 
 const ALL_INPUTS: InputMeta[] = [
   // Section: Profil Pengguna
-  { id: 'profile_job', section: 'profile', title: 'Jabatan / Posisi', type: 'text' },
+  { id: 'profile_job', section: 'profile', title: 'Jabatan Profil', type: 'text' },
   { id: 'profile_name', section: 'profile', title: 'Nama Lengkap', type: 'text' },
-  { id: 'profile_font', section: 'profile', title: 'Jenis Font Profil', type: 'dropdown' },
+  { id: 'profile_font', section: 'profile', title: 'Font Profil', type: 'dropdown' },
   { id: 'profile_position', section: 'profile', title: 'Posisi Profil', type: 'dropdown' },
-  { id: 'profile_weight', section: 'profile', title: 'Ketebalan Teks', type: 'dropdown' },
-  { id: 'profile_size', section: 'profile', title: 'Ukuran Teks Profil', type: 'slider' },
+  { id: 'profile_weight', section: 'profile', title: 'Tebal Teks', type: 'dropdown' },
+  { id: 'profile_size', section: 'profile', title: 'Ukuran Teks', type: 'slider' },
 
   // Section: Watermark Logo
   { id: 'watermark_position', section: 'watermark', title: 'Posisi Watermark', type: 'dropdown' },
@@ -51,8 +51,8 @@ const ALL_INPUTS: InputMeta[] = [
   { id: 'watermark_opacity', section: 'watermark', title: 'Transparansi Logo', type: 'slider' },
 
   // Section: Geotag
-  { id: 'geotag_position', section: 'geotag', title: 'Posisi Badge Geotag', type: 'dropdown' },
-  { id: 'geotag_size', section: 'geotag', title: 'Ukuran Tulisan Geotag', type: 'dropdown' },
+  { id: 'geotag_position', section: 'geotag', title: 'Posisi Geotag', type: 'dropdown' },
+  { id: 'geotag_size', section: 'geotag', title: 'Ukuran Geotag', type: 'dropdown' },
 ]
 
 const PROFILE_WEIGHTS_OPTIONS: OptionListItem[] = [
@@ -69,18 +69,71 @@ const GEOTAG_SIZE_OPTIONS: OptionListItem[] = [
   { id: 'xlarge', label: 'Ekstra Besar' },
 ]
 
-// Icon Grid 3x3 Mini Titik Kotak (Matrix 9 Dots)
-const GridNineDots: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
-  <svg className={className} viewBox="0 0 16 16" fill="currentColor">
-    <rect x="2" y="2" width="3" height="3" rx="0.6" />
-    <rect x="6.5" y="2" width="3" height="3" rx="0.6" />
-    <rect x="11" y="2" width="3" height="3" rx="0.6" />
-    <rect x="2" y="6.5" width="3" height="3" rx="0.6" />
-    <rect x="6.5" y="6.5" width="3" height="3" rx="0.6" />
-    <rect x="11" y="6.5" width="3" height="3" rx="0.6" />
-    <rect x="2" y="11" width="3" height="3" rx="0.6" />
-    <rect x="6.5" y="11" width="3" height="3" rx="0.6" />
-    <rect x="11" y="11" width="3" height="3" rx="0.6" />
+// =========================================================================
+// GLOSSY 3D GLASS ICONS
+// =========================================================================
+
+// Tetesan Air Glossy Watermark 3D
+const GlossyDropletIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <defs>
+      <linearGradient id="dropletGradient" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#38bdf8" />
+        <stop offset="55%" stopColor="#06b6d4" />
+        <stop offset="100%" stopColor="#0284c7" />
+      </linearGradient>
+      <linearGradient id="dropletSpecular" x1="8" y1="7" x2="11" y2="15" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+        <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"
+      fill="url(#dropletGradient)"
+      filter="drop-shadow(0 0 6px rgba(6,182,212,0.8))"
+    />
+    <ellipse cx="9.5" cy="11.5" rx="2" ry="4.5" transform="rotate(-28 9.5 11.5)" fill="url(#dropletSpecular)" />
+  </svg>
+)
+
+// Avatar Profil Glossy 3D
+const GlossyUserIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"
+      stroke="#38bdf8"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      filter="drop-shadow(0 0 5px rgba(56,189,248,0.8))"
+    />
+    <circle
+      cx="12"
+      cy="7"
+      r="4"
+      stroke="#38bdf8"
+      strokeWidth="2.5"
+      filter="drop-shadow(0 0 5px rgba(56,189,248,0.8))"
+    />
+  </svg>
+)
+
+// MapPin Geotag Glossy 3D
+const GlossyMapPinIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+      stroke="#38bdf8"
+      strokeWidth="2.5"
+      filter="drop-shadow(0 0 5px rgba(56,189,248,0.8))"
+    />
+    <circle
+      cx="12"
+      cy="10"
+      r="3"
+      fill="#38bdf8"
+      filter="drop-shadow(0 0 5px rgba(56,189,248,0.8))"
+    />
   </svg>
 )
 
@@ -100,27 +153,6 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
   const currentMeta = ALL_INPUTS.find(i => i.id === activeInput) || ALL_INPUTS[0]
   const sectionInputs = ALL_INPUTS.filter(i => i.section === currentMeta.section)
   const currentInputIndex = sectionInputs.findIndex(i => i.id === currentMeta.id)
-
-  const theme: 'cyan' | 'emerald' | 'amber' =
-    currentMeta.section === 'profile'
-      ? 'emerald'
-      : currentMeta.section === 'watermark'
-      ? 'cyan'
-      : 'amber'
-
-  const themeDotColor =
-    theme === 'emerald'
-      ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]'
-      : theme === 'amber'
-      ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]'
-      : 'bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]'
-
-  const themeTextColor =
-    theme === 'emerald'
-      ? 'text-emerald-400'
-      : theme === 'amber'
-      ? 'text-amber-400'
-      : 'text-cyan-400'
 
   // Tombol panah [<] dan [>] untuk berpindah ke input sebelum/selanjutnya di dalam section
   const handlePrevInput = () => {
@@ -160,258 +192,326 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
   const geotagSizeIndex = GEOTAG_SIZE_OPTIONS.findIndex(s => s.id === (geotagConfig.fontSize || 'medium'))
   const currentGeotagSize = GEOTAG_SIZE_OPTIONS[geotagSizeIndex >= 0 ? geotagSizeIndex : 1]
 
+  // Membagi judul menjadi dua kata untuk tipografi dual-tone (misal: "Posisi" dan "Watermark")
+  const titleParts = currentMeta.title.split(' ')
+  const titleFirst = titleParts[0]
+  const titleRest = titleParts.slice(1).join(' ')
+
   return (
     <aside
       aria-label="Live Preview Controls"
-      className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-full sm:max-w-md z-[130] pointer-events-auto"
+      className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-6 sm:w-full sm:max-w-[460px] z-[130] pointer-events-auto select-none"
     >
-      <div className="relative p-2.5 sm:p-3 rounded-2xl bg-[#090d16]/95 backdrop-blur-2xl border border-slate-700/60 shadow-[0_16px_48px_rgba(0,0,0,0.85)] text-white animate-in slide-in-from-bottom-3 duration-200">
+      {/* ========================================================================= */}
+      {/* AMBIENT GLOSSY GLASS BUBBLE ORBS (LATAR BELAKANG BOLA KACA SINEMATIK) */}
+      {/* ========================================================================= */}
+      <div className="absolute -top-7 -left-7 w-20 h-20 rounded-full bg-gradient-to-br from-cyan-400/25 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_25px_rgba(6,182,212,0.35)] pointer-events-none" />
+      <div className="absolute -top-12 -right-8 w-28 h-28 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_6px_rgba(255,255,255,0.65),0_0_35px_rgba(14,165,233,0.3)] pointer-events-none" />
+      <div className="absolute -bottom-7 -left-5 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_0_20px_rgba(6,182,212,0.25)] pointer-events-none" />
+      <div className="absolute -bottom-9 -right-7 w-24 h-24 rounded-full bg-gradient-to-br from-blue-500/25 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.7),0_0_30px_rgba(59,130,246,0.35)] pointer-events-none" />
+
+      {/* ========================================================================= */}
+      {/* LEMPENGAN UTAMA: BLACK GLASS HUD WITH NEON CYAN RIM LIGHTING */}
+      {/* ========================================================================= */}
+      <div className="relative rounded-[28px] p-3 sm:p-3.5 bg-[#020717]/80 backdrop-blur-2xl border border-cyan-400/50 shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_50px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white animate-in slide-in-from-bottom-3 duration-200 overflow-hidden">
         
-        {/* ======================================================== */}
-        {/* 1. Header: Dot Warna + Judul Input + Badge Nomor Urut */}
-        {/* ======================================================== */}
-        <div className="flex items-center justify-between px-1 pb-2">
-          {/* Sisi Kiri: Dot Warna & Judul Input */}
-          <div className="flex items-center gap-2 min-w-0">
-            <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${themeDotColor}`} />
-            <span className="text-xs sm:text-sm font-semibold text-white tracking-wide truncate">
-              {currentMeta.title}
-            </span>
+        {/* Specular Glare Highlight Border Atas Kaca */}
+        <div className="absolute top-0 left-10 right-10 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent pointer-events-none" />
+        
+        {/* Optic Lens Flare Glow Spots di Pinggiran Frame */}
+        <div className="absolute top-2 left-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
+        <div className="absolute top-2 right-6 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_#fff,0_0_18px_#22d3ee] pointer-events-none" />
+        
+        {/* ========================================================================= */}
+        {/* 1. HEADER: GLOSSY GLASS BUBBLE ORB + JUDUL + PILL BADGE 1/3 */}
+        {/* ========================================================================= */}
+        <div className="flex items-center justify-between px-1 pb-2.5">
+          {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            {/* Glossy Glass Bubble Orb */}
+            <div className="w-10 h-10 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_16px_rgba(6,182,212,0.6),inset_0_2px_4px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden">
+              {/* Highlight lengkung atas orb */}
+              <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/40 blur-[0.5px]" />
+              {currentMeta.section === 'watermark' && <GlossyDropletIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />}
+              {currentMeta.section === 'profile' && <GlossyUserIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
+              {currentMeta.section === 'geotag' && <GlossyMapPinIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />}
+            </div>
+
+            {/* Pembatas Garis Vertikal Tipis */}
+            <div className="h-5 w-[1px] bg-cyan-400/30 shrink-0" />
+
+            {/* Teks Judul Dua Nada */}
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-slate-300 text-xs sm:text-sm font-normal tracking-wide">
+                {titleFirst}
+              </span>
+              <span className="text-white text-xs sm:text-sm font-bold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+                {titleRest}
+              </span>
+            </div>
           </div>
 
-          {/* Sisi Kanan: Pill Badge Urutan Input (misal "1 / 3") */}
-          <div className="shrink-0 px-2.5 py-0.5 rounded-full bg-slate-900/90 border border-slate-700/60 flex items-center gap-1 text-[11px] font-mono shadow-inner">
-            <span className={`font-bold ${themeTextColor}`}>{currentInputIndex + 1}</span>
-            <span className="text-slate-400">/</span>
-            <span className="text-slate-400">{sectionInputs.length}</span>
+          {/* Kanan: Pill Badge Urutan Input (contoh "1 / 3") */}
+          <div className="shrink-0 px-3.5 py-1 rounded-full bg-[#030917]/80 border border-cyan-500/40 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.2)] flex items-center gap-1.5 font-mono text-xs">
+            <span className="text-cyan-400 font-bold text-sm drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]">
+              {currentInputIndex + 1}
+            </span>
+            <span className="text-slate-400 font-medium">/</span>
+            <span className="text-slate-300 font-medium">{sectionInputs.length}</span>
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* 2. Baris Kontrol Utama: [ < ] [ Selector ] [ > ]  [ ✕ ]  */}
-        {/* ======================================================== */}
-        <div className="flex items-center gap-2">
-          {/* Kapsul Kontrol Terpadu [ < ] [ Isi / Dropdown ] [ > ] */}
-          <div className="flex-1 min-w-0 flex items-stretch bg-slate-900/80 border border-slate-800/90 rounded-xl p-1 gap-1 shadow-inner">
-            
-            {/* Tombol Panah Kiri [<] : Back ke input sebelumnya */}
-            <button
-              type="button"
-              onClick={handlePrevInput}
-              className="px-2.5 sm:px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all flex items-center justify-center shrink-0 cursor-pointer"
-              title="Input Sebelumnya"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
+        {/* ========================================================================= */}
+        {/* 2. BARIS KONTROL: [ < ] [ SELECTOR (ELECTRIC BLUE) ] [ > ] [ ✕ (ROSE) ] */}
+        {/* ========================================================================= */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          
+          {/* Tombol Back [<] : Kapsul Black Glass dengan Cyan Rim Lighting */}
+          <button
+            type="button"
+            onClick={handlePrevInput}
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+            title="Input Sebelumnya"
+          >
+            {/* Highlight kaca atas */}
+            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+            <ChevronLeft className="w-5 h-5 stroke-[2.5] group-hover:-translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
+          </button>
 
-            {/* Bagian Tengah: Selector Dropdown Picker atau Input Slider / Teks */}
-            <div className="flex-1 min-w-0 flex items-center">
-              {/* A. Dropdown Posisi Watermark */}
-              {activeInput === 'watermark_position' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-cyan-400 shrink-0">{currentWatermarkItem.icon}</span>
-                    <span className="text-xs sm:text-sm font-semibold truncate">
-                      {currentWatermarkItem.fullLabel}
+          {/* Tombol Tengah: Dropdown Selector / Range Slider / Input Teks */}
+          <div className="flex-1 min-w-0">
+            {/* A. Dropdown Posisi Watermark (Electric Blue Glow & Neon Cyan Rim) */}
+            {activeInput === 'watermark_position' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                {/* Specular Glare Line Border Atas */}
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                
+                {/* Optic Flare Glow Spots */}
+                <div className="absolute -top-1 left-5 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
+                <div className="absolute -bottom-1 right-10 w-2 h-2 rounded-full bg-cyan-300 shadow-[0_0_10px_#22d3ee,0_0_4px_#fff] pointer-events-none" />
+
+                {/* Sisi Kiri: Kotak Rounded Icon + Divider + Label */}
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentWatermarkItem.icon}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-400 shrink-0">
-                    <GridNineDots className="w-3.5 h-3.5" />
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                  </div>
-                </button>
-              )}
+                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {currentWatermarkItem.fullLabel}
+                  </span>
+                </div>
 
-              {/* B. Dropdown Posisi Profil */}
-              {activeInput === 'profile_position' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-emerald-400 shrink-0">{currentProfilePosItem.icon}</span>
-                    <span className="text-xs sm:text-sm font-semibold truncate">
-                      {currentProfilePosItem.fullLabel}
+                {/* Sisi Kanan: Chevron Down Neon Cyan Tebal */}
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
+
+            {/* B. Dropdown Posisi Profil */}
+            {activeInput === 'profile_position' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentProfilePosItem.icon}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-400 shrink-0">
-                    <GridNineDots className="w-3.5 h-3.5" />
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                  </div>
-                </button>
-              )}
+                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {currentProfilePosItem.fullLabel}
+                  </span>
+                </div>
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
 
-              {/* C. Dropdown Posisi Geotag */}
-              {activeInput === 'geotag_position' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-amber-400 shrink-0">{currentGeotagPosItem.icon}</span>
-                    <span className="text-xs sm:text-sm font-semibold truncate">
-                      {currentGeotagPosItem.fullLabel}
+            {/* C. Dropdown Posisi Geotag */}
+            {activeInput === 'geotag_position' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-2.5 sm:px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 p-[1px] shadow-[0_0_12px_rgba(6,182,212,0.6)] flex items-center justify-center shrink-0">
+                    <span className="text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                      {currentGeotagPosItem.icon}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-400 shrink-0">
-                    <GridNineDots className="w-3.5 h-3.5" />
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                  </div>
-                </button>
-              )}
-
-              {/* D. Dropdown Font Profil */}
-              {activeInput === 'profile_font' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <span className="text-xs sm:text-sm font-semibold truncate" style={{ fontFamily: currentFont.fontStyle }}>
-                    {currentFont.label}
+                  <div className="h-4 sm:h-5 w-[1px] bg-cyan-400/35 shrink-0" />
+                  <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                    {currentGeotagPosItem.fullLabel}
                   </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                </button>
-              )}
+                </div>
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
 
-              {/* E. Dropdown Ketebalan Teks Profil */}
-              {activeInput === 'profile_weight' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <span className="text-xs sm:text-sm font-semibold truncate">
-                    {currentWeight.label}
-                  </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                </button>
-              )}
+            {/* D. Dropdown Font Profil */}
+            {activeInput === 'profile_font' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" style={{ fontFamily: currentFont.fontStyle }}>
+                  {currentFont.label}
+                </span>
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
 
-              {/* F. Dropdown Ukuran Tulisan Geotag */}
-              {activeInput === 'geotag_size' && (
-                <button
-                  type="button"
-                  onClick={() => setIsPopupOpen(!isPopupOpen)}
-                  className="w-full h-full px-3 py-1.5 rounded-lg bg-slate-800/70 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 active:scale-[0.99] transition-all flex items-center justify-between gap-2 cursor-pointer text-white"
-                >
-                  <span className="text-xs sm:text-sm font-semibold truncate">
-                    {currentGeotagSize.label}
-                  </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform ${isPopupOpen ? 'rotate-180' : ''}`} />
-                </button>
-              )}
+            {/* E. Dropdown Ketebalan Teks Profil */}
+            {activeInput === 'profile_weight' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {currentWeight.label}
+                </span>
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
 
-              {/* G. Input Teks: Jabatan Profil */}
-              {activeInput === 'profile_job' && (
+            {/* F. Dropdown Ukuran Tulisan Geotag */}
+            {activeInput === 'geotag_size' && (
+              <button
+                type="button"
+                onClick={() => setIsPopupOpen(!isPopupOpen)}
+                className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_24px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-2px_4px_rgba(0,0,0,0.8)] px-4 flex items-center justify-between cursor-pointer active:scale-[0.99] transition-all relative overflow-hidden group"
+              >
+                <div className="absolute top-0 inset-x-6 h-[1.5px] bg-white/80 shadow-[0_0_8px_#fff]" />
+                <span className="text-white font-semibold text-xs sm:text-sm tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {currentGeotagSize.label}
+                </span>
+                <ChevronDown className={`w-5 h-5 text-cyan-400 stroke-[3] shrink-0 transition-transform drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] ${isPopupOpen ? 'rotate-180' : ''}`} />
+              </button>
+            )}
+
+            {/* G. Slider: Ukuran Watermark */}
+            {activeInput === 'watermark_size' && (
+              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Skala</span>
+                <input
+                  type="range"
+                  min={8}
+                  max={45}
+                  value={watermark.sizePercent}
+                  onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
+                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                />
+                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                  {watermark.sizePercent}%
+                </span>
+              </div>
+            )}
+
+            {/* H. Slider: Transparansi Watermark */}
+            {activeInput === 'watermark_opacity' && (
+              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Kepekatan</span>
+                <input
+                  type="range"
+                  min={0.15}
+                  max={1.0}
+                  step={0.05}
+                  value={watermark.opacity}
+                  onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
+                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                />
+                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                  {Math.round(watermark.opacity * 100)}%
+                </span>
+              </div>
+            )}
+
+            {/* I. Slider: Ukuran Teks Profil */}
+            {activeInput === 'profile_size' && (
+              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-3.5 flex items-center gap-2.5">
+                <span className="text-[11px] text-cyan-200/90 font-medium shrink-0">Ukuran</span>
+                <input
+                  type="range"
+                  min={10}
+                  max={22}
+                  value={profile.fontSize || 13}
+                  onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
+                  className="flex-1 accent-cyan-400 h-1.5 bg-black/50 rounded-lg cursor-pointer"
+                />
+                <span className="font-mono text-cyan-400 font-bold text-xs shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
+                  {profile.fontSize || 13}px
+                </span>
+              </div>
+            )}
+
+            {/* J. Input Teks: Jabatan Profil */}
+            {activeInput === 'profile_job' && (
+              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
                 <input
                   type="text"
                   value={profile.jobTitle}
                   onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
                   placeholder="Ketik Jabatan..."
-                  className="w-full h-full px-3 py-1.5 bg-slate-800/60 rounded-lg text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-400/50 border border-transparent"
+                  className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                 />
-              )}
+              </div>
+            )}
 
-              {/* H. Input Teks: Nama Lengkap Profil */}
-              {activeInput === 'profile_name' && (
+            {/* K. Input Teks: Nama Lengkap Profil */}
+            {activeInput === 'profile_name' && (
+              <div className="w-full h-11 sm:h-12 rounded-full bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.55),inset_0_1.5px_3px_rgba(255,255,255,0.8)] px-4 flex items-center">
                 <input
                   type="text"
                   value={profile.name}
                   onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
                   placeholder="Ketik Nama Lengkap..."
-                  className="w-full h-full px-3 py-1.5 bg-slate-800/60 rounded-lg text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-400/50 border border-transparent"
+                  className="w-full bg-transparent border-none text-white font-medium text-xs sm:text-sm placeholder:text-cyan-200/50 focus:outline-none focus:ring-0"
                 />
-              )}
-
-              {/* I. Slider: Ukuran Watermark */}
-              {activeInput === 'watermark_size' && (
-                <div className="w-full px-2 py-0.5 flex flex-col justify-center">
-                  <div className="flex justify-between items-center text-[10px] mb-0.5">
-                    <span className="text-slate-400">Skala</span>
-                    <span className="font-mono text-cyan-400 font-bold">{watermark.sizePercent}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={8}
-                    max={45}
-                    value={watermark.sizePercent}
-                    onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
-                  />
-                </div>
-              )}
-
-              {/* J. Slider: Transparansi Watermark */}
-              {activeInput === 'watermark_opacity' && (
-                <div className="w-full px-2 py-0.5 flex flex-col justify-center">
-                  <div className="flex justify-between items-center text-[10px] mb-0.5">
-                    <span className="text-slate-400">Kepekatan</span>
-                    <span className="font-mono text-cyan-400 font-bold">{Math.round(watermark.opacity * 100)}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={0.15}
-                    max={1.0}
-                    step={0.05}
-                    value={watermark.opacity}
-                    onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
-                  />
-                </div>
-              )}
-
-              {/* K. Slider: Ukuran Teks Profil */}
-              {activeInput === 'profile_size' && (
-                <div className="w-full px-2 py-0.5 flex flex-col justify-center">
-                  <div className="flex justify-between items-center text-[10px] mb-0.5">
-                    <span className="text-slate-400">Ukuran Font</span>
-                    <span className="font-mono text-emerald-400 font-bold">{profile.fontSize || 13} px</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={10}
-                    max={22}
-                    value={profile.fontSize || 13}
-                    onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
-                    className="w-full accent-emerald-400 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Tombol Panah Kanan [>] : Next ke input selanjutnya */}
-            <button
-              type="button"
-              onClick={handleNextInput}
-              className="px-2.5 sm:px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 active:scale-95 transition-all flex items-center justify-center shrink-0 cursor-pointer"
-              title="Input Selanjutnya"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+              </div>
+            )}
           </div>
 
-          {/* Tombol Tutup Mandiri [ ✕ ] */}
+          {/* Tombol Next [>] : Kapsul Black Glass dengan Cyan Rim Lighting */}
+          <button
+            type="button"
+            onClick={handleNextInput}
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-full sm:rounded-2xl bg-gradient-to-b from-[#0b1b36]/80 to-[#030814]/95 border border-cyan-500/50 hover:border-cyan-400 shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.5),0_0_14px_rgba(6,182,212,0.25)] flex items-center justify-center cursor-pointer active:scale-95 transition-all text-cyan-200 hover:text-white shrink-0 relative overflow-hidden group"
+            title="Input Selanjutnya"
+          >
+            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+            <ChevronRight className="w-5 h-5 stroke-[2.5] group-hover:translate-x-0.5 transition-transform drop-shadow-[0_0_4px_rgba(34,211,238,0.6)]" />
+          </button>
+
+          {/* Tombol Tutup Mandiri [ ✕ ] : Neon Crimson/Rose Rim Lighting Menyala */}
           <button
             type="button"
             onClick={onClose}
-            className="shrink-0 p-2.5 sm:px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800/90 active:scale-95 transition-all flex items-center justify-center cursor-pointer text-slate-400 hover:text-rose-400"
+            className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-b from-[#2e0915]/90 to-[#120207]/95 border-2 border-rose-500/80 shadow-[0_0_20px_rgba(244,63,94,0.65),inset_0_1.5px_2px_rgba(255,255,255,0.7),inset_0_-2px_4px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-95 transition-all shrink-0 relative overflow-hidden group"
             title="Tutup Mode Preview"
           >
-            <X className="w-4 h-4" />
+            {/* Specular highlight atas */}
+            <div className="absolute top-0 inset-x-2 h-2 rounded-full bg-white/30 blur-[0.5px]" />
+            <X className="w-5 h-5 text-rose-400 group-hover:text-rose-300 stroke-[2.5] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_8px_rgba(244,63,94,0.85)]" />
           </button>
         </div>
 
-        {/* ======================================================== */}
-        {/* 3. Pop-up Kustom Dropdown (Visual Grid Selector / List)  */}
-        {/* ======================================================== */}
-        {/* Popup Watermark Position (3x3 Visual Grid + 9 List Items) */}
+        {/* ========================================================================= */}
+        {/* 3. POPUP CUSTOM: VISUAL GRID SELECTOR 3X3 & LIST (BLACK GLASS HUD THEME) */}
+        {/* ========================================================================= */}
         {activeInput === 'watermark_position' && (
           <PositionGridPopup
             isOpen={isPopupOpen}
@@ -424,33 +524,30 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
           />
         )}
 
-        {/* Popup Profile Position (Visual Grid / List Items) */}
         {activeInput === 'profile_position' && (
           <PositionGridPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             selectedId={profile.position || 'above-geotag'}
             onSelect={id => onChangeProfile({ ...profile, position: id as ProfilePosition })}
-            theme="emerald"
+            theme="cyan"
             items={PROFILE_GRID_ITEMS}
             showGridSelector={true}
           />
         )}
 
-        {/* Popup Geotag Position */}
         {activeInput === 'geotag_position' && (
           <PositionGridPopup
             isOpen={isPopupOpen}
             onClose={() => setIsPopupOpen(false)}
             selectedId={geotagConfig.position}
             onSelect={id => onChangeGeotagConfig({ ...geotagConfig, position: id as any })}
-            theme="amber"
+            theme="cyan"
             items={GEOTAG_GRID_ITEMS}
             showGridSelector={true}
           />
         )}
 
-        {/* Popup Profile Font */}
         {activeInput === 'profile_font' && (
           <CustomOptionListPopup
             isOpen={isPopupOpen}
@@ -458,7 +555,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             selectedId={profile.fontFamily}
             onSelect={id => onChangeProfile({ ...profile, fontFamily: id })}
             title="PILIH JENIS FONT PROFIL"
-            theme="emerald"
+            theme="cyan"
             items={FONT_OPTIONS.map(f => ({
               id: f.id,
               label: f.label,
@@ -467,7 +564,6 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
           />
         )}
 
-        {/* Popup Profile Weight */}
         {activeInput === 'profile_weight' && (
           <CustomOptionListPopup
             isOpen={isPopupOpen}
@@ -475,12 +571,11 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             selectedId={profile.fontWeight || 'medium'}
             onSelect={id => onChangeProfile({ ...profile, fontWeight: id as ProfileFontWeight })}
             title="PILIH KETEBALAN TEKS"
-            theme="emerald"
+            theme="cyan"
             items={PROFILE_WEIGHTS_OPTIONS}
           />
         )}
 
-        {/* Popup Geotag Size */}
         {activeInput === 'geotag_size' && (
           <CustomOptionListPopup
             isOpen={isPopupOpen}
@@ -488,7 +583,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
             selectedId={geotagConfig.fontSize || 'medium'}
             onSelect={id => onChangeGeotagConfig({ ...geotagConfig, fontSize: id as any })}
             title="PILIH UKURAN TEKS GEOTAG"
-            theme="amber"
+            theme="cyan"
             items={GEOTAG_SIZE_OPTIONS}
           />
         )}
