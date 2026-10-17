@@ -132,7 +132,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   const timeFormatted = formatTimeWithTimezone(photo.timestamp, photo.location.longitude)
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
+    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
       {isLandscape ? (
         /* ================= MODE LANDSCAPE (SIDE PANEL LAYOUT - FOTO MAKSIMAL) ================= */
         <div
@@ -267,11 +267,11 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
       ) : (
         /* ================= MODE PORTRAIT (STACKED VERTICAL LAYOUT) ================= */
         <div
-          className="relative w-full max-w-2xl my-auto bg-zinc-950 border border-zinc-800 rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col max-h-[96dvh] overflow-hidden text-white animate-in zoom-in-95 duration-200"
+          className="relative w-full sm:max-w-2xl h-[100dvh] sm:h-auto sm:max-h-[96dvh] sm:my-auto bg-zinc-950 border-0 sm:border border-zinc-800 rounded-none sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden text-white animate-in zoom-in-95 duration-200"
           onClick={e => e.stopPropagation()}
         >
           {/* Top Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3.5 border-b border-zinc-800 bg-zinc-900/80">
+          <div className="shrink-0 flex items-center justify-between px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-2.5 sm:px-5 sm:py-3.5 border-b border-zinc-800 bg-zinc-900/80">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
               <h3 className="text-xs sm:text-sm font-semibold text-white">Hasil Foto Geotag</h3>
@@ -287,7 +287,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
           </div>
 
           {/* Photo Container */}
-          <div className="relative flex-1 min-h-[240px] md:min-h-[320px] w-full bg-black/95 overflow-hidden">
+          <div className="relative flex-1 min-h-0 w-full bg-black/95 overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center p-2 sm:p-3">
               <img
                 src={photo.dataUrl}
@@ -323,7 +323,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="shrink-0 p-3 sm:p-4 md:p-5 bg-zinc-950 border-t border-zinc-800 flex items-center gap-2 sm:gap-3">
+          <div className="shrink-0 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:p-4 md:p-5 bg-zinc-950 border-t border-zinc-800 flex items-center gap-2 sm:gap-3">
             <button
               type="button"
               onClick={onRetake}
