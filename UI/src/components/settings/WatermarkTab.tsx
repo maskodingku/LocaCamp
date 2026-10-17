@@ -4,6 +4,7 @@ import type { WatermarkConfig, WatermarkPosition, ProfileConfig } from '../../ty
 import { optimizeWatermarkImage } from '../../utils/storage'
 import { ProfileSection } from './watermark/ProfileSection'
 import { CyberGlassOrb } from './CyberGlassOrb'
+import { SmartFloatingSlider } from './dock/SmartFloatingSlider'
 
 interface WatermarkTabProps {
   watermark: WatermarkConfig
@@ -269,143 +270,42 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
             </div>
           )}
 
-          {/* Sliders: Size and Opacity */}
+          {/* Sliders Cerdas: Size and Opacity (Otomatis Menghindari Watermark di Kamera) */}
           {watermark.imageUrl && (
-            <div className={`space-y-3.5 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
-              {/* Ukuran Watermark Slider (Clean Capsule Slider) */}
-              <div
-                className={`transition-all duration-150 ${
-                  activeSlider === 'watermark_size'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-                    : activeSlider !== null
-                    ? 'hidden'
-                    : ''
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className={`text-xs uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] ${
-                        activeSlider === 'watermark_size' ? 'text-white font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'text-white font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]'
-                      }`}
-                    >
-                      Ukuran Watermark
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
-                      {watermark.sizePercent}% lebar
-                    </span>
-                  </div>
-                  {onTriggerPreview && activeSlider !== 'watermark_size' && (
-                    <button
-                      type="button"
-                      onClick={() => onTriggerPreview?.('watermark_size')}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
-                      title="Lihat Pratinjau Langsung di Kamera"
-                    >
-                      <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-                      <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
-                      <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
-                    </button>
-                  )}
-                </div>
+            <div className={`space-y-3 pt-1 ${activeSlider ? 'space-y-0 pt-0' : ''}`}>
+              <SmartFloatingSlider
+                id="watermark_size"
+                label="Ukuran Watermark"
+                icon={Sparkles}
+                iconColorClass="text-cyan-300"
+                value={watermark.sizePercent}
+                valueDisplay={`${watermark.sizePercent}% lebar`}
+                min={8}
+                max={45}
+                step={1}
+                onChange={val => onChangeWatermark({ ...watermark, sizePercent: val })}
+                activeSlider={activeSlider}
+                setActiveSlider={setActiveSlider}
+                targetType="watermark"
+                onTriggerPreview={onTriggerPreview}
+              />
 
-                {/* Slider Capsule Track */}
-                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-                  <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-                  <div className="flex-1 min-w-0 flex items-center">
-                    <input
-                      type="range"
-                      min={8}
-                      max={45}
-                      value={watermark.sizePercent}
-                      onPointerDown={() => setActiveSlider('watermark_size')}
-                      onTouchStart={() => setActiveSlider('watermark_size')}
-                      onMouseDown={() => setActiveSlider('watermark_size')}
-                      onPointerUp={() => setActiveSlider(null)}
-                      onTouchEnd={() => setActiveSlider(null)}
-                      onMouseUp={() => setActiveSlider(null)}
-                      onChange={e =>
-                        onChangeWatermark({
-                          ...watermark,
-                          sizePercent: Number(e.target.value),
-                        })
-                      }
-                      className="hud-slider cursor-pointer w-full"
-                    />
-                  </div>
-                  <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">
-                    {watermark.sizePercent}%
-                  </span>
-                </div>
-              </div>
-
-              {/* Opacity Slider (Clean Capsule Slider) */}
-              <div
-                className={`transition-all duration-150 ${
-                  activeSlider === 'watermark_opacity'
-                    ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-                    : activeSlider !== null
-                    ? 'hidden'
-                    : ''
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className={`text-xs uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] ${
-                        activeSlider === 'watermark_opacity' ? 'text-white font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'text-white font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]'
-                      }`}
-                    >
-                      Transparansi (Opacity)
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
-                      {Math.round(watermark.opacity * 100)}%
-                    </span>
-                  </div>
-                  {onTriggerPreview && activeSlider !== 'watermark_opacity' && (
-                    <button
-                      type="button"
-                      onClick={() => onTriggerPreview?.('watermark_opacity')}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
-                      title="Lihat Pratinjau Langsung di Kamera"
-                    >
-                      <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-                      <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
-                      <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
-                    </button>
-                  )}
-                </div>
-
-                {/* Slider Capsule Track */}
-                <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-                  <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-                  <div className="flex-1 min-w-0 flex items-center">
-                    <input
-                      type="range"
-                      min={0.15}
-                      max={1.0}
-                      step={0.05}
-                      value={watermark.opacity}
-                      onPointerDown={() => setActiveSlider('watermark_opacity')}
-                      onTouchStart={() => setActiveSlider('watermark_opacity')}
-                      onMouseDown={() => setActiveSlider('watermark_opacity')}
-                      onPointerUp={() => setActiveSlider(null)}
-                      onTouchEnd={() => setActiveSlider(null)}
-                      onMouseUp={() => setActiveSlider(null)}
-                      onChange={e =>
-                        onChangeWatermark({
-                          ...watermark,
-                          opacity: Number(e.target.value),
-                        })
-                      }
-                      className="hud-slider cursor-pointer w-full"
-                    />
-                  </div>
-                  <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">
-                    {Math.round(watermark.opacity * 100)}%
-                  </span>
-                </div>
-              </div>
+              <SmartFloatingSlider
+                id="watermark_opacity"
+                label="Transparansi (Opacity)"
+                icon={Sparkles}
+                iconColorClass="text-cyan-300"
+                value={watermark.opacity}
+                valueDisplay={`${Math.round(watermark.opacity * 100)}%`}
+                min={0.15}
+                max={1.0}
+                step={0.05}
+                onChange={val => onChangeWatermark({ ...watermark, opacity: val })}
+                activeSlider={activeSlider}
+                setActiveSlider={setActiveSlider}
+                targetType="watermark"
+                onTriggerPreview={onTriggerPreview}
+              />
             </div>
           )}
         </div>

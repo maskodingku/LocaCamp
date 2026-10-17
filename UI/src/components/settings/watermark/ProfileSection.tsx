@@ -2,6 +2,7 @@ import React from 'react'
 import { User, Briefcase, Type, MapPin, Check, Eye, Frame, Palette, Paintbrush, ChevronDown } from 'lucide-react'
 import type { ProfileConfig, ProfilePosition, ProfileFontWeight } from '../../../types/camera'
 import { CyberGlassOrb } from '../CyberGlassOrb'
+import { SmartFloatingSlider } from '../dock/SmartFloatingSlider'
 
 interface ProfileSectionProps {
   profile: ProfileConfig
@@ -692,72 +693,24 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             </div>
           </div>
 
-          {/* Slider Ukuran Teks (Clean Electric Blue Capsule Slider) */}
-          <div
-            className={`transition-all duration-150 ${
-              activeSlider === 'profile_size'
-                ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-                : activeSlider !== null
-                ? 'hidden'
-                : ''
-            }`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 min-w-0">
-                <span
-                  className={`text-xs uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] ${
-                    activeSlider === 'profile_size' ? 'text-white font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'text-white font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]'
-                  }`}
-                >
-                  Ukuran Teks Profil
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
-                  {profile.fontSize || 13} px
-                </span>
-              </div>
-              {onTriggerPreview && activeSlider !== 'profile_size' && (
-                <button
-                  type="button"
-                  onClick={() => onTriggerPreview?.('profile_size')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
-                  title="Lihat Pratinjau Langsung di Kamera"
-                >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
-                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
-                </button>
-              )}
-            </div>
-
-            {/* Slider Capsule Track Persis LivePreviewDock */}
-            <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-              <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-              <div className="flex-1 min-w-0 flex items-center">
-                <input
-                  type="range"
-                  min={10}
-                  max={22}
-                  step={1}
-                  value={profile.fontSize || 13}
-                  onPointerDown={() => setActiveSlider('profile_size')}
-                  onTouchStart={() => setActiveSlider('profile_size')}
-                  onMouseDown={() => setActiveSlider('profile_size')}
-                  onPointerUp={() => setActiveSlider(null)}
-                  onTouchEnd={() => setActiveSlider(null)}
-                  onMouseUp={() => setActiveSlider(null)}
-                  onChange={e =>
-                    onChangeProfile({
-                      ...profile,
-                      fontSize: Number(e.target.value),
-                    })
-                  }
-                  className="hud-slider cursor-pointer w-full"
-                />
-              </div>
-              <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">
-                {profile.fontSize || 13}px
-              </span>
-            </div>
+          {/* Slider Ukuran Teks Cerdas (Otomatis Menghindari Profil di Kamera) */}
+          <div className="pt-1">
+            <SmartFloatingSlider
+              id="profile_size"
+              label="Ukuran Teks Profil"
+              icon={Type}
+              iconColorClass="text-cyan-300"
+              value={profile.fontSize || 13}
+              valueDisplay={`${profile.fontSize || 13} px`}
+              min={10}
+              max={22}
+              step={1}
+              onChange={val => onChangeProfile({ ...profile, fontSize: val })}
+              activeSlider={activeSlider}
+              setActiveSlider={setActiveSlider}
+              targetType="profile"
+              onTriggerPreview={onTriggerPreview}
+            />
           </div>
 
           {/* Mini Preview Profil (Clean HUD Glass Box) */}

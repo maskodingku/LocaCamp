@@ -16,6 +16,7 @@ import type {
   CameraEffectPreset,
 } from '../../types/camera'
 import { CyberGlassOrb } from './CyberGlassOrb'
+import { SmartFloatingSlider } from './dock/SmartFloatingSlider'
 
 interface CameraTabProps {
   sensorInfo?: SensorCapabilitiesInfo | null
@@ -248,151 +249,82 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           )}
         </div>
 
-        {/* Slider Kecerahan */}
-        <div
-          className={`space-y-1 transition-all duration-150 ${
-            activeSlider === 'camera_brightness'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-              : activeSlider !== null
-              ? 'opacity-0 pointer-events-none'
-              : ''
-          }`}
-        >
-          <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_brightness' ? 'text-amber-200 font-black drop-shadow-[0_0_8px_rgba(251,191,36,0.75)]' : 'text-amber-100 font-bold drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]'}`}>
-              <Sun className="w-3.5 h-3.5 text-amber-300 drop-shadow-[0_0_6px_rgba(251,191,36,0.85)]" />
-              Kecerahan
-            </span>
-            <span className="font-mono text-amber-300 text-xs font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.75)]">
-              {cameraEffect.finetune.brightness > 0
+        {/* Sliders Finetuning Cerdas */}
+        <div className="space-y-3">
+          <SmartFloatingSlider
+            id="camera_brightness"
+            label="Kecerahan Sensor"
+            icon={Sun}
+            iconColorClass="text-amber-300"
+            value={cameraEffect.finetune.brightness}
+            valueDisplay={
+              cameraEffect.finetune.brightness > 0
                 ? `+${cameraEffect.finetune.brightness}%`
-                : `${cameraEffect.finetune.brightness}%`}
-            </span>
-          </div>
-          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-            <input
-              type="range"
-              min="-20"
-              max="20"
-              step="1"
-              value={cameraEffect.finetune.brightness}
-              onPointerDown={() => setActiveSlider('camera_brightness')}
-              onTouchStart={() => setActiveSlider('camera_brightness')}
-              onMouseDown={() => setActiveSlider('camera_brightness')}
-              onPointerUp={() => setActiveSlider(null)}
-              onTouchEnd={() => setActiveSlider(null)}
-              onMouseUp={() => setActiveSlider(null)}
-              onChange={e =>
-                onChangeCameraEffect({
-                  ...cameraEffect,
-                  finetune: {
-                    ...cameraEffect.finetune,
-                    brightness: Number(e.target.value),
-                  },
-                })
-              }
-              className="hud-slider cursor-pointer w-full"
-            />
-          </div>
-        </div>
+                : `${cameraEffect.finetune.brightness}%`
+            }
+            min={-20}
+            max={20}
+            step={1}
+            onChange={val =>
+              onChangeCameraEffect({
+                ...cameraEffect,
+                finetune: { ...cameraEffect.finetune, brightness: val },
+              })
+            }
+            activeSlider={activeSlider}
+            setActiveSlider={setActiveSlider}
+            targetType="none"
+          />
 
-        {/* Slider Kontras */}
-        <div
-          className={`space-y-1 transition-all duration-150 ${
-            activeSlider === 'camera_contrast'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-              : activeSlider !== null
-              ? 'opacity-0 pointer-events-none'
-              : ''
-          }`}
-        >
-          <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_contrast' ? 'text-sky-200 font-black drop-shadow-[0_0_8px_rgba(56,189,248,0.75)]' : 'text-sky-100 font-bold drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]'}`}>
-              <Contrast className="w-3.5 h-3.5 text-sky-300 drop-shadow-[0_0_6px_rgba(56,189,248,0.85)]" />
-              Kontras
-            </span>
-            <span className="font-mono text-sky-300 text-xs font-black drop-shadow-[0_0_6px_rgba(56,189,248,0.75)]">
-              {cameraEffect.finetune.contrast > 0
+          <SmartFloatingSlider
+            id="camera_contrast"
+            label="Kontras Sensor"
+            icon={Contrast}
+            iconColorClass="text-sky-300"
+            value={cameraEffect.finetune.contrast}
+            valueDisplay={
+              cameraEffect.finetune.contrast > 0
                 ? `+${cameraEffect.finetune.contrast}%`
-                : `${cameraEffect.finetune.contrast}%`}
-            </span>
-          </div>
-          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-            <input
-              type="range"
-              min="-20"
-              max="20"
-              step="1"
-              value={cameraEffect.finetune.contrast}
-              onPointerDown={() => setActiveSlider('camera_contrast')}
-              onTouchStart={() => setActiveSlider('camera_contrast')}
-              onMouseDown={() => setActiveSlider('camera_contrast')}
-              onPointerUp={() => setActiveSlider(null)}
-              onTouchEnd={() => setActiveSlider(null)}
-              onMouseUp={() => setActiveSlider(null)}
-              onChange={e =>
-                onChangeCameraEffect({
-                  ...cameraEffect,
-                  finetune: {
-                    ...cameraEffect.finetune,
-                    contrast: Number(e.target.value),
-                  },
-                })
-              }
-              className="hud-slider cursor-pointer w-full"
-            />
-          </div>
-        </div>
+                : `${cameraEffect.finetune.contrast}%`
+            }
+            min={-20}
+            max={20}
+            step={1}
+            onChange={val =>
+              onChangeCameraEffect({
+                ...cameraEffect,
+                finetune: { ...cameraEffect.finetune, contrast: val },
+              })
+            }
+            activeSlider={activeSlider}
+            setActiveSlider={setActiveSlider}
+            targetType="none"
+          />
 
-        {/* Slider Saturasi */}
-        <div
-          className={`space-y-1 transition-all duration-150 ${
-            activeSlider === 'camera_saturation'
-              ? 'p-4 rounded-2xl bg-[#020717]/95 border border-white/50 shadow-[0_12px_32px_rgba(0,0,0,0.8),inset_0_2px_3px_rgba(255,255,255,0.7)] relative z-50'
-              : activeSlider !== null
-              ? 'opacity-0 pointer-events-none'
-              : ''
-          }`}
-        >
-          <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_saturation' ? 'text-rose-200 font-black drop-shadow-[0_0_8px_rgba(244,63,94,0.75)]' : 'text-rose-100 font-bold drop-shadow-[0_0_6px_rgba(244,63,94,0.6)]'}`}>
-              <Palette className="w-3.5 h-3.5 text-rose-300 drop-shadow-[0_0_6px_rgba(244,63,94,0.85)]" />
-              Saturasi
-            </span>
-            <span className="font-mono text-rose-300 text-xs font-black drop-shadow-[0_0_6px_rgba(244,63,94,0.75)]">
-              {cameraEffect.finetune.saturation > 0
+          <SmartFloatingSlider
+            id="camera_saturation"
+            label="Saturasi Sensor"
+            icon={Palette}
+            iconColorClass="text-rose-300"
+            value={cameraEffect.finetune.saturation}
+            valueDisplay={
+              cameraEffect.finetune.saturation > 0
                 ? `+${cameraEffect.finetune.saturation}%`
-                : `${cameraEffect.finetune.saturation}%`}
-            </span>
-          </div>
-          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
-            <input
-              type="range"
-              min="-20"
-              max="20"
-              step="1"
-              value={cameraEffect.finetune.saturation}
-              onPointerDown={() => setActiveSlider('camera_saturation')}
-              onTouchStart={() => setActiveSlider('camera_saturation')}
-              onMouseDown={() => setActiveSlider('camera_saturation')}
-              onPointerUp={() => setActiveSlider(null)}
-              onTouchEnd={() => setActiveSlider(null)}
-              onMouseUp={() => setActiveSlider(null)}
-              onChange={e =>
-                onChangeCameraEffect({
-                  ...cameraEffect,
-                  finetune: {
-                    ...cameraEffect.finetune,
-                    saturation: Number(e.target.value),
-                  },
-                })
-              }
-              className="hud-slider cursor-pointer w-full"
-            />
-          </div>
+                : `${cameraEffect.finetune.saturation}%`
+            }
+            min={-20}
+            max={20}
+            step={1}
+            onChange={val =>
+              onChangeCameraEffect({
+                ...cameraEffect,
+                finetune: { ...cameraEffect.finetune, saturation: val },
+              })
+            }
+            activeSlider={activeSlider}
+            setActiveSlider={setActiveSlider}
+            targetType="none"
+          />
         </div>
       </div>
 
