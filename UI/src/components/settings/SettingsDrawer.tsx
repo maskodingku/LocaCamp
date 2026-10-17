@@ -24,7 +24,6 @@ import { CameraTab } from './CameraTab'
 import { GoogleDriveTab } from './GoogleDriveTab'
 import { AboutTab } from './AboutTab'
 import { LivePreviewDock } from './LivePreviewDock'
-import { CyberGlassBubbles } from './CyberGlassBubbles'
 import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface SettingsDrawerProps {
@@ -169,9 +168,6 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Halus) */}
           <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
           <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
-
-          {/* Floating 3D Cyber Glass Bubbles (Mengambang nyata di seluruh latar belakang modal) */}
-          {!activeSlider && <CyberGlassBubbles />}
 
           {/* Header Bar */}
           <div
