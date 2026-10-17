@@ -91,12 +91,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
   return (
     <div
-      className={`relative rounded-[22px] border border-white/20 sm:border-cyan-400/35 transition-all duration-150 overflow-hidden ${
-        activeSlider === 'profile_size'
-          ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
-          : activeSlider
+      className={`relative rounded-[22px] transition-all duration-150 overflow-hidden ${
+        activeSlider
           ? 'hidden'
-          : 'bg-[#03152e]/90 shadow-[0_20px_45px_rgba(0,0,0,0.65),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)] text-white'
+          : 'border border-white/20 sm:border-cyan-400/35 bg-[#03152e]/90 shadow-[0_20px_45px_rgba(0,0,0,0.65),inset_0_2px_3px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)] text-white'
       }`}
     >
       {/* Header Section dengan Switch On/Off */}

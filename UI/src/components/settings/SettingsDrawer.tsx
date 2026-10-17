@@ -147,7 +147,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         <div
           className={`w-full sm:max-w-xl h-full sm:h-auto sm:max-h-[92vh] rounded-none sm:rounded-[34px] flex flex-col text-white transition-all duration-200 relative overflow-hidden ${
             activeSlider
-              ? 'bg-transparent border-transparent shadow-none overflow-visible'
+              ? 'opacity-0 pointer-events-none invisible'
               : 'border-0 sm:border border-white/20 sm:border-cyan-400/40 shadow-none sm:shadow-[0_25px_60px_rgba(0,0,0,0.85),inset_0_2px_3px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.5)]'
           }`}
           style={

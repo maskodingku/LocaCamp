@@ -68,12 +68,10 @@ export const WatermarkTab: React.FC<WatermarkTabProps> = ({
 
       {/* SECTION 2: WATERMARK LOGO */}
       <div
-        className={`relative rounded-[22px] border border-white/20 transition-all duration-150 overflow-hidden mt-3.5 sm:mt-4 ${
-          activeSlider === 'watermark_size' || activeSlider === 'watermark_opacity'
-            ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
-            : activeSlider
+        className={`relative rounded-[22px] transition-all duration-150 overflow-hidden mt-3.5 sm:mt-4 ${
+          activeSlider
             ? 'hidden'
-            : 'bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white'
+            : 'border border-white/20 bg-[#03152e]/90 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white'
         }`}
       >
         {/* Header Section Watermark Logo */}
