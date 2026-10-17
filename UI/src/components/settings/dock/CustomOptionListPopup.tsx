@@ -32,6 +32,11 @@ export const CustomOptionListPopup: React.FC<CustomOptionListPopupProps> = ({
     if (!isOpen) return
 
     const handleClickOutside = (e: MouseEvent) => {
+      // Abaikan jika klik terjadi pada tombol trigger dropdown agar event toggle tombol berjalan normal
+      if ((e.target as HTMLElement)?.closest?.('[data-dropdown-trigger="true"]')) {
+        return
+      }
+
       if (popupRef.current && !popupRef.current.contains(e.target as Node)) {
         onClose()
       }

@@ -363,6 +363,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'watermark_position' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
@@ -395,6 +396,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'profile_position' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
@@ -421,6 +423,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'geotag_position' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
@@ -447,6 +450,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'profile_font' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
@@ -465,6 +469,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'profile_weight' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
@@ -483,6 +488,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               {activeInput === 'geotag_size' && (
                 <button
                   type="button"
+                  data-dropdown-trigger="true"
                   onClick={(e) => {
                     e.stopPropagation()
                     setIsPopupOpen(prev => !prev)
