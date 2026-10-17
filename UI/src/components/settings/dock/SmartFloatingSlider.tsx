@@ -82,9 +82,6 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
         // Jika target berada di area atas layar (<= 42%), posisikan slider mengambang di BAWAH
         const newPlacement = targetCenterY > window.innerHeight * 0.42 ? 'top' : 'bottom'
         setSmartPlacement(newPlacement)
-
-        // Tandai elemen target agar mendapatkan efek visual glow aktif
-        targetEl.setAttribute('data-target-active', 'true')
         return true
       }
     }
@@ -93,8 +90,6 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
 
   useEffect(() => {
     if (!isCurrentActive) {
-      const activeEl = document.querySelector('[data-target-active="true"]')
-      if (activeEl) activeEl.removeAttribute('data-target-active')
       return
     }
 
@@ -138,9 +133,6 @@ export const SmartFloatingSlider: React.FC<SmartFloatingSliderProps> = ({
       if (observer) observer.disconnect()
       window.removeEventListener('resize', updatePosition)
       window.removeEventListener('scroll', updatePosition, true)
-
-      const activeEl = document.querySelector('[data-target-active="true"]')
-      if (activeEl) activeEl.removeAttribute('data-target-active')
     }
   }, [isCurrentActive, updatePosition])
 
