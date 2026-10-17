@@ -46,31 +46,35 @@ export const CyberGlassOrb: React.FC<CyberGlassOrbProps> = ({
     },
   }[size]
 
-  // Skema kaca kristal jernih tanpa blur berpendar lebar
+  // Skema kaca kristal optik dengan aura warna kontekstual
   const colorMap = {
     cyan: {
       border: 'border-cyan-300/80',
-      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
+      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
       gradient: 'radial-gradient(circle at 45% 25%, #0d3d54 0%, #031b26 55%, #010a10 100%)',
-      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]',
+      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]',
+      specularGrad: 'from-white/90 via-cyan-100/35 to-transparent',
     },
     emerald: {
       border: 'border-emerald-300/80',
-      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
+      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
       gradient: 'radial-gradient(circle at 45% 25%, #064e3b 0%, #022c22 55%, #01120c 100%)',
-      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]',
+      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(52,211,153,0.75)]',
+      specularGrad: 'from-white/90 via-emerald-100/35 to-transparent',
     },
     amber: {
       border: 'border-amber-300/80',
-      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
+      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
       gradient: 'radial-gradient(circle at 45% 25%, #78350f 0%, #451a03 55%, #1a0801 100%)',
-      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]',
+      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(251,191,36,0.75)]',
+      specularGrad: 'from-white/90 via-amber-100/35 to-transparent',
     },
     rose: {
       border: 'border-rose-300/80',
-      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
+      shadow: 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.5)]',
       gradient: 'radial-gradient(circle at 45% 25%, #881337 0%, #4c0519 55%, #1a0208 100%)',
-      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]',
+      iconColor: 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(244,63,94,0.75)]',
+      specularGrad: 'from-white/90 via-rose-100/35 to-transparent',
     },
   }[variant]
 
@@ -81,18 +85,18 @@ export const CyberGlassOrb: React.FC<CyberGlassOrbProps> = ({
         background: colorMap.gradient,
       }}
     >
-      {/* 3D Glass Pure White Specular Dome (Kilau Kaca Silau Putih) */}
+      {/* 3D Glass Soft Specular Dome (Kilau Kaca Silau Halus Bergradasi) */}
       <div
-        className={`pointer-events-none absolute ${sizeMap.specular} rounded-full bg-gradient-to-b from-white/95 via-white/40 to-transparent blur-[0.2px] z-10`}
+        className={`pointer-events-none absolute ${sizeMap.specular} rounded-full bg-gradient-to-b ${colorMap.specularGrad} blur-[0.3px] z-10`}
       />
 
-      {/* Top Hairline Glare (Garis Silau Kaca Atas) */}
-      <div className="pointer-events-none absolute top-0.5 inset-x-2 h-[1px] bg-white/80 pointer-events-none z-10" />
+      {/* Top Hairline Glare (Garis Silau Kaca Atas Lembut) */}
+      <div className="pointer-events-none absolute top-0.5 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/85 to-transparent z-10" />
 
-      {/* Ikon Tajam Tanpa Haze */}
+      {/* Ikon Tajam dengan Aura Blur Warna Kontekstual */}
       {Icon && (
         <Icon
-          className={`relative z-20 ${sizeMap.icon} ${colorMap.iconColor} stroke-[2.4] ${iconClassName}`}
+          className={`relative z-20 ${sizeMap.icon} ${colorMap.iconColor} stroke-[2.3] ${iconClassName}`}
         />
       )}
 

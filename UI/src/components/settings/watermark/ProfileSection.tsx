@@ -112,12 +112,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         }}
       />
 
-      {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Putih Murni) */}
-      <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+      {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Halus Kristal Optik) */}
+      <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
 
-      {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Putih Bersih) */}
-      <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff] z-20" />
-      <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff] z-20" />
+      {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Halus) */}
+      <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
+      <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
 
       {/* Header Section dengan Switch On/Off */}
       <div
@@ -131,17 +131,17 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             size="md"
             variant="cyan"
           />
-          <div className="h-4.5 w-[1.5px] bg-white/40 shrink-0" />
+          <div className="h-4.5 w-[1.5px] bg-cyan-400/40 shrink-0" />
           <div className="flex items-center gap-1.5 min-w-0">
-            <span className="text-slate-100 text-[13.5px] sm:text-sm font-semibold tracking-wide">
+            <span className="text-slate-100 text-[13.5px] sm:text-sm font-bold tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
               Profil
             </span>
-            <span className="text-white text-[13.5px] sm:text-sm font-black tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+            <span className="text-white text-[13.5px] sm:text-sm font-black tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)] drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]">
               Pengguna
             </span>
           </div>
           {profile.enabled && (
-            <span className="px-2.5 py-0.5 rounded-full bg-[#030917]/90 border border-white/40 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.7)] text-[10.5px] font-mono font-black text-cyan-200 shrink-0">
+            <span className="px-2.5 py-0.5 rounded-full bg-[#030917]/90 border border-white/40 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.7)] text-[10.5px] font-mono font-black text-cyan-200 shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
               AKTIF
             </span>
           )}
@@ -174,7 +174,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {/* Input Jabatan */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                   <CyberGlassOrb icon={Briefcase} size="xs" variant="cyan" />
                   <span>Jabatan / Posisi</span>
                 </label>
@@ -185,15 +185,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
-                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/80 pointer-events-none" />
-                    <Eye className="w-3.5 h-3.5 text-cyan-300" />
-                    <span>Preview</span>
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                    <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                    <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                   </button>
                 )}
               </div>
               {/* Clean Crisp Glass Capsule Input */}
               <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/30 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.6)] px-4 flex items-center overflow-hidden">
-                <div className="absolute top-0 inset-x-5 h-[1px] bg-white/85 shadow-[0_0_2px_#fff] pointer-events-none" />
+                <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
                 <input
                   type="text"
                   value={profile.jobTitle}
@@ -204,7 +204,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     })
                   }
                   placeholder="Contoh: Surveyor Lapangan / Pengawas"
-                  className="w-full min-w-0 bg-transparent border-none text-white font-bold text-xs sm:text-sm placeholder:text-slate-300/60 focus:outline-none focus:ring-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                  className="w-full min-w-0 bg-transparent border-none text-white font-bold text-xs sm:text-sm placeholder:text-slate-300/60 focus:outline-none focus:ring-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_5px_rgba(255,255,255,0.25)]"
                 />
               </div>
             </div>
@@ -212,7 +212,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             {/* Input Nama Lengkap */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+                <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                   <CyberGlassOrb icon={User} size="xs" variant="cyan" />
                   <span>Nama Lengkap</span>
                 </label>
@@ -223,15 +223,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                     title="Lihat Pratinjau Langsung di Kamera"
                   >
-                    <div className="absolute top-0 inset-x-2 h-[1px] bg-white/80 pointer-events-none" />
-                    <Eye className="w-3.5 h-3.5 text-cyan-300" />
-                    <span>Preview</span>
+                    <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                    <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                    <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                   </button>
                 )}
               </div>
               {/* Clean Crisp Glass Capsule Input */}
               <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/30 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.6)] px-4 flex items-center overflow-hidden">
-                <div className="absolute top-0 inset-x-5 h-[1px] bg-white/85 shadow-[0_0_2px_#fff] pointer-events-none" />
+                <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
                 <input
                   type="text"
                   value={profile.name}
@@ -242,7 +242,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     })
                   }
                   placeholder="Contoh: Ahmad Fauzi, S.T."
-                  className="w-full min-w-0 bg-transparent border-none text-white font-bold text-xs sm:text-sm placeholder:text-slate-300/60 focus:outline-none focus:ring-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                  className="w-full min-w-0 bg-transparent border-none text-white font-bold text-xs sm:text-sm placeholder:text-slate-300/60 focus:outline-none focus:ring-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_5px_rgba(255,255,255,0.25)]"
                 />
               </div>
             </div>
@@ -253,7 +253,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                 <CyberGlassOrb icon={Type} size="xs" variant="cyan" />
                 <span>Jenis Font Profil</span>
               </label>
@@ -264,15 +264,15 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/80 pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
             {/* Clean Capsule Select */}
             <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/30 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.6)] px-4 flex items-center overflow-hidden">
-              <div className="absolute top-0 inset-x-5 h-[1px] bg-white/85 shadow-[0_0_2px_#fff] pointer-events-none" />
+              <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
               <select
                 value={profile.fontFamily}
                 onChange={e =>
@@ -281,7 +281,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                     fontFamily: e.target.value,
                   })
                 }
-                className="w-full bg-transparent border-none text-white font-bold text-xs sm:text-sm appearance-none cursor-pointer focus:outline-none focus:ring-0 pr-8 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]"
+                className="w-full bg-transparent border-none text-white font-bold text-xs sm:text-sm appearance-none cursor-pointer focus:outline-none focus:ring-0 pr-8 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_5px_rgba(255,255,255,0.25)]"
               >
                 {FONT_OPTIONS.map(font => (
                   <option
@@ -304,7 +304,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                 <CyberGlassOrb icon={MapPin} size="xs" variant="cyan" />
                 <span>Posisi Profil di Foto</span>
               </label>
@@ -315,9 +315,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/80 pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
@@ -334,22 +334,22 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 }`}
               >
                 {isAboveGeotag && (
-                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white pointer-events-none" />
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
                 )}
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="text-amber-400 text-sm">★</span>
-                  <span className="truncate text-white font-bold">Di Atas Geotag</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 border border-white/30 shrink-0">
+                  <span className="text-amber-400 text-sm drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]">★</span>
+                  <span className="truncate text-white font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">Di Atas Geotag</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-200 border border-white/30 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.7)]">
                     Rekomendasi
                   </span>
                 </div>
                 {isAboveGeotag && (
-                  <Check className="w-4 h-4 text-cyan-300 shrink-0 ml-1" />
+                  <Check className="w-4 h-4 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)] shrink-0 ml-1" />
                 )}
               </button>
 
               <div className="flex items-center gap-2 pt-1 pb-0.5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-200">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                   Atau 9 Posisi Sudut Kamera:
                 </span>
                 <div className="flex-1 h-px bg-white/20" />
@@ -370,10 +370,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                           : 'bg-[#020717]/50 text-slate-100 hover:text-white border-white/15 hover:border-white/40'
                       }`}
                     >
-                      <span className={`font-black shrink-0 ${active ? 'text-black' : 'text-cyan-300'}`}>
+                      <span className={`font-black shrink-0 ${active ? 'text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.65)]'}`}>
                         {pos.icon}
                       </span>
-                      <span className="truncate">{pos.label}</span>
+                      <span className={`truncate ${active ? 'drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>{pos.label}</span>
                     </button>
                   )
                 })}
@@ -386,7 +386,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-white">
+              <label className="text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                 Ketebalan Teks
               </label>
               {onTriggerPreview && (
@@ -396,9 +396,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-white/40 shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/80 pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
@@ -421,7 +421,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                         : 'border-transparent text-slate-100 hover:text-white'
                     }`}
                   >
-                    {fw.label}
+                    <span className={active ? 'drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}>{fw.label}</span>
                   </button>
                 )
               })}
@@ -438,7 +438,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               <CyberGlassOrb icon={Frame} size="sm" variant="cyan" />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-white">
+                  <span className="text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                     Garis Tepi (Border)
                   </span>
                   {onTriggerPreview && (
@@ -448,12 +448,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold text-white bg-[#020e1f] border border-white/40 shadow-sm transition-all active:scale-95 cursor-pointer shrink-0"
                       title="Lihat Pratinjau Langsung di Kamera"
                     >
-                      <Eye className="w-3 h-3 text-cyan-300" />
-                      <span>Preview</span>
+                      <Eye className="w-3 h-3 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                      <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                     </button>
                   )}
                 </div>
-                <p className="text-[11px] text-slate-300 truncate">
+                <p className="text-[11px] text-slate-300 truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)]">
                   {isBorderOn
                     ? 'Garis tepi aktif melingkari badge'
                     : 'Mode tanpa garis tepi (borderless)'}
@@ -472,7 +472,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               }`}
               title={isBorderOn ? 'Klik untuk mematikan border (OFF)' : 'Klik untuk mengaktifkan border (ON)'}
             >
-              <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
+              <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
               <div className="relative w-full h-full flex items-center">
                 <div
                   className={`w-1/2 h-full rounded-full flex items-center justify-center font-mono text-[10px] font-black tracking-wider transition-all duration-300 ease-in-out relative overflow-hidden ${
@@ -494,7 +494,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                 <CyberGlassOrb icon={Paintbrush} size="xs" variant="cyan" />
                 <span>Warna Background</span>
               </label>
@@ -505,9 +505,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
@@ -597,7 +597,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             className={`transition-opacity duration-150 ${activeSlider ? 'hidden' : 'block'}`}
           >
             <div className="flex items-center justify-between mb-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
                 <CyberGlassOrb icon={Palette} size="xs" variant="cyan" />
                 <span>Warna Teks</span>
               </label>
@@ -608,9 +608,9 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
@@ -705,13 +705,13 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 min-w-0">
                 <span
-                  className={`text-xs uppercase tracking-wider ${
-                    activeSlider === 'profile_size' ? 'text-white font-black' : 'text-white font-bold'
+                  className={`text-xs uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] ${
+                    activeSlider === 'profile_size' ? 'text-white font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' : 'text-white font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]'
                   }`}
                 >
                   Ukuran Teks Profil
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-black bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1.5px_rgba(255,255,255,0.5)] shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                   {profile.fontSize || 13} px
                 </span>
               </div>
@@ -722,16 +722,16 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-white bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_10px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 transition-all active:scale-95 cursor-pointer relative overflow-hidden group shrink-0"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
-                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
-                  <span>Preview</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+                  <Eye className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Preview</span>
                 </button>
               )}
             </div>
 
             {/* Slider Capsule Track Persis LivePreviewDock */}
             <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center gap-3 overflow-hidden">
-              <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+              <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
               <div className="flex-1 min-w-0 flex items-center">
                 <input
                   type="range"
@@ -754,7 +754,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className="hud-slider cursor-pointer w-full"
                 />
               </div>
-              <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              <span className="font-mono text-cyan-300 font-black text-xs shrink-0 drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]">
                 {profile.fontSize || 13}px
               </span>
             </div>
@@ -767,10 +767,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
             }`}
           >
             <div className="flex items-center justify-between">
-              <p className="text-[11px] font-black text-cyan-300 uppercase tracking-wider drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              <p className="text-[11px] font-black text-cyan-300 uppercase tracking-wider drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                 Pratinjau Tampilan Teks
               </p>
-              <span className="text-[11px] text-slate-100 font-mono font-bold">
+              <span className="text-[11px] text-slate-100 font-mono font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                 {profile.fontSize || 13}px • {profile.fontWeight || 'medium'}
               </span>
             </div>

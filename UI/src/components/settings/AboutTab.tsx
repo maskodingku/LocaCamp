@@ -32,7 +32,7 @@ export const AboutTab: React.FC = () => {
     <div className="space-y-4 animate-in fade-in duration-200">
       {/* 1. App Overview Header Card (Dark Cyber Glass HUD) */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-start gap-4">
           <img
             src={appLogo}
@@ -41,14 +41,14 @@ export const AboutTab: React.FC = () => {
           />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-base font-black text-white tracking-wide">
-                LocaCamp <span className="text-cyan-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Enterprise</span>
+              <h3 className="text-base font-black text-white tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)]">
+                LocaCamp <span className="text-cyan-300 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">Enterprise</span>
               </h3>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                 v1.0.0 PWA
               </span>
             </div>
-            <p className="text-xs text-slate-100 mt-1 leading-relaxed font-medium">
+            <p className="text-xs text-slate-100 mt-1 leading-relaxed font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               Sistem kamera web cerdas dengan penandaan lokasi GPS real-time, sinkronisasi zona waktu otomatis, dan watermark instansi terverifikasi untuk dokumentasi teknis lapangan.
             </p>
           </div>
@@ -56,20 +56,20 @@ export const AboutTab: React.FC = () => {
 
         <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-white/15 text-xs">
           <div className="flex items-center gap-2 text-slate-200 font-bold">
-            <ShieldCheck className="w-4 h-4 text-cyan-300 shrink-0" />
-            <span>100% Client-Side Privacy</span>
+            <ShieldCheck className="w-4 h-4 text-cyan-300 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+            <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">100% Client-Side Privacy</span>
           </div>
           <div className="flex items-center gap-2 text-slate-200 font-bold">
-            <CheckCircle2 className="w-4 h-4 text-cyan-300 shrink-0" />
-            <span>PWA Offline Capable</span>
+            <CheckCircle2 className="w-4 h-4 text-cyan-300 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+            <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">PWA Offline Capable</span>
           </div>
         </div>
       </div>
 
       {/* 2. Developer Profile Card */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden space-y-3.5">
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
-        <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
+        <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
           <CyberGlassOrb icon={Terminal} size="xs" variant="cyan" />
           <span>Profil Pengembang Sistem</span>
         </label>
@@ -81,10 +81,10 @@ export const AboutTab: React.FC = () => {
             className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-white/80 shadow-[0_4px_14px_rgba(0,0,0,0.6)] shrink-0"
           />
           <div className="overflow-hidden">
-            <h4 className="text-sm sm:text-base font-black text-white tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+            <h4 className="text-sm sm:text-base font-black text-white tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]">
               Abdi Syahputra Harahap
             </h4>
-            <p className="text-xs font-bold text-cyan-300 flex items-center gap-1.5 mt-0.5">
+            <p className="text-xs font-bold text-cyan-300 flex items-center gap-1.5 mt-0.5 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
               <Terminal className="w-3.5 h-3.5 shrink-0 text-cyan-300" />
               <span>Node.js Fullstack Developer &amp; Rust Developer</span>
             </p>
@@ -92,38 +92,38 @@ export const AboutTab: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 pt-1 flex-wrap">
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]">
             ⚡ Node.js &amp; TypeScript
           </span>
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]">
             🦀 Rust Systems Engineering
           </span>
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.4)] backdrop-blur-md drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]">
             ⚛️ React &amp; Canvas Engine
           </span>
         </div>
 
         {/* Company Affiliation */}
         <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-[#020b18]/70 backdrop-blur-md border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)] text-xs text-slate-200 font-medium">
-          <Building2 className="w-4 h-4 text-cyan-300 shrink-0" />
+          <Building2 className="w-4 h-4 text-cyan-300 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
           <div>
             <span className="text-slate-300">Institusi / Perusahaan:</span>{' '}
-            <span className="font-black text-white">PT Wahana Mitra Amerta</span>
+            <span className="font-black text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">PT Wahana Mitra Amerta</span>
           </div>
         </div>
       </div>
 
       {/* 3. Dedication & Corporate Appreciation Card */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
-        <div className="flex items-center gap-2 text-xs font-bold text-cyan-300">
-          <Heart className="w-4 h-4 fill-rose-500 text-rose-500 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
+        <div className="flex items-center gap-2 text-xs font-bold text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
+          <Heart className="w-4 h-4 fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.85)]" />
           <span className="uppercase tracking-wider">Pernyataan Resmi Dedikasi</span>
         </div>
 
-        <blockquote className="text-xs text-slate-100 leading-relaxed italic border-l-2 border-white/60 pl-3 py-0.5 space-y-2 font-medium">
+        <blockquote className="text-xs text-slate-100 leading-relaxed italic border-l-2 border-white/60 pl-3 py-0.5 space-y-2 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           <p>
-            &ldquo;Aplikasi ini saya kembangkan dan dedikasikan secara khusus sebagai bentuk rasa terima kasih yang mendalam serta loyalitas penuh kepada jajaran Manajemen dan Keluarga Besar <strong className="text-white font-bold not-italic">PT Wahana Mitra Amerta</strong> atas amanah dan kepercayaan yang telah diberikan dalam mengangkat saya sebagai bagian dari perusahaan.&rdquo;
+            &ldquo;Aplikasi ini saya kembangkan dan dedikasikan secara khusus sebagai bentuk rasa terima kasih yang mendalam serta loyalitas penuh kepada jajaran Manajemen dan Keluarga Besar <strong className="text-white font-bold not-italic drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">PT Wahana Mitra Amerta</strong> atas amanah dan kepercayaan yang telah diberikan dalam mengangkat saya sebagai bagian dari perusahaan.&rdquo;
           </p>
           <p>
             &ldquo;Semoga inovasi sistem dokumentasi geotagging ini memberikan kontribusi nyata dalam memperkuat akurasi, efisiensi operasional pengawasan, dan keunggulan teknologi digital PT Wahana Mitra Amerta ke depan.&rdquo;
@@ -131,34 +131,34 @@ export const AboutTab: React.FC = () => {
         </blockquote>
 
         <div className="pt-2 flex items-center justify-between text-[11px] text-slate-300 border-t border-white/15 font-medium">
-          <span>Hormat Saya,</span>
-          <span className="font-black text-white">Abdi Syahputra Harahap</span>
+          <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Hormat Saya,</span>
+          <span className="font-black text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Abdi Syahputra Harahap</span>
         </div>
       </div>
 
       {/* 4. Official GitHub Repository Card */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#020e1f] border border-white/30 flex items-center justify-center text-white shrink-0 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
-            <GithubIcon className="w-5 h-5 text-cyan-300" />
+            <GithubIcon className="w-5 h-5 text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
+              <span className="text-xs sm:text-sm font-bold text-white tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]">
                 maskodingku/LocaCamp
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                 Public
               </span>
             </div>
-            <p className="text-[11px] text-slate-200 mt-0.5 font-medium">
+            <p className="text-[11px] text-slate-200 mt-0.5 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               Open Source Geotagging Camera PWA
             </p>
           </div>
         </div>
 
-        <p className="text-xs text-slate-100 leading-relaxed font-medium">
+        <p className="text-xs text-slate-100 leading-relaxed font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           Kode sumber, arsitektur sistem, dokumentasi panduan, dan pembaruan aplikasi dapat diakses secara publik melalui repositori GitHub resmi.
         </p>
 
@@ -168,10 +168,10 @@ export const AboutTab: React.FC = () => {
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 text-white text-xs font-bold border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85)] hover:border-white/60 active:scale-[0.98] transition-all relative overflow-hidden group"
         >
-          <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
-          <GithubIcon className="w-4 h-4 text-cyan-300 group-hover:text-white" />
-          <span>Kunjungi Repositori GitHub</span>
-          <ExternalLink className="w-3.5 h-3.5 text-cyan-300 group-hover:text-white ml-0.5" />
+          <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
+          <GithubIcon className="w-4 h-4 text-cyan-300 group-hover:text-white drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+          <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Kunjungi Repositori GitHub</span>
+          <ExternalLink className="w-3.5 h-3.5 text-cyan-300 group-hover:text-white ml-0.5 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
         </a>
       </div>
     </div>

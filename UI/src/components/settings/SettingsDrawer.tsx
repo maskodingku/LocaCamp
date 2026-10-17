@@ -163,12 +163,12 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           }
           onClick={e => e.stopPropagation()}
         >
-          {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Putih Murni) */}
-          <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+          {/* Specular Glare Highlight Border Atas Kaca (Cahaya Silau Halus Kristal Optik) */}
+          <div className="pointer-events-none absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
 
-          {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Putih Bersih) */}
-          <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff] z-20" />
-          <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff] z-20" />
+          {/* Optic Lens Flare Glints di Pinggiran Frame (Silau Halus) */}
+          <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
+          <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_4px_#fff]" />
 
           {/* Floating 3D Cyber Glass Bubbles (Mengambang nyata di seluruh latar belakang modal) */}
           {!activeSlider && <CyberGlassBubbles />}
@@ -179,19 +179,19 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
-            {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks Dua Nada */}
+            {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks Dua Nada dengan Aura Blur Kontekstual */}
             <div className="flex items-center gap-2.5 min-w-0 flex-1 mr-2">
               <CyberGlassOrb icon={Sliders} size="md" variant="cyan" />
 
               {/* Pembatas Garis Vertikal */}
-              <div className="h-4.5 w-[1.5px] bg-white/40 shrink-0" />
+              <div className="h-4.5 w-[1.5px] bg-cyan-400/40 shrink-0" />
 
-              {/* Teks Judul Dua Nada Bersih & Sangat Tajam */}
+              {/* Teks Judul Dua Nada dengan Aura Warna Kontekstual */}
               <div className="flex items-center gap-1.5 min-w-0">
-                <span className="text-slate-100 text-sm sm:text-base font-semibold tracking-wide">
+                <span className="text-slate-100 text-sm sm:text-base font-bold tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
                   Pengaturan
                 </span>
-                <span className="text-white text-sm sm:text-base font-black tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+                <span className="text-white text-sm sm:text-base font-black tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)] drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]">
                   Foto &amp; Tampilan
                 </span>
               </div>
@@ -205,7 +205,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               title="Tutup Pengaturan"
             >
               <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/50 blur-[0.2px] pointer-events-none" />
-              <X className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-rose-100 stroke-[3] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]" />
+              <X className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-rose-100 stroke-[3] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)] drop-shadow-[0_0_5px_rgba(244,63,94,0.75)]" />
             </button>
           </div>
 
@@ -227,21 +227,21 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                     className={`flex-1 py-1.5 sm:py-2 px-1.5 sm:px-3 rounded-full text-[10.5px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 transition-all relative overflow-hidden ${
                       active
                         ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
-                        : 'text-slate-100 hover:text-white hover:bg-white/10'
+                        : 'text-slate-100 font-bold hover:text-white hover:bg-white/10'
                     }`}
                   >
                     {active && (
                       <div className="absolute top-0.5 inset-x-2 h-1 rounded-full bg-white/60 blur-[0.2px] pointer-events-none" />
                     )}
-                    <Icon className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-black' : 'text-cyan-300'}`} />
-                    <span className="truncate">{tab.label}</span>
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.6)]'}`} />
+                    <span className={`truncate ${active ? 'drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>{tab.label}</span>
                   </button>
                 )
               })}
             </div>
 
             {/* Crisp Glass Hairline Separator */}
-            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent mt-2.5 mb-1" />
+            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-200/35 to-transparent mt-2.5 mb-1" />
           </div>
 
           {/* Inner Content Viewport Area */}
@@ -303,9 +303,9 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                   className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-gradient-to-r from-[#03152e]/90 via-[#062854]/80 to-[#03152e]/90 hover:from-[#052247]/95 hover:to-[#052247]/95 text-slate-100 hover:text-white font-bold text-xs shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.8)] transition-all active:scale-95 cursor-pointer relative overflow-hidden"
                   title="Kembalikan semua setelan ke awal"
                 >
-                  <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
-                  <RotateCcw className="w-3.5 h-3.5 text-cyan-300" />
-                  <span>Reset Default</span>
+                  <div className="absolute top-0 inset-x-2 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/70 to-transparent pointer-events-none" />
+                  <RotateCcw className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.65)]" />
+                  <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Reset Default</span>
                 </button>
               ) : (
                 <div />
@@ -316,8 +316,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
                 onClick={onClose}
                 className="px-7 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 via-sky-300 to-teal-400 text-black font-black text-xs sm:text-sm tracking-wide border border-white/90 shadow-[0_4px_14px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.95)] hover:brightness-110 active:scale-95 transition-all cursor-pointer relative overflow-hidden"
               >
-                <div className="absolute top-0 inset-x-3 h-[1px] bg-white pointer-events-none" />
-                Selesai
+                <div className="absolute top-0 inset-x-3 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none" />
+                <span className="drop-shadow-[0_1px_1px_rgba(255,255,255,0.7)]">Selesai</span>
               </button>
             </div>
           </div>

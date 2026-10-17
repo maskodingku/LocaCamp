@@ -21,10 +21,10 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
     <div className="space-y-4">
       {/* 1. Kartu Profil Google Terhubung */}
       <div className="relative rounded-[22px] border border-white/20 bg-[#03152e]/55 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.85)] text-white p-4 overflow-hidden">
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-center justify-between mb-3.5">
-          <span className="text-[11px] font-black tracking-wider text-white uppercase flex items-center gap-1.5 font-mono">
-            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-300" />
+          <span className="text-[11px] font-black tracking-wider text-white uppercase flex items-center gap-1.5 font-mono drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
+            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
             Akun Google Terhubung
           </span>
           <button
@@ -33,8 +33,8 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 hover:bg-rose-500/35 text-white border border-rose-500/40 text-xs font-bold transition-colors cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.4)]"
             title="Putuskan akun"
           >
-            <LogOut className="w-3 h-3 text-rose-300" />
-            <span>Putuskan</span>
+            <LogOut className="w-3 h-3 text-rose-300 drop-shadow-[0_0_5px_rgba(244,63,94,0.75)]" />
+            <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Putuskan</span>
           </button>
         </div>
 
@@ -51,10 +51,10 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             </div>
           )}
           <div className="min-w-0">
-            <p className="text-sm font-black text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+            <p className="text-sm font-black text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
               {session.userName || 'Pengguna Google'}
             </p>
-            <p className="text-xs text-slate-200 truncate font-medium">
+            <p className="text-xs text-slate-200 truncate font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
               {session.userEmail || 'Akun Aktif'}
             </p>
           </div>
@@ -64,27 +64,27 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       {/* 2. Pengaturan Folder Target (Terkunci Permanen) */}
       <div className="space-y-2 p-4 rounded-[22px] bg-[#020b18]/70 backdrop-blur-md border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
         <div className="flex items-center justify-between">
-          <label className="block text-xs font-bold uppercase tracking-wider text-white">
+          <label className="block text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
             Nama Folder Penyimpanan
           </label>
-          <span className="text-[10px] text-cyan-300 flex items-center gap-1 font-mono font-black">
+          <span className="text-[10px] text-cyan-300 flex items-center gap-1 font-mono font-black drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
             <FolderCheck className="w-3 h-3 text-cyan-300" />
             Otomatis Dibuat
           </span>
         </div>
         <div className="flex items-center justify-between px-4 py-2.5 rounded-full bg-[#020717]/80 backdrop-blur-md border border-white/30 text-white select-none shadow-inner">
           <div className="flex items-center gap-2.5 min-w-0">
-            <Folder className="w-4 h-4 text-cyan-300 shrink-0" />
-            <span className="text-xs sm:text-sm font-black text-white tracking-wide truncate">
+            <Folder className="w-4 h-4 text-cyan-300 shrink-0 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+            <span className="text-xs sm:text-sm font-black text-cyan-200 tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
               LocaCamp Photos
             </span>
           </div>
-          <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#020d1c] border border-white/25 text-[10px] text-cyan-300 font-black shrink-0 font-mono">
+          <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#020d1c] border border-white/25 text-[10px] text-cyan-300 font-black shrink-0 font-mono drop-shadow-[0_0_5px_rgba(34,211,238,0.7)]">
             <Lock className="w-2.5 h-2.5 text-cyan-300" />
             <span>Terkunci</span>
           </span>
         </div>
-        <p className="text-[11px] text-slate-200 font-medium">
+        <p className="text-[11px] text-slate-200 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           Semua foto survei &amp; geotag akan disimpan ke folder ini di Google Drive Anda.
         </p>
       </div>
@@ -92,8 +92,8 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       {/* 3. Toggle Auto-Upload */}
       <div className="p-4 rounded-[22px] bg-[#020b18]/70 backdrop-blur-md border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)] flex items-center justify-between">
         <div>
-          <p className="text-xs font-bold text-white">Upload Otomatis Saat Jepret</p>
-          <p className="text-[11px] text-slate-200 mt-0.5 font-medium">
+          <p className="text-xs font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]">Upload Otomatis Saat Jepret</p>
+          <p className="text-[11px] text-slate-200 mt-0.5 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
             Foto langsung disalin ke cloud Drive di latar belakang setiap kali memotret.
           </p>
         </div>
@@ -111,14 +111,14 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       {/* 4. Pengaturan Batas Antrian Bulk Upload */}
       <div className="space-y-2 p-4 rounded-[22px] bg-[#020b18]/70 backdrop-blur-md border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.4)]">
         <div className="flex items-center justify-between">
-          <label className="block text-xs font-bold uppercase tracking-wider text-white">
+          <label className="block text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
             Batas Upload Bersamaan
           </label>
-          <span className="text-[10px] text-cyan-300 font-mono font-black">
+          <span className="text-[10px] text-cyan-300 font-mono font-black drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
             {config.concurrency || 2} foto simultan
           </span>
         </div>
-        <p className="text-[11px] text-slate-200 font-medium">
+        <p className="text-[11px] text-slate-200 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           Jumlah foto yang diunggah secara paralel saat memproses antrian ke Google Drive.
         </p>
 
@@ -138,10 +138,10 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
                 className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
                   isSelected
                     ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
-                    : 'bg-[#020717]/60 border-white/10 text-slate-200 hover:text-white hover:border-white/30 font-bold'
+                    : 'bg-[#020717]/60 border-white/10 text-slate-100 hover:text-white hover:border-white/30 font-bold'
                 }`}
               >
-                <div className={`text-xs font-bold ${isSelected ? 'text-black' : 'text-white'}`}>
+                <div className={`text-xs font-bold ${isSelected ? 'text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>
                   {opt.label}
                 </div>
                 <div className={`text-[9.5px] mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-300 font-medium'}`}>

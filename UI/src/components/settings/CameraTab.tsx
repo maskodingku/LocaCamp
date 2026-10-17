@@ -126,39 +126,39 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-start gap-3">
           <CyberGlassOrb icon={Cpu} size="md" variant="cyan" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
+              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                 Sensor Kamera Aktif
               </span>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-[#020e1f] text-cyan-300 border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
                 LIVE
               </span>
             </div>
-            <div className="text-sm font-black text-white mt-0.5 truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
+            <div className="text-sm font-black text-white mt-0.5 truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
               {sensorInfo?.label || 'Kamera Perangkat HP'}
             </div>
             <div className="flex items-center gap-3 mt-2 text-xs text-slate-100 font-medium">
               <div>
                 Maksimal:{' '}
-                <span className="font-bold text-cyan-300">
+                <span className="font-bold text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]">
                   {sensorInfo?.maxMegapixels
                     ? `${sensorInfo.maxMegapixels} MP`
                     : 'Otomatis'}
                 </span>
                 {sensorInfo?.maxWidth && sensorInfo?.maxHeight ? (
-                  <span className="text-[11px] text-slate-200 ml-1 font-mono font-bold">
+                  <span className="text-[11px] text-slate-200 ml-1 font-mono font-bold drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                     ({sensorInfo.maxWidth} × {sensorInfo.maxHeight})
                   </span>
                 ) : null}
               </div>
             </div>
             <div className="mt-2 flex items-center gap-1.5 text-[11px] text-slate-200 font-medium">
-              <Zap className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-              <span>
+              <Zap className="w-3.5 h-3.5 text-amber-300 shrink-0 drop-shadow-[0_0_6px_rgba(251,191,36,0.8)]" />
+              <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                 {sensorInfo?.supportsImageCapture
                   ? 'Mendukung ImageCapture (shutter sensor native jernih)'
                   : 'Fallback frame video resolusi tinggi'}
@@ -174,17 +174,17 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-center justify-between mb-1">
-          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
             <CyberGlassOrb icon={Palette} size="xs" variant="cyan" />
             <span>Preset Efek &amp; Nuansa Warna</span>
           </label>
-          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-[#020e1f] border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-[#020e1f] border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
             WYSIWYG
           </span>
         </div>
-        <p className="text-[11px] text-slate-200 mb-3 font-medium">
+        <p className="text-[11px] text-slate-200 mb-3 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
           Warna foto otomatis disesuaikan secara real-time di layar dan canvas hasil jepretan.
         </p>
 
@@ -204,11 +204,11 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                 className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between relative overflow-hidden ${
                   isSelected
                     ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
-                    : 'bg-[#020717]/60 text-slate-200 hover:text-white border-white/10 hover:border-white/30 font-bold'
+                    : 'bg-[#020717]/60 text-slate-100 hover:text-white border-white/10 hover:border-white/30 font-bold'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1">
-                  <span className={`text-xs font-bold truncate ${isSelected ? 'text-black' : 'text-white'}`}>
+                  <span className={`text-xs font-bold truncate ${isSelected ? 'text-black drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>
                     {presetItem.name}
                   </span>
                 </div>
@@ -224,7 +224,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
       {/* 3. Finetuning Kamera Sliders */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
-          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
             <CyberGlassOrb icon={Sliders} size="xs" variant="cyan" />
             <span>Finetuning Sensor Gambar</span>
           </label>
@@ -242,8 +242,8 @@ export const CameraTab: React.FC<CameraTabProps> = ({
               className="text-[10px] text-white font-bold flex items-center gap-1 transition-colors px-2.5 py-0.5 rounded-full bg-[#020e1f] border border-white/35 shadow-[0_2px_6px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.5)]"
               title="Kembalikan finetuning ke 0%"
             >
-              <RotateCcw className="w-2.5 h-2.5 text-cyan-300" />
-              Reset (0%)
+              <RotateCcw className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]" />
+              <span className="drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">Reset (0%)</span>
             </button>
           )}
         </div>
@@ -259,18 +259,18 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           }`}
         >
           <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_brightness' ? 'text-white font-black' : 'text-white font-bold'}`}>
-              <Sun className="w-3.5 h-3.5 text-amber-300" />
+            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_brightness' ? 'text-amber-200 font-black drop-shadow-[0_0_8px_rgba(251,191,36,0.75)]' : 'text-amber-100 font-bold drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]'}`}>
+              <Sun className="w-3.5 h-3.5 text-amber-300 drop-shadow-[0_0_6px_rgba(251,191,36,0.85)]" />
               Kecerahan
             </span>
-            <span className="font-mono text-cyan-300 text-xs font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+            <span className="font-mono text-amber-300 text-xs font-black drop-shadow-[0_0_6px_rgba(251,191,36,0.75)]">
               {cameraEffect.finetune.brightness > 0
                 ? `+${cameraEffect.finetune.brightness}%`
                 : `${cameraEffect.finetune.brightness}%`}
             </span>
           </div>
           <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -308,18 +308,18 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           }`}
         >
           <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_contrast' ? 'text-white font-black' : 'text-white font-bold'}`}>
-              <Contrast className="w-3.5 h-3.5 text-sky-300" />
+            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_contrast' ? 'text-sky-200 font-black drop-shadow-[0_0_8px_rgba(56,189,248,0.75)]' : 'text-sky-100 font-bold drop-shadow-[0_0_6px_rgba(56,189,248,0.6)]'}`}>
+              <Contrast className="w-3.5 h-3.5 text-sky-300 drop-shadow-[0_0_6px_rgba(56,189,248,0.85)]" />
               Kontras
             </span>
-            <span className="font-mono text-cyan-300 text-xs font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+            <span className="font-mono text-sky-300 text-xs font-black drop-shadow-[0_0_6px_rgba(56,189,248,0.75)]">
               {cameraEffect.finetune.contrast > 0
                 ? `+${cameraEffect.finetune.contrast}%`
                 : `${cameraEffect.finetune.contrast}%`}
             </span>
           </div>
           <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -357,18 +357,18 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           }`}
         >
           <div className="flex justify-between items-center text-xs mb-1 px-1">
-            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_saturation' ? 'text-white font-black' : 'text-white font-bold'}`}>
-              <Palette className="w-3.5 h-3.5 text-rose-300" />
+            <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_saturation' ? 'text-rose-200 font-black drop-shadow-[0_0_8px_rgba(244,63,94,0.75)]' : 'text-rose-100 font-bold drop-shadow-[0_0_6px_rgba(244,63,94,0.6)]'}`}>
+              <Palette className="w-3.5 h-3.5 text-rose-300 drop-shadow-[0_0_6px_rgba(244,63,94,0.85)]" />
               Saturasi
             </span>
-            <span className="font-mono text-cyan-300 text-xs font-black drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+            <span className="font-mono text-rose-300 text-xs font-black drop-shadow-[0_0_6px_rgba(244,63,94,0.75)]">
               {cameraEffect.finetune.saturation > 0
                 ? `+${cameraEffect.finetune.saturation}%`
                 : `${cameraEffect.finetune.saturation}%`}
             </span>
           </div>
           <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/35 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1.5px_2px_rgba(255,255,255,0.85),inset_0_-1px_2px_rgba(0,0,0,0.8)] px-4 flex items-center overflow-hidden">
-            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+            <div className="absolute top-0 inset-x-5 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -402,13 +402,13 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2">
+          <label className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
             <CyberGlassOrb icon={Maximize2} size="xs" variant="cyan" />
             <span>Target Resolusi Sensor</span>
           </label>
-          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-[#020e1f] border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-[#020e1f] border border-white/30 shadow-[0_2px_6px_rgba(0,0,0,0.5)] drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
             AUTO
           </span>
         </div>
@@ -428,7 +428,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                 className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 relative overflow-hidden ${
                   isSelected
                     ? 'bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-white/50 text-white shadow-[0_4px_16px_rgba(0,0,0,0.7),inset_0_1.5px_2px_rgba(255,255,255,0.8)]'
-                    : 'bg-[#020717]/60 text-slate-200 hover:text-white border-white/10 hover:border-white/30'
+                    : 'bg-[#020717]/60 text-slate-100 hover:text-white border-white/10 hover:border-white/30'
                 } ${!presetItem.supported ? 'opacity-50' : ''}`}
               >
                 <div
@@ -442,20 +442,20 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs font-bold text-white">
+                    <span className="text-xs font-bold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.3)]">
                       {presetItem.title}
                     </span>
                     <span
                       className={`text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold shrink-0 ${
                         isSelected
-                          ? 'bg-[#020e1f] text-cyan-300 border border-white/30'
+                          ? 'bg-[#020e1f] text-cyan-300 border border-white/30 drop-shadow-[0_0_5px_rgba(34,211,238,0.75)]'
                           : 'bg-[#020717] text-slate-300 border border-white/10'
                       }`}
                     >
                       {presetItem.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-200 mt-0.5 leading-relaxed font-medium">
+                  <p className="text-[11px] text-slate-200 mt-0.5 leading-relaxed font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                     {presetItem.desc}
                   </p>
                 </div>
@@ -471,15 +471,15 @@ export const CameraTab: React.FC<CameraTabProps> = ({
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent z-20" />
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-100/80 to-transparent z-20" />
         
         {/* Kompresi */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-white">
+            <label className="text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
               Kualitas Kompresi JPEG
             </label>
-            <span className="text-[10px] text-cyan-300 font-mono font-bold">
+            <span className="text-[10px] text-cyan-300 font-mono font-bold drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
               Canvas Export
             </span>
           </div>
@@ -503,10 +503,10 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
                     isSelected
                       ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
-                      : 'bg-[#020717]/60 text-slate-200 hover:text-white border-white/10 hover:border-white/30 font-bold'
+                      : 'bg-[#020717]/60 text-slate-100 hover:text-white border-white/10 hover:border-white/30 font-bold'
                   }`}
                 >
-                  <span className="text-xs font-bold">{tier.label}</span>
+                  <span className={`text-xs font-bold ${isSelected ? 'drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>{tier.label}</span>
                   <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-300 font-medium'}`}>
                     {tier.sub}
                   </span>
@@ -519,14 +519,14 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         {/* Denoise */}
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="text-xs font-bold uppercase tracking-wider text-white">
+            <label className="text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.95)] drop-shadow-[0_0_6px_rgba(255,255,255,0.35)]">
               Penghalus Derau (Denoise)
             </label>
-            <span className="text-[10px] text-cyan-300 font-bold">
+            <span className="text-[10px] text-cyan-300 font-bold drop-shadow-[0_0_6px_rgba(34,211,238,0.75)]">
               Anti Pasir Halus
             </span>
           </div>
-          <p className="text-[11px] text-slate-200 mb-2.5 font-medium">
+          <p className="text-[11px] text-slate-200 mb-2.5 font-medium drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
             Menghilangkan butiran pasir semut TV (sensor grain) agar foto terlihat mulus dan jernih.
           </p>
           <div className="grid grid-cols-3 gap-2">
@@ -549,10 +549,10 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
                     isSelected
                       ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-black font-black border border-white/90 shadow-[0_2px_8px_rgba(0,0,0,0.6),inset_0_1.5px_2px_rgba(255,255,255,0.95)]'
-                      : 'bg-[#020717]/60 text-slate-200 hover:text-white border-white/10 hover:border-white/30 font-bold'
+                      : 'bg-[#020717]/60 text-slate-100 hover:text-white border-white/10 hover:border-white/30 font-bold'
                   }`}
                 >
-                  <span className="text-xs font-bold">{mode.label}</span>
+                  <span className={`text-xs font-bold ${isSelected ? 'drop-shadow-[0_1px_1px_rgba(255,255,255,0.6)]' : 'drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'}`}>{mode.label}</span>
                   <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-300 font-medium'}`}>
                     {mode.sub}
                   </span>
