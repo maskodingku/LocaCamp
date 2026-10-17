@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   X,
   Sparkles,
@@ -24,6 +24,7 @@ import { CameraTab } from './CameraTab'
 import { GoogleDriveTab } from './GoogleDriveTab'
 import { AboutTab } from './AboutTab'
 import { LivePreviewDock } from './LivePreviewDock'
+import { CyberGlassBackground } from './CyberGlassBackground'
 
 interface SettingsDrawerProps {
   isOpen: boolean
@@ -43,6 +44,14 @@ interface SettingsDrawerProps {
   drive: ReturnType<typeof useGoogleDrive>
   onPreviewModeChange?: (isActive: boolean) => void
 }
+
+const TABS = [
+  { id: 'watermark', label: 'BASIC', icon: Sparkles },
+  { id: 'geotag', label: 'GEOTAG', icon: MapPin },
+  { id: 'camera', label: 'KAMERA', icon: Camera },
+  { id: 'drive', label: 'DRIVE', icon: Cloud },
+  { id: 'about', label: 'ABOUT', icon: Info },
+] as const
 
 export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
   isOpen,
@@ -124,182 +133,182 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
         />
       )}
 
+      {/* Backdrop Gelap dengan Blur */}
       <div
-        className={`fixed inset-0 flex items-stretch md:items-center justify-center transition-all duration-200 ${
+        className={`fixed inset-0 flex items-center justify-center p-2 sm:p-4 transition-all duration-200 ${
           activePreviewInput
             ? 'bg-transparent pointer-events-none z-0 hidden'
             : activeSlider
             ? 'bg-black/25 backdrop-blur-none pointer-events-auto z-[100]'
-            : 'bg-black/70 backdrop-blur-md animate-in fade-in z-50'
+            : 'bg-black/80 backdrop-blur-md animate-in fade-in z-50'
         }`}
       >
+        {/* Main Modal Cyber Glassmorphism Container */}
         <div
-          className={`w-full md:max-w-xl h-full md:h-auto md:max-h-[88vh] rounded-none md:rounded-3xl flex flex-col text-white transition-all duration-200 ${
+          className={`w-full max-w-xl max-h-[96vh] sm:max-h-[92vh] rounded-[28px] sm:rounded-[34px] flex flex-col text-white transition-all duration-200 relative overflow-hidden ${
             activeSlider
               ? 'bg-transparent border-transparent shadow-none overflow-visible'
-              : 'bg-zinc-950 border-0 md:border md:border-zinc-800 shadow-2xl overflow-hidden animate-in fade-in md:slide-in-from-bottom-6 duration-200'
+              : 'border-2 border-cyan-400 shadow-[0_0_28px_rgba(6,182,212,0.65),inset_0_0_16px_rgba(6,182,212,0.25)]'
           }`}
+          style={
+            activeSlider
+              ? undefined
+              : {
+                  background: 'radial-gradient(ellipse at 50% 0%, #073549 0%, #031c26 45%, #010d14 100%)',
+                }
+          }
           onClick={e => e.stopPropagation()}
         >
-        {/* Header */}
-        <div
-          className={`items-center justify-between px-5 md:px-6 py-3.5 md:py-4 pt-[max(0.875rem,env(safe-area-inset-top))] border-b border-zinc-800 shrink-0 transition-opacity duration-150 ${
-            activeSlider ? 'hidden' : 'flex'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <Sliders className="w-5 h-5 text-zinc-400" />
-            <h2 className="text-base font-semibold text-white">Pengaturan Foto &amp; Tampilan</h2>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+          {/* Ambient Lighting Orbs di Bagian Atas */}
+          <div className="pointer-events-none absolute -top-12 -left-12 w-36 h-36 bg-cyan-500/20 rounded-full blur-3xl z-0" />
+          <div className="pointer-events-none absolute -top-12 -right-12 w-36 h-36 bg-rose-500/15 rounded-full blur-3xl z-0" />
 
-        {/* Tab Buttons */}
-        <div
-          className={`grid-cols-5 border-b border-zinc-800 px-1 md:px-6 bg-zinc-900/50 shrink-0 transition-opacity duration-150 ${
-            activeSlider ? 'hidden' : 'grid'
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => setActiveTab('watermark')}
-            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
-              activeTab === 'watermark'
-                ? 'border-white text-white'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200'
+          {/* Header Bar */}
+          <div
+            className={`items-center justify-between px-4 sm:px-6 pt-3.5 sm:pt-4 pb-2.5 shrink-0 transition-opacity duration-150 relative z-20 ${
+              activeSlider ? 'hidden' : 'flex'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Basic</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('geotag')}
-            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
-              activeTab === 'geotag'
-                ? 'border-white text-white'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Geotag</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('camera')}
-            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
-              activeTab === 'camera'
-                ? 'border-white text-white'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            <Camera className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Kamera</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('drive')}
-            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
-              activeTab === 'drive'
-                ? 'border-white text-white'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            <Cloud className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Drive</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveTab('about')}
-            className={`py-3 px-1 md:px-2 text-[10px] sm:text-[11px] md:text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 border-b-2 transition-all ${
-              activeTab === 'about'
-                ? 'border-white text-white'
-                : 'border-transparent text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            <Info className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">About</span>
-          </button>
-        </div>
+            {/* Equalizer/Sliders Neon Icon + Judul */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 flex items-center justify-center text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)] shrink-0">
+                <Sliders className="w-6 h-6 stroke-[2.2]" />
+              </div>
+              <h2 className="text-base sm:text-lg font-bold text-white tracking-wide drop-shadow-sm truncate">
+                Pengaturan Foto &amp; Tampilan
+              </h2>
+            </div>
 
-        {/* Tab Content */}
-        <div
-          className={`transition-all duration-150 ${
-            activeSlider
-              ? 'p-4 sm:p-6 overflow-visible'
-              : 'flex-1 overflow-y-auto p-3.5 sm:p-6 space-y-4 sm:space-y-6'
-          }`}
-        >
-          {activeTab === 'watermark' ? (
-            <WatermarkTab
-              watermark={watermark}
-              onChangeWatermark={onChangeWatermark}
-              profile={profile}
-              onChangeProfile={onChangeProfile}
-              activeSlider={activeSlider}
-              setActiveSlider={setActiveSlider}
-              onTriggerPreview={id => setActivePreviewInput(id)}
-            />
-          ) : activeTab === 'geotag' ? (
-            <GeotagTab
-              geotagConfig={geotagConfig}
-              onChangeGeotagConfig={onChangeGeotagConfig}
-              onTriggerPreview={id => setActivePreviewInput(id)}
-            />
-          ) : activeTab === 'camera' ? (
-            <CameraTab
-              sensorInfo={sensorInfo}
-              cameraEffect={cameraEffect}
-              onChangeCameraEffect={onChangeCameraEffect}
-              cameraQualityConfig={cameraQualityConfig}
-              onChangeCameraQualityConfig={onChangeCameraQualityConfig}
-              activeSlider={activeSlider}
-              setActiveSlider={setActiveSlider}
-            />
-          ) : activeTab === 'drive' ? (
-            <GoogleDriveTab
-              drive={drive}
-              activeSlider={activeSlider}
-            />
-          ) : (
-            <AboutTab />
-          )}
-        </div>
-
-        {/* Footer */}
-        <div
-          className={`${
-            activeSlider ? 'hidden' : 'flex'
-          } p-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-zinc-800 bg-zinc-950 items-center justify-between gap-3 shrink-0 transition-opacity duration-150`}
-        >
-          {onResetSettings ? (
+            {/* Glowing Red/Rose Circular Close Orb */}
             <button
               type="button"
-              onClick={onResetSettings}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-white font-medium text-xs transition-colors active:scale-95"
-              title="Kembalikan semua setelan ke awal"
+              onClick={onClose}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 border-rose-500/80 text-rose-100 hover:text-white transition-all duration-150 hover:scale-105 active:scale-95 cursor-pointer shadow-[0_0_16px_rgba(244,63,94,0.75),inset_0_0_10px_rgba(244,63,94,0.45)] shrink-0 ml-2"
+              style={{
+                background: 'radial-gradient(circle at 35% 35%, #881337 0%, #4c0519 65%, #1f0208 100%)',
+              }}
+              title="Tutup Pengaturan"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Default</span>
+              <X className="w-5 h-5 font-extrabold stroke-[2.5]" />
             </button>
-          ) : <div />}
+          </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full md:w-auto px-6 py-2.5 rounded-xl bg-white text-zinc-950 font-semibold text-sm hover:bg-zinc-200 transition-colors shadow-lg active:scale-95"
+          {/* Tab Navigation Bar (Pill Capsules) */}
+          <div
+            className={`px-3 sm:px-5 shrink-0 transition-opacity duration-150 relative z-20 ${
+              activeSlider ? 'hidden' : 'block'
+            }`}
           >
-            Selesai
-          </button>
+            <div className="p-1 sm:p-1.5 rounded-2xl bg-black/45 border border-cyan-950/80 backdrop-blur-md flex items-center justify-between gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar">
+              {TABS.map(tab => {
+                const active = activeTab === tab.id
+                const Icon = tab.icon
+                return (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 py-1.5 sm:py-2 px-1.5 sm:px-3 rounded-xl text-[10px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1 sm:gap-1.5 transition-all relative ${
+                      active
+                        ? 'bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-400 text-zinc-950 font-black shadow-[0_0_16px_rgba(34,211,238,0.85)] border border-cyan-100/80'
+                        : 'bg-[#052230]/60 hover:bg-[#083344]/80 text-cyan-200/80 hover:text-cyan-100 border border-cyan-800/40 hover:border-cyan-500/50'
+                    }`}
+                  >
+                    <Icon className={`w-3.5 h-3.5 shrink-0 ${active ? 'text-zinc-950' : 'text-cyan-400'}`} />
+                    <span className="truncate">{tab.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Glowing Neon Separator Line */}
+            <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_8px_rgba(34,211,238,0.9)] mt-2.5 mb-2" />
+          </div>
+
+          {/* Inner Glass Viewport (With 3D Bubbles & Specular Flares) */}
+          <div
+            className={`relative flex-1 mx-2 sm:mx-4 mb-2 sm:mb-3 rounded-[20px] sm:rounded-[24px] border border-cyan-400/50 overflow-hidden flex flex-col transition-all duration-150 ${
+              activeSlider
+                ? 'border-transparent bg-transparent shadow-none'
+                : 'shadow-[0_0_20px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.15)]'
+            }`}
+          >
+            {/* Cyber Liquid Glass Background with 3D Bubbles and Glints */}
+            {!activeSlider && <CyberGlassBackground />}
+
+            {/* Scrollable Tab Content Container */}
+            <div
+              className={`relative z-10 flex-1 overflow-y-auto p-3 sm:p-5 space-y-4 scrollbar-thin scrollbar-thumb-cyan-500/40 scrollbar-track-transparent transition-all duration-150 ${
+                activeSlider ? 'p-0 overflow-visible' : ''
+              }`}
+            >
+              {activeTab === 'watermark' ? (
+                <WatermarkTab
+                  watermark={watermark}
+                  onChangeWatermark={onChangeWatermark}
+                  profile={profile}
+                  onChangeProfile={onChangeProfile}
+                  activeSlider={activeSlider}
+                  setActiveSlider={setActiveSlider}
+                  onTriggerPreview={id => setActivePreviewInput(id)}
+                />
+              ) : activeTab === 'geotag' ? (
+                <GeotagTab
+                  geotagConfig={geotagConfig}
+                  onChangeGeotagConfig={onChangeGeotagConfig}
+                  onTriggerPreview={id => setActivePreviewInput(id)}
+                />
+              ) : activeTab === 'camera' ? (
+                <CameraTab
+                  sensorInfo={sensorInfo}
+                  cameraEffect={cameraEffect}
+                  onChangeCameraEffect={onChangeCameraEffect}
+                  cameraQualityConfig={cameraQualityConfig}
+                  onChangeCameraQualityConfig={onChangeCameraQualityConfig}
+                  activeSlider={activeSlider}
+                  setActiveSlider={setActiveSlider}
+                />
+              ) : activeTab === 'drive' ? (
+                <GoogleDriveTab
+                  drive={drive}
+                  activeSlider={activeSlider}
+                />
+              ) : (
+                <AboutTab />
+              )}
+            </div>
+
+            {/* Footer Bar */}
+            <div
+              className={`${
+                activeSlider ? 'hidden' : 'flex'
+              } p-3 sm:p-3.5 border-t border-cyan-900/50 bg-[#020e17]/85 backdrop-blur-md items-center justify-between gap-3 shrink-0 relative z-20`}
+            >
+              {onResetSettings ? (
+                <button
+                  type="button"
+                  onClick={onResetSettings}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-cyan-900/60 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300 hover:text-cyan-100 font-medium text-xs transition-colors active:scale-95 cursor-pointer shadow-sm"
+                  title="Kembalikan semua setelan ke awal"
+                >
+                  <RotateCcw className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Reset Default</span>
+                </button>
+              ) : (
+                <div />
+              )}
+
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-400 via-cyan-300 to-teal-400 text-zinc-950 font-black text-xs sm:text-sm tracking-wide hover:brightness-110 transition-all shadow-[0_0_16px_rgba(34,211,238,0.7)] active:scale-95 cursor-pointer"
+              >
+                Selesai
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </>
-)
+    </>
+  )
 }
