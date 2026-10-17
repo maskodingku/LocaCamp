@@ -31,7 +31,7 @@ export const AboutTab: React.FC = () => {
   return (
     <div className="space-y-4 animate-in fade-in duration-200">
       {/* 1. App Overview Header Card (Dark Cyber Glass HUD) */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-start gap-4">
           <img
@@ -67,7 +67,7 @@ export const AboutTab: React.FC = () => {
       </div>
 
       {/* 2. Developer Profile Card */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3.5">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden space-y-3.5">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
           <CyberGlassOrb icon={Terminal} size="xs" variant="cyan" />
@@ -92,19 +92,19 @@ export const AboutTab: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 pt-1 flex-wrap">
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f]/70 text-cyan-200 border border-cyan-400/50 shadow-sm backdrop-blur-md">
             ⚡ Node.js &amp; TypeScript
           </span>
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f]/70 text-cyan-200 border border-cyan-400/50 shadow-sm backdrop-blur-md">
             🦀 Rust Systems Engineering
           </span>
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f]/70 text-cyan-200 border border-cyan-400/50 shadow-sm backdrop-blur-md">
             ⚛️ React &amp; Canvas Engine
           </span>
         </div>
 
         {/* Company Affiliation */}
-        <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-[#020d1c]/70 border border-cyan-500/25 text-xs text-slate-300">
+        <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25 text-xs text-slate-300">
           <Building2 className="w-4 h-4 text-cyan-400 shrink-0" />
           <div>
             <span className="text-slate-400">Institusi / Perusahaan:</span>{' '}
@@ -114,7 +114,7 @@ export const AboutTab: React.FC = () => {
       </div>
 
       {/* 3. Dedication & Corporate Appreciation Card */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center gap-2 text-xs font-semibold text-cyan-300">
           <Heart className="w-4 h-4 fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
@@ -137,7 +137,7 @@ export const AboutTab: React.FC = () => {
       </div>
 
       {/* 4. Official GitHub Repository Card */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#020e1f] border border-cyan-400/60 flex items-center justify-center text-white shrink-0 shadow-[0_0_10px_rgba(6,182,212,0.4)]">

@@ -59,7 +59,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
   return (
     <div className="space-y-4">
       {/* CARD HUD CYBER GLASS GEOTAG */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white overflow-hidden">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white overflow-hidden">
         
         {/* 3D Glass Ambient Bubbles di Sudut Card */}
         <div
@@ -83,7 +83,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
         <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
 
         {/* Header Section Geotag */}
-        <div className="w-full flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/60 backdrop-blur-md rounded-t-[21px] relative z-10">
+        <div className="w-full flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/40 backdrop-blur-md rounded-t-[21px] relative z-10">
           <div className="flex items-center gap-2.5 min-w-0">
             <CyberGlassOrb
               icon={MapPin}
@@ -139,7 +139,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                 return (
                   <label
                     key={item.key}
-                    className="flex items-center justify-between p-3 rounded-2xl border border-cyan-500/25 bg-[#020d1c]/70 hover:bg-[#03152e]/80 cursor-pointer transition-all shadow-inner group"
+                    className="flex items-center justify-between p-3 rounded-2xl border border-cyan-500/25 bg-[#020b18]/45 hover:bg-[#03152e]/55 backdrop-blur-md cursor-pointer transition-all shadow-inner group"
                   >
                     <div className="min-w-0 pr-3">
                       <p className="text-xs sm:text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
@@ -192,7 +192,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2 p-2.5 bg-[#020d1c]/70 rounded-2xl border border-cyan-500/25">
+            <div className="grid grid-cols-2 gap-2 p-2.5 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-cyan-500/25">
               {POSITIONS.map(pos => {
                 const active = geotagConfig.position === pos.id
                 return (
@@ -205,7 +205,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                     className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border relative overflow-hidden ${
                       active
                         ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
-                        : 'bg-[#020717]/60 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                        : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                     }`}
                   >
                     <span className="truncate">{pos.label}</span>
@@ -237,7 +237,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020d1c]/80 rounded-full border border-cyan-500/25">
+            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020b18]/45 backdrop-blur-md rounded-full border border-cyan-500/25">
               {FONT_SIZES.map(item => {
                 const active = (geotagConfig.fontSize || 'medium') === item.id
                 return (

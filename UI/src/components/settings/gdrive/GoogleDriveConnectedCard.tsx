@@ -20,7 +20,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
   return (
     <div className="space-y-4">
       {/* 1. Kartu Profil Google Terhubung */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 overflow-hidden">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center justify-between mb-3.5">
           <span className="text-[11px] font-bold tracking-wider text-cyan-300 uppercase flex items-center gap-1.5 font-mono">
@@ -62,7 +62,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       </div>
 
       {/* 2. Pengaturan Folder Target (Terkunci Permanen) */}
-      <div className="space-y-2 p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25">
+      <div className="space-y-2 p-4 rounded-[22px] bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25">
         <div className="flex items-center justify-between">
           <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
             Nama Folder Penyimpanan
@@ -72,7 +72,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             Otomatis Dibuat
           </span>
         </div>
-        <div className="flex items-center justify-between px-4 py-2.5 rounded-full bg-[#020717]/90 border border-cyan-400/50 text-white select-none">
+        <div className="flex items-center justify-between px-4 py-2.5 rounded-full bg-[#020717]/60 backdrop-blur-md border border-cyan-400/50 text-white select-none">
           <div className="flex items-center gap-2.5 min-w-0">
             <Folder className="w-4 h-4 text-cyan-400 shrink-0" />
             <span className="text-xs sm:text-sm font-bold text-white tracking-wide truncate">
@@ -90,7 +90,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       </div>
 
       {/* 3. Toggle Auto-Upload */}
-      <div className="p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25 flex items-center justify-between">
+      <div className="p-4 rounded-[22px] bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25 flex items-center justify-between">
         <div>
           <p className="text-xs font-bold text-white">Upload Otomatis Saat Jepret</p>
           <p className="text-[11px] text-slate-400 mt-0.5">
@@ -109,7 +109,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       </div>
 
       {/* 4. Pengaturan Batas Antrian Bulk Upload */}
-      <div className="space-y-2 p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25">
+      <div className="space-y-2 p-4 rounded-[22px] bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25">
         <div className="flex items-center justify-between">
           <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
             Batas Upload Bersamaan
@@ -138,7 +138,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
                 className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
                   isSelected
                     ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
-                    : 'bg-[#020717]/60 border-cyan-900/60 text-slate-300 hover:text-white hover:border-cyan-500/50'
+                    : 'bg-[#020717]/40 border-cyan-900/60 text-slate-300 hover:text-white hover:border-cyan-500/50'
                 }`}
               >
                 <div className={`text-xs font-bold ${isSelected ? 'text-[#020b18]' : 'text-white'}`}>

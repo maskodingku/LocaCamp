@@ -122,7 +122,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
     <div className="space-y-4 animate-in fade-in duration-200">
       {/* 1. Sensor Hardware Detection Card */}
       <div
-        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -170,7 +170,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 2. Efek Visual & Filter Warna */}
       <div
-        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -204,7 +204,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                 className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between relative overflow-hidden ${
                   isSelected
                     ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_14px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
-                    : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                    : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1">
@@ -398,7 +398,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 4. Target Resolusi Sensor */}
       <div
-        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -428,7 +428,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                 className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 relative overflow-hidden ${
                   isSelected
                     ? 'bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-cyan-400 text-white shadow-[0_0_14px_rgba(6,182,212,0.4),inset_0_1px_2px_rgba(255,255,255,0.7)]'
-                    : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                    : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                 } ${!presetItem.supported ? 'opacity-50' : ''}`}
               >
                 <div
@@ -467,7 +467,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
 
       {/* 5. Kompresi JPEG & Denoise */}
       <div
-        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 space-y-4 ${
+        className={`relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 space-y-4 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
@@ -503,7 +503,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
                     isSelected
                       ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
-                      : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                      : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                   }`}
                 >
                   <span className="text-xs">{tier.label}</span>
@@ -549,7 +549,7 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
                     isSelected
                       ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
-                      : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                      : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                   }`}
                 >
                   <span className="text-xs">{mode.label}</span>

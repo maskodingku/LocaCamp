@@ -23,7 +23,7 @@ export const GoogleDriveAdvancedSettings: React.FC<GoogleDriveAdvancedSettingsPr
   const [showTutorial, setShowTutorial] = useState(false)
 
   return (
-    <div className="rounded-[22px] border border-cyan-400/30 bg-[#020d1c]/70 overflow-hidden shadow-sm">
+    <div className="rounded-[22px] border border-cyan-400/30 bg-[#020b18]/45 backdrop-blur-md overflow-hidden shadow-sm">
       {/* Header Accordion */}
       <button
         type="button"
@@ -71,13 +71,13 @@ export const GoogleDriveAdvancedSettings: React.FC<GoogleDriveAdvancedSettingsPr
                 onChange={(e) => setInputClientId(e.target.value)}
                 onBlur={onSaveClientId}
                 placeholder="xxxx-xxxx.apps.googleusercontent.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-[#020717]/80 border border-cyan-400/50 text-white text-xs placeholder:text-cyan-200/40 focus:outline-none focus:border-cyan-300 transition-colors font-mono"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-[#020717]/60 backdrop-blur-md border border-cyan-400/50 text-white text-xs placeholder:text-cyan-200/40 focus:outline-none focus:border-cyan-300 transition-colors font-mono"
               />
             </div>
           </div>
 
           {showTutorial && (
-            <div className="p-3.5 rounded-2xl bg-[#020717]/90 border border-cyan-500/30 text-[11px] text-slate-300 space-y-1.5 shadow-inner">
+            <div className="p-3.5 rounded-2xl bg-[#020717]/50 backdrop-blur-md border border-cyan-500/30 text-[11px] text-slate-300 space-y-1.5 shadow-inner">
               <p className="font-bold text-white">Langkah Pengaturan Google Cloud Console:</p>
               <ol className="list-decimal pl-4 space-y-1 text-slate-400">
                 <li>

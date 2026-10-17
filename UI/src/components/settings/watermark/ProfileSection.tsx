@@ -90,12 +90,12 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
   return (
     <div
-      className={`relative rounded-[22px] border border-cyan-400/40 transition-all duration-150 overflow-hidden ${
+      className={`relative rounded-[22px] border border-cyan-400/35 transition-all duration-150 overflow-hidden ${
         activeSlider === 'profile_size'
           ? 'border-transparent bg-transparent shadow-none p-0 overflow-visible space-y-0'
           : activeSlider
           ? 'hidden'
-          : 'bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white'
+          : 'bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white'
       }`}
     >
       {/* 3D Glass Ambient Bubbles di Sudut Card */}
@@ -121,7 +121,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
       {/* Header Section dengan Switch On/Off */}
       <div
-        className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/60 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
+        className={`w-full items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/40 backdrop-blur-md rounded-t-[21px] transition-opacity duration-150 relative z-10 ${
           activeSlider ? 'hidden' : 'flex'
         }`}
       >
@@ -326,7 +326,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
               )}
             </div>
 
-            <div className="space-y-2 p-3 bg-[#020d1c]/70 rounded-2xl border border-cyan-500/25">
+            <div className="space-y-2 p-3 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-cyan-500/25">
               {/* Opsi Utama: Di Atas Geotag */}
               <button
                 type="button"
@@ -334,7 +334,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 className={`w-full py-2.5 px-3.5 rounded-full text-xs font-bold transition-all flex items-center justify-between border relative overflow-hidden ${
                   isAboveGeotag
                     ? 'bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-cyan-400 text-white shadow-[0_0_14px_rgba(6,182,212,0.5),inset_0_1px_2px_rgba(255,255,255,0.7)]'
-                    : 'bg-[#020717]/60 border border-cyan-500/30 text-slate-300 hover:text-white hover:border-cyan-400/60'
+                    : 'bg-[#020717]/40 border border-cyan-500/30 text-slate-300 hover:text-white hover:border-cyan-400/60'
                 }`}
               >
                 {isAboveGeotag && (
@@ -371,7 +371,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       className={`py-2 px-1 rounded-xl text-[11px] sm:text-xs font-medium transition-all flex items-center justify-center gap-1 truncate relative overflow-hidden border ${
                         active
                           ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
-                          : 'bg-[#020717]/60 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                          : 'bg-[#020717]/40 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                       }`}
                     >
                       <span className={`font-bold shrink-0 ${active ? 'text-[#020b18]' : 'text-cyan-400'}`}>
@@ -406,7 +406,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020d1c]/80 rounded-full border border-cyan-500/25">
+            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020b18]/45 backdrop-blur-md rounded-full border border-cyan-500/25">
               {FONT_WEIGHTS.map(fw => {
                 const active = (profile.fontWeight || 'medium') === fw.id
                 return (
@@ -434,7 +434,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Pengaturan Garis Tepi (Border Profil) */}
           <div
-            className={`p-3 sm:p-3.5 rounded-2xl bg-[#020d1c]/70 border border-cyan-500/25 flex items-center justify-between gap-3 transition-opacity duration-150 ${
+            className={`p-3 sm:p-3.5 rounded-2xl bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25 flex items-center justify-between gap-3 transition-opacity duration-150 ${
               activeSlider ? 'hidden' : 'flex'
             }`}
           >
@@ -515,7 +515,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2 sm:p-2.5 bg-[#020d1c]/70 rounded-2xl border border-cyan-500/25">
+            <div className="p-2 sm:p-2.5 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-cyan-500/25">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_BG_PRESETS.map(preset => {
                   const active = currentBg === preset.id
@@ -532,7 +532,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
                           ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
-                          : 'border-cyan-950/40 bg-[#020717]/60 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
+                          : 'border-cyan-950/40 bg-[#020717]/40 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
                       }`}
                       title={preset.label}
                     >
@@ -563,7 +563,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
                     isCustomBg
                       ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
-                      : 'border-cyan-950/40 bg-[#020717]/60 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
+                      : 'border-cyan-950/40 bg-[#020717]/40 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
                   }`}
                   title="Pilih Warna Bebas Kustom"
                 >
@@ -618,7 +618,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 </button>
               )}
             </div>
-            <div className="p-2 sm:p-2.5 bg-[#020d1c]/70 rounded-2xl border border-cyan-500/25">
+            <div className="p-2 sm:p-2.5 bg-[#020b18]/45 backdrop-blur-md rounded-2xl border border-cyan-500/25">
               <div className="grid grid-cols-5 gap-1.5">
                 {PROFILE_TEXT_PRESETS.map(preset => {
                   const active = currentText === preset.id
@@ -635,7 +635,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                       className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border ${
                         active
                           ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
-                          : 'border-cyan-950/40 bg-[#020717]/60 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
+                          : 'border-cyan-950/40 bg-[#020717]/40 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
                       }`}
                       title={preset.label}
                     >
@@ -663,7 +663,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                   className={`h-11 sm:h-12 flex flex-col items-center justify-center p-1 rounded-xl transition-all border cursor-pointer relative ${
                     isCustomText
                       ? 'border-cyan-400 bg-cyan-500/25 text-cyan-200 ring-1 ring-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.4)]'
-                      : 'border-cyan-950/40 bg-[#020717]/60 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
+                      : 'border-cyan-950/40 bg-[#020717]/40 text-slate-400 hover:border-cyan-800 hover:text-slate-200'
                   }`}
                   title="Pilih Warna Teks Bebas Kustom"
                 >
@@ -766,7 +766,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
 
           {/* Mini Preview Profil (Clean HUD Glass Box) */}
           <div
-            className={`p-3 rounded-2xl bg-[#020d1c]/70 border border-cyan-500/25 transition-opacity duration-150 space-y-2 ${
+            className={`p-3 rounded-2xl bg-[#020b18]/45 backdrop-blur-md border border-cyan-500/25 transition-opacity duration-150 space-y-2 ${
               activeSlider ? 'hidden' : 'block'
             }`}
           >
@@ -778,7 +778,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
                 {profile.fontSize || 13}px • {profile.fontWeight || 'medium'}
               </span>
             </div>
-            <div className="p-3 rounded-xl bg-[#020717]/80 border border-cyan-900/60 flex items-center justify-center overflow-x-auto min-h-[52px] shadow-inner relative">
+            <div className="p-3 rounded-xl bg-[#020717]/40 backdrop-blur-md border border-cyan-500/30 flex items-center justify-center overflow-x-auto min-h-[52px] shadow-inner relative">
               <div
                 style={{
                   fontFamily: getFontFamilyStyle(profile.fontFamily),

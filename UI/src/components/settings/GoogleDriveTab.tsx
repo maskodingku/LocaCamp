@@ -52,7 +52,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
       }`}
     >
       {/* 1. Header Banner Keamanan & Privasi (Dark Cyber Glass HUD) */}
-      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 overflow-hidden">
+      <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-4 overflow-hidden">
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-start gap-3">
           <CyberGlassOrb icon={ShieldCheck} size="md" variant="cyan" />
@@ -89,10 +89,10 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
       ) : (
         <div className="space-y-4">
           {/* Hero Card 1-Click Connect Ramah Pengguna Awam */}
-          <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-5 sm:p-6 text-center space-y-4 overflow-hidden">
+          <div className="relative rounded-[22px] border border-cyan-400/35 bg-[#03152e]/35 backdrop-blur-xl shadow-[0_10px_35px_rgba(0,0,0,0.5),0_0_20px_rgba(6,182,212,0.15),inset_0_1.5px_2px_rgba(255,255,255,0.5)] text-white p-5 sm:p-6 text-center space-y-4 overflow-hidden">
             <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
             
-            <div className="inline-flex p-3 rounded-2xl bg-[#020d1c]/80 border border-cyan-400/50 shadow-[0_0_14px_rgba(6,182,212,0.35)]">
+            <div className="inline-flex p-3 rounded-2xl bg-[#020b18]/50 backdrop-blur-md border border-cyan-400/50 shadow-[0_0_14px_rgba(6,182,212,0.35)]">
               <GoogleDriveIcon className="w-9 h-9" />
             </div>
 

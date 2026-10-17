@@ -149,13 +149,16 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           className={`w-full sm:max-w-xl h-full sm:h-auto sm:max-h-[92vh] rounded-none sm:rounded-[34px] flex flex-col text-white transition-all duration-200 relative overflow-hidden ${
             activeSlider
               ? 'bg-transparent border-transparent shadow-none overflow-visible'
-              : 'border-0 sm:border-2 border-cyan-400 shadow-none sm:shadow-[0_0_28px_rgba(6,182,212,0.65),inset_0_0_16px_rgba(6,182,212,0.25)]'
+              : 'border-0 sm:border border-cyan-400/50 shadow-none sm:shadow-[0_0_35px_rgba(6,182,212,0.35),0_20px_50px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)]'
           }`}
           style={
             activeSlider
               ? undefined
               : {
-                background: 'radial-gradient(ellipse at 50% 0%, #031424 0%, #020b14 55%, #01060a 100%)',
+                background:
+                  'linear-gradient(180deg, rgba(3, 20, 36, 0.72) 0%, rgba(2, 11, 20, 0.65) 50%, rgba(1, 6, 10, 0.78) 100%)',
+                backdropFilter: 'blur(32px)',
+                WebkitBackdropFilter: 'blur(32px)',
               }
           }
           onClick={e => e.stopPropagation()}
@@ -212,7 +215,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
               activeSlider ? 'hidden' : 'block'
             }`}
           >
-            <div className="p-1 sm:p-1.5 rounded-full bg-[#020717]/85 border border-cyan-400/50 backdrop-blur-2xl shadow-[0_0_20px_rgba(6,182,212,0.25),inset_0_1.5px_2px_rgba(255,255,255,0.65)] flex items-center justify-between gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar relative">
+            <div className="p-1 sm:p-1.5 rounded-full bg-[#020717]/60 border border-cyan-400/40 backdrop-blur-2xl shadow-[0_0_18px_rgba(6,182,212,0.2),inset_0_1.5px_2px_rgba(255,255,255,0.6)] flex items-center justify-between gap-1 sm:gap-1.5 overflow-x-auto no-scrollbar relative">
               {TABS.map(tab => {
                 const active = activeTab === tab.id
                 const Icon = tab.icon
@@ -291,7 +294,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
             <div
               className={`${
                 activeSlider ? 'hidden' : 'flex'
-              } p-3 sm:p-3.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:pb-3.5 border-t border-cyan-500/20 bg-[#020717]/90 backdrop-blur-2xl items-center justify-between gap-3 shrink-0 relative z-20`}
+              } p-3 sm:p-3.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:pb-3.5 border-t border-cyan-500/25 bg-[#020717]/65 backdrop-blur-2xl items-center justify-between gap-3 shrink-0 relative z-20`}
             >
               {onResetSettings ? (
                 <button
