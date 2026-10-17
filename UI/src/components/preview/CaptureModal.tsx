@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   Download,
   RotateCcw,
@@ -8,6 +8,7 @@ import {
   MapPin,
   X,
   Loader2,
+  FileImage,
 } from 'lucide-react'
 import type { CapturedPhoto } from '../../types/camera'
 import { formatTimeWithTimezone } from '../../utils/timezone'
@@ -131,6 +132,17 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
   })
   const timeFormatted = formatTimeWithTimezone(photo.timestamp, photo.location.longitude)
 
+  // Menghitung ukuran file dari dataUrl base64
+  const fileSizeFormatted = useMemo(() => {
+    if (!photo.dataUrl) return ''
+    const base64Data = photo.dataUrl.split(',')[1] || ''
+    const padding = base64Data.endsWith('==') ? 2 : base64Data.endsWith('=') ? 1 : 0
+    const bytes = Math.round((base64Data.length * 3) / 4 - padding)
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
+  }, [photo.dataUrl])
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex items-center justify-center p-0 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-in fade-in select-none">
       {isLandscape ? (
@@ -184,6 +196,12 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
                     <Calendar className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
                   </div>
                   <span>{dateFormatted} • {timeFormatted}</span>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-200/90 font-mono text-[11px] pt-1.5 border-t border-cyan-500/20">
+                  <div className="w-4 h-4 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_6px_rgba(52,211,153,0.3)]">
+                    <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+                  </div>
+                  <span>{fileSizeFormatted} • {photo.width}×{photo.height} px</span>
                 </div>
               </div>
             </div>
@@ -307,12 +325,12 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
           </div>
 
           {/* Photo Details Banner - Cyber Glassmorphism HUD Strip */}
-          <div className="shrink-0 px-3.5 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border-t border-cyan-500/20 flex flex-wrap items-center justify-between gap-2 text-xs relative overflow-hidden backdrop-blur-xl">
+          <div className="shrink-0 px-3.5 py-2.5 sm:px-5 sm:py-3 bg-gradient-to-r from-[#03152e]/95 via-[#062042]/90 to-[#020d1c]/95 border-t border-cyan-500/20 space-y-2 text-xs relative overflow-hidden backdrop-blur-xl">
             {/* Top Specular Line */}
             <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-cyan-300/35 to-transparent pointer-events-none" />
 
-            {/* Lokasi */}
-            <div className="flex items-center gap-2 min-w-0 max-w-[260px] sm:max-w-xs md:max-w-md">
+            {/* Baris 1: Lokasi Alamat */}
+            <div className="flex items-center gap-2 min-w-0 w-full">
               <div className="w-5 h-5 rounded-md bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(244,63,94,0.3)]">
                 <MapPin className="w-3 h-3 text-rose-400 drop-shadow-[0_0_3px_rgba(244,63,94,0.8)]" />
               </div>
@@ -321,14 +339,27 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({
               </span>
             </div>
 
-            {/* Tanggal & Waktu */}
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="w-5 h-5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.3)]">
-                <Calendar className="w-3 h-3 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+            {/* Baris 2: Waktu (Kiri) & Ukuran/Resolusi File (Kanan) */}
+            <div className="flex items-center justify-between gap-2 pt-1 border-t border-white/10">
+              {/* Tanggal & Waktu */}
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="w-4.5 h-4.5 rounded-md bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.3)]">
+                  <Calendar className="w-2.5 h-2.5 text-cyan-300 drop-shadow-[0_0_3px_rgba(34,211,238,0.8)]" />
+                </div>
+                <span className="font-mono text-[11px] font-bold text-cyan-200/90 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {dateFormatted} {timeFormatted}
+                </span>
               </div>
-              <span className="font-mono text-[11px] font-bold text-cyan-200/90 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                {dateFormatted} {timeFormatted}
-              </span>
+
+              {/* Ukuran File & Resolusi Dimensi */}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <div className="w-4.5 h-4.5 rounded-md bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_8px_rgba(52,211,153,0.3)]">
+                  <FileImage className="w-2.5 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.8)]" />
+                </div>
+                <span className="font-mono text-[11px] font-bold text-emerald-200/90 tracking-wide drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                  {fileSizeFormatted} • {photo.width}×{photo.height}
+                </span>
+              </div>
             </div>
           </div>
 
