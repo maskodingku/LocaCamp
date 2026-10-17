@@ -120,6 +120,20 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
       ? 'bg-cyan-400'
       : 'bg-amber-400'
 
+  const sectionMiddleBg =
+    currentMeta.section === 'profile'
+      ? 'bg-emerald-500/10 hover:bg-emerald-500/15 text-emerald-100'
+      : currentMeta.section === 'watermark'
+      ? 'bg-cyan-500/10 hover:bg-cyan-500/15 text-cyan-100'
+      : 'bg-amber-500/10 hover:bg-amber-500/15 text-amber-100'
+
+  const chevronColor =
+    currentMeta.section === 'profile'
+      ? 'text-emerald-400'
+      : currentMeta.section === 'watermark'
+      ? 'text-cyan-400'
+      : 'text-amber-400'
+
   return (
     <aside
       aria-label="Live Preview Controls"
@@ -139,7 +153,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
 
         {/* Baris Kontrol Input Melekat & Tombol Tutup */}
         <div className="flex items-stretch gap-2">
-          {/* Segmented Input Group: [ < Back (Glass) ] [ Input Lebar ] [ Next > (Glass) ] */}
+          {/* Segmented Input Group: [ < Back (Glass) ] [ Input Lebar Menyatu Full ] [ Next > (Glass) ] */}
           <div className="flex-1 min-w-0 flex items-stretch">
             {/* Tombol Back Melekat di Sisi Kiri Input (Efek Glassmorphism Transparan) */}
             <button
@@ -151,8 +165,8 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
               <ChevronLeft className="w-4 h-4 text-zinc-200 group-hover:text-white group-hover:-translate-x-0.5 transition-transform" />
             </button>
 
-            {/* Wadah Input Tengah Melekat Tanpa Gap */}
-            <div className="flex-1 min-w-0 bg-zinc-900/80 backdrop-blur-md border-y border-white/20 flex items-center px-2.5 py-1.5 overflow-hidden">
+            {/* Wadah Input Tengah Menyatu Full Seamless Tanpa Gap */}
+            <div className={`flex-1 min-w-0 border-y border-white/20 backdrop-blur-md flex items-stretch overflow-hidden transition-colors ${sectionMiddleBg}`}>
               {/* 1. Jabatan Profil */}
               {activeInput === 'profile_job' && (
                 <input
@@ -160,7 +174,7 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   value={profile.jobTitle}
                   onChange={e => onChangeProfile({ ...profile, jobTitle: e.target.value })}
                   placeholder="Ketik Jabatan / Posisi..."
-                  className="w-full bg-transparent border-none text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-0 py-0.5"
+                  className="w-full h-full bg-transparent border-none px-3.5 py-2 text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-400/60 focus:outline-none focus:ring-0"
                 />
               )}
 
@@ -171,69 +185,69 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                   value={profile.name}
                   onChange={e => onChangeProfile({ ...profile, name: e.target.value })}
                   placeholder="Ketik Nama Lengkap..."
-                  className="w-full bg-transparent border-none text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:ring-0 py-0.5"
+                  className="w-full h-full bg-transparent border-none px-3.5 py-2 text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-400/60 focus:outline-none focus:ring-0"
                 />
               )}
 
               {/* 3. Jenis Font Profil */}
               {activeInput === 'profile_font' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={profile.fontFamily}
                     onChange={e => onChangeProfile({ ...profile, fontFamily: e.target.value })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/20 focus:bg-zinc-900 border border-emerald-500/30 hover:border-emerald-500/50 text-xs sm:text-sm text-emerald-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {FONT_OPTIONS.map(font => (
-                      <option key={font.id} value={font.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={font.id} value={font.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {font.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-emerald-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
 
               {/* 4. Posisi Profil */}
               {activeInput === 'profile_position' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={profile.position || 'above-geotag'}
                     onChange={e => onChangeProfile({ ...profile, position: e.target.value as ProfilePosition })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/20 focus:bg-zinc-900 border border-emerald-500/30 hover:border-emerald-500/50 text-xs sm:text-sm text-emerald-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {PROFILE_POS_OPTIONS.map(pos => (
-                      <option key={pos.id} value={pos.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={pos.id} value={pos.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {pos.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-emerald-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
 
               {/* 5. Ketebalan Teks Profil */}
               {activeInput === 'profile_weight' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={profile.fontWeight || 'medium'}
                     onChange={e => onChangeProfile({ ...profile, fontWeight: e.target.value as ProfileFontWeight })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/20 focus:bg-zinc-900 border border-emerald-500/30 hover:border-emerald-500/50 text-xs sm:text-sm text-emerald-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {PROFILE_WEIGHTS.map(fw => (
-                      <option key={fw.id} value={fw.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={fw.id} value={fw.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {fw.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-emerald-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
 
               {/* 6. Ukuran Teks Profil */}
               {activeInput === 'profile_size' && (
-                <div className="w-full px-1">
-                  <div className="flex justify-between items-center text-[11px] mb-0.5">
-                    <span className="text-zinc-400">Ukuran Teks</span>
+                <div className="w-full px-3.5 py-1 flex flex-col justify-center">
+                  <div className="flex justify-between items-center text-[10px] mb-0.5">
+                    <span className="text-zinc-300 font-medium">Ukuran Teks Profil</span>
                     <span className="font-mono text-emerald-400 font-bold">{profile.fontSize || 13} px</span>
                   </div>
                   <input
@@ -243,34 +257,34 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     step={1}
                     value={profile.fontSize || 13}
                     onChange={e => onChangeProfile({ ...profile, fontSize: Number(e.target.value) })}
-                    className="w-full accent-emerald-400 h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                    className="w-full accent-emerald-400 h-1.5 bg-zinc-800/80 rounded-lg cursor-pointer"
                   />
                 </div>
               )}
 
               {/* 7. Posisi Watermark */}
               {activeInput === 'watermark_position' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={watermark.position}
                     onChange={e => onChangeWatermark({ ...watermark, position: e.target.value as WatermarkPosition })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/20 focus:bg-zinc-900 border border-cyan-500/30 hover:border-cyan-500/50 text-xs sm:text-sm text-cyan-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-cyan-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {WATERMARK_POS_OPTIONS.map(pos => (
-                      <option key={pos.id} value={pos.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={pos.id} value={pos.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {pos.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-cyan-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
 
               {/* 8. Ukuran Watermark */}
               {activeInput === 'watermark_size' && (
-                <div className="w-full px-1">
-                  <div className="flex justify-between items-center text-[11px] mb-0.5">
-                    <span className="text-zinc-400">Ukuran Watermark</span>
+                <div className="w-full px-3.5 py-1 flex flex-col justify-center">
+                  <div className="flex justify-between items-center text-[10px] mb-0.5">
+                    <span className="text-zinc-300 font-medium">Ukuran Watermark</span>
                     <span className="font-mono text-cyan-400 font-bold">{watermark.sizePercent}%</span>
                   </div>
                   <input
@@ -279,16 +293,16 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     max={45}
                     value={watermark.sizePercent}
                     onChange={e => onChangeWatermark({ ...watermark, sizePercent: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                    className="w-full accent-cyan-400 h-1.5 bg-zinc-800/80 rounded-lg cursor-pointer"
                   />
                 </div>
               )}
 
               {/* 9. Transparansi Watermark */}
               {activeInput === 'watermark_opacity' && (
-                <div className="w-full px-1">
-                  <div className="flex justify-between items-center text-[11px] mb-0.5">
-                    <span className="text-zinc-400">Transparansi Logo</span>
+                <div className="w-full px-3.5 py-1 flex flex-col justify-center">
+                  <div className="flex justify-between items-center text-[10px] mb-0.5">
+                    <span className="text-zinc-300 font-medium">Transparansi Logo</span>
                     <span className="font-mono text-cyan-400 font-bold">{Math.round(watermark.opacity * 100)}%</span>
                   </div>
                   <input
@@ -298,44 +312,44 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                     step={0.05}
                     value={watermark.opacity}
                     onChange={e => onChangeWatermark({ ...watermark, opacity: Number(e.target.value) })}
-                    className="w-full accent-cyan-400 h-1.5 bg-zinc-800 rounded-lg cursor-pointer"
+                    className="w-full accent-cyan-400 h-1.5 bg-zinc-800/80 rounded-lg cursor-pointer"
                   />
                 </div>
               )}
 
               {/* 10. Posisi Geotag */}
               {activeInput === 'geotag_position' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={geotagConfig.position}
                     onChange={e => onChangeGeotagConfig({ ...geotagConfig, position: e.target.value as any })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-amber-500/15 hover:bg-amber-500/20 focus:bg-zinc-900 border border-amber-500/30 hover:border-amber-500/50 text-xs sm:text-sm text-amber-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {GEOTAG_POS_OPTIONS.map(pos => (
-                      <option key={pos.id} value={pos.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={pos.id} value={pos.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {pos.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
 
               {/* 11. Ukuran Tulisan Geotag */}
               {activeInput === 'geotag_size' && (
-                <div className="relative w-full">
+                <div className="relative w-full h-full flex items-center">
                   <select
                     value={geotagConfig.fontSize || 'medium'}
                     onChange={e => onChangeGeotagConfig({ ...geotagConfig, fontSize: e.target.value as any })}
-                    className="w-full appearance-none px-3 py-1.5 pr-8 rounded-lg bg-amber-500/15 hover:bg-amber-500/20 focus:bg-zinc-900 border border-amber-500/30 hover:border-amber-500/50 text-xs sm:text-sm text-amber-100 font-medium cursor-pointer focus:outline-none focus:ring-1 focus:ring-amber-400 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-all"
+                    className="w-full h-full appearance-none px-3.5 py-2 pr-8 bg-transparent border-none text-xs sm:text-sm font-medium cursor-pointer focus:outline-none focus:ring-0"
                   >
                     {GEOTAG_SIZE_OPTIONS.map(item => (
-                      <option key={item.id} value={item.id} className="bg-zinc-900 text-zinc-100 py-1">
+                      <option key={item.id} value={item.id} className="bg-zinc-950 text-zinc-100 py-1">
                         {item.label}
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-amber-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <ChevronDown className={`w-4 h-4 ${chevronColor} absolute right-3 pointer-events-none`} />
                 </div>
               )}
             </div>
