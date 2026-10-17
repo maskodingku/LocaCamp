@@ -105,6 +105,7 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
       {activePreviewInput && (
         <LivePreviewDock
           activeInput={activePreviewInput}
+          onChangeActiveInput={setActivePreviewInput}
           onClose={() => setActivePreviewInput(null)}
           profile={profile}
           onChangeProfile={onChangeProfile}
