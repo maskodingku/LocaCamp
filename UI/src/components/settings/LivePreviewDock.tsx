@@ -350,38 +350,38 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
           <div className="absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] pointer-events-none" />
           
           {/* ========================================================================= */}
-          {/* 1. HEADER: GLOSSY GLASS BUBBLE ORB MINI + JUDUL SELARAS + PILL BADGE     */}
+          {/* 1. HEADER UTAMA: JUDUL BESAR, ORB BESAR, PILL BADGE & TOMBOL CLOSE BESAR */}
           {/* ========================================================================= */}
-          <div className="flex items-center justify-between px-1 pb-1.5">
-            {/* Kiri: Glass Bubble Orb Icon Mini + Divider + Judul Teks */}
-            <div className="flex items-center gap-2 min-w-0">
-              {/* Glossy Glass Bubble Orb Mini (Selaras dengan Judul) */}
-              <div className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.6),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden">
+          <div className="flex items-center justify-between px-1.5 pt-0.5 pb-2 border-b border-cyan-500/20 mb-2">
+            {/* Kiri: Glass Bubble Orb Icon + Divider + Judul Teks Lebih Besar */}
+            <div className="flex items-center gap-2.5 min-w-0">
+              {/* Glossy Glass Bubble Orb (Selaras dengan Judul) */}
+              <div className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-gradient-to-b from-[#092244]/90 to-[#020914]/95 border border-cyan-400/80 shadow-[0_0_14px_rgba(6,182,212,0.65),inset_0_1.5px_3px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] flex items-center justify-center shrink-0 relative overflow-hidden">
                 {/* Highlight lengkung atas orb */}
-                <div className="absolute top-0.5 inset-x-1.5 h-1.5 rounded-full bg-white/40 blur-[0.5px]" />
-                {currentMeta.section === 'watermark' && <GlossyDropletIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" />}
-                {currentMeta.section === 'profile' && <GlossyUserIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(56,189,248,0.8)]" />}
-                {currentMeta.section === 'geotag' && <GlossyMapPinIcon className="w-4 h-4 drop-shadow-[0_0_6px_rgba(56,189,248,0.8)]" />}
+                <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/45 blur-[0.5px]" />
+                {currentMeta.section === 'watermark' && <GlossyDropletIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)]" />}
+                {currentMeta.section === 'profile' && <GlossyUserIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.9)]" />}
+                {currentMeta.section === 'geotag' && <GlossyMapPinIcon className="w-4.5 h-4.5 sm:w-5 sm:h-5 drop-shadow-[0_0_8px_rgba(56,189,248,0.9)]" />}
               </div>
 
-              {/* Pembatas Garis Vertikal Tipis */}
-              <div className="h-3.5 w-[1px] bg-cyan-400/30 shrink-0" />
+              {/* Pembatas Garis Vertikal */}
+              <div className="h-4.5 w-[1.5px] bg-cyan-400/40 shrink-0" />
 
-              {/* Teks Judul Dua Nada Selaras */}
-              <div className="flex items-center gap-1 min-w-0">
-                <span className="text-slate-300 text-xs font-normal tracking-wide">
+              {/* Teks Judul Dua Nada Lebih Besar & Tegas */}
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-slate-200 text-[13.5px] sm:text-sm font-medium tracking-wide">
                   {titleFirst}
                 </span>
-                <span className="text-white text-xs font-bold tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                <span className="text-white text-[13.5px] sm:text-sm font-extrabold tracking-wide truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                   {titleRest}
                 </span>
               </div>
             </div>
 
-            {/* Kanan: Pill Badge Urutan Input Mini + Tombol Close Bulat Merah Glossy */}
-            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Kanan: Pill Badge Urutan Input + Tombol Close Bulat Merah Glossy Lebih Besar */}
+            <div className="flex items-center gap-2 shrink-0">
               {/* Badge Urutan Input (contoh "7 / 9") */}
-              <div className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-[#030917]/90 border border-cyan-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.4)] flex items-center gap-1 font-mono text-[10.5px]">
+              <div className="px-3 py-1 rounded-full bg-[#030917]/90 border border-cyan-400/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_0_10px_rgba(6,182,212,0.4)] flex items-center gap-1 font-mono text-[11px] sm:text-xs">
                 <span className="text-cyan-400 font-bold drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]">
                   {currentInputIndex + 1}
                 </span>
@@ -389,15 +389,15 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                 <span className="text-slate-200 font-semibold">{sectionInputs.length}</span>
               </div>
 
-              {/* Tombol Tutup Mandiri [ ✕ ] Bulat Merah Glossy di Header Kanan Atas */}
+              {/* Tombol Tutup Mandiri [ ✕ ] Bulat Merah Glossy Lebih Besar */}
               <button
                 type="button"
                 onClick={onClose}
-                className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full bg-gradient-to-b from-[#3a0918]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_0_14px_rgba(244,63,94,0.7),inset_0_1.5px_2px_rgba(255,255,255,0.7),inset_0_-1.5px_2px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-90 transition-all shrink-0 relative overflow-hidden group"
+                className="w-8.5 h-8.5 sm:w-9 sm:h-9 rounded-full bg-gradient-to-b from-[#3d0818]/95 to-[#160208]/95 border-2 border-rose-500 shadow-[0_0_18px_rgba(244,63,94,0.85),inset_0_1.5px_2.5px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)] flex items-center justify-center cursor-pointer active:scale-90 transition-all shrink-0 relative overflow-hidden group"
                 title="Tutup Mode Preview"
               >
-                <div className="absolute top-0 inset-x-1 h-1.5 rounded-full bg-white/40 blur-[0.5px] pointer-events-none" />
-                <X className="w-3.5 h-3.5 text-rose-300 stroke-[3] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_6px_rgba(244,63,94,0.9)]" />
+                <div className="absolute top-0.5 inset-x-2 h-2 rounded-full bg-white/45 blur-[0.5px] pointer-events-none" />
+                <X className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-rose-200 stroke-[3] group-hover:rotate-90 transition-transform duration-200 drop-shadow-[0_0_8px_rgba(244,63,94,1)]" />
               </button>
             </div>
           </div>
