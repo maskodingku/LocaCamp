@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { X, ChevronLeft, ChevronRight, ChevronDown, Square, Palette, Paintbrush } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, ChevronDown, Palette, Paintbrush } from 'lucide-react'
 import type {
   ProfileConfig,
   WatermarkConfig,
@@ -638,41 +638,58 @@ export const LivePreviewDock: React.FC<LivePreviewDockProps> = ({
                 </div>
               )}
 
-              {/* L. Toggle On/Off Border Profil */}
+              {/* L. Full On/Off Slider: Border Profil */}
               {activeInput === 'profile_border' && (
                 <button
                   type="button"
                   onClick={() => onChangeProfile({ ...profile, showBorder: !isBorderOn, enabled: true })}
-                  className={`w-full h-9 sm:h-9.5 rounded-full border-2 transition-all px-3 flex items-center justify-between cursor-pointer active:scale-[0.99] relative overflow-hidden group ${
+                  className={`w-full h-9 sm:h-9.5 rounded-full border-2 transition-all duration-300 p-0.5 sm:p-1 flex items-center cursor-pointer active:scale-[0.99] relative overflow-hidden group select-none ${
                     isBorderOn
                       ? 'bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border-cyan-400 shadow-[0_0_18px_rgba(6,182,212,0.6),inset_0_1px_2px_rgba(255,255,255,0.8),inset_0_-1.5px_3px_rgba(0,0,0,0.8)]'
-                      : 'bg-gradient-to-r from-[#0b1424]/95 via-[#131d2e]/90 to-[#0b1424]/95 border-slate-600/70 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]'
+                      : 'bg-gradient-to-r from-[#0a121e]/95 via-[#121b2b]/90 to-[#0a121e]/95 border-slate-600/80 shadow-[inset_0_1px_1.5px_rgba(255,255,255,0.2),inset_0_-1.5px_3px_rgba(0,0,0,0.8)]'
                   }`}
+                  title={isBorderOn ? 'Klik untuk mematikan border (OFF)' : 'Klik untuk mengaktifkan border (ON)'}
                 >
-                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/80 shadow-[0_0_6px_#fff]" />
-                  <div className="flex items-center gap-2 min-w-0">
-                    <div
-                      className={`w-6 h-6 rounded-md flex items-center justify-center shrink-0 p-[1px] transition-all ${
-                        isBorderOn
-                          ? 'bg-gradient-to-br from-cyan-400 via-sky-500 to-blue-600 shadow-[0_0_8px_rgba(6,182,212,0.6)] text-white'
-                          : 'bg-slate-800 border border-slate-600 text-slate-400'
+                  {/* Specular Highlight Glare di Atas Track */}
+                  <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_6px_#fff] pointer-events-none" />
+
+                  {/* Rel Track Latar Belakang dengan Label Halus di Kedua Ujung */}
+                  <div className="absolute inset-x-3 inset-y-0 flex items-center justify-between pointer-events-none px-2 font-mono text-[11px] font-extrabold tracking-wider">
+                    <span
+                      className={`transition-opacity duration-300 ${
+                        isBorderOn ? 'text-slate-500/50 opacity-40' : 'text-slate-300/80 opacity-90'
                       }`}
                     >
-                      <Square className="w-3.5 h-3.5 stroke-[2.5]" />
-                    </div>
-                    <div className="h-3.5 w-[1px] bg-cyan-400/35 shrink-0" />
-                    <span className="text-white font-semibold text-xs tracking-wide truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
-                      {isBorderOn ? 'Border Aktif' : 'Border Tersembunyi'}
+                      OFF
+                    </span>
+                    <span
+                      className={`transition-opacity duration-300 ${
+                        isBorderOn
+                          ? 'text-cyan-300/90 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)] opacity-100'
+                          : 'text-slate-500/50 opacity-40'
+                      }`}
+                    >
+                      ON
                     </span>
                   </div>
-                  <div
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold transition-all ${
-                      isBorderOn
-                        ? 'bg-cyan-500/30 border border-cyan-300 text-cyan-200 shadow-[0_0_8px_rgba(6,182,212,0.8)]'
-                        : 'bg-slate-700/60 border border-slate-600 text-slate-400'
-                    }`}
-                  >
-                    {isBorderOn ? 'ON' : 'OFF'}
+
+                  {/* Sliding Knob (Thumb Slider Berpindah Kiri <-> Kanan) */}
+                  <div className="relative w-full h-full flex items-center">
+                    <div
+                      className={`w-1/2 h-full rounded-full flex items-center justify-center font-mono text-xs font-black tracking-wider transition-all duration-300 ease-in-out relative overflow-hidden ${
+                        isBorderOn
+                          ? 'translate-x-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] border border-cyan-200/90 shadow-[0_0_16px_rgba(6,182,212,0.9),inset_0_1.5px_2px_rgba(255,255,255,0.95),inset_0_-1.5px_2px_rgba(0,0,0,0.35)]'
+                          : 'translate-x-0 bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-slate-200 border border-slate-500/70 shadow-[0_0_10px_rgba(0,0,0,0.6),inset_0_1px_1.5px_rgba(255,255,255,0.3)]'
+                      }`}
+                    >
+                      {/* Specular Highlight Glare pada Knob */}
+                      <div className="absolute top-0.5 inset-x-2.5 h-1.5 rounded-full bg-white/45 blur-[0.5px] pointer-events-none" />
+
+                      {/* Teks di Dalam Knob: ON saat di Kanan, OFF saat di Kiri */}
+                      <span className="relative z-10 drop-shadow-[0_1px_1px_rgba(0,0,0,0.4)]">
+                        {isBorderOn ? 'ON' : 'OFF'}
+                      </span>
+                    </div>
                   </div>
                 </button>
               )}
