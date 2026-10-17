@@ -315,7 +315,14 @@ export const ColorOptionPopup: React.FC<ColorOptionPopupProps> = ({
         onChangeHex={(newHex) => {
           isDraggingRef.current = true
           setCustomHex(newHex)
-          const combined = combineHexAndAlpha(newHex, alphaPercent)
+          // KRITIKAL: Jika alpha saat ini 0 (misal dari preset Transparan),
+          // otomatis naikkan ke 100 agar warna kustom yang dipilih langsung terlihat di target!
+          let effectiveAlpha = alphaPercent
+          if (effectiveAlpha <= 0) {
+            effectiveAlpha = 100
+            setAlphaPercent(100)
+          }
+          const combined = combineHexAndAlpha(newHex, effectiveAlpha)
           lastEmittedColorRef.current = combined
           onSelect(combined)
         }}

@@ -292,7 +292,13 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
             <Palette className="w-3 h-3 text-cyan-400 shrink-0" />
           )}
           <span className="text-[10px] font-bold tracking-wide uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] truncate">
-            {isAlphaMode ? 'Tingkat Transparansi' : 'Pilih Warna Kustom'}
+            {activePart === 'saturation'
+              ? 'Warna & Kecerahan'
+              : activePart === 'hue'
+              ? 'Spektrum Warna (Hue)'
+              : activePart === 'alpha'
+              ? 'Tingkat Transparansi'
+              : 'Pilih Warna Kustom'}
           </span>
         </div>
 
@@ -328,43 +334,13 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
         </div>
       </div>
 
-      {/* KONTROL UTAMA: PILIHAN WARNA (SATURASI + HUE) ATAU TRANSPARANSI (ALPHA) */}
-      {isAlphaMode ? (
-        /* MODE ALPHA: Slider Transparansi */
-        <div className="mb-1 space-y-1">
-          <div
-            ref={alphaSliderRef}
-            onPointerDown={(e) => handlePointerDown(e, 'alpha')}
-            className="relative w-full h-5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
-            style={{
-              backgroundImage:
-                'repeating-conic-gradient(#334155 0% 25%, #0f172a 0% 50%) 50% / 8px 8px',
-            }}
-          >
-            <div
-              className="w-full h-full pointer-events-none"
-              style={{
-                background: `linear-gradient(to right, transparent, ${customHex})`,
-              }}
-            />
-            {/* Knob Glowing Slider Alpha */}
-            <div
-              className="absolute top-0 bottom-0 w-5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
-              style={{
-                left: `${alphaPercent}%`,
-                transform: isInteracting && activeControlRef.current === 'alpha' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
-              }}
-            />
-          </div>
-        </div>
-      ) : (
-        /* MODE WARNA: Kotak Saturasi/Brightness DAN Slider Spektrum Hue Bersama-sama */
-        <div className="mb-1 space-y-1.5">
-          {/* 1. Kotak Saturasi & Kecerahan (2D Area) */}
+      {/* 1. HANYA KOTAK SATURASI/VALUE JIKA YANG DITEKAN ADALAH SATURASI */}
+      {activePart === 'saturation' && (
+        <div className="mb-1">
           <div
             ref={saturationBoxRef}
             onPointerDown={(e) => handlePointerDown(e, 'saturation')}
-            className="relative w-full h-22 rounded-lg border border-cyan-400/60 overflow-hidden shadow-[inset_0_2px_6px_rgba(0,0,0,0.7)] cursor-crosshair active:ring-2 active:ring-cyan-300 transition-shadow"
+            className="relative w-full h-24 rounded-lg border border-cyan-400/60 overflow-hidden shadow-[inset_0_2px_6px_rgba(0,0,0,0.7)] cursor-crosshair active:ring-2 active:ring-cyan-300 transition-shadow"
             style={{ backgroundColor: `hsl(${localHsv.h}, 100%, 50%)` }}
           >
             {/* Gradien Saturasi Horizontal (Putih ke Transparan) */}
@@ -388,12 +364,16 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
               }}
             />
           </div>
+        </div>
+      )}
 
-          {/* 2. Slider Spektrum Warna (Hue Slider) */}
+      {/* 2. HANYA SLIDER HUE JIKA YANG DITEKAN ADALAH HUE */}
+      {activePart === 'hue' && (
+        <div className="mb-1">
           <div
             ref={hueSliderRef}
             onPointerDown={(e) => handlePointerDown(e, 'hue')}
-            className="relative w-full h-4.5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
+            className="relative w-full h-5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
             style={{
               background:
                 'linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)',
@@ -401,10 +381,40 @@ export const FloatingSmartPicker: React.FC<FloatingSmartPickerProps> = ({
           >
             {/* Knob Glowing Slider Hue */}
             <div
-              className="absolute top-0 bottom-0 w-4.5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
+              className="absolute top-0 bottom-0 w-5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
               style={{
                 left: `${(localHsv.h / 360) * 100}%`,
                 transform: isInteracting && activeControlRef.current === 'hue' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* 3. HANYA SLIDER TRANSPARANSI JIKA YANG DITEKAN ADALAH ALPHA */}
+      {activePart === 'alpha' && (
+        <div className="mb-1">
+          <div
+            ref={alphaSliderRef}
+            onPointerDown={(e) => handlePointerDown(e, 'alpha')}
+            className="relative w-full h-5 rounded-full border border-cyan-400/60 overflow-hidden shadow-[0_0_10px_rgba(6,182,212,0.4)] cursor-ew-resize active:ring-2 active:ring-cyan-300"
+            style={{
+              backgroundImage:
+                'repeating-conic-gradient(#334155 0% 25%, #0f172a 0% 50%) 50% / 8px 8px',
+            }}
+          >
+            <div
+              className="w-full h-full pointer-events-none"
+              style={{
+                background: `linear-gradient(to right, transparent, ${customHex})`,
+              }}
+            />
+            {/* Knob Glowing Slider Alpha */}
+            <div
+              className="absolute top-0 bottom-0 w-5 -translate-x-1/2 rounded-full border-2 border-white bg-white/40 shadow-[0_0_10px_#22d3ee] pointer-events-none transition-transform"
+              style={{
+                left: `${alphaPercent}%`,
+                transform: isInteracting && activeControlRef.current === 'alpha' ? 'translateX(-50%) scale(1.1)' : 'translateX(-50%) scale(1)',
               }}
             />
           </div>
