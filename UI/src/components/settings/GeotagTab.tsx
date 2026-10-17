@@ -59,13 +59,21 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
   return (
     <div className="space-y-4">
       {/* CARD HUD CYBER GLASS GEOTAG */}
-      <div className="relative rounded-[22px] border border-cyan-400/50 bg-[#020717]/85 backdrop-blur-2xl shadow-[0_0_30px_rgba(6,182,212,0.35),0_15px_40px_rgba(0,0,0,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.7)] text-white overflow-hidden">
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white overflow-hidden">
         
-        {/* AMBIENT GLOSSY GLASS BUBBLE ORBS */}
-        <div className="absolute -top-3 -left-3 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.3)] pointer-events-none" />
-        <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.65),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none" />
-        <div className="absolute -bottom-4 -left-3 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_3px_rgba(255,255,255,0.6),0_0_12px_rgba(6,182,212,0.2)] pointer-events-none" />
-        <div className="absolute -bottom-4 -right-3 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500/20 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_18px_rgba(59,130,246,0.3)] pointer-events-none" />
+        {/* 3D Glass Ambient Bubbles di Sudut Card */}
+        <div
+          className="absolute -top-3 -right-3 w-20 h-20 rounded-full border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.25)] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 35% 25%, rgba(56,189,248,0.22) 0%, rgba(6,182,212,0.08) 50%, transparent 100%)',
+          }}
+        />
+        <div
+          className="absolute -bottom-5 -left-5 w-24 h-24 rounded-full border border-sky-400/25 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.65),0_0_15px_rgba(14,165,233,0.2)] pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at 35% 25%, rgba(34,211,238,0.18) 0%, transparent 100%)',
+          }}
+        />
 
         {/* Specular Glare Highlight Border Atas Kaca */}
         <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
@@ -75,7 +83,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
         <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
 
         {/* Header Section Geotag */}
-        <div className="w-full flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#030d22]/60 backdrop-blur-md rounded-t-[21px] relative z-10">
+        <div className="w-full flex items-center justify-between px-3.5 sm:px-4 py-2.5 sm:py-3 border-b border-cyan-500/20 bg-[#020b18]/60 backdrop-blur-md rounded-t-[21px] relative z-10">
           <div className="flex items-center gap-2.5 min-w-0">
             <CyberGlassOrb
               icon={MapPin}
@@ -112,7 +120,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('geotag_position')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
@@ -131,7 +139,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                 return (
                   <label
                     key={item.key}
-                    className="flex items-center justify-between p-3 rounded-2xl border border-cyan-500/25 bg-[#030d22]/60 hover:bg-[#03152e]/80 cursor-pointer transition-all shadow-inner group"
+                    className="flex items-center justify-between p-3 rounded-2xl border border-cyan-500/25 bg-[#020d1c]/70 hover:bg-[#03152e]/80 cursor-pointer transition-all shadow-inner group"
                   >
                     <div className="min-w-0 pr-3">
                       <p className="text-xs sm:text-sm font-semibold text-white group-hover:text-cyan-200 transition-colors">
@@ -174,7 +182,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('geotag_position')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
@@ -184,7 +192,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2 p-2.5 bg-[#030d22]/60 rounded-2xl border border-cyan-500/25">
+            <div className="grid grid-cols-2 gap-2 p-2.5 bg-[#020d1c]/70 rounded-2xl border border-cyan-500/25">
               {POSITIONS.map(pos => {
                 const active = geotagConfig.position === pos.id
                 return (
@@ -196,7 +204,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                     }
                     className={`py-2.5 px-3 rounded-xl text-xs font-semibold transition-all flex items-center justify-between border relative overflow-hidden ${
                       active
-                        ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200/90 shadow-[0_0_14px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
+                        ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
                         : 'bg-[#020717]/60 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                     }`}
                   >
@@ -219,7 +227,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                 <button
                   type="button"
                   onClick={() => onTriggerPreview?.('geotag_size')}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#03152e]/95 via-[#062854]/90 to-[#03152e]/95 border border-cyan-400/80 shadow-[0_0_12px_rgba(6,182,212,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.7)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-cyan-200 hover:text-white bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_10px_rgba(6,182,212,0.3),inset_0_1px_1.5px_rgba(255,255,255,0.6)] transition-all active:scale-95 cursor-pointer relative overflow-hidden group"
                   title="Lihat Pratinjau Langsung di Kamera"
                 >
                   <div className="absolute top-0 inset-x-2 h-[1px] bg-white/70 pointer-events-none" />
@@ -229,7 +237,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-4 gap-1.5 p-1.5 bg-[#030d22]/60 rounded-full border border-cyan-500/25">
+            <div className="grid grid-cols-4 gap-1.5 p-1 bg-[#020d1c]/80 rounded-full border border-cyan-500/25">
               {FONT_SIZES.map(item => {
                 const active = (geotagConfig.fontSize || 'medium') === item.id
                 return (
@@ -241,7 +249,7 @@ export const GeotagTab: React.FC<GeotagTabProps> = ({
                     }
                     className={`py-1.5 px-1 rounded-full text-[11px] sm:text-xs font-bold transition-all text-center whitespace-nowrap relative overflow-hidden border ${
                       active
-                        ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200/90 shadow-[0_0_12px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
+                        ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_10px_rgba(6,182,212,0.7),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
                         : 'border-transparent text-slate-300 hover:text-white'
                     }`}
                   >

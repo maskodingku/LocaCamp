@@ -20,16 +20,17 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
   return (
     <div className="space-y-4">
       {/* 1. Kartu Profil Google Terhubung */}
-      <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/40 via-zinc-900/90 to-zinc-900 border border-emerald-500/30 shadow-lg shadow-emerald-950/20">
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 overflow-hidden">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center justify-between mb-3.5">
-          <span className="text-[11px] font-semibold tracking-wider text-emerald-400 uppercase flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5" />
+          <span className="text-[11px] font-bold tracking-wider text-cyan-300 uppercase flex items-center gap-1.5 font-mono">
+            <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
             Akun Google Terhubung
           </span>
           <button
             type="button"
             onClick={disconnect}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs transition-colors cursor-pointer shadow-sm"
             title="Putuskan akun"
           >
             <LogOut className="w-3 h-3" />
@@ -42,10 +43,10 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             <img
               src={session.userAvatar}
               alt={session.userName || 'Google User'}
-              className="w-12 h-12 rounded-full object-cover border-2 border-emerald-500/50 shadow-md"
+              className="w-12 h-12 rounded-full object-cover border-2 border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.4)]"
             />
           ) : (
-            <div className="w-12 h-12 rounded-full bg-emerald-800/40 border border-emerald-500/40 flex items-center justify-center font-bold text-white text-base shadow-inner">
+            <div className="w-12 h-12 rounded-full bg-cyan-950/60 border border-cyan-400/60 flex items-center justify-center font-bold text-white text-base shadow-inner">
               {(session.userName || session.userEmail || 'G')[0].toUpperCase()}
             </div>
           )}
@@ -53,7 +54,7 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
             <p className="text-sm font-bold text-white truncate">
               {session.userName || 'Pengguna Google'}
             </p>
-            <p className="text-xs text-zinc-400 truncate">
+            <p className="text-xs text-slate-400 truncate">
               {session.userEmail || 'Akun Aktif'}
             </p>
           </div>
@@ -61,71 +62,67 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
       </div>
 
       {/* 2. Pengaturan Folder Target (Terkunci Permanen) */}
-      <div className="space-y-2 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+      <div className="space-y-2 p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25">
         <div className="flex items-center justify-between">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
             Nama Folder Penyimpanan
           </label>
-          <span className="text-[10px] text-emerald-400 flex items-center gap-1">
-            <FolderCheck className="w-3 h-3" />
+          <span className="text-[10px] text-cyan-300 flex items-center gap-1 font-mono font-bold">
+            <FolderCheck className="w-3 h-3 text-cyan-400" />
             Otomatis Dibuat
           </span>
         </div>
-        <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-zinc-800 text-white select-none">
+        <div className="flex items-center justify-between px-4 py-2.5 rounded-full bg-[#020717]/90 border border-cyan-400/50 text-white select-none">
           <div className="flex items-center gap-2.5 min-w-0">
-            <Folder className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span className="text-xs sm:text-sm font-semibold text-zinc-100 tracking-wide truncate">
+            <Folder className="w-4 h-4 text-cyan-400 shrink-0" />
+            <span className="text-xs sm:text-sm font-bold text-white tracking-wide truncate">
               LocaCamp Photos
             </span>
           </div>
-          <span className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800/90 text-[10px] text-zinc-400 font-medium shrink-0">
-            <Lock className="w-2.5 h-2.5 text-zinc-400" />
+          <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#020d1c] border border-cyan-500/30 text-[10px] text-cyan-300 font-medium shrink-0 font-mono">
+            <Lock className="w-2.5 h-2.5 text-cyan-400" />
             <span>Terkunci</span>
           </span>
         </div>
-        <p className="text-[11px] text-zinc-500">
-          Semua foto survei & geotag akan disimpan ke folder ini di Google Drive Anda.
+        <p className="text-[11px] text-slate-400">
+          Semua foto survei &amp; geotag akan disimpan ke folder ini di Google Drive Anda.
         </p>
       </div>
 
       {/* 3. Toggle Auto-Upload */}
-      <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-center justify-between">
+      <div className="p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25 flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold text-white">Upload Otomatis Saat Jepret</p>
-          <p className="text-[11px] text-zinc-400">
+          <p className="text-xs font-bold text-white">Upload Otomatis Saat Jepret</p>
+          <p className="text-[11px] text-slate-400 mt-0.5">
             Foto langsung disalin ke cloud Drive di latar belakang setiap kali memotret.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => updateConfig({ autoUpload: !config.autoUpload })}
-          className={`w-11 h-6 rounded-full transition-colors relative p-0.5 cursor-pointer shrink-0 ml-3 ${
-            config.autoUpload ? 'bg-emerald-500' : 'bg-zinc-800'
-          }`}
-        >
-          <div
-            className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${
-              config.autoUpload ? 'translate-x-5' : 'translate-x-0'
-            }`}
+        <div className="relative inline-flex items-center shrink-0 ml-3">
+          <input
+            type="checkbox"
+            checked={Boolean(config.autoUpload)}
+            onChange={() => updateConfig({ autoUpload: !config.autoUpload })}
+            className="sr-only peer"
           />
-        </button>
+          <div className="w-11 h-6 bg-gradient-to-r from-[#03152e] to-[#0a2042] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:shadow-[0_0_8px_#fff] after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-cyan-400 peer-checked:via-sky-400 peer-checked:to-blue-500 border border-cyan-500/50 peer-checked:border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.4)]" />
+        </div>
       </div>
 
-      {/* 4. Pengaturan Batas Antrian Bulk Upload (Queue Concurrency) */}
-      <div className="space-y-2 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800">
+      {/* 4. Pengaturan Batas Antrian Bulk Upload */}
+      <div className="space-y-2 p-4 rounded-[22px] bg-[#020d1c]/70 border border-cyan-500/25">
         <div className="flex items-center justify-between">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
             Batas Upload Bersamaan
           </label>
-          <span className="text-[10px] text-emerald-400 font-mono">
+          <span className="text-[10px] text-cyan-300 font-mono font-bold">
             {config.concurrency || 2} foto simultan
           </span>
         </div>
-        <p className="text-[11px] text-zinc-500">
+        <p className="text-[11px] text-slate-400">
           Jumlah foto yang diunggah secara paralel saat memproses antrian ke Google Drive.
         </p>
 
-        <div className="grid grid-cols-4 gap-2 pt-1">
+        <div className="grid grid-cols-4 gap-1.5 pt-1">
           {[
             { value: 1, label: '1 Foto', desc: 'Stabil' },
             { value: 2, label: '2 Foto', desc: 'Disarankan' },
@@ -140,18 +137,16 @@ export const GoogleDriveConnectedCard: React.FC<GoogleDriveConnectedCardProps> =
                 onClick={() => updateConfig({ concurrency: opt.value })}
                 className={`py-2 px-1 rounded-xl text-center transition-all cursor-pointer border ${
                   isSelected
-                    ? 'bg-emerald-500/20 border-emerald-500/50 text-white shadow-sm'
-                    : 'bg-zinc-950 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700'
+                    ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
+                    : 'bg-[#020717]/60 border-cyan-900/60 text-slate-300 hover:text-white hover:border-cyan-500/50'
                 }`}
               >
-                <div
-                  className={`text-xs font-bold ${
-                    isSelected ? 'text-emerald-400' : 'text-zinc-300'
-                  }`}
-                >
+                <div className={`text-xs font-bold ${isSelected ? 'text-[#020b18]' : 'text-white'}`}>
                   {opt.label}
                 </div>
-                <div className="text-[9px] text-zinc-500 mt-0.5">{opt.desc}</div>
+                <div className={`text-[9.5px] mt-0.5 ${isSelected ? 'text-[#020b18]/80' : 'text-slate-400'}`}>
+                  {opt.desc}
+                </div>
               </button>
             )
           })}

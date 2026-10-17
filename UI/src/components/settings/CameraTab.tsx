@@ -15,6 +15,7 @@ import type {
   CameraQualityConfig,
   CameraEffectPreset,
 } from '../../types/camera'
+import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface CameraTabProps {
   sensorInfo?: SensorCapabilitiesInfo | null
@@ -32,48 +33,36 @@ const COLOR_PRESETS = [
     name: 'Cerah (Vivid)',
     badge: 'Rekomendasi',
     desc: 'Pop cerah, jernih & tajam',
-    ringColor: 'border-emerald-500 bg-emerald-950/20 shadow-emerald-500/10',
-    badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
   },
   {
     id: 'normal' as CameraEffectPreset,
     name: 'Normal (Alami)',
     badge: 'Netral',
     desc: 'Warna murni sensor',
-    ringColor: 'border-zinc-500 bg-zinc-800/50',
-    badgeColor: 'bg-zinc-800 text-zinc-400 border-zinc-700',
   },
   {
     id: 'warm' as CameraEffectPreset,
     name: 'Hangat (Warm)',
     badge: 'Sunset Tone',
     desc: 'Nuansa golden hour lembut',
-    ringColor: 'border-amber-500 bg-amber-950/20 shadow-amber-500/10',
-    badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
   },
   {
     id: 'cool' as CameraEffectPreset,
     name: 'Sejuk (Cool)',
     badge: 'Fresh Blue',
     desc: 'Nuansa segar kebiruan',
-    ringColor: 'border-sky-500 bg-sky-950/20 shadow-sky-500/10',
-    badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
   },
   {
     id: 'hdr' as CameraEffectPreset,
     name: 'HDR Boost',
     badge: 'High Detail',
     desc: 'Detail bayangan kaya & terang',
-    ringColor: 'border-purple-500 bg-purple-950/20 shadow-purple-500/10',
-    badgeColor: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
   },
   {
     id: 'mono' as CameraEffectPreset,
     name: 'Monokrom (B&W)',
     badge: 'Artistik',
     desc: 'Hitam putih klasik elegan',
-    ringColor: 'border-zinc-400 bg-zinc-800/40',
-    badgeColor: 'bg-zinc-700/50 text-zinc-300 border-zinc-600',
   },
 ]
 
@@ -130,45 +119,44 @@ export const CameraTab: React.FC<CameraTabProps> = ({
   ]
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
-      {/* Sensor Hardware Detection Card */}
+    <div className="space-y-4 animate-in fade-in duration-200">
+      {/* 1. Sensor Hardware Detection Card */}
       <div
-        className={`p-4 rounded-2xl bg-gradient-to-br from-emerald-950/30 via-zinc-900 to-zinc-950 border border-emerald-500/30 relative overflow-hidden transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400">
-            <Cpu className="w-5 h-5" />
-          </div>
+          <CyberGlassOrb icon={Cpu} size="md" variant="cyan" />
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+              <span className="text-xs font-bold uppercase tracking-wider text-cyan-300">
                 Sensor Kamera Aktif
               </span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                Live
+              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                LIVE
               </span>
             </div>
-            <div className="text-sm font-semibold text-white mt-0.5 truncate">
+            <div className="text-sm font-bold text-white mt-0.5 truncate">
               {sensorInfo?.label || 'Kamera Perangkat HP'}
             </div>
-            <div className="flex items-center gap-3 mt-2 text-xs text-zinc-300">
+            <div className="flex items-center gap-3 mt-2 text-xs text-slate-300">
               <div>
                 Maksimal:{' '}
-                <span className="font-semibold text-emerald-300">
+                <span className="font-semibold text-cyan-300">
                   {sensorInfo?.maxMegapixels
                     ? `${sensorInfo.maxMegapixels} MP`
                     : 'Otomatis'}
                 </span>
                 {sensorInfo?.maxWidth && sensorInfo?.maxHeight ? (
-                  <span className="text-[11px] text-zinc-400 ml-1">
+                  <span className="text-[11px] text-slate-400 ml-1 font-mono">
                     ({sensorInfo.maxWidth} × {sensorInfo.maxHeight})
                   </span>
                 ) : null}
               </div>
             </div>
-            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-zinc-400">
+            <div className="mt-2 flex items-center gap-1.5 text-[11px] text-slate-400">
               <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>
                 {sensorInfo?.supportsImageCapture
@@ -180,26 +168,28 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         </div>
       </div>
 
-      {/* Efek Visual & Filter Warna */}
+      {/* 2. Efek Visual & Filter Warna */}
       <div
-        className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center justify-between mb-1">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Preset Efek & Nuansa Warna
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <CyberGlassOrb icon={Palette} size="xs" variant="cyan" />
+            <span>Preset Efek &amp; Nuansa Warna</span>
           </label>
-          <span className="text-[10px] text-emerald-400 font-medium">
-            Live WYSIWYG
+          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30">
+            WYSIWYG
           </span>
         </div>
-        <p className="text-[11px] text-zinc-400 mb-3">
+        <p className="text-[11px] text-slate-400 mb-3">
           Warna foto otomatis disesuaikan secara real-time di layar dan canvas hasil jepretan.
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-          {COLOR_PRESETS.map((presetItem) => {
+          {COLOR_PRESETS.map(presetItem => {
             const isSelected = cameraEffect.preset === presetItem.id
             return (
               <button
@@ -211,23 +201,18 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                     preset: presetItem.id,
                   })
                 }
-                className={`p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between relative overflow-hidden ${
                   isSelected
-                    ? `${presetItem.ringColor} ring-1 ring-emerald-500/50 shadow-md`
-                    : 'border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-zinc-700'
+                    ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_14px_rgba(6,182,212,0.8),inset_0_1px_1.5px_rgba(255,255,255,0.9)]'
+                    : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-1">
-                  <span className={`text-xs font-semibold ${isSelected ? 'text-white' : 'text-zinc-300'}`}>
+                  <span className={`text-xs font-bold truncate ${isSelected ? 'text-[#020b18]' : 'text-white'}`}>
                     {presetItem.name}
                   </span>
-                  {presetItem.badge && (
-                    <span className={`text-[9px] px-1.5 py-0.5 rounded-full border shrink-0 ${presetItem.badgeColor}`}>
-                      {presetItem.badge}
-                    </span>
-                  )}
                 </div>
-                <p className="text-[10px] text-zinc-400 leading-tight">
+                <p className={`text-[10.5px] leading-tight ${isSelected ? 'text-[#020b18]/80' : 'text-slate-400'}`}>
                   {presetItem.desc}
                 </p>
               </button>
@@ -236,66 +221,56 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         </div>
       </div>
 
-      {/* Finetuning Sliders */}
-      <div
-        className={`space-y-3 transition-all duration-150 ${
-          activeSlider
-            ? 'bg-transparent border-transparent p-0 mt-0'
-            : 'mt-4 p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800/80'
-        }`}
-      >
-          <div
-            className={`flex items-center justify-between transition-opacity duration-150 ${
-              activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
-          >
-            <div className="flex items-center gap-1.5">
-              <Sliders className="w-3.5 h-3.5 text-zinc-400" />
-              <span className="text-xs font-semibold text-zinc-300">
-                Koreksi Manual (Finetuning)
-              </span>
-            </div>
-            {(cameraEffect.finetune.brightness !== 0 ||
-              cameraEffect.finetune.contrast !== 0 ||
-              cameraEffect.finetune.saturation !== 0) && (
-              <button
-                type="button"
-                onClick={() =>
-                  onChangeCameraEffect({
-                    ...cameraEffect,
-                    finetune: { brightness: 0, contrast: 0, saturation: 0 },
-                  })
-                }
-                className="text-[10px] text-zinc-400 hover:text-white flex items-center gap-1 transition-colors px-2 py-0.5 rounded bg-zinc-800 border border-zinc-700"
-                title="Kembalikan finetuning ke 0%"
-              >
-                <RotateCcw className="w-2.5 h-2.5" />
-                Reset (0%)
-              </button>
-            )}
-          </div>
+      {/* 3. Finetuning Kamera Sliders */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between px-1">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <CyberGlassOrb icon={Sliders} size="xs" variant="cyan" />
+            <span>Finetuning Sensor Gambar</span>
+          </label>
+          {(cameraEffect.finetune.brightness !== 0 ||
+            cameraEffect.finetune.contrast !== 0 ||
+            cameraEffect.finetune.saturation !== 0) && (
+            <button
+              type="button"
+              onClick={() =>
+                onChangeCameraEffect({
+                  ...cameraEffect,
+                  finetune: { brightness: 0, contrast: 0, saturation: 0 },
+                })
+              }
+              className="text-[10px] text-cyan-300 hover:text-white flex items-center gap-1 transition-colors px-2.5 py-0.5 rounded-full bg-[#020e1f] border border-cyan-400/50 shadow-sm"
+              title="Kembalikan finetuning ke 0%"
+            >
+              <RotateCcw className="w-2.5 h-2.5 text-cyan-400" />
+              Reset (0%)
+            </button>
+          )}
+        </div>
 
-          {/* Slider Kecerahan */}
-          <div
-            className={`space-y-1 transition-all duration-150 ${
-              activeSlider === 'camera_brightness'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
-                : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
-                : ''
-            }`}
-          >
-            <div className="flex justify-between items-center text-xs">
-              <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_brightness' ? 'text-white font-bold' : 'text-zinc-400'}`}>
-                <Sun className="w-3.5 h-3.5 text-amber-400" />
-                Kecerahan
-              </span>
-              <span className="font-mono text-zinc-200 text-[11px]">
-                {cameraEffect.finetune.brightness > 0
-                  ? `+${cameraEffect.finetune.brightness}%`
-                  : `${cameraEffect.finetune.brightness}%`}
-              </span>
-            </div>
+        {/* Slider Kecerahan */}
+        <div
+          className={`space-y-1 transition-all duration-150 ${
+            activeSlider === 'camera_brightness'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)] relative z-50'
+              : activeSlider !== null
+              ? 'opacity-0 pointer-events-none'
+              : ''
+          }`}
+        >
+          <div className="flex justify-between items-center text-xs mb-1 px-1">
+            <span className={`flex items-center gap-1.5 text-[11px] font-semibold ${activeSlider === 'camera_brightness' ? 'text-white font-bold' : 'text-slate-300'}`}>
+              <Sun className="w-3.5 h-3.5 text-amber-400" />
+              Kecerahan
+            </span>
+            <span className="font-mono text-cyan-300 text-[11px] font-bold">
+              {cameraEffect.finetune.brightness > 0
+                ? `+${cameraEffect.finetune.brightness}%`
+                : `${cameraEffect.finetune.brightness}%`}
+            </span>
+          </div>
+          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_2px_rgba(255,255,255,0.7)] px-4 flex items-center overflow-hidden">
+            <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_4px_#fff] pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -317,31 +292,34 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   },
                 })
               }
-              className="w-full accent-emerald-500 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+              className="hud-slider cursor-pointer w-full"
             />
           </div>
+        </div>
 
-          {/* Slider Kontras */}
-          <div
-            className={`space-y-1 transition-all duration-150 ${
-              activeSlider === 'camera_contrast'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
-                : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
-                : ''
-            }`}
-          >
-            <div className="flex justify-between items-center text-xs">
-              <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_contrast' ? 'text-white font-bold' : 'text-zinc-400'}`}>
-                <Contrast className="w-3.5 h-3.5 text-sky-400" />
-                Kontras
-              </span>
-              <span className="font-mono text-zinc-200 text-[11px]">
-                {cameraEffect.finetune.contrast > 0
-                  ? `+${cameraEffect.finetune.contrast}%`
-                  : `${cameraEffect.finetune.contrast}%`}
-              </span>
-            </div>
+        {/* Slider Kontras */}
+        <div
+          className={`space-y-1 transition-all duration-150 ${
+            activeSlider === 'camera_contrast'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)] relative z-50'
+              : activeSlider !== null
+              ? 'opacity-0 pointer-events-none'
+              : ''
+          }`}
+        >
+          <div className="flex justify-between items-center text-xs mb-1 px-1">
+            <span className={`flex items-center gap-1.5 text-[11px] font-semibold ${activeSlider === 'camera_contrast' ? 'text-white font-bold' : 'text-slate-300'}`}>
+              <Contrast className="w-3.5 h-3.5 text-sky-400" />
+              Kontras
+            </span>
+            <span className="font-mono text-cyan-300 text-[11px] font-bold">
+              {cameraEffect.finetune.contrast > 0
+                ? `+${cameraEffect.finetune.contrast}%`
+                : `${cameraEffect.finetune.contrast}%`}
+            </span>
+          </div>
+          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_2px_rgba(255,255,255,0.7)] px-4 flex items-center overflow-hidden">
+            <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_4px_#fff] pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -363,31 +341,34 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   },
                 })
               }
-              className="w-full accent-emerald-500 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+              className="hud-slider cursor-pointer w-full"
             />
           </div>
+        </div>
 
-          {/* Slider Kejenuhan Warna */}
-          <div
-            className={`space-y-1 transition-all duration-150 ${
-              activeSlider === 'camera_saturation'
-                ? 'p-4 rounded-2xl bg-zinc-950/90 backdrop-blur-xl border border-emerald-500/60 shadow-2xl ring-2 ring-emerald-400/50 relative z-50'
-                : activeSlider !== null
-                ? 'opacity-0 pointer-events-none'
-                : ''
-            }`}
-          >
-            <div className="flex justify-between items-center text-xs">
-              <span className={`flex items-center gap-1.5 text-[11px] ${activeSlider === 'camera_saturation' ? 'text-white font-bold' : 'text-zinc-400'}`}>
-                <Palette className="w-3.5 h-3.5 text-rose-400" />
-                Kejenuhan Warna
-              </span>
-              <span className="font-mono text-zinc-200 text-[11px]">
-                {cameraEffect.finetune.saturation > 0
-                  ? `+${cameraEffect.finetune.saturation}%`
-                  : `${cameraEffect.finetune.saturation}%`}
-              </span>
-            </div>
+        {/* Slider Saturasi */}
+        <div
+          className={`space-y-1 transition-all duration-150 ${
+            activeSlider === 'camera_saturation'
+              ? 'p-4 rounded-2xl bg-[#020717]/95 backdrop-blur-2xl border border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)] relative z-50'
+              : activeSlider !== null
+              ? 'opacity-0 pointer-events-none'
+              : ''
+          }`}
+        >
+          <div className="flex justify-between items-center text-xs mb-1 px-1">
+            <span className={`flex items-center gap-1.5 text-[11px] font-semibold ${activeSlider === 'camera_saturation' ? 'text-white font-bold' : 'text-slate-300'}`}>
+              <Palette className="w-3.5 h-3.5 text-rose-400" />
+              Saturasi
+            </span>
+            <span className="font-mono text-cyan-300 text-[11px] font-bold">
+              {cameraEffect.finetune.saturation > 0
+                ? `+${cameraEffect.finetune.saturation}%`
+                : `${cameraEffect.finetune.saturation}%`}
+            </span>
+          </div>
+          <div className="relative w-full h-10 rounded-full bg-gradient-to-r from-[#020e1f]/90 via-[#051c36]/85 to-[#020e1f]/90 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_2px_rgba(255,255,255,0.7)] px-4 flex items-center overflow-hidden">
+            <div className="absolute top-0 inset-x-5 h-[1px] bg-white/70 shadow-[0_0_4px_#fff] pointer-events-none" />
             <input
               type="range"
               min="-20"
@@ -409,27 +390,30 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                   },
                 })
               }
-              className="w-full accent-emerald-500 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+              className="hud-slider cursor-pointer w-full"
             />
           </div>
         </div>
+      </div>
 
-      {/* Target Resolusi Sensor */}
+      {/* 4. Target Resolusi Sensor */}
       <div
-        className={`transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-center justify-between mb-2">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Target Resolusi Sensor
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+            <CyberGlassOrb icon={Maximize2} size="xs" variant="cyan" />
+            <span>Target Resolusi Sensor</span>
           </label>
-          <span className="text-[10px] text-emerald-400 font-medium">
-            Default: Auto
+          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30">
+            AUTO
           </span>
         </div>
         <div className="space-y-2">
-          {RESOLUTION_PRESETS.map((presetItem) => {
+          {RESOLUTION_PRESETS.map(presetItem => {
             const isSelected = cameraQualityConfig.preset === presetItem.id
             return (
               <button
@@ -441,20 +425,20 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                     preset: presetItem.id,
                   })
                 }
-                className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 ${
+                className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 relative overflow-hidden ${
                   isSelected
-                    ? 'border-emerald-500 bg-emerald-950/20 shadow-md ring-1 ring-emerald-500/50'
-                    : 'border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-zinc-700'
+                    ? 'bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 border border-cyan-400 text-white shadow-[0_0_14px_rgba(6,182,212,0.4),inset_0_1px_2px_rgba(255,255,255,0.7)]'
+                    : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
                 } ${!presetItem.supported ? 'opacity-50' : ''}`}
               >
                 <div
                   className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                     isSelected
-                      ? 'border-emerald-400 bg-emerald-500 text-black'
-                      : 'border-zinc-600 bg-zinc-800'
+                      ? 'border-cyan-400 bg-cyan-400 text-black shadow-[0_0_8px_#22d3ee]'
+                      : 'border-cyan-900 bg-[#020717]'
                   }`}
                 >
-                  {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                  {isSelected && <div className="w-2 h-2 rounded-full bg-[#020b18]" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
@@ -462,16 +446,16 @@ export const CameraTab: React.FC<CameraTabProps> = ({
                       {presetItem.title}
                     </span>
                     <span
-                      className={`text-[9px] px-2 py-0.5 rounded-full font-medium shrink-0 ${
+                      className={`text-[9.5px] px-2 py-0.5 rounded-full font-mono font-bold shrink-0 ${
                         isSelected
-                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
-                          : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                          ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-400/50'
+                          : 'bg-[#020717] text-slate-400 border border-cyan-950'
                       }`}
                     >
                       {presetItem.tag}
                     </span>
                   </div>
-                  <p className="text-[11px] text-zinc-400 mt-0.5 leading-relaxed">
+                  <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">
                     {presetItem.desc}
                   </p>
                 </div>
@@ -481,132 +465,102 @@ export const CameraTab: React.FC<CameraTabProps> = ({
         </div>
       </div>
 
-      {/* Kompresi JPEG */}
+      {/* 5. Kompresi JPEG & Denoise */}
       <div
-        className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
+        className={`relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden transition-opacity duration-150 space-y-4 ${
           activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
       >
-        <div className="flex items-center justify-between mb-2">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Kualitas Kompresi JPEG
-          </label>
-          <span className="text-[10px] text-zinc-500">
-            Canvas Export
-          </span>
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        
+        {/* Kompresi */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+              Kualitas Kompresi JPEG
+            </label>
+            <span className="text-[10px] text-cyan-300 font-mono">
+              Canvas Export
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'ultra' as const, label: 'Ultra (100%)', sub: 'Maksimal' },
+              { id: 'high' as const, label: 'Tinggi (96%)', sub: 'Optimal' },
+              { id: 'medium' as const, label: 'Sedang (88%)', sub: 'Hemat' },
+            ].map(tier => {
+              const isSelected = cameraQualityConfig.jpegTier === tier.id
+              return (
+                <button
+                  key={tier.id}
+                  type="button"
+                  onClick={() =>
+                    onChangeCameraQualityConfig({
+                      ...cameraQualityConfig,
+                      jpegTier: tier.id,
+                    })
+                  }
+                  className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
+                    isSelected
+                      ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
+                      : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                  }`}
+                >
+                  <span className="text-xs">{tier.label}</span>
+                  <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-[#020b18]/80' : 'text-slate-400'}`}>
+                    {tier.sub}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { id: 'ultra' as const, label: 'Ultra (100%)', sub: 'Maksimal / Pro' },
-            { id: 'high' as const, label: 'Tinggi (96%)', sub: 'Standar Optimal' },
-            { id: 'medium' as const, label: 'Sedang (88%)', sub: 'Hemat Ukuran' },
-          ].map((tier) => {
-            const isSelected = cameraQualityConfig.jpegTier === tier.id
-            return (
-              <button
-                key={tier.id}
-                type="button"
-                onClick={() =>
-                  onChangeCameraQualityConfig({
-                    ...cameraQualityConfig,
-                    jpegTier: tier.id,
-                  })
-                }
-                className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
-                  isSelected
-                    ? 'border-emerald-500 bg-emerald-950/20 text-white font-semibold ring-1 ring-emerald-500/40'
-                    : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white hover:border-zinc-700'
-                }`}
-              >
-                <span className="text-xs">{tier.label}</span>
-                <span className="text-[10px] text-zinc-500 mt-0.5">{tier.sub}</span>
-              </button>
-            )
-          })}
-        </div>
-      </div>
 
-      {/* Mode Penghalus Derau (Denoise / Anti Pasir Halus) */}
-      <div
-        className={`pt-2 border-t border-zinc-800/80 transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        <div className="flex items-center justify-between mb-1">
-          <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400">
-            Penghalus Pasir Derau (Denoise)
-          </label>
-          <span className="text-[10px] text-emerald-400 font-medium">
-            Anti Pasir Halus
-          </span>
+        {/* Denoise */}
+        <div>
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-300">
+              Penghalus Derau (Denoise)
+            </label>
+            <span className="text-[10px] text-cyan-300 font-medium">
+              Anti Pasir Halus
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-400 mb-2.5">
+            Menghilangkan butiran pasir semut TV (sensor grain) agar foto terlihat mulus dan jernih.
+          </p>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'smooth' as const, label: 'Halus', sub: 'Rekomendasi' },
+              { id: 'extra' as const, label: 'Maksimal', sub: 'Minim Cahaya' },
+              { id: 'natural' as const, label: 'Alami (Off)', sub: 'Raw Sensor' },
+            ].map(mode => {
+              const isSelected = (cameraQualityConfig.denoiseMode || 'smooth') === mode.id
+              return (
+                <button
+                  key={mode.id}
+                  type="button"
+                  onClick={() =>
+                    onChangeCameraQualityConfig({
+                      ...cameraQualityConfig,
+                      denoiseMode: mode.id,
+                    })
+                  }
+                  className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
+                    isSelected
+                      ? 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black border-cyan-200 shadow-[0_0_12px_rgba(6,182,212,0.8)]'
+                      : 'bg-[#020d1c]/70 text-slate-300 hover:text-white border-cyan-900/60 hover:border-cyan-500/50'
+                  }`}
+                >
+                  <span className="text-xs">{mode.label}</span>
+                  <span className={`text-[10px] mt-0.5 ${isSelected ? 'text-[#020b18]/80' : 'text-cyan-400/90'}`}>
+                    {mode.sub}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
-        <p className="text-[11px] text-zinc-400 mb-2.5">
-          Menghilangkan butiran pasir semut TV (sensor grain) agar foto terlihat mulus dan bersih saat di-zoom.
-        </p>
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            {
-              id: 'smooth' as const,
-              label: 'Halus',
-              sub: 'Rekomendasi',
-              desc: 'Mulus alami',
-            },
-            {
-              id: 'extra' as const,
-              label: 'Maksimal',
-              sub: 'Minim Cahaya',
-              desc: 'Extra de-noise',
-            },
-            {
-              id: 'natural' as const,
-              label: 'Alami (Off)',
-              sub: 'Raw Sensor',
-              desc: 'Tanpa filter',
-            },
-          ].map((mode) => {
-            const isSelected = (cameraQualityConfig.denoiseMode || 'smooth') === mode.id
-            return (
-              <button
-                key={mode.id}
-                type="button"
-                onClick={() =>
-                  onChangeCameraQualityConfig({
-                    ...cameraQualityConfig,
-                    denoiseMode: mode.id,
-                  })
-                }
-                className={`p-2.5 rounded-xl border flex flex-col items-center justify-center transition-all ${
-                  isSelected
-                    ? 'border-emerald-500 bg-emerald-950/20 text-white font-semibold ring-1 ring-emerald-500/40'
-                    : 'border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:text-white hover:border-zinc-700'
-                }`}
-              >
-                <span className="text-xs">{mode.label}</span>
-                <span className="text-[10px] text-emerald-400/90 font-medium mt-0.5">
-                  {mode.sub}
-                </span>
-                <span className="text-[9px] text-zinc-500 mt-0.5">
-                  {mode.desc}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Penjelasan Ketajaman */}
-      <div
-        className={`p-3 rounded-xl bg-zinc-900/80 border border-zinc-800 text-[11px] text-zinc-400 space-y-1 transition-opacity duration-150 ${
-          activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
-        }`}
-      >
-        <div className="font-semibold text-zinc-300 flex items-center gap-1.5">
-          <Maximize2 className="w-3.5 h-3.5 text-emerald-400" />
-          Mengapa foto di aplikasi ini kini sejernih kamera bawaan?
-        </div>
-        <p>
-          Aplikasi kini memanfaatkan <strong>ImageCapture hardware shutter</strong> untuk mengambil frame langsung dari sensor kamera dalam resolusi penuh, tanpa kompresi visual interpolasi video.
-        </p>
       </div>
     </div>
   )

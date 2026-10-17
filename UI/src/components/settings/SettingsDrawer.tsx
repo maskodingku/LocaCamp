@@ -24,7 +24,7 @@ import { CameraTab } from './CameraTab'
 import { GoogleDriveTab } from './GoogleDriveTab'
 import { AboutTab } from './AboutTab'
 import { LivePreviewDock } from './LivePreviewDock'
-import { CyberGlassBackground } from './CyberGlassBackground'
+import { CyberGlassBubbles } from './CyberGlassBubbles'
 import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface SettingsDrawerProps {
@@ -167,11 +167,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
           <div className="pointer-events-none absolute top-1.5 left-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
           <div className="pointer-events-none absolute top-1.5 right-5 w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_6px_#fff,0_0_14px_#22d3ee] z-20" />
 
-          {/* Ambient Glossy Glass Bubble Orbs (Terisolasi persis seperti LivePreviewDock) */}
-          <div className="absolute -top-3 -left-3 w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_15px_rgba(6,182,212,0.3)] pointer-events-none" />
-          <div className="absolute -top-4 -right-4 w-18 h-18 rounded-full bg-gradient-to-br from-sky-400/20 via-blue-600/10 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_5px_rgba(255,255,255,0.65),0_0_20px_rgba(14,165,233,0.25)] pointer-events-none" />
-          <div className="absolute -bottom-4 -left-3 w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500/20 to-transparent border border-cyan-400/25 blur-[0.5px] shadow-[inset_0_2px_3px_rgba(255,255,255,0.6),0_0_12px_rgba(6,182,212,0.2)] pointer-events-none" />
-          <div className="absolute -bottom-4 -right-3 w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/20 to-transparent border border-cyan-400/30 blur-[0.5px] shadow-[inset_0_2px_4px_rgba(255,255,255,0.7),0_0_18px_rgba(59,130,246,0.3)] pointer-events-none" />
+          {/* Floating 3D Cyber Glass Bubbles (Mengambang nyata di seluruh latar belakang modal) */}
+          {!activeSlider && <CyberGlassBubbles />}
 
           {/* Header Bar */}
           <div
@@ -246,11 +243,8 @@ export const SettingsDrawer: React.FC<SettingsDrawerProps> = ({
 
           {/* Inner Content Viewport Area */}
           <div
-            className={`relative flex-1 mx-0 sm:mx-4 mb-1 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150`}
+            className={`relative flex-1 mx-0 sm:mx-4 mb-1 sm:mb-3 overflow-hidden flex flex-col transition-all duration-150 z-10`}
           >
-            {/* Cyber Liquid Glass Background with 3D Bubbles */}
-            {!activeSlider && <CyberGlassBackground />}
-
             {/* Scrollable Tab Content Container */}
             <div
               className={`relative z-10 flex-1 overflow-y-auto px-1 sm:px-4 py-2.5 sm:py-3 space-y-3.5 sm:space-y-4 no-scrollbar transition-all duration-150 ${

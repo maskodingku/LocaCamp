@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import appLogo from '../../assets/locacamp-logo.jpg'
 import developerPhoto from '../../assets/foto-profil-abdi-syahputra-harahap.jpg'
+import { CyberGlassOrb } from './CyberGlassOrb'
 
 // Ikon Resmi GitHub
 const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
@@ -28,195 +29,150 @@ const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' })
 
 export const AboutTab: React.FC = () => {
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
-      {/* App Overview Header Card */}
-      <div className="p-4 rounded-2xl bg-gradient-to-br from-zinc-900 via-zinc-900/80 to-zinc-950 border border-zinc-800 relative overflow-hidden">
+    <div className="space-y-4 animate-in fade-in duration-200">
+      {/* 1. App Overview Header Card (Dark Cyber Glass HUD) */}
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
         <div className="flex items-start gap-4">
           <img
             src={appLogo}
             alt="LocaCamp"
-            className="w-14 h-14 rounded-2xl object-cover border border-emerald-500/40 shadow-lg shadow-emerald-500/10 shrink-0"
+            className="w-14 h-14 rounded-2xl object-cover border border-cyan-400/60 shadow-[0_0_15px_rgba(6,182,212,0.4)] shrink-0"
           />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-base font-bold text-white tracking-wide">
-                LocaCamp <span className="text-emerald-400">Enterprise</span>
+              <h3 className="text-base font-extrabold text-white tracking-wide">
+                LocaCamp <span className="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]">Enterprise</span>
               </h3>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
                 v1.0.0 PWA
               </span>
             </div>
-            <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+            <p className="text-xs text-slate-300 mt-1 leading-relaxed">
               Sistem kamera web cerdas dengan penandaan lokasi GPS real-time, sinkronisasi zona waktu otomatis, dan watermark instansi terverifikasi untuk dokumentasi teknis lapangan.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-zinc-800/80 text-xs">
-          <div className="flex items-center gap-2 text-zinc-300">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-cyan-500/20 text-xs">
+          <div className="flex items-center gap-2 text-slate-300">
+            <ShieldCheck className="w-4 h-4 text-cyan-400 shrink-0" />
             <span>100% Client-Side Privacy</span>
           </div>
-          <div className="flex items-center gap-2 text-zinc-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="flex items-center gap-2 text-slate-300">
+            <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
             <span>PWA Offline Capable</span>
           </div>
         </div>
       </div>
 
-      {/* Developer Profile Card */}
-      <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Profil Pengembang Sistem
+      {/* 2. Developer Profile Card */}
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3.5">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        <label className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+          <CyberGlassOrb icon={Terminal} size="xs" variant="cyan" />
+          <span>Profil Pengembang Sistem</span>
         </label>
-        <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-3.5">
-          <div className="flex items-center gap-3.5">
-            <img
-              src={developerPhoto}
-              alt="Abdi Syahputra Harahap"
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-emerald-500/60 shadow-lg shadow-emerald-500/20 shrink-0 ring-2 ring-emerald-500/20"
-            />
-            <div className="overflow-hidden">
-              <h4 className="text-sm sm:text-base font-bold text-white tracking-wide">
-                Abdi Syahputra Harahap
-              </h4>
-              <p className="text-xs font-medium text-emerald-400 flex items-center gap-1.5 mt-0.5">
-                <Terminal className="w-3.5 h-3.5 shrink-0" />
-                <span>Node.js Fullstack Developer &amp; Rust Developer</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 pt-1 flex-wrap">
-            <span className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-zinc-800/80 text-zinc-300 border border-zinc-700/60">
-              ⚡ Node.js &amp; TypeScript
-            </span>
-            <span className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-zinc-800/80 text-zinc-300 border border-zinc-700/60">
-              🦀 Rust Systems Engineering
-            </span>
-            <span className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-zinc-800/80 text-zinc-300 border border-zinc-700/60">
-              ⚛️ React &amp; Canvas Engine
-            </span>
-          </div>
-
-          {/* Company Affiliation */}
-          <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-black/40 border border-zinc-800 text-xs text-zinc-300">
-            <Building2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <div>
-              <span className="text-zinc-400">Institusi / Perusahaan:</span>{' '}
-              <span className="font-semibold text-white">PT Wahana Mitra Amerta</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Dedication & Corporate Appreciation Card */}
-      <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Dedikasi &amp; Rasa Terima Kasih
-        </label>
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-zinc-900/90 via-zinc-950 to-zinc-900 border border-emerald-500/20 shadow-lg relative overflow-hidden space-y-3">
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
-            <Heart className="w-4 h-4 fill-emerald-400/20 text-emerald-400" />
-            <span>Pernyataan Resmi Dedikasi</span>
-          </div>
-
-          <blockquote className="text-xs text-zinc-300 leading-relaxed italic border-l-2 border-emerald-500 pl-3 py-0.5 space-y-2">
-            <p>
-              &ldquo;Aplikasi ini saya kembangkan dan dedikasikan secara khusus sebagai bentuk rasa terima kasih yang mendalam serta loyalitas penuh kepada jajaran Manajemen dan Keluarga Besar <strong className="text-white font-semibold not-italic">PT Wahana Mitra Amerta</strong> atas amanah dan kepercayaan yang telah diberikan dalam mengangkat saya sebagai bagian dari perusahaan.&rdquo;
+        
+        <div className="flex items-center gap-3.5 pt-1">
+          <img
+            src={developerPhoto}
+            alt="Abdi Syahputra Harahap"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-cyan-400/70 shadow-[0_0_16px_rgba(6,182,212,0.5)] shrink-0 ring-2 ring-cyan-400/20"
+          />
+          <div className="overflow-hidden">
+            <h4 className="text-sm sm:text-base font-extrabold text-white tracking-wide">
+              Abdi Syahputra Harahap
+            </h4>
+            <p className="text-xs font-medium text-cyan-300 flex items-center gap-1.5 mt-0.5">
+              <Terminal className="w-3.5 h-3.5 shrink-0 text-cyan-400" />
+              <span>Node.js Fullstack Developer &amp; Rust Developer</span>
             </p>
-            <p>
-              &ldquo;Semoga inovasi sistem dokumentasi geotagging ini memberikan kontribusi nyata dalam memperkuat akurasi, efisiensi operasional pengawasan, dan keunggulan teknologi digital PT Wahana Mitra Amerta ke depan.&rdquo;
-            </p>
-          </blockquote>
+          </div>
+        </div>
 
-          <div className="pt-2 flex items-center justify-between text-[11px] text-zinc-400 border-t border-zinc-800/80">
-            <span>Hormat Saya,</span>
-            <span className="font-semibold text-zinc-200">Abdi Syahputra Harahap</span>
+        <div className="flex items-center gap-2 pt-1 flex-wrap">
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+            ⚡ Node.js &amp; TypeScript
+          </span>
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+            🦀 Rust Systems Engineering
+          </span>
+          <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-[#020e1f] text-cyan-200 border border-cyan-400/50 shadow-sm">
+            ⚛️ React &amp; Canvas Engine
+          </span>
+        </div>
+
+        {/* Company Affiliation */}
+        <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-[#020d1c]/70 border border-cyan-500/25 text-xs text-slate-300">
+          <Building2 className="w-4 h-4 text-cyan-400 shrink-0" />
+          <div>
+            <span className="text-slate-400">Institusi / Perusahaan:</span>{' '}
+            <span className="font-bold text-white">PT Wahana Mitra Amerta</span>
           </div>
         </div>
       </div>
 
-      {/* Official GitHub Repository Card */}
-      <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Repositori Kode Sumber Resmi
-        </label>
-        <div className="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-zinc-800 border border-zinc-700/80 flex items-center justify-center text-white shrink-0 shadow">
-                <GithubIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
-                    maskodingku/LocaCamp
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                    Public
-                  </span>
-                </div>
-                <p className="text-[11px] text-zinc-400 mt-0.5">
-                  Open Source Geotagging Camera PWA
-                </p>
-              </div>
+      {/* 3. Dedication & Corporate Appreciation Card */}
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        <div className="flex items-center gap-2 text-xs font-semibold text-cyan-300">
+          <Heart className="w-4 h-4 fill-rose-500 text-rose-500 drop-shadow-[0_0_6px_rgba(244,63,94,0.8)]" />
+          <span className="uppercase tracking-wider">Pernyataan Resmi Dedikasi</span>
+        </div>
+
+        <blockquote className="text-xs text-slate-300 leading-relaxed italic border-l-2 border-cyan-400 pl-3 py-0.5 space-y-2">
+          <p>
+            &ldquo;Aplikasi ini saya kembangkan dan dedikasikan secara khusus sebagai bentuk rasa terima kasih yang mendalam serta loyalitas penuh kepada jajaran Manajemen dan Keluarga Besar <strong className="text-white font-semibold not-italic">PT Wahana Mitra Amerta</strong> atas amanah dan kepercayaan yang telah diberikan dalam mengangkat saya sebagai bagian dari perusahaan.&rdquo;
+          </p>
+          <p>
+            &ldquo;Semoga inovasi sistem dokumentasi geotagging ini memberikan kontribusi nyata dalam memperkuat akurasi, efisiensi operasional pengawasan, dan keunggulan teknologi digital PT Wahana Mitra Amerta ke depan.&rdquo;
+          </p>
+        </blockquote>
+
+        <div className="pt-2 flex items-center justify-between text-[11px] text-slate-400 border-t border-cyan-500/20">
+          <span>Hormat Saya,</span>
+          <span className="font-bold text-white">Abdi Syahputra Harahap</span>
+        </div>
+      </div>
+
+      {/* 4. Official GitHub Repository Card */}
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 sm:p-5 overflow-hidden space-y-3">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#020e1f] border border-cyan-400/60 flex items-center justify-center text-white shrink-0 shadow-[0_0_10px_rgba(6,182,212,0.4)]">
+            <GithubIcon className="w-5 h-5 text-cyan-300" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
+                maskodingku/LocaCamp
+              </span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+                Public
+              </span>
             </div>
+            <p className="text-[11px] text-slate-400 mt-0.5">
+              Open Source Geotagging Camera PWA
+            </p>
           </div>
-
-          <p className="text-xs text-zinc-300 leading-relaxed">
-            Kode sumber, arsitektur sistem, dokumentasi panduan, dan pembaruan aplikasi dapat diakses secara publik melalui repositori GitHub resmi.
-          </p>
-
-          <a
-            href="https://github.com/maskodingku/LocaCamp"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold transition-all border border-zinc-700/60 hover:border-zinc-500 shadow active:scale-98 group"
-          >
-            <GithubIcon className="w-4 h-4 text-zinc-300 group-hover:text-white" />
-            <span>Kunjungi Repositori GitHub</span>
-            <ExternalLink className="w-3.5 h-3.5 text-zinc-400 group-hover:text-white ml-0.5" />
-          </a>
         </div>
-      </div>
 
-      {/* Purpose & Features Detail Card */}
-      <div>
-        <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
-          Tujuan &amp; Fungsi Aplikasi
-        </label>
-        <div className="p-4 rounded-2xl bg-zinc-900/40 border border-zinc-800 space-y-2.5 text-xs text-zinc-300">
-          <p className="leading-relaxed">
-            <strong className="text-white">LocaCamp</strong> dirancang spesifik untuk menjawab tantangan dokumentasi lapangan yang valid dan akurat:
-          </p>
-          <ul className="space-y-2 pl-1">
-            <li className="flex items-start gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-white">Geotagging Live Satelit:</strong> Menempelkan koordinat garis lintang/bujur presisi tinggi serta toleransi akurasi GPS secara real-time.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-white">Reverse Geocoding Terintegrasi:</strong> Menerjemahkan titik koordinat menjadi alamat jalan dan wilayah administratif secara otomatis.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-white">Watermark Logo Resmi:</strong> Membubuhi identitas PT Wahana Mitra Amerta pada setiap jepretan foto hasil survei secara instan.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-              <span>
-                <strong className="text-white">Zona Waktu Otomatis:</strong> Mendeteksi otomatis pembagian waktu lokal (WIB, WITA, WIT) berdasarkan posisi bujur lokasi pengambilan foto.
-              </span>
-            </li>
-          </ul>
-        </div>
+        <p className="text-xs text-slate-300 leading-relaxed">
+          Kode sumber, arsitektur sistem, dokumentasi panduan, dan pembaruan aplikasi dapat diakses secara publik melalui repositori GitHub resmi.
+        </p>
+
+        <a
+          href="https://github.com/maskodingku/LocaCamp"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full py-3 px-5 rounded-full bg-gradient-to-r from-[#020e1f]/95 via-[#051c36]/90 to-[#020e1f]/95 text-white text-xs font-bold border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.35),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:border-cyan-300 active:scale-[0.98] transition-all relative overflow-hidden group"
+        >
+          <div className="absolute top-0 inset-x-5 h-[1px] bg-white/60 pointer-events-none" />
+          <GithubIcon className="w-4 h-4 text-cyan-400 group-hover:text-white" />
+          <span>Kunjungi Repositori GitHub</span>
+          <ExternalLink className="w-3.5 h-3.5 text-cyan-400 group-hover:text-white ml-0.5" />
+        </a>
       </div>
     </div>
   )

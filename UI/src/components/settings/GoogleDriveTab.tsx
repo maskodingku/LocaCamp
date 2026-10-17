@@ -9,6 +9,7 @@ import type { useGoogleDrive } from '../../hooks/useGoogleDrive'
 import { GoogleDriveIcon } from './gdrive/GoogleDriveIcon'
 import { GoogleDriveConnectedCard } from './gdrive/GoogleDriveConnectedCard'
 import { GoogleDriveAdvancedSettings } from './gdrive/GoogleDriveAdvancedSettings'
+import { CyberGlassOrb } from './CyberGlassOrb'
 
 interface GoogleDriveTabProps {
   drive: ReturnType<typeof useGoogleDrive>
@@ -50,23 +51,24 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
         activeSlider ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* 1. Header Banner Keamanan & Privasi */}
-      <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 flex items-start gap-3">
-        <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
-          <ShieldCheck className="w-5 h-5" />
-        </div>
-        <div className="text-xs text-zinc-300 leading-relaxed">
-          <p className="font-semibold text-white mb-0.5">Keamanan Data & Privasi Terjamin</p>
-          <p className="text-zinc-400">
-            Foto diunggah langsung ke Google Drive pribadi Anda via izin terbatas (<code className="text-emerald-400 font-mono">drive.file</code>).
-            Aplikasi tidak dapat mengakses dokumen atau file pribadi lain di Google Drive Anda.
-          </p>
+      {/* 1. Header Banner Keamanan & Privasi (Dark Cyber Glass HUD) */}
+      <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-4 overflow-hidden">
+        <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+        <div className="flex items-start gap-3">
+          <CyberGlassOrb icon={ShieldCheck} size="md" variant="cyan" />
+          <div className="text-xs text-slate-300 leading-relaxed">
+            <p className="font-bold text-white mb-0.5 text-sm">Keamanan Data &amp; Privasi Terjamin</p>
+            <p className="text-slate-400">
+              Foto diunggah langsung ke Google Drive pribadi Anda via izin terbatas (<code className="text-cyan-300 font-mono">drive.file</code>).
+              Aplikasi tidak dapat mengakses dokumen atau file pribadi lain di Google Drive Anda.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* 2. Error Display */}
       {error && (
-        <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-start justify-between gap-2 text-rose-300 text-xs">
+        <div className="p-3.5 rounded-2xl bg-rose-950/40 border border-rose-500/40 flex items-start justify-between gap-2 text-rose-300 text-xs shadow-lg">
           <div className="flex items-start gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
             <span>{error}</span>
@@ -74,7 +76,7 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
           <button
             type="button"
             onClick={clearError}
-            className="text-zinc-400 hover:text-white text-xs font-bold cursor-pointer"
+            className="text-slate-400 hover:text-white text-xs font-bold cursor-pointer"
           >
             ✕
           </button>
@@ -87,32 +89,35 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
       ) : (
         <div className="space-y-4">
           {/* Hero Card 1-Click Connect Ramah Pengguna Awam */}
-          <div className="p-5 rounded-3xl bg-gradient-to-b from-zinc-900 via-zinc-900/90 to-zinc-950 border border-zinc-800 text-center space-y-4 shadow-xl">
-            <div className="inline-flex p-3 rounded-2xl bg-zinc-800/80 border border-zinc-700/60 shadow-inner">
+          <div className="relative rounded-[22px] border border-cyan-400/40 bg-[#020717]/80 backdrop-blur-2xl shadow-[0_10px_35px_rgba(0,0,0,0.7),0_0_20px_rgba(6,182,212,0.18),inset_0_1.5px_2px_rgba(255,255,255,0.6)] text-white p-5 sm:p-6 text-center space-y-4 overflow-hidden">
+            <div className="pointer-events-none absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-cyan-100/90 to-transparent z-20" />
+            
+            <div className="inline-flex p-3 rounded-2xl bg-[#020d1c]/80 border border-cyan-400/50 shadow-[0_0_14px_rgba(6,182,212,0.35)]">
               <GoogleDriveIcon className="w-9 h-9" />
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-base font-bold text-white flex items-center justify-center gap-1.5">
+              <h3 className="text-base font-extrabold text-white flex items-center justify-center gap-1.5 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
                 <span>Google Drive Cloud Backup</span>
-                <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400" />
+                <Sparkles className="w-4 h-4 text-cyan-300 fill-cyan-300" />
               </h3>
-              <p className="text-xs text-zinc-400 max-w-xs mx-auto leading-relaxed">
+              <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
                 Tautkan akun Google untuk mencadangkan hasil foto geotag dan watermark secara otomatis dan aman ke cloud.
               </p>
             </div>
 
-            {/* Tombol Utama 1-Klik Murni dengan Logo Resmi Google Drive */}
+            {/* Tombol Utama 1-Klik Murni dengan Gaya Cyber Glass Capsule */}
             <div className="space-y-2">
               <button
                 type="button"
                 onClick={handleOneClickConnect}
                 disabled={isConnecting}
-                className="w-full py-3.5 px-4 rounded-2xl bg-white hover:bg-zinc-100 active:scale-[0.98] text-zinc-950 font-bold text-xs sm:text-sm flex items-center justify-center gap-3 shadow-lg shadow-white/5 transition-all cursor-pointer disabled:opacity-85"
+                className="w-full py-3.5 px-5 rounded-full bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 text-[#020b18] font-black text-xs sm:text-sm flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(34,211,238,0.85),inset_0_1.5px_2px_rgba(255,255,255,0.95)] hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-85 relative overflow-hidden"
               >
+                <div className="absolute top-0 inset-x-5 h-[1px] bg-white/90 pointer-events-none" />
                 {isConnecting ? (
                   <>
-                    <Loader2 className="w-5 h-5 animate-spin text-zinc-900" />
+                    <Loader2 className="w-5 h-5 animate-spin text-[#020b18]" />
                     <span>Membuka Izin Akses Google...</span>
                   </>
                 ) : (
@@ -127,19 +132,19 @@ export const GoogleDriveTab: React.FC<GoogleDriveTabProps> = ({
                 <button
                   type="button"
                   onClick={cancelConnect}
-                  className="w-full py-1 text-xs text-zinc-400 hover:text-white transition-colors cursor-pointer text-center underline"
+                  className="w-full py-1 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer text-center underline"
                 >
                   Batalkan proses
                 </button>
               )}
             </div>
 
-            <p className="text-[11px] text-zinc-500">
+            <p className="text-[11px] text-slate-400">
               Cukup 1 kali klik. Jendela resmi Google akan langsung terbuka meminta izin akses penyimpanan foto.
             </p>
           </div>
 
-          {/* Pengaturan Lanjutan (Collapsible untuk Pengembang / Kustomisasi) */}
+          {/* Pengaturan Lanjutan */}
           <GoogleDriveAdvancedSettings
             inputClientId={inputClientId}
             setInputClientId={setInputClientId}
